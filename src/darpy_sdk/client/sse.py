@@ -10,7 +10,6 @@ import httpx2
 from anyio.abc import TaskStatus
 from httpx2 import SSEError
 
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared._context_streams import create_context_streams
 from darpy_sdk.shared._httpx_utils import (
     McpHttpClientFactory,
@@ -168,4 +167,3 @@ async def sse_client(
 
                 yield read_stream, write_stream
                 tg.cancel_scope.cancel()
-            await resync_tracer()

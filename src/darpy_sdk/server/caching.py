@@ -7,8 +7,6 @@ that don't. Fields the handler set win, per field, so a server-wide hint never
 overrides a handler's explicit choice.
 """
 
-from __future__ import annotations
-
 from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any, Literal, TypeVar
@@ -42,7 +40,9 @@ class CacheHint:
 CacheableResultT = TypeVar("CacheableResultT", bound=types.CacheableResult)
 
 
-def apply_cache_hint(result: CacheableResultT, hint: CacheHint) -> CacheableResultT:
+def apply_cache_hint[CacheableResultT: types.CacheableResult](
+    result: CacheableResultT, hint: CacheHint
+) -> CacheableResultT:
     """Fill `ttl_ms`/`cache_scope` on `result` from `hint`.
 
     Per-field: a field the handler set explicitly - even to its default value,

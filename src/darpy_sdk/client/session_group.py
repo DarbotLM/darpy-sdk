@@ -11,13 +11,12 @@ import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from types import TracebackType
-from typing import Any, Literal, TypeAlias, overload
+from typing import Any, Literal, Self, overload
 
 import anyio
 import darpy_sdk_types as types
 import httpx2
 from pydantic import BaseModel, Field
-from typing_extensions import Self
 
 import darpy_sdk
 from darpy_sdk.client.session import ElicitationFnT, ListRootsFnT, LoggingFnT, MessageHandlerFnT, SamplingFnT
@@ -64,7 +63,7 @@ class StreamableHttpParameters(BaseModel):
     terminate_on_close: bool = True
 
 
-ServerParameters: TypeAlias = StdioServerParameters | SseServerParameters | StreamableHttpParameters
+ServerParameters = StdioServerParameters | SseServerParameters | StreamableHttpParameters
 
 
 # Use dataclass instead of Pydantic BaseModel
@@ -122,7 +121,7 @@ class ClientSessionGroup:
     # Optional fn consuming (component_name, server_info) for custom names.
     # This is to provide a means to mitigate naming conflicts across servers.
     # Example: (tool_name, server_info) => "{result.server_info.name}.{tool_name}"
-    _ComponentNameHook: TypeAlias = Callable[[str, types.Implementation], str]
+    _ComponentNameHook = Callable[[str, types.Implementation], str]
     _component_name_hook: _ComponentNameHook | None
 
     def __init__(

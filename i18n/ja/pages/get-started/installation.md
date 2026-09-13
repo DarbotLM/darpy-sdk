@@ -5,7 +5,7 @@ translation:
 ---
 # インストール {#installation}
 
-Python SDK は PyPI 上で [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) として公開されています。**Python 3.10 以上**が必要です。
+Python SDK は PyPI 上で [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) として公開されています。**Python 3.14 以上**が必要です。
 
 このドキュメントは、現在の安定版リリースラインである **v2** について説明しています。
 
@@ -36,7 +36,7 @@ SDK を使うだけなら、以下の内容を知っている必要はありま�
 * [`jsonschema`](https://pypi.org/project/jsonschema/)：ツールの構造化出力を、宣言された出力スキーマに照らして検証します。
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/)：認可のための OAuth トークン処理を担います。
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/)：軽量な API だけです。そのため、OpenTelemetry の SDK とエクスポーターを自分でインストールしない限り、この SDK のトレーシングミドルウェアにコストは発生しません。
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) と [`typing-inspection`](https://pypi.org/project/typing-inspection/)：Python 3.10 でも新しい型付け機能を使えるようにします。
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) と [`typing-inspection`](https://pypi.org/project/typing-inspection/)：Python 3.14 でも新しい型付け機能を使えるようにします。
 * [`pywin32`](https://pypi.org/project/pywin32/)：Windows 専用で、`stdio` のサブプロセス管理に使われます。
 
 ## オプションの extras {#optional-extras}

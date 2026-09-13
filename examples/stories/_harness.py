@@ -10,11 +10,12 @@ from __future__ import annotations
 
 import socket
 import sys
+import tomllib
 import traceback
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import AsyncExitStack, asynccontextmanager
 from pathlib import Path
-from typing import Any, TypeAlias
+from typing import Any
 from urllib.parse import urlsplit
 
 import anyio
@@ -27,12 +28,7 @@ from darpy_sdk.server import Server
 from darpy_sdk.server.mcpserver import MCPServer
 from darpy_sdk.types.version import LATEST_MODERN_VERSION
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
-
-Target: TypeAlias = "Server[Any] | MCPServer | Transport | StdioServerParameters | str"
+type Target = Server[Any] | MCPServer | Transport | StdioServerParameters | str
 """Anything ``Client(...)`` accepts: an HTTP URL, stdio launch parameters, a ``Transport``, or an in-process server."""
 
 TargetFactory = Callable[[], Target]

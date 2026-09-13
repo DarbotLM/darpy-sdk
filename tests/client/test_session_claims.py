@@ -3,7 +3,7 @@ adopts only, claimed-result routing, the version-aware capability ad, and the
 `allow_claimed` escape hatch."""
 
 from collections.abc import Mapping
-from typing import Any, Literal
+from typing import Any, Literal, assert_type
 
 import anyio
 import anyio.abc
@@ -24,7 +24,6 @@ from darpy_sdk_types.methods import validate_server_result
 from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
 from inline_snapshot import snapshot
 from pydantic import ValidationError
-from typing_extensions import assert_type
 
 from darpy_sdk.client.extension import ClaimContext, ResultClaim, UnexpectedClaimedResult
 from darpy_sdk.client.session import ClientSession, _CallToolResultAdapter

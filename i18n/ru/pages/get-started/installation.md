@@ -5,7 +5,7 @@ translation:
 ---
 # Установка {#installation}
 
-Python SDK опубликован на PyPI как [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Для работы нужен **Python 3.10+**.
+Python SDK опубликован на PyPI как [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Для работы нужен **Python 3.14+**.
 
 Эта документация описывает **v2** — текущую стабильную линейку выпусков:
 
@@ -39,7 +39,7 @@ Python SDK опубликован на PyPI как [`darpy-sdk`](https://pypi.or
 * [`jsonschema`](https://pypi.org/project/jsonschema/): проверяет структурированный вывод инструмента на соответствие объявленной выходной схеме.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): работа с OAuth-токенами для авторизации.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): только лёгкий API, поэтому middleware трассировки в SDK ничего не стоит, пока вы сами не установите SDK и экспортёр OpenTelemetry.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) и [`typing-inspection`](https://pypi.org/project/typing-inspection/): современные возможности типизации на Python 3.10.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) и [`typing-inspection`](https://pypi.org/project/typing-inspection/): современные возможности типизации на Python 3.14.
 * [`pywin32`](https://pypi.org/project/pywin32/): только для Windows, используется для управления подпроцессами `stdio`.
 
 ## Дополнительные компоненты {#optional-extras}

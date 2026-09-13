@@ -1,7 +1,5 @@
 """Unified MCP Client that wraps ClientSession with transport management."""
 
-from __future__ import annotations
-
 import hashlib
 import logging
 import uuid
@@ -9,6 +7,7 @@ from collections.abc import Awaitable, Callable, Mapping, Sequence
 from contextlib import AbstractAsyncContextManager, AsyncExitStack
 from dataclasses import KW_ONLY, dataclass, field
 from typing import Any, Literal, TypeVar, cast
+from warnings import deprecated
 
 import anyio
 import anyio.lowlevel
@@ -40,7 +39,6 @@ from darpy_sdk_types import (
     ServerCapabilities,
 )
 from darpy_sdk_types.version import HANDSHAKE_PROTOCOL_VERSIONS, MODERN_PROTOCOL_VERSIONS
-from typing_extensions import deprecated
 
 from darpy_sdk.client._input_required import DEFAULT_INPUT_REQUIRED_MAX_ROUNDS, run_input_required_driver
 from darpy_sdk.client._memory import InMemoryTransport
@@ -121,7 +119,7 @@ def _connect_inproc(server: Server[Any]) -> _Connector:
     return connect
 
 
-def _connected(value: _T | None) -> _T:
+def _connected[T](value: T | None) -> T:
     """Narrow a post-handshake session attribute from ``T | None`` to ``T``.
 
     ``Client.__aenter__`` only assigns ``_session`` after the handshake succeeds, so inside

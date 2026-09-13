@@ -101,7 +101,7 @@ Example — English: "You don't construct it and you don't configure it. You ask
   ‘ ’ in Chinese text, and never 「」 around a code span. Titles of works take 《》.
 - Put one half-width space between Han characters and any run of Latin letters or
   digits — an English word, a number, an inline code span, a link whose text is Latin
-  (使用 Streamable HTTP 傳輸; 需要 Python 3.10+; 會收到 `Context`); put no space between
+  (使用 Streamable HTTP 傳輸; 需要 Python 3.14+; 會收到 `Context`); put no space between
   a full-width punctuation mark and adjacent Latin text (設定好 stdio。). Keep the spaces
   around Markdown markers (`**…**`, links) exactly as the source has them.
 - No italics in Chinese text. Where the source italicises a word for emphasis, use

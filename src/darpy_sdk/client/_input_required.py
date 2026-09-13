@@ -9,8 +9,6 @@ of the three methods identically; `Client` builds the `dispatch` and `retry`
 closures, `ClientSession` stays mechanics-only.
 """
 
-from __future__ import annotations
-
 from collections.abc import Awaitable, Callable
 from typing import TypeVar
 
@@ -49,7 +47,7 @@ class InputRequiredRoundsExceededError(RuntimeError):
         self.max_rounds = max_rounds
 
 
-async def run_input_required_driver(
+async def run_input_required_driver[ResultT](
     first: InputRequiredResult,
     *,
     dispatch: Callable[[str, InputRequest], Awaitable[InputResponse | ErrorData]],

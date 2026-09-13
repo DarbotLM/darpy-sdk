@@ -1,11 +1,11 @@
 import functools
 import inspect
 import json
-import sys
 from collections.abc import Awaitable, Callable, Sequence
 from itertools import chain
 from types import GenericAlias
-from typing import Annotated, Any, Union, cast, get_args, get_origin
+from typing import Annotated, Any, Union, cast, get_args, get_origin, get_type_hints
+from warnings import deprecated
 
 import anyio
 import anyio.to_thread
@@ -23,7 +23,9 @@ from pydantic import (
 )
 from pydantic.fields import FieldInfo
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaWarningKind
-from typing_extensions import NotRequired, ReadOnly, TypedDict, deprecated, get_type_hints, is_typeddict
+
+# The stdlib checker does not recognize user-authored typing_extensions.TypedDict classes.
+from typing_extensions import is_typeddict
 from typing_inspection.introspection import (
     UNKNOWN,
     AnnotationSource,
@@ -133,7 +135,7 @@ class FuncMetadata(BaseModel):
     def _output_adapter(self, output_model: Any) -> TypeAdapter[Any]:
         """The validator/serializer for `output_model`, built once and rebuilt only if the field is reassigned."""
         if self._adapter is None or self._adapter[0] is not output_model:
-            self._adapter = (output_model, TypeAdapter(_pydantic_readable_typeddict(output_model)))
+            self._adapter = (output_model, TypeAdapter(output_model))
         return self._adapter[1]
 
     def validate_arguments(self, arguments_to_validate: dict[str, Any]) -> dict[str, Any]:
@@ -254,7 +256,7 @@ class FuncMetadata(BaseModel):
             if isinstance(data_value, str) and field_info.annotation is not str:
                 try:
                     pre_parsed = json.loads(data_value)
-                except (ValueError, RecursionError):
+                except ValueError, RecursionError:
                     # Not JSON, or JSON the parser refuses (over-long integers, deep
                     # nesting): leave the string for validation to accept or reject.
                     continue
@@ -460,8 +462,7 @@ def func_metadata(
             # These are expected errors when a type can't be converted to a Pydantic schema
             # PydanticUserError: When Pydantic can't handle the type (e.g. PydanticInvalidForJsonSchema);
             #   subclasses TypeError on pydantic <2.13 and RuntimeError on pydantic >=2.13
-            # ForbiddenQualifier, NameError: an invalid qualifier or unresolvable annotation on a TypedDict key,
-            #   met while rebuilding a stdlib TypedDict below 3.12 (pydantic reports both as PydanticUserError)
+            # ForbiddenQualifier, NameError: an invalid qualifier or unresolvable annotation
             # ValueError: When there are issues with the type definition (including our custom warnings);
             #   arrives wrapped in a ValidationError when raised during FuncMetadata construction
             # SchemaError: When Pydantic can't build a schema
@@ -545,8 +546,7 @@ def _create_output_model(original_annotation: Any, type_expr: Any, func_name: st
 
     # Handle any other types not covered above
     else:
-        # This includes typing constructs that aren't GenericAlias in Python 3.10
-        # (e.g., Union, Optional in some Python versions)
+        # Unions and other typing constructs also need a result wrapper.
         model = _create_wrapped_model(func_name, original_annotation)
         wrap_output = True
 
@@ -578,37 +578,6 @@ def _create_model_from_class(cls: type[Any], type_hints: dict[str, Any]) -> type
             model_fields[field_name] = (field_type, default)
 
     return create_model(cls.__name__, __config__=ConfigDict(from_attributes=True), **model_fields)
-
-
-def _pydantic_readable_typeddict(output_model: type[Any]) -> type[Any]:
-    """pydantic refuses `typing.TypedDict` below Python 3.12 (it needs `__orig_bases__`); rebuild such a return
-    type as an equivalent `typing_extensions.TypedDict` so tool authors don't have to know. Only the class itself
-    (its keys, docstring and own config) is rebuilt: stdlib TypedDicts nested inside it, or config inherited from
-    one, still need `typing_extensions` there. Delete with 3.11 support."""
-    if sys.version_info >= (3, 12) or not is_typeddict(output_model) or type(output_model).__module__ != "typing":
-        return output_model
-    return _as_typing_extensions_typeddict(output_model)  # pragma: lax no cover
-
-
-def _as_typing_extensions_typeddict(td_type: type[Any]) -> type[Any]:  # pragma: lax no cover
-    items: dict[str, Any] = {}
-    for name, hint in get_type_hints(td_type, include_extras=True).items():
-        key = inspect_annotation(hint, annotation_source=AnnotationSource.TYPED_DICT)
-        item: Any = Annotated[(key.type, *key.metadata)] if key.metadata else key.type
-        if "read_only" in key.qualifiers:
-            item = ReadOnly[item]
-        # pydantic's rule: an explicit qualifier wins over class totality. Needed because a stdlib TypedDict
-        # this old computes `__required_keys__` without seeing `typing_extensions` qualifiers.
-        required = (name in td_type.__required_keys__ or "required" in key.qualifiers) and (
-            "not_required" not in key.qualifiers
-        )
-        items[name] = item if required else NotRequired[item]
-    # The functional form, spelled so type checkers don't try to evaluate it statically.
-    rebuilt = cast("Callable[[str, dict[str, Any]], type[Any]]", TypedDict)(td_type.__name__, items)
-    for attr in ("__doc__", "__module__", "__qualname__", "__pydantic_config__"):
-        if hasattr(td_type, attr):
-            setattr(rebuilt, attr, getattr(td_type, attr))
-    return rebuilt
 
 
 def _create_wrapped_model(func_name: str, annotation: Any) -> type[BaseModel]:

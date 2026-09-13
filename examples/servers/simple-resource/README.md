@@ -28,9 +28,10 @@ from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
 
 
 async def main():
-    async with stdio_client(
-        StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-resource"])
-    ) as (read, write):
+    async with stdio_client(StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-resource"])) as (
+        read,
+        write,
+    ):
         async with ClientSession(read, write) as session:
             await session.initialize()
 
@@ -44,5 +45,4 @@ async def main():
 
 
 asyncio.run(main())
-
 ```

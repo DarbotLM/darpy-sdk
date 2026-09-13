@@ -428,7 +428,7 @@ def classify_inbound_request(
     """
     try:
         meta_value = body["params"]["_meta"]
-    except (KeyError, TypeError):
+    except KeyError, TypeError:
         meta_value = None
     if not isinstance(meta_value, Mapping):
         return InboundLadderRejection(

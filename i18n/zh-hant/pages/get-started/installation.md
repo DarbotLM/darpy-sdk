@@ -5,7 +5,7 @@ translation:
 ---
 # 安裝 {#installation}
 
-Python SDK 在 PyPI 上的套件名稱是 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)，需要 **Python 3.10+**。
+Python SDK 在 PyPI 上的套件名稱是 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)，需要 **Python 3.14+**。
 
 這份文件描述的是 **v2**，也就是目前的穩定版本線：
 
@@ -36,7 +36,7 @@ Python SDK 在 PyPI 上的套件名稱是 [`darpy-sdk`](https://pypi.org/project
 * [`jsonschema`](https://pypi.org/project/jsonschema/)：依照工具宣告的輸出 schema 驗證它的結構化輸出。
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/)：授權用的 OAuth 權杖處理。
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/)：只有輕量的 API，所以除非你自己安裝 OpenTelemetry SDK 和匯出器，否則 SDK 的追蹤中介軟體不會帶來任何負擔。
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) 和 [`typing-inspection`](https://pypi.org/project/typing-inspection/)：讓 Python 3.10 也能使用新的型別功能。
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) 和 [`typing-inspection`](https://pypi.org/project/typing-inspection/)：讓 Python 3.14 也能使用新的型別功能。
 * [`pywin32`](https://pypi.org/project/pywin32/)：僅限 Windows，用於 `stdio` 子處理程序管理。
 
 ## 選用的 extra {#optional-extras}

@@ -5,7 +5,7 @@ translation:
 ---
 # 安装 {#installation}
 
-Python SDK 在 PyPI 上的包名是 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)，需要 **Python 3.10+**。
+Python SDK 在 PyPI 上的包名是 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)，需要 **Python 3.14+**。
 
 本文档描述的是 **v2**，也就是当前的稳定版本系列：
 
@@ -36,7 +36,7 @@ Python SDK 在 PyPI 上的包名是 [`darpy-sdk`](https://pypi.org/project/darpy
 * [`jsonschema`](https://pypi.org/project/jsonschema/)：对照工具声明的输出模式，校验工具的结构化输出。
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/)：授权所需的 OAuth 令牌处理。
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/)：仅包含轻量级的 API，所以除非你自己安装 OpenTelemetry SDK 和导出器，否则 SDK 的追踪中间件不会带来任何开销。
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) 和 [`typing-inspection`](https://pypi.org/project/typing-inspection/)：在 Python 3.10 上提供现代的类型标注特性。
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) 和 [`typing-inspection`](https://pypi.org/project/typing-inspection/)：在 Python 3.14 上提供现代的类型标注特性。
 * [`pywin32`](https://pypi.org/project/pywin32/)：仅 Windows 需要，用于 `stdio` 子进程管理。
 
 ## 可选附加依赖 {#optional-extras}

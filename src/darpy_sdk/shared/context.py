@@ -10,11 +10,10 @@ server: the server's `Context` extends this with `lifespan`/`connection`;
 """
 
 from collections.abc import Mapping
-from typing import Any, Generic
+from typing import Any, Generic, TypeVar
 
 import anyio
 from darpy_sdk_types import RequestParamsMeta
-from typing_extensions import TypeVar
 
 from darpy_sdk.shared.dispatcher import CallOptions, DispatchContext
 from darpy_sdk.shared.transport_context import TransportContext

@@ -3,7 +3,7 @@ name = "darpy-sdk"
 version = "0.1.0"
 description = "Darbot Python SDK for Model, Agent Client, and Activity protocols"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 authors = [{ name = "DarbotLabs" }]
 maintainers = [{ name = "DarbotLabs" }]
 keywords = ["darpy", "mcp", "acp", "agents", "automation"]
@@ -13,23 +13,17 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     # anyio < 4.10 triggers a compile-time SyntaxWarning on Python 3.14 (PEP 765,
     # "'return' in a 'finally' block"); for stdio servers it lands on the child's
     # stderr (agronholm/anyio#816, fixed in 4.10).
-    "anyio>=4.10; python_version >= '3.14'",
-    "anyio>=4.9; python_version < '3.14'",
+    "anyio>=4.10",
     "httpx2>=2.5.0",
     "darpy-sdk-types==0.1.0",
     "pydantic>=2.12.0",
-    "starlette>=0.48.0; python_version >= '3.14'",
-    "starlette>=0.27; python_version < '3.14'",
+    "starlette>=0.48.0",
     "python-multipart>=0.0.9",
     "sse-starlette>=3.0.0",
     "uvicorn>=0.31.1; sys_platform != 'emscripten'",
@@ -77,10 +71,10 @@ dev = [
     # pydantic-settings is used only by examples (simple-auth, mcpserver/text_me);
     # keep it reachable for pyright, which covers examples/servers.
     "pydantic-settings>=2.5.2",
-    "tomli>=2.0; python_version < '3.11'",
     "pyright>=1.1.400",
     "pytest>=8.4.0",
-    "ruff>=0.8.5",
+    # Stable parsing and lint targets for the Python 3.14 baseline.
+    "ruff>=0.14.0",
     "trio>=0.26.2",
     "pytest-flakefinder>=1.1.0",
     "pytest-xdist>=3.6.1",
@@ -91,7 +85,9 @@ dev = [
     "coverage[toml]>=7.10.7,<=7.13",
     "pillow>=12.0",
     "strict-no-cover",
-    "logfire>=3.0.0",
+    # Logfire 4.16 first supports OTel 1.39; older proxy meters reject its
+    # histogram keywords and leave the shared tracing fixture unconfigured.
+    "logfire>=4.16.0",
     "opentelemetry-sdk>=1.39.1",
 ]
 docs = [
@@ -140,7 +136,23 @@ Issues = "https://github.com/DarbotLM/darpy-sdk/issues"
 [tool.hatch.build.targets.wheel]
 packages = ["src/darpy_sdk"]
 
+[tool.hatch.build.targets.sdist]
+# Keep local documentation builds, caches, and environments out of release sources.
+exclude = [
+    "/.cache",
+    "/site",
+    "/.build",
+    "/dist",
+    "/.venv",
+    "/.coverage*",
+    "/.pytest_cache",
+    "/.ruff_cache",
+    "/htmlcov",
+    "/mkdocs*.gen.yml",
+]
+
 [tool.pyright]
+pythonVersion = "3.14"
 typeCheckingMode = "strict"
 include = [
     "src/darpy_sdk",
@@ -186,7 +198,12 @@ executionEnvironments = [
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py314"
+
+[tool.ruff.format]
+# Zensical snippet directives are Markdown syntax, not Python comparisons.
+# Markdown style remains covered by the existing markdownlint hook.
+exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = [

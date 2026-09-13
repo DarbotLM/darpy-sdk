@@ -18,7 +18,7 @@ translation:
 
 ## 环境要求 {#requirements}
 
-需要 Python 3.10+。
+需要 Python 3.14+。
 
 ## 安装 {#installation}
 

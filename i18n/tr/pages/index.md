@@ -20,7 +20,7 @@ Bu, onun resmi Python SDK'sı. Bununla şunları yapabilirsiniz:
 
 ## Gereksinimler {#requirements}
 
-Python 3.10+.
+Python 3.14+.
 
 ## Kurulum {#installation}
 

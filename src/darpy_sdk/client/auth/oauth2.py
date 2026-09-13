@@ -118,7 +118,7 @@ class PKCEParameters(BaseModel):
     code_challenge: str = Field(..., min_length=43, max_length=128)
 
     @classmethod
-    def generate(cls) -> "PKCEParameters":
+    def generate(cls) -> PKCEParameters:
         """Generate new PKCE parameters."""
         code_verifier = "".join(secrets.choice(string.ascii_letters + string.digits + "-._~") for _ in range(128))
         digest = hashlib.sha256(code_verifier.encode()).digest()

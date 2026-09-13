@@ -1,11 +1,11 @@
 import logging
 from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import dataclass
-from typing import Any, Generic, Protocol
+from typing import Any, Generic, Protocol, TypeVar
+from warnings import deprecated
 
 from darpy_sdk_types import LoggingLevel, RequestId, RequestParamsMeta
 from pydantic import BaseModel
-from typing_extensions import TypeVar, deprecated
 
 from darpy_sdk.server.connection import Connection, allowed_log_levels
 from darpy_sdk.server.session import ServerSession

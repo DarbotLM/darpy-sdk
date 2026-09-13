@@ -23,7 +23,6 @@ from darpy_sdk_types import (
     Tool,
 )
 
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared.direct_dispatcher import DirectDispatcher, create_direct_dispatcher_pair
 from darpy_sdk.shared.dispatcher import DispatchContext, Dispatcher, OnNotify, OnNotifyIntercept, OnRequest, Outbound
 from darpy_sdk.shared.exceptions import MCPError
@@ -85,7 +84,6 @@ async def running_pair(
             finally:
                 tg.cancel_scope.cancel()
     finally:
-        await resync_tracer()
         close()
 
 

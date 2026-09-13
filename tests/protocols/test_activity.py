@@ -20,7 +20,7 @@ from darpy_sdk.runtime import Runtime, Task
 
 class FixedDatetime(datetime):
     @classmethod
-    def now(cls, tz: tzinfo | None = None) -> "FixedDatetime":
+    def now(cls, tz: tzinfo | None = None) -> FixedDatetime:
         return cls(2026, 1, 1, tzinfo=tz)
 
 

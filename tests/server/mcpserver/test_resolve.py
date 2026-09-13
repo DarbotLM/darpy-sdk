@@ -4,7 +4,7 @@ import json
 import logging
 from collections.abc import Callable
 from datetime import datetime
-from typing import Annotated, Any, Literal, TypeVar, cast
+from typing import TYPE_CHECKING, Annotated, Any, Literal, cast
 
 import anyio
 import pytest
@@ -37,7 +37,6 @@ from darpy_sdk_types import (
 )
 from inline_snapshot import snapshot
 from pydantic import BaseModel, Field, FileUrl, ValidationError, create_model
-from typing_extensions import TypeAliasType
 
 from darpy_sdk import Client, InputRequiredRoundsExceededError
 from darpy_sdk.client import ClientRequestContext
@@ -97,18 +96,14 @@ class Restock(BaseModel):
 
 # The `type X = ...` spelling of an InputRequiredResult-bearing return annotation,
 # bare and generic (a subscripted alias forwards `__value__` to its origin).
-IRRAlias = TypeAliasType("IRRAlias", InputRequiredResult | str)
-T_alias = TypeVar("T_alias")
-IRRAliasGeneric = TypeAliasType("IRRAliasGeneric", InputRequiredResult | T_alias, type_params=(T_alias,))
+type IRRAlias = InputRequiredResult | str
+type IRRAliasGeneric[T_alias] = InputRequiredResult | T_alias
 
 
-class _UnevaluableAlias:
-    """Stand-in for `type X = GhostType | str` whose names exist only under
-    TYPE_CHECKING: accessing `__value__` evaluates the alias and raises."""
+if TYPE_CHECKING:
+    from decimal import Decimal
 
-    @property
-    def __value__(self) -> Any:
-        raise NameError("name 'GhostType' is not defined")
+type UnevaluableAlias = Decimal | str
 
 
 class Handle(BaseModel):
@@ -1751,7 +1746,7 @@ def test_unevaluable_alias_and_parameterized_generics_declare_no_arm():
     async def lazy(login: Annotated[Login, Resolve(lookup)]):
         raise NotImplementedError  # pragma: no cover
 
-    lazy.__annotations__["return"] = _UnevaluableAlias()
+    lazy.__annotations__["return"] = UnevaluableAlias
     assert not returns_input_required(lazy)
 
     @mcp.tool()
@@ -2613,7 +2608,7 @@ def test_mixed_marker_arms_raise_at_registration():
 
 
 def test_marker_union_with_generic_alias_member_registers():
-    # dict[str, Any] passes isinstance(c, type) on Python 3.10; the arm filter must not feed it to issubclass.
+    # A generic alias can accompany a request marker without itself becoming a marker.
     async def maybe_ask(ctx: Context) -> Sample | dict[str, Any]:
         raise NotImplementedError  # pragma: no cover
 

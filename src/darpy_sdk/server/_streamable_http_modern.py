@@ -112,7 +112,7 @@ class _SingleExchangeDispatchContext:
         body = dict(params) if params is not None else None
         try:
             await self.sink.send(_sse_event(JSONRPCNotification(jsonrpc="2.0", method=method, params=body)))
-        except (anyio.ClosedResourceError, anyio.BrokenResourceError):
+        except anyio.ClosedResourceError, anyio.BrokenResourceError:
             logger.debug("dropped %s: response stream closed", method)
 
     async def progress(self, progress: float, total: float | None = None, message: str | None = None) -> None:
@@ -400,7 +400,7 @@ async def handle_modern_request(
     body = await request.body()
     try:
         decoded = json.loads(body)
-    except (ValueError, RecursionError):
+    except ValueError, RecursionError:
         # Not just JSONDecodeError: oversized integer literals raise bare ValueError, deep nesting RecursionError.
         rej = JSONRPCError(jsonrpc="2.0", id=None, error=ErrorData(code=PARSE_ERROR, message="Parse error"))
         await _write(rej, scope, receive, send)

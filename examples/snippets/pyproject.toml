@@ -2,7 +2,7 @@
 name = "darpy-sdk-snippets"
 version = "0.1.0"
 description = "Darbot Python SDK Example Snippets"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 dependencies = [
     "darpy-sdk",
 ]

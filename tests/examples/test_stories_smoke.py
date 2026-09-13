@@ -9,7 +9,7 @@ story READMEs print: stdio (``run_client`` spawns the server over stdio) and bar
 port it owns, then terminates it).
 
 lax no cover: gated on ``DARPY_SDK_EXAMPLES_SMOKE=1``, which CI sets on exactly one
-matrix cell (ubuntu / 3.12 / locked — see ``shared.yml``). Every other cell
+matrix cell (ubuntu / 3.14 / locked — see ``shared.yml``). Every other cell
 skips at collection, so the test body is uncovered there and the per-job 100%
 gate would otherwise fail.
 """

@@ -22,6 +22,19 @@ optional integrations described in [Protocol integrations](protocols.md).
 The separate [DARPy platform](https://github.com/DarbotLM/darpy) continues to use
 `darpy` and the `darpy` CLI. Do not merge its import package with `darpy_sdk`.
 
+## Python runtime baseline
+
+Darbot Python SDK, its standalone types package, and all bundled example
+projects require **Python 3.14 or newer**. Update application metadata to
+`requires-python = ">=3.14"`, Ruff targets to `py314`, and Pyright's
+`pythonVersion` to `3.14`. Recreate development environments with
+`uv sync --frozen --python 3.14 --all-extras` from the SDK checkout.
+
+The examples use standard-library `tomllib` and `typing.TypedDict` directly.
+The SDK still uses typing extensions for features beyond the Python 3.14
+standard library, such as `TypedDict(extra_items=...)`. MCP wire revisions and
+schema dates are independent of the Python runtime version.
+
 ## Update current application imports
 
 Before, with the upstream SDK:

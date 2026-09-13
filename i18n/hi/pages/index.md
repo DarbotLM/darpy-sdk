@@ -20,7 +20,7 @@ translation:
 
 ## ज़रूरतें {#requirements}
 
-Python 3.10+।
+Python 3.14+।
 
 ## Installation {#installation}
 

@@ -76,7 +76,7 @@ if __name__ == "__main__":
 ```
 
 Save the runtime and serving code together in `agent.py`. A client can launch it
-through the official subprocess lifecycle and NDJSON framing:
+with official subprocess creation and NDJSON framing:
 
 ```python
 import sys
@@ -107,6 +107,12 @@ prompt can run per session, while different sessions may execute concurrently.
 Cancel with `await connection.cancel(session_id)`, then await the original prompt
 for its final `cancelled` stop reason. Cancellation also settles pending permission
 callbacks in that session. Callbacks must cooperate with cancellation.
+
+Exiting `spawn_agent_process` shields cleanup from caller cancellation. It allows
+two seconds for graceful connection and process closure; if that stalls, it
+closes the owned pipes and forces the direct child to exit. Reaping has a separate
+two-second deadline and raises `TimeoutError` if it cannot finish. This manages
+the direct child only; applications remain responsible for descendant processes.
 
 Permission callbacks receive the complete typed `RequestPermissionRequest`,
 including its opaque `field_meta`, and return `RequestPermissionResponse`.
@@ -218,8 +224,8 @@ environment with:
 uv add --editable ../darpy-platform ../darpy-sdk ../darpy-sdk/src/darpy-sdk-types
 ```
 
-This is an application choice, not an SDK runtime dependency. The platform uses
-Python 3.12+, while the standalone SDK supports Python 3.10+.
+This is an application choice, not an SDK runtime dependency. The platform and
+standalone SDK both require Python 3.14.
 Run this bridge with the asyncio backend because the platform runtime uses asyncio;
 the standalone SDK runtime also supports Trio.
 

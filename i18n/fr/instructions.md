@@ -114,8 +114,8 @@ library to a colleague — professional, warm, plain-spoken; not stiff, not chat
   (10 000, 30 s, 100 Mo — byte units are o, ko, Mo, Go in prose, unchanged
   inside code or quoted output).
 - Dashes: keep the source's em-dash incise with a space on each side (texte —
-  incise — texte) or recast it with commas or parentheses. Ranges read de 3.10
-  à 3.14, never a hyphen. The ellipsis is the single character … in prose.
+  incise — texte) or recast it with commas or parentheses. Ranges read de 1
+  à 4, never a hyphen. The ellipsis is the single character … in prose.
 - Abbreviations: e.g. → par exemple, i.e. → c’est-à-dire, etc. → etc., vs →
   ou / par rapport à; & in prose → et. No comma before et / ou closing a list.
 - Bold and italics land on the words that carry the source's emphasis; a bolded

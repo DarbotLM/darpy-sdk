@@ -32,7 +32,7 @@ class ActivityEnvelope:
         _ = self.activity
 
     @classmethod
-    def from_dict(cls, payload: dict[str, JsonValue]) -> "ActivityEnvelope":
+    def from_dict(cls, payload: dict[str, JsonValue]) -> ActivityEnvelope:
         """Validate and snapshot a wire object, preserving unknown nested fields."""
         return cls(json.dumps(payload, ensure_ascii=False, allow_nan=False))
 

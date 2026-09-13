@@ -416,7 +416,7 @@
     {
       "source": "support",
       "target": "支援",
-      "note": "Technical support of a feature or version (\"supports Python 3.10\" → 支援 Python 3.10; \"not supported\" → 不支援). In Taiwan 支持 means to endorse or back someone and is wrong for this sense; it is kept off the avoid list only because the characters also occur inside 分支持續. Provisional pending native review."
+      "note": "Technical support of a feature or version (\"supports Python 3.14\" → 支援 Python 3.14; \"not supported\" → 不支援). In Taiwan 支持 means to endorse or back someone and is wrong for this sense; it is kept off the avoid list only because the characters also occur inside 分支持續. Provisional pending native review."
     },
     {
       "source": "user",

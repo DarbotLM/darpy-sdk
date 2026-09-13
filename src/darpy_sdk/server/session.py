@@ -8,12 +8,12 @@ Handlers reach it as `ctx.session` and use the typed helpers (`elicit_form`,
 
 import logging
 from typing import Any, TypeVar, overload
+from warnings import deprecated
 
 import darpy_sdk_types as types
 from darpy_sdk_types import methods as _methods
 from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 from pydantic import AnyUrl, BaseModel
-from typing_extensions import deprecated
 
 from darpy_sdk.server.connection import Connection, allowed_log_levels
 from darpy_sdk.server.validation import validate_sampling_tools, validate_tool_use_result_messages, wants_sampling_tools

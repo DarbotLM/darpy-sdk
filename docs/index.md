@@ -20,7 +20,7 @@ The separate [DARPy platform](https://github.com/DarbotLM/darpy) uses `darpy`.
 
 ## Requirements
 
-Python 3.10+.
+Python 3.14+.
 
 ## Installation
 

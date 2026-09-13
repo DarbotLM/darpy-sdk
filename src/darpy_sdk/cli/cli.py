@@ -479,7 +479,7 @@ def install(
             if dotenv:
                 try:
                     env_dict |= {k: v for k, v in dotenv.dotenv_values(env_file).items() if v is not None}
-                except (OSError, ValueError):
+                except OSError, ValueError:
                     logger.exception("Failed to load .env file")
                     sys.exit(1)
             else:

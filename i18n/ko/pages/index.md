@@ -20,7 +20,7 @@ translation:
 
 ## 요구 사항 {#requirements}
 
-Python 3.10 이상이 필요합니다.
+Python 3.14 이상이 필요합니다.
 
 ## 설치 {#installation}
 

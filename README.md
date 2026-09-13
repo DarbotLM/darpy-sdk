@@ -19,13 +19,13 @@ this SDK provides `darpy_sdk` and the `darpy-sdk` CLI.
 
 ## Start from this checkout
 
-Python 3.10+ is required for the core SDK. Optional integrations may have a
-higher Python requirement, recorded by their dependency metadata.
+Python 3.14+ is required for the SDK, standalone types, and example projects.
+The locked optional protocol integrations use the same Python 3.14 baseline.
 
 ```bash
 git clone https://github.com/DarbotLM/darpy-sdk.git
 cd darpy-sdk
-uv sync --frozen --all-extras
+uv sync --frozen --python 3.14 --all-extras
 uv run --frozen darpy-sdk version
 uv run --frozen darpy-sdk doctor
 ```

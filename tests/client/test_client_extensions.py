@@ -4,7 +4,7 @@ construction, and `call_tool` drives claim resolvers transparently against real 
 
 import logging
 from collections.abc import Awaitable, Callable, Sequence
-from typing import Any, Literal, cast
+from typing import Any, Literal, assert_type, cast
 
 import anyio
 import darpy_sdk_types as types
@@ -13,7 +13,6 @@ from darpy_sdk_types import CallToolResult, Result, TextContent
 from darpy_sdk_types.version import LATEST_MODERN_VERSION
 from inline_snapshot import snapshot
 from pydantic import BaseModel
-from typing_extensions import assert_type
 
 from darpy_sdk.client import ClaimContext, ClientExtension, NotificationBinding, ResultClaim, advertise
 from darpy_sdk.client.client import Client

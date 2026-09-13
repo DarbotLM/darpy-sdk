@@ -1,7 +1,7 @@
 """Construction-time tests for `darpy_sdk.client.extension`; no session is ever opened."""
 
 from dataclasses import FrozenInstanceError
-from typing import Any, Literal, cast
+from typing import Any, Literal, cast, get_args, get_type_hints
 
 import pytest
 from darpy_sdk_types import CallToolResult, InputRequiredResult, Result
@@ -51,6 +51,16 @@ async def _resolve(result: Result, ctx: ClaimContext) -> CallToolResult:
 
 def _claim(model: type[Result] = _TaskResult, **kwargs: Any) -> ResultClaim[Result]:
     return ResultClaim(result_type="task", model=model, resolve=_resolve, **kwargs)
+
+
+def test_generic_constructor_annotations_resolve_the_declared_type_parameters() -> None:
+    """SDK constructor annotations preserve each generic class's type parameters under Python 3.14 reflection."""
+    claim_type: type[ResultClaim[Result]] = ResultClaim
+    notification_type: type[NotificationBinding[BaseModel]] = NotificationBinding
+    claim_model = get_type_hints(claim_type.__init__)["model"]
+    notification_params = get_type_hints(notification_type.__init__)["params_type"]
+    assert get_args(claim_model)[0] is claim_type.__type_params__[0]
+    assert get_args(notification_params)[0] is notification_type.__type_params__[0]
 
 
 def test_claim_with_literal_discriminated_model_constructs() -> None:

@@ -1,4 +1,5 @@
 # /// script
+# requires-python = ">=3.14"
 # dependencies = ["pydantic-ai-slim[openai]", "asyncpg", "numpy", "pgvector"]
 # ///
 
@@ -13,9 +14,9 @@ import asyncio
 import math
 import os
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Annotated, Self, TypeVar
+from typing import Annotated, Self
 
 import asyncpg
 import numpy as np
@@ -34,8 +35,6 @@ REINFORCEMENT_FACTOR = 1.1
 DEFAULT_LLM_MODEL = "openai:gpt-4o"
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
 
-T = TypeVar("T")
-
 mcp = MCPServer("memory")
 
 DB_DSN = "postgresql://postgres:postgres@localhost:54320/memory_db"
@@ -49,7 +48,7 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
     return np.dot(a_array, b_array) / (np.linalg.norm(a_array) * np.linalg.norm(b_array))
 
 
-async def do_ai(
+async def do_ai[T](
     user_prompt: str,
     system_prompt: str,
     result_type: type[T] | Annotated,
@@ -85,7 +84,7 @@ class MemoryNode(BaseModel):
     summary: str = ""
     importance: float = 1.0
     access_count: int = 0
-    timestamp: float = Field(default_factory=lambda: datetime.now(timezone.utc).timestamp())
+    timestamp: float = Field(default_factory=lambda: datetime.now(UTC).timestamp())
     embedding: list[float]
 
     @classmethod

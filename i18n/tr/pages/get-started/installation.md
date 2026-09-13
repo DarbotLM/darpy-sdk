@@ -5,7 +5,7 @@ translation:
 ---
 # Kurulum {#installation}
 
-Python SDK, PyPI'da [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) adıyla yayımlanır. **Python 3.10+** gerektirir.
+Python SDK, PyPI'da [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) adıyla yayımlanır. **Python 3.14+** gerektirir.
 
 Bu belgeler, güncel kararlı sürüm hattı olan **v2**'yi anlatır:
 
@@ -38,7 +38,7 @@ SDK'yı kullanmak için bunların hiçbirini bilmeniz gerekmez. Yine de her bağ
 * [`jsonschema`](https://pypi.org/project/jsonschema/): bir aracın yapılandırılmış çıktısını, bildirdiği çıktı şemasına göre doğrular.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): yetkilendirme için OAuth token işleme.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): yalnızca hafif API; bu sayede siz bir OpenTelemetry SDK'sı ve dışa aktarıcı kurmadıkça SDK'nın izleme middleware'inin hiçbir maliyeti olmaz.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) ve [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.10'da modern tür özellikleri.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) ve [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.14'da modern tür özellikleri.
 * [`pywin32`](https://pypi.org/project/pywin32/): yalnızca Windows'ta, `stdio` alt süreç yönetimi için kullanılır.
 
 ## İsteğe bağlı ekler {#optional-extras}

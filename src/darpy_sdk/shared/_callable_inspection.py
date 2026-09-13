@@ -4,8 +4,6 @@ Adapted from Starlette's `is_async_callable` implementation.
 https://github.com/encode/starlette/blob/main/starlette/_utils.py
 """
 
-from __future__ import annotations
-
 import functools
 import inspect
 from collections.abc import Awaitable, Callable
@@ -17,7 +15,7 @@ AwaitableCallable = Callable[..., Awaitable[T]]
 
 
 @overload
-def is_async_callable(obj: AwaitableCallable[T]) -> TypeGuard[AwaitableCallable[T]]: ...
+def is_async_callable[T](obj: AwaitableCallable[T]) -> TypeGuard[AwaitableCallable[T]]: ...
 
 
 @overload

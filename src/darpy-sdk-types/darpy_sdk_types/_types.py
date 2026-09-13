@@ -6,9 +6,7 @@ the negotiated version. Per-field docstrings note version availability. The
 `darpy_sdk_types._v*` surface packages carry the schema-exact wire shapes.
 """
 
-from __future__ import annotations
-
-from typing import Annotated, Any, ClassVar, Final, Generic, Literal, TypeAlias, TypeVar, get_args
+from typing import Annotated, Any, ClassVar, Final, Literal, NotRequired, Self, get_args
 
 from pydantic import (
     BaseModel,
@@ -19,7 +17,7 @@ from pydantic import (
     model_validator,
 )
 from pydantic.alias_generators import to_camel
-from typing_extensions import NotRequired, Self, TypedDict
+from typing_extensions import TypedDict
 
 from darpy_sdk_types.jsonrpc import RequestId
 
@@ -48,7 +46,7 @@ class MCPModel(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
-Meta: TypeAlias = dict[str, Any]
+Meta = dict[str, Any]
 
 PROTOCOL_VERSION_META_KEY = "io.modelcontextprotocol/protocolVersion"
 """Reserved request `_meta` key: the MCP protocol version for this request (2026-07-28).
@@ -120,12 +118,7 @@ class NotificationParams(MCPModel):
     """
 
 
-RequestParamsT = TypeVar("RequestParamsT", bound=RequestParams | dict[str, Any] | None)
-NotificationParamsT = TypeVar("NotificationParamsT", bound=NotificationParams | dict[str, Any] | None)
-MethodT = TypeVar("MethodT", bound=str)
-
-
-class Request(MCPModel, Generic[RequestParamsT, MethodT]):
+class Request[RequestParamsT: RequestParams | dict[str, Any] | None, MethodT: str](MCPModel):
     """Base class for JSON-RPC requests.
 
     The JSON-RPC envelope (`jsonrpc`, `id`) is attached by the session layer
@@ -142,7 +135,7 @@ class Request(MCPModel, Generic[RequestParamsT, MethodT]):
     """
 
 
-class PaginatedRequest(Request[PaginatedRequestParams | None, MethodT], Generic[MethodT]):
+class PaginatedRequest[MethodT: str](Request[PaginatedRequestParams | None, MethodT]):
     """Base class for paginated requests, matching the schema's PaginatedRequest interface."""
 
     params: PaginatedRequestParams | None = None
@@ -150,7 +143,7 @@ class PaginatedRequest(Request[PaginatedRequestParams | None, MethodT], Generic[
     the session layer materializes it there. Optional on earlier versions."""
 
 
-class Notification(MCPModel, Generic[NotificationParamsT, MethodT]):
+class Notification[NotificationParamsT: NotificationParams | dict[str, Any] | None, MethodT: str](MCPModel):
     """Base class for JSON-RPC notifications."""
 
     method: MethodT
@@ -1252,7 +1245,7 @@ class ToolResultContent(MCPModel):
     requests to enable caching optimizations."""
 
 
-SamplingMessageContentBlock: TypeAlias = TextContent | ImageContent | AudioContent | ToolUseContent | ToolResultContent
+SamplingMessageContentBlock = TextContent | ImageContent | AudioContent | ToolUseContent | ToolResultContent
 """Content block types allowed in sampling messages.
 
 This is the widest (2025-11-25+) membership; older sessions allow only a subset
@@ -1260,7 +1253,7 @@ on the wire. Serialization never narrows a value to fit; version gating is the
 session layer's responsibility. Deprecated in 2026-07-28 (SEP-2577).
 """
 
-SamplingContent: TypeAlias = TextContent | ImageContent | AudioContent
+SamplingContent = TextContent | ImageContent | AudioContent
 """Basic content types for sampling responses (without tool use).
 
 Used for backwards-compatible CreateMessageResult when tools are not used.
@@ -1944,7 +1937,7 @@ class ElicitCompleteNotification(
 
 # Kept as a raw JSON Schema dict so callers can hand it straight to a validator;
 # the per-version packages model RequestedSchema/PrimitiveSchemaDefinition strictly.
-ElicitRequestedSchema: TypeAlias = dict[str, Any]
+ElicitRequestedSchema = dict[str, Any]
 
 
 class ElicitRequestFormParams(RequestParams):
@@ -1998,7 +1991,7 @@ class ElicitRequestURLParams(RequestParams):
 
 
 # Union type for elicitation request parameters
-ElicitRequestParams: TypeAlias = ElicitRequestURLParams | ElicitRequestFormParams
+ElicitRequestParams = ElicitRequestURLParams | ElicitRequestFormParams
 """Parameters for elicitation requests - either form or URL mode."""
 
 
@@ -2042,28 +2035,28 @@ class ElicitationRequiredErrorData(MCPModel):
     """List of URL mode elicitations that must be completed."""
 
 
-InputRequest: TypeAlias = CreateMessageRequest | ListRootsRequest | ElicitRequest
+InputRequest = CreateMessageRequest | ListRootsRequest | ElicitRequest
 """A single server-initiated input request embedded in `InputRequiredResult` (2026-07-28).
 
 Discriminated by `method`. On 2026-07-28 these embedded payloads take the place
 of standalone server-to-client JSON-RPC requests.
 """
 
-InputRequests: TypeAlias = dict[str, InputRequest]
+InputRequests = dict[str, InputRequest]
 """A map of server-initiated requests that the client must fulfill (2026-07-28).
 
 Keys are server-assigned identifiers. Carried by `InputRequiredResult.input_requests`
 and by the tasks extension.
 """
 
-InputResponse: TypeAlias = CreateMessageResult | CreateMessageResultWithTools | ListRootsResult | ElicitResult
+InputResponse = CreateMessageResult | CreateMessageResultWithTools | ListRootsResult | ElicitResult
 """A client response to a single server-initiated input request (2026-07-28).
 
 `CreateMessageResultWithTools` is this SDK's array-content split of the schema's
 single `CreateMessageResult` arm; the wire union has three arms.
 """
 
-InputResponses: TypeAlias = dict[str, InputResponse]
+InputResponses = dict[str, InputResponse]
 """A map of client responses to server-initiated input requests (2026-07-28).
 
 Keys match those of the `InputRequests` map the server sent. Also used by the

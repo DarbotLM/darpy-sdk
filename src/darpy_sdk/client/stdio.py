@@ -111,9 +111,7 @@ class StdioServerParameters(BaseModel):
 
 
 @asynccontextmanager
-async def stdio_client(
-    server: StdioServerParameters, errlog: TextIO = sys.stderr
-) -> AsyncGenerator[TransportStreams, None]:
+async def stdio_client(server: StdioServerParameters, errlog: TextIO = sys.stderr) -> AsyncGenerator[TransportStreams]:
     """Spawns an MCP server subprocess and connects to it over stdin/stdout.
 
     Raises:
@@ -153,13 +151,13 @@ async def stdio_client(
                         for line in lines:
                             try:
                                 await read_stream_writer.send(_parse_line(line))
-                            except (anyio.ClosedResourceError, anyio.BrokenResourceError):
+                            except anyio.ClosedResourceError, anyio.BrokenResourceError:
                                 return  # the session is gone; only the drain below remains
                 finally:
                     await _drain_stdout(process)
         except anyio.ClosedResourceError:
             pass  # our own shutdown closed the stdout stream under the read
-        except (anyio.BrokenResourceError, ConnectionError):
+        except anyio.BrokenResourceError, ConnectionError:
             # Teardown noise during shutdown, a real failure otherwise; either way
             # the session sees clean closure when the read stream closes.
             if not shutting_down:
@@ -174,7 +172,7 @@ async def stdio_client(
                     json = session_message.message.model_dump_json(by_alias=True, exclude_unset=True)
                     data = (json + "\n").encode(encoding=server.encoding, errors=server.encoding_error_handler)
                     await process.stdin.send(data)
-        except (anyio.ClosedResourceError, anyio.BrokenResourceError, OSError):
+        except anyio.ClosedResourceError, anyio.BrokenResourceError, OSError:
             # The server may still be alive: close the read stream so the session
             # sees the connection end instead of a request hanging forever.
             await read_stream_writer.aclose()
@@ -188,10 +186,8 @@ async def stdio_client(
         read_stream.close()
         # Bounded window for the writer to flush already-accepted messages.
         write_stream.close()
-        with anyio.move_on_after(_WRITER_FLUSH_TIMEOUT) as flush_scope:
+        with anyio.move_on_after(_WRITER_FLUSH_TIMEOUT):
             await writer_done.wait()
-        if flush_scope.cancelled_caught:
-            await anyio.lowlevel.cancel_shielded_checkpoint()  # resync coverage on 3.11 (gh-106749)
         await _stop_server_process(process)
         await _aclose_all(read_stream, write_stream, read_stream_writer, write_stream_reader)
         # One pass so unblocked tasks exit via their except paths before the cancel.
@@ -211,8 +207,6 @@ async def stdio_client(
                 await shutdown()
             # Unstick pipe tasks a kill survivor's open pipe end could still block.
             tg.cancel_scope.cancel()
-    # The cancel lands via throw(); one yield resyncs 3.11 coverage (gh-106749).
-    await anyio.lowlevel.cancel_shielded_checkpoint()
 
 
 def _parse_line(line: str) -> SessionMessage | Exception:
@@ -276,8 +270,8 @@ async def _close_pipe(stream: AsyncResource) -> None:
 async def _wait_for_process_exit(process: ServerProcess, timeout: float) -> bool:
     """Returns whether the process died within the timeout, by polling returncode.
 
-    Not process.wait(): on asyncio 3.11+ it also waits for pipe EOF, and a
-    child that inherited the pipes makes an exited server look hung.
+    Keep the process lifetime check separate from pipe cleanup for both
+    native and fallback process implementations.
     """
     deadline = anyio.current_time() + timeout
     while process.returncode is None:
@@ -312,7 +306,7 @@ def _close_subprocess_transport(process: ServerProcess) -> None:
     # Duck-typed: uvloop's UVProcessTransport is not an asyncio.SubprocessTransport.
     close = getattr(transport, "close", None)
     if callable(close):
-        # close() on <=3.12 can raise PermissionError re-killing a setuid child.
+        # Transport cleanup can raise PermissionError when re-signaling a setuid child.
         with suppress(PermissionError):
             close()
 

@@ -93,7 +93,7 @@ Worked examples (source → good / bad):
 - Enumerations in prose use the enumeration comma 、: "a, b, and c" →
   a、b 和 c, not a，b，和 c.
 - Put one half-width space between Han characters and any run of Latin
-  letters or digits (使用 Streamable HTTP 传输; 需要 Python 3.10+); put no
+  letters or digits (使用 Streamable HTTP 传输; 需要 Python 3.14+); put no
   space between a full-width punctuation mark and adjacent Latin text
   (配置好 stdio。). Keep the spaces around Markdown markers (`**…**`,
   links) exactly as the source has them.

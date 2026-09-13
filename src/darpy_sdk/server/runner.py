@@ -19,7 +19,7 @@ from collections.abc import AsyncIterator, Awaitable, Mapping
 from contextlib import asynccontextmanager
 from dataclasses import KW_ONLY, dataclass, replace
 from functools import cached_property, partial
-from typing import TYPE_CHECKING, Any, Generic, cast
+from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
 
 import anyio
 import anyio.abc
@@ -53,7 +53,6 @@ from darpy_sdk_types.version import (
     MODERN_PROTOCOL_VERSIONS,
 )
 from pydantic import BaseModel, ValidationError
-from typing_extensions import TypeVar
 
 from darpy_sdk.server.caching import apply_cache_hint
 from darpy_sdk.server.connection import Connection, NotifyOnlyOutbound
@@ -790,7 +789,7 @@ async def _serve_modern_stream(
                 connection=connection,
                 lifespan_state=lifespan_state,
             )
-        except (MCPError, ValidationError):
+        except MCPError, ValidationError:
             # The dispatcher's shared ladder maps these to the wire error.
             raise
         except Exception as exc:

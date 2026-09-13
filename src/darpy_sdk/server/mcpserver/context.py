@@ -1,7 +1,6 @@
-from __future__ import annotations
-
 from collections.abc import Iterable, Mapping
-from typing import TYPE_CHECKING, Any, Generic, cast
+from typing import TYPE_CHECKING, Any, cast
+from warnings import deprecated
 
 from darpy_sdk_types import (
     ClientCapabilities,
@@ -11,9 +10,8 @@ from darpy_sdk_types import (
     LoggingLevel,
 )
 from pydantic import AnyUrl, BaseModel
-from typing_extensions import deprecated
 
-from darpy_sdk.server.context import LifespanContextT, RequestT, ServerRequestContext
+from darpy_sdk.server.context import ServerRequestContext
 from darpy_sdk.server.elicitation import (
     ElicitationResult,
     ElicitSchemaModelT,
@@ -35,7 +33,7 @@ if TYPE_CHECKING:
     from darpy_sdk.server.mcpserver.server import MCPServer
 
 
-class Context(BaseModel, Generic[LifespanContextT, RequestT]):
+class Context[LifespanContextT = dict[str, Any], RequestT = Any](BaseModel):
     """Context object providing access to MCP capabilities.
 
     This provides a cleaner interface to MCP's RequestContext functionality.

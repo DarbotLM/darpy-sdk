@@ -17,12 +17,12 @@ documentation deployment, or production certification is inferred from it.
    namespace changes, protocol revisions, tested dependency baselines, and
    remaining limitations. Review source attribution in [NOTICE.md](NOTICE.md).
 4. Verify the exact intended commit. A successful local subset does not replace
-   the hosted cross-version/platform and protocol conformance jobs.
+   the hosted Python 3.14 Windows/Linux dependency matrix and protocol conformance jobs.
 
 ## Required checks
 
 ```bash
-uv sync --frozen --all-extras --group codegen
+uv sync --frozen --all-extras --group codegen --python 3.14
 uv run --frozen ruff check .
 uv run --frozen ruff format --check .
 uv run --frozen pyright

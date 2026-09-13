@@ -80,7 +80,7 @@ class ClientAuthenticator:
 
                 if basic_client_id != client_id:
                     raise AuthenticationError("Client ID mismatch in Basic auth")
-            except (ValueError, UnicodeDecodeError, binascii.Error):
+            except ValueError, UnicodeDecodeError, binascii.Error:
                 raise AuthenticationError("Invalid Basic authentication header")
 
         elif client.token_endpoint_auth_method == "client_secret_post":

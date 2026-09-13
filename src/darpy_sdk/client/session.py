@@ -4,10 +4,23 @@ import json
 import logging
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from functools import cache, reduce
-from operator import or_
+from functools import cache
 from types import TracebackType, UnionType
-from typing import TYPE_CHECKING, Annotated, Any, Final, Literal, Protocol, TypeAlias, cast, get_args, overload
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Any,
+    Final,
+    Literal,
+    Protocol,
+    Self,
+    TypeVar,
+    Union,
+    cast,
+    get_args,
+    overload,
+)
+from warnings import deprecated
 
 import anyio
 import anyio.abc
@@ -36,12 +49,10 @@ from darpy_sdk_types.version import (
     MODERN_PROTOCOL_VERSIONS,
 )
 from pydantic import BaseModel, Discriminator, Tag, TypeAdapter, ValidationError
-from typing_extensions import Self, TypeVar, deprecated
 
 from darpy_sdk.client._transport import ReadStream, WriteStream
 from darpy_sdk.client.extension import NotificationBinding, ResultClaim, UnexpectedClaimedResult
 from darpy_sdk.client.subscriptions import ListenRoute
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared.dispatcher import CallOptions, DispatchContext, Dispatcher, ProgressFnT, as_request_id
 from darpy_sdk.shared.exceptions import MCPDeprecationWarning, MCPError
 from darpy_sdk.shared.inbound import (
@@ -230,7 +241,7 @@ class LoggingFnT(Protocol):
     async def __call__(self, params: types.LoggingMessageNotificationParams) -> None: ...  # pragma: no branch
 
 
-IncomingMessage: TypeAlias = types.ServerNotification | Exception
+IncomingMessage = types.ServerNotification | Exception
 """What `message_handler` receives: the server notifications the session surfaces, plus transport-level exceptions.
 
 `notifications/cancelled` is applied by the dispatcher and never surfaced, and a
@@ -337,8 +348,7 @@ def _build_call_tool_adapter(
 
     arms: list[Any] = [Annotated[types.CallToolResult | types.InputRequiredResult, Tag(core_arm)]]
     arms += [Annotated[claim.model, Tag(tag)] for tag, claim in active.items()]
-    # reduce(or_) rather than Union star-unpack, which needs py3.11+.
-    return TypeAdapter(Annotated[reduce(or_, arms), Discriminator(_route)])
+    return TypeAdapter(Annotated[Union[*arms], Discriminator(_route)])
 
 
 def _index_claims(
@@ -516,7 +526,6 @@ class ClientSession:
         finally:
             self._close_binding_queues()
             self._settle_listen_routes_closed()
-        await resync_tracer()
         return result
 
     def _close_binding_queues(self) -> None:

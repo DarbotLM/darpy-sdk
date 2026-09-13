@@ -48,7 +48,7 @@ from __future__ import annotations
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Literal, TypeAlias, cast
+from typing import Literal, cast
 from urllib.parse import quote, unquote
 
 __all__ = [
@@ -176,7 +176,7 @@ class _Cap:
     ifemp: bool = False
 
 
-_Atom: TypeAlias = _Lit | _Cap
+_Atom = _Lit | _Cap
 
 
 def _is_greedy(var: Variable) -> bool:

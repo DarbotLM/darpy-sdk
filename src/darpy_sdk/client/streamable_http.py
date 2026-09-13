@@ -31,7 +31,6 @@ from httpx2 import EventSource, ServerSentEvent
 from pydantic import ValidationError
 
 from darpy_sdk.client._transport import TransportStreams
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared._context_streams import ContextReceiveStream, ContextSendStream, create_context_streams
 from darpy_sdk.shared._httpx_utils import (
     create_mcp_http_client,
@@ -396,7 +395,7 @@ class StreamableHTTPTransport:
                                 reply = JSONRPCError(jsonrpc="2.0", id=message.id, error=parsed.error)
                                 await ctx.read_stream_writer.send(SessionMessage(reply))
                                 return
-                        except (httpx2.StreamError, ValidationError):
+                        except httpx2.StreamError, ValidationError:
                             pass
                         logger.debug("Non-2xx body was not a JSON-RPC error; using fallback")
                     if response.status_code == 404:
@@ -510,7 +509,7 @@ class StreamableHTTPTransport:
         error_msg = SessionMessage(JSONRPCError(jsonrpc="2.0", id=request_id, error=error_data))
         try:
             await read_stream_writer.send(error_msg)
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("read stream closed before request %r could be resolved", request_id)
 
     async def _handle_reconnection(
@@ -683,7 +682,7 @@ async def streamable_http_client(
     *,
     http_client: httpx2.AsyncClient | None = None,
     terminate_on_close: bool = True,
-) -> AsyncGenerator[TransportStreams, None]:
+) -> AsyncGenerator[TransportStreams]:
     """Client transport for StreamableHTTP.
 
     Args:
@@ -755,4 +754,3 @@ async def streamable_http_client(
                 if transport.session_id and terminate_on_close:
                     await transport.terminate_session(client)
                 tg.cancel_scope.cancel()
-        await resync_tracer()

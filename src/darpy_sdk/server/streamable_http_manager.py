@@ -25,7 +25,6 @@ from darpy_sdk.server.streamable_http import MCP_SESSION_ID_HEADER, EventStore, 
 from darpy_sdk.server.transport_security import DEFAULT_MAX_REQUEST_BODY_SIZE as DEFAULT_MAX_REQUEST_BODY_SIZE
 from darpy_sdk.server.transport_security import RequestBodyLimitMiddleware as RequestBodyLimitMiddleware
 from darpy_sdk.server.transport_security import TransportSecuritySettings
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared.inbound import MCP_PROTOCOL_VERSION_HEADER
 from darpy_sdk.shared.jsonrpc_dispatcher import JSONRPCDispatcher
 from darpy_sdk.shared.transport_context import TransportContext
@@ -171,7 +170,6 @@ class StreamableHTTPSessionManager:
                 # Clear any remaining server instances
                 self._server_instances.clear()
                 self._session_owners.clear()
-        await resync_tracer()
 
     async def handle_request(self, scope: Scope, receive: Receive, send: Send) -> None:
         """Process ASGI request with proper session handling and transport setup.

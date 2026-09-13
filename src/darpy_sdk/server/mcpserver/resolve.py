@@ -25,8 +25,6 @@ Whether the consumer receives the unwrapped model or the full
 `Sample` and `ListRoots` have no decline arm; their consumers annotate the result type directly.
 """
 
-from __future__ import annotations
-
 import base64
 import hashlib
 import inspect
@@ -35,7 +33,7 @@ import logging
 import types
 import typing
 from collections.abc import Callable, Hashable, Mapping
-from typing import Annotated, Any, Generic, Literal, TypeGuard, get_args, get_origin
+from typing import Annotated, Any, Literal, TypeGuard, TypeVar, get_args, get_origin
 
 import anyio.to_thread
 from darpy_sdk_types import (
@@ -68,7 +66,6 @@ from darpy_sdk_types import (
 )
 from darpy_sdk_types.version import is_version_at_least
 from pydantic import BaseModel, ValidationError
-from typing_extensions import TypeVar
 
 from darpy_sdk.server.elicitation import (
     AcceptedElicitation,
@@ -106,7 +103,7 @@ class Resolve:
         self.fn = fn
 
 
-class Elicit(Generic[T]):
+class Elicit[T: BaseModel]:
     """A resolver's request to ask the client.
 
     Returned from a resolver to signal that the value must be elicited. The
@@ -293,9 +290,7 @@ def _check_elicit_return(return_annotation: Any, name: str) -> None:
     arms: list[Any] = [
         c
         for c in candidates
-        # Origin guard for 3.10: `dict[str, Any]` passes `isinstance(c, type)` there and would crash `issubclass`.
-        if get_origin(c) is Elicit
-        or (get_origin(c) is None and isinstance(c, type) and issubclass(c, Elicit | Sample | ListRoots))
+        if get_origin(c) is Elicit or (isinstance(c, type) and issubclass(c, Elicit | Sample | ListRoots))
     ]
     if len(arms) > 1:
         raise InvalidSignature(

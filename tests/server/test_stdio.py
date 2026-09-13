@@ -3,7 +3,7 @@ import io
 import os
 import sys
 import threading
-from collections.abc import AsyncIterator, Iterator
+from collections.abc import AsyncIterator, Buffer, Iterator
 from contextlib import asynccontextmanager, contextmanager
 from io import TextIOWrapper
 
@@ -20,7 +20,6 @@ from darpy_sdk_types import (
     JSONRPCResponse,
     jsonrpc_message_adapter,
 )
-from typing_extensions import Buffer
 
 from darpy_sdk.server.mcpserver import MCPServer
 from darpy_sdk.server.stdio import stdio_server

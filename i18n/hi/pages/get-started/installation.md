@@ -5,7 +5,7 @@ translation:
 ---
 # Installation {#installation}
 
-Python SDK PyPI पर [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) नाम से उपलब्ध है। इसके लिए **Python 3.10+** ज़रूरी है।
+Python SDK PyPI पर [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) नाम से उपलब्ध है। इसके लिए **Python 3.14+** ज़रूरी है।
 
 ये docs **v2** का वर्णन करते हैं, जो मौजूदा stable release line है:
 
@@ -38,7 +38,7 @@ SDK इस्तेमाल करने के लिए यह सब जा�
 * [`jsonschema`](https://pypi.org/project/jsonschema/): tool के structured output को उसके घोषित output schema के अनुसार validate करता है।
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): authorization के लिए OAuth token संभालना।
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): सिर्फ़ हल्का-सा API, ताकि SDK के tracing middleware की कोई लागत न हो, जब तक आप खुद OpenTelemetry SDK और exporter install न करें।
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) और [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.10 पर आधुनिक typing features।
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) और [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.14 पर आधुनिक typing features।
 * [`pywin32`](https://pypi.org/project/pywin32/): सिर्फ़ Windows पर, `stdio` subprocess management के लिए इस्तेमाल होता है।
 
 ## Optional extras {#optional-extras}

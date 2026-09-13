@@ -43,7 +43,8 @@ from collections.abc import AsyncIterator, Awaitable, Callable, Mapping
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, Generic, overload
+from typing import Any, Generic, TypeVar, overload
+from warnings import deprecated
 
 import darpy_sdk_types as types
 from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
@@ -52,7 +53,6 @@ from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.routing import Mount, Route
-from typing_extensions import TypeVar, deprecated
 
 from darpy_sdk.server._otel import OpenTelemetryMiddleware
 from darpy_sdk.server.auth.middleware.auth_context import AuthContextMiddleware

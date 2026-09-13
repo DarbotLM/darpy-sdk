@@ -101,7 +101,7 @@ for it."
 - Dashes: the grammatical dash is an em dash with a space on each side (Хост —
   это приложение, с которым говорит пользователь); a hyphen only joins
   compounds (MCP-сервер, HTTP-запрос); numeric ranges use an en dash without
-  spaces (3.10–3.14) or от 3.10 до 3.14. Never a hyphen where a dash is meant.
+  spaces (1–4) or от 1 до 4. Never a hyphen where a dash is meant.
   An English em-dash aside may also become a comma pair, parentheses or its
   own sentence.
 - Sentence case everywhere: headings, admonition titles, tab labels and table

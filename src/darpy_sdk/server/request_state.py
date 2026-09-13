@@ -377,7 +377,7 @@ class RequestStateBoundary:
         try:
             claims = json.loads(payload)
             version, iat, exp, inner = claims["v"], claims["iat"], claims["exp"], claims["s"]
-        except (ValueError, KeyError, TypeError):
+        except ValueError, KeyError, TypeError:
             _reject(ctx.method, "malformed")
         if version != _ENVELOPE_VERSION or not isinstance(inner, str):
             _reject(ctx.method, "malformed")

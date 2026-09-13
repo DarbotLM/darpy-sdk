@@ -24,14 +24,14 @@ jobs:
           enable-cache: false
           version: 0.12.5
 
-      - name: Set up Python 3.12
-        run: uv python install 3.12
+      - name: Set up Python 3.14
+        run: uv python install 3.14
 
       - name: Verify Darbot package identities and release version
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          uv run --frozen --no-project --python 3.12 python - <<'PY'
+          uv run --frozen --no-project --python 3.14 python - <<'PY'
           import os
           import pathlib
           import tomllib
@@ -51,7 +51,7 @@ jobs:
 
       - name: Verify release artifact names
         run: |
-          uv run --frozen --no-project --python 3.12 python - <<'PY'
+          uv run --frozen --no-project --python 3.14 python - <<'PY'
           import pathlib
           import tomllib
 

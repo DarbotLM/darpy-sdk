@@ -18,7 +18,7 @@ translation:
 
 ## 要件 {#requirements}
 
-Python 3.10 以上が必要です。
+Python 3.14 以上が必要です。
 
 ## インストール {#installation}
 

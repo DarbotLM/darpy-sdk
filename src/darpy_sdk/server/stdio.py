@@ -39,7 +39,7 @@ if sys.platform != "win32":  # pragma: no branch
 # - Release deregisters only after dup2(private_fd, fd) restores the wire; a
 #   failed release keeps the claim, so successors are refused, never fed a
 #   diverted descriptor. Every failure lands on that safe side.
-_claims: dict[int, "_StreamClaim"] = {}
+_claims: dict[int, _StreamClaim] = {}
 _claims_lock = threading.Lock()
 
 
@@ -65,7 +65,7 @@ class _UnownedTextWrapper(TextIOWrapper):
 def _is_backed_by_fd(stream: TextIO, fd: int) -> bool:
     try:
         return stream.buffer.fileno() == fd
-    except (AttributeError, OSError, ValueError):
+    except AttributeError, OSError, ValueError:
         return False
 
 

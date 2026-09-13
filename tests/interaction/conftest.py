@@ -10,13 +10,13 @@ from contextlib import AbstractAsyncContextManager
 from typing import Any
 
 import pytest
-from darpy_sdk_types import SERVER_INFO_META_KEY
+from darpy_sdk_types import SERVER_INFO_META_KEY, Result
 from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 
 from darpy_sdk.client.client import Client
 from darpy_sdk.server import Server
 from darpy_sdk.server.mcpserver import MCPServer
-from tests._stamp import R, Unstamp
+from tests._stamp import Unstamp
 from tests._stamp import unstamped as _strip_required_stamp
 from tests.interaction._connect import (
     Connect,
@@ -83,7 +83,7 @@ def unstamped(connect: CellConnect) -> Unstamp:
     if connect.spec_version in MODERN_PROTOCOL_VERSIONS:
         return _strip_required_stamp
 
-    def _assert_never_stamped(result: R) -> R:
+    def _assert_never_stamped[R: Result](result: R) -> R:
         meta = result.meta
         assert meta is None or SERVER_INFO_META_KEY not in meta, "handshake-era results are never stamped"
         return result

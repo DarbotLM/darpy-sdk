@@ -51,7 +51,7 @@ def create_app(json_response: bool = False) -> Starlette:
 
     # Create Starlette app with lifespan
     @asynccontextmanager
-    async def lifespan(app: Starlette) -> AsyncGenerator[None, None]:
+    async def lifespan(app: Starlette) -> AsyncGenerator[None]:
         async with session_manager.run():
             yield
 

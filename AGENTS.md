@@ -30,8 +30,8 @@ assigned to their author are closed automatically.
   and that pin together for a release.
 - Running tools: `uv run --frozen <tool>`. Always pass `--frozen` so uv doesn't
   rewrite `uv.lock` as a side effect.
-- Cross-version testing: `uv run --frozen --python 3.10 pytest ...` to run
-  against a specific interpreter (CI covers 3.10–3.14).
+- Python baseline: use Python 3.14 for development and verification. CI covers
+  Python 3.14 on Windows and Linux with locked and lowest direct dependencies.
 - Upgrading: `uv lock --upgrade-package <package>`
 - FORBIDDEN: `uv pip install`, `@latest` syntax
 - Don't raise dependency floors for CVEs alone. The `>=` constraint already
@@ -96,7 +96,7 @@ assigned to their author are closed automatically.
 The retained CI gate requires 100% (`fail_under = 100`, `branch = true`).
 
 - Full check: `./scripts/test`. Runs coverage + `strict-no-cover` on the
-  default Python. Not identical to CI: CI runs 3.10–3.14 × {ubuntu, windows}
+  default Python. Not identical to CI: CI runs Python 3.14 × {ubuntu, windows}
   × {locked, lowest-direct}, and some branch-coverage quirks only surface on
   specific matrix entries.
 - Targeted check while iterating:
@@ -133,7 +133,7 @@ What the existing pragmas mean:
   `strict-no-cover`. Use for lines covered on some platforms/versions but not
   others.
 - `# pragma: no branch` — excludes branch arcs only. coverage.py misreports the
-  `->exit` arc for nested `async with` on Python 3.11+ (worse on 3.14/Windows).
+    `->exit` arc for nested `async with`, including on Python 3.14/Windows.
 
 ## Documentation
 

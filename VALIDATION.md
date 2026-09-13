@@ -9,17 +9,17 @@ Python, operating-system, and dependency-resolution combinations.
 
 | Check | Observed result |
 | --- | --- |
-| Full `scripts/test` suite, Python 3.12 on Linux | 6,028 passed, 8 skipped, 1 inherited expected failure |
-| Coverage, including tests | 53,813 statements and 4,266 branches; 100.00%, zero missing statements or branches |
+| Full `scripts/test` suite, Python 3.14.7 on Linux | 6,032 passed, 8 skipped, 1 inherited expected failure |
+| Coverage, including tests | 52,932 statements and 4,258 branches; 100.00%, zero missing statements or branches |
 | `strict-no-cover` | No lines incorrectly marked `pragma: no cover` |
-| Ruff lint and formatting | Passed across 861 Python files |
+| Ruff lint and formatting | Passed across 871 Python files |
 | Pyright | Zero errors or warnings |
-| Lockfile consistency | Passed; 143 resolved packages |
+| Lockfile consistency | Passed; 141 resolved packages |
 | Generated wire models | Schema regeneration check passed |
 | README generated snippets | Passed |
 | Workflow JavaScript tests | 46 passed |
 | Documentation tooling tests | 49 passed |
-| Documentation builds | All 12 language targets passed; stale translations use current English fallback |
+| Documentation builds | Cold strict English build passed on Python 3.14; all 12 language targets passed before the runtime migration; stale translations use current English fallback |
 | API documentation | Cross-reference, inventory, and alternate import-order checks passed |
 | Non-Python pre-commit hooks | End-of-file fixer, Prettier, and markdownlint passed |
 
@@ -28,6 +28,15 @@ documented pragmas. The four paths now match from a subprocess working
 directory as well as the checkout. No additional modules are excluded and the
 100% statement/branch threshold is unchanged. Ambient proxy variables were
 cleared for local network tests; test processes used four xdist workers.
+The final run used a fresh absolute `COVERAGE_FILE` location to isolate it from
+coverage data created before obsolete compatibility modules were removed.
+
+Both the locked and lowest-direct all-extras development environments install
+and import successfully on Python 3.14.7. The hosted matrix runs Python 3.14 on
+Linux and Windows with both dependency resolutions. Root, types, and all 15
+example package manifests require `>=3.14`; interpreter pins and tool targets
+match. Obsolete interpreter branches and backports were removed. Focused tests
+also verify native generic annotation identity and lazy alias behavior.
 
 ## Distribution and migration checks
 
@@ -38,7 +47,7 @@ cleared for local network tests; test processes used four xdist workers.
   `mcp`, `mcp_types`, or `darpy` package. No dependency on the upstream `mcp`
   distribution remains.
 - All 17 project manifests and 22 example executable entry points use Darbot
-  package identities. An AST audit of 861 Python files found no old package
+  package identities. An AST audit of 860 tracked Python files found no old package
   imports or parse errors.
 - Vendored schema files and `schema/PINNED.json` are byte-for-byte unchanged.
   MCP protocol fields, headers, URLs, and historical source attribution remain
@@ -46,10 +55,13 @@ cleared for local network tests; test processes used four xdist workers.
 - Both wheel layouts retain their required license files. The root wheel
   includes the fork's provenance notice; the types distribution also builds
   with its license directly from its own source archive.
+- Generated documentation, coverage data, and local caches are explicitly
+  excluded from source archives. Both SDK and types source archives independently
+  rebuild wheels with byte-identical member contents to their direct builds.
 
 ## Installed-package integration checks
 
-Two fresh Python 3.12 environments were resolved from local wheels without an
+Three fresh Python 3.14.7 environments were resolved from local wheels without an
 editable checkout or source-directory imports:
 
 1. SDK and types only: optional ACP, Microsoft Activity, and DARPy packages were
@@ -58,6 +70,9 @@ editable checkout or source-directory imports:
 2. SDK, types, and the DARPy platform wheel: an explicit asyncio bridge carried
    every task context field into the platform runtime and preserved the result
    and request identity through the SDK.
+3. Types only: imports and typed model construction passed with the SDK, AnyIO,
+   and HTTP stack absent. All three checks verified imports came from installed
+   site-packages, with no editable or source-directory imports.
 
 Protocol-specific integration tests exercise real ACP stdio framing beyond
 64 KiB, concurrent session cancellation and permission completion, reserved
@@ -75,8 +90,9 @@ The runtime's cooperative deadlines are not a process sandbox or hard CPU
 deadline.
 
 The separate DARPy platform implements a tested scientific subset and local
-team runtime. Full NumPy/SymPy behavior parity, distributed swarms, trained SWE
-agents, and an automatic SkillOpt optimizer remain staged specification work.
+team runtime and dependency-free SVG charts. Full NumPy/SymPy/Matplotlib behavior
+parity, distributed swarms, trained SWE agents, and an automatic SkillOpt optimizer
+remain staged specification work.
 
 No PyPI release or documentation deployment is asserted by these checks.
 Follow [RELEASE.md](RELEASE.md), review the hosted CI matrix, and configure

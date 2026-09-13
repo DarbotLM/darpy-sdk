@@ -12,7 +12,7 @@ import logging
 from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import dataclass, field
 from functools import partial
-from typing import Any, Generic, Literal, cast
+from typing import Any, Generic, Literal, TypeVar, cast
 
 import anyio
 import anyio.abc
@@ -34,9 +34,7 @@ from darpy_sdk_types import (
 )
 from opentelemetry.trace import SpanKind
 from pydantic import ValidationError
-from typing_extensions import TypeVar
 
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared._otel import inject_trace_context, otel_span
 from darpy_sdk.shared._stream_protocols import ReadStream, WriteStream
 from darpy_sdk.shared.dispatcher import (
@@ -395,7 +393,7 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
                 request_write_started = True
                 try:
                     await self._write(msg, plan.metadata)
-                except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+                except anyio.BrokenResourceError, anyio.ClosedResourceError:
                     # Transport tore down before run() noticed EOF; surface the documented contract.
                     raise MCPError(code=CONNECTION_CLOSED, message="Connection closed") from None
                 with anyio.fail_after(opts.get("timeout")):
@@ -469,7 +467,7 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
             msg = JSONRPCNotification(jsonrpc="2.0", method=method)
         try:
             await self._write(msg, _plan_outbound(_related_request_id, opts).metadata)
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             # Transport tore down before run() noticed EOF.
             logger.debug("dropped %s: write stream closed", method)
 
@@ -521,7 +519,6 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
             self._closed = True
             self._tg = None
             self._fan_out_closed()
-            await resync_tracer()
 
     async def _dispatch(
         self,
@@ -665,7 +662,7 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
             return
         try:
             pending.send.send_nowait(outcome)
-        except (anyio.WouldBlock, anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.WouldBlock, anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("waiter for request id %r already gone", request_id)
 
     def _spawn(
@@ -694,7 +691,7 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
         for pending in self._pending.values():
             try:
                 pending.send.send_nowait(closed)
-            except (anyio.WouldBlock, anyio.BrokenResourceError, anyio.ClosedResourceError):
+            except anyio.WouldBlock, anyio.BrokenResourceError, anyio.ClosedResourceError:
                 pass
         self._pending.clear()
 
@@ -780,13 +777,13 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
     async def _write_result(self, request_id: RequestId, result: dict[str, Any]) -> None:
         try:
             await self._write(JSONRPCResponse(jsonrpc="2.0", id=request_id, result=result))
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("dropped result for %r: write stream closed", request_id)
 
     async def _write_error(self, request_id: RequestId, error: ErrorData) -> None:
         try:
             await self._write(JSONRPCError(jsonrpc="2.0", id=request_id, error=error))
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("dropped error for %r: write stream closed", request_id)
 
     async def _settle_unanswered(self, dctx: _JSONRPCDispatchContext[TransportT]) -> None:
@@ -801,7 +798,7 @@ class JSONRPCDispatcher(Dispatcher[TransportT]):
             return
         try:
             await metadata.on_request_unanswered()
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("on_request_unanswered dropped: connection closing")
         except Exception:
             logger.exception("on_request_unanswered hook raised")

@@ -242,7 +242,7 @@ class ResourceTemplate(BaseModel):
                 meta=self.meta,
                 fn=lambda: result,  # Capture result in closure
             )
-        except (ResourceError, MCPError):
+        except ResourceError, MCPError:
             raise
         except Exception as exc:
             raise UnexpectedResourceError(f"Error creating resource from template {uri}") from exc

@@ -20,7 +20,7 @@ Este es su SDK oficial para Python. Con él puedes:
 
 ## Requisitos {#requirements}
 
-Python 3.10+.
+Python 3.14+.
 
 ## Instalación {#installation}
 

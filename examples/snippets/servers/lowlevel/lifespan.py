@@ -16,7 +16,7 @@ class Database:
     """Mock database class for example."""
 
     @classmethod
-    async def connect(cls) -> "Database":
+    async def connect(cls) -> Database:
         """Connect to database."""
         print("Database connected")
         return cls()

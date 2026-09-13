@@ -192,7 +192,7 @@ async def test_sse_client_on_session_created_not_called_when_no_session_id(monke
 
 
 @pytest.fixture
-async def initialized_sse_client_session() -> AsyncGenerator[ClientSession, None]:
+async def initialized_sse_client_session() -> AsyncGenerator[ClientSession]:
     factory = in_process_client_factory(make_server_app())
     async with sse_client(f"{BASE_URL}/sse", httpx_client_factory=factory) as streams:
         async with ClientSession(*streams) as session:

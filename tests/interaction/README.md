@@ -273,10 +273,10 @@ pragma'd line in `src/`, delete the pragma in the same change. Do not add new `#
 for known-upstream tracer bugs and only after restructuring has been tried: `# pragma: no branch`
 on a `with`/`async with` line whose only fault is coverage.py mis-tracing the exit arc of a nested
 async context (reserve it for shapes that cannot collapse — a sync `with` adjacent to an
-`async with`); and `# pragma: lax no cover` on a single statement that 3.11's tracer drops because
-the preceding `async with` unwinds via `coro.throw()` (python/cpython#106749, wontfix on 3.11) —
-this hits any test that must run statements after a `ClientSession`/`streamable_http_client` exits
-but still inside an outer `async with`, and no restructure can avoid it.
+`async with`); existing `# pragma: lax no cover` markers identify cancellation-resume tracing
+edges where an async context unwinds through an awaiting frame. Check recorded line events on
+the supported interpreter before changing these markers. New exclusions require current coverage
+evidence; an obsolete interpreter bug does not justify adding a marker.
 
 A handful of `# pragma: lax no cover` markers in `src/` cover teardown exception handlers whose
 execution is timing-dependent under the in-process HTTP bridge — the POST-stream and

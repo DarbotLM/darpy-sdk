@@ -10,11 +10,9 @@ these wrappers duck-type compatible with plain ``MemoryObjectSendStream``
 and ``MemoryObjectReceiveStream``.
 """
 
-from __future__ import annotations
-
 import contextvars
 from types import TracebackType
-from typing import Any, Generic, TypeVar
+from typing import Any, TypeVar
 
 import anyio
 from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
@@ -25,7 +23,7 @@ T = TypeVar("T")
 _Envelope = tuple[contextvars.Context, T]
 
 
-class ContextSendStream(Generic[T]):
+class ContextSendStream[T]:
     """Send-side wrapper that snapshots ``contextvars.copy_context()`` on every ``send()``."""
 
     __slots__ = ("_inner",)
@@ -58,7 +56,7 @@ class ContextSendStream(Generic[T]):
         return None
 
 
-class ContextReceiveStream(Generic[T]):
+class ContextReceiveStream[T]:
     """Receive-side wrapper that yields ``T`` and stores the sender's context in ``last_context``."""
 
     __slots__ = ("_inner", "last_context")

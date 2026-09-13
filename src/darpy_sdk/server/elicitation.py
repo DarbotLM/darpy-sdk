@@ -1,8 +1,6 @@
 """Elicitation utilities for MCP servers."""
 
-from __future__ import annotations
-
-from typing import Any, Generic, Literal, TypeVar
+from typing import Any, Literal, TypeVar
 
 from darpy_sdk_types import RequestId
 
@@ -11,7 +9,6 @@ from darpy_sdk_types._v2025_11_25 import PrimitiveSchemaDefinition
 from pydantic import BaseModel, TypeAdapter, ValidationError
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from pydantic_core import core_schema
-from typing_extensions import TypeAliasType
 
 from darpy_sdk.server.session import ServerSession
 
@@ -19,7 +16,7 @@ ElicitSchemaModelT = TypeVar("ElicitSchemaModelT", bound=BaseModel)
 _PRIMITIVE_SCHEMA_ADAPTER = TypeAdapter[PrimitiveSchemaDefinition](PrimitiveSchemaDefinition)
 
 
-class AcceptedElicitation(BaseModel, Generic[ElicitSchemaModelT]):
+class AcceptedElicitation[ElicitSchemaModelT: BaseModel](BaseModel):
     """Result when user accepts the elicitation."""
 
     action: Literal["accept"] = "accept"
@@ -38,10 +35,8 @@ class CancelledElicitation(BaseModel):
     action: Literal["cancel"] = "cancel"
 
 
-ElicitationResult = TypeAliasType(
-    "ElicitationResult",
-    AcceptedElicitation[ElicitSchemaModelT] | DeclinedElicitation | CancelledElicitation,
-    type_params=(ElicitSchemaModelT,),
+type ElicitationResult[ElicitSchemaModelT: BaseModel] = (
+    AcceptedElicitation[ElicitSchemaModelT] | DeclinedElicitation | CancelledElicitation
 )
 
 
@@ -100,7 +95,7 @@ def render_elicitation_schema(schema: type[BaseModel]) -> dict[str, Any]:
     return json_schema
 
 
-async def elicit_with_validation(
+async def elicit_with_validation[ElicitSchemaModelT: BaseModel](
     session: ServerSession,
     message: str,
     schema: type[ElicitSchemaModelT],

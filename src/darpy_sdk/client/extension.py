@@ -5,11 +5,9 @@ pass instances to `Client(extensions=[...])`. For an identifier-only
 capability ad, use `advertise()`.
 """
 
-from __future__ import annotations
-
 from collections.abc import Awaitable, Callable, Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Final, Generic, Literal, TypeVar, get_args
+from typing import TYPE_CHECKING, Any, Final, Literal, TypeVar, get_args
 
 from darpy_sdk_types import CORE_RESULT_TYPES, CallToolResult, InputRequiredResult, Result
 from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
@@ -66,7 +64,7 @@ class ClaimContext:
 
 
 @dataclass(frozen=True, kw_only=True)
-class ResultClaim(Generic[ClaimedT]):
+class ResultClaim[ClaimedT: Result]:
     """One extra result shape on one spec verb, keyed by the wire `resultType`.
 
     Active only while the declaring extension is constructed into the client and
@@ -127,7 +125,7 @@ class UnexpectedClaimedResult(RuntimeError):
 
 
 @dataclass(frozen=True, kw_only=True)
-class NotificationBinding(Generic[NotifyParamsT]):
+class NotificationBinding[NotifyParamsT: BaseModel]:
     """Deliver server notifications for `method` (the bare wire name) to `handler`.
 
     Observation-only: validated params arrive one at a time per binding, in

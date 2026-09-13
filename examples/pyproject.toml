@@ -2,10 +2,9 @@
 name = "darpy-sdk-example-stories"
 version = "0.0.0"
 description = "Self-verifying example suite for the Darbot Python SDK (dev-only, not published)"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 dependencies = [
     "darpy-sdk",
-    "tomli>=2.0; python_version < '3.11'",
 ]
 
 [build-system]

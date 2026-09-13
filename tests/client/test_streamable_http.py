@@ -793,7 +793,7 @@ class _RedirectPromptsListElsewhere(httpx2.AsyncBaseTransport):
             return httpx2.Response(307, headers={"location": "http://other.example/mcp/"})
         return await self.inner.handle_async_request(request)
 
-    async def __aenter__(self) -> "_RedirectPromptsListElsewhere":
+    async def __aenter__(self) -> _RedirectPromptsListElsewhere:
         await self.inner.__aenter__()
         return self
 

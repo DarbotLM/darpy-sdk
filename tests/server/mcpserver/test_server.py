@@ -2,7 +2,7 @@ import base64
 import logging
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Annotated, Any
+from typing import Annotated, Any, NotRequired
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import anyio
@@ -47,7 +47,7 @@ from inline_snapshot import snapshot
 from pydantic import AfterValidator, BaseModel, ValidationError
 from starlette.applications import Starlette
 from starlette.routing import Mount, Route
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import TypedDict
 
 from darpy_sdk.client import Client
 from darpy_sdk.server.context import ServerRequestContext
@@ -2173,7 +2173,7 @@ async def test_recursive_tool_return_type_lists_and_calls_on_legacy_session():
 
     class Node(BaseModel):
         name: str
-        children: list["Node"] = []
+        children: list[Node] = []
 
     mcp = MCPServer()
 

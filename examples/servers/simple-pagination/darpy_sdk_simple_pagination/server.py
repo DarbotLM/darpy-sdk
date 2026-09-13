@@ -50,7 +50,7 @@ def _paginate(cursor: str | None, items: list[T], page_size: int) -> tuple[list[
     if cursor is not None:
         try:
             start_idx = int(cursor)
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return [], None
     else:
         start_idx = 0

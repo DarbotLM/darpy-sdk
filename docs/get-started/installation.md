@@ -1,8 +1,9 @@
 # Installation
 
 Darbot Python SDK has two distributions: `darpy-sdk` and `darpy-sdk-types`,
-both version **0.1.0** in this development line. The core requires Python 3.10+.
-This is a separate package identity from the upstream MCP SDK.
+both version **0.1.0** in this development line. Both distributions and the
+example projects require **Python 3.14+**. This is a separate package identity
+from the upstream MCP SDK.
 
 ## Use the checkout
 
@@ -12,7 +13,7 @@ packages resolve together:
 ```bash
 git clone https://github.com/DarbotLM/darpy-sdk.git
 cd darpy-sdk
-uv sync --frozen --all-extras
+uv sync --frozen --python 3.14 --all-extras
 uv run --frozen darpy-sdk version
 uv run --frozen darpy-sdk doctor
 ```
@@ -41,7 +42,7 @@ You don't need to know any of this to use the SDK, but if you're wondering what 
 * [`jsonschema`](https://pypi.org/project/jsonschema/): validates a tool's structured output against its declared output schema.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): OAuth token handling for authorization.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): just the lightweight API, so the SDK's tracing middleware costs nothing unless you install an OpenTelemetry SDK and exporter yourself.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) and [`typing-inspection`](https://pypi.org/project/typing-inspection/): modern typing features on Python 3.10.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) and [`typing-inspection`](https://pypi.org/project/typing-inspection/): runtime annotation inspection and typing features beyond the Python 3.14 standard library, including `TypedDict(extra_items=...)`.
 * [`pywin32`](https://pypi.org/project/pywin32/): Windows only, used for `stdio` subprocess management.
 
 ## Optional extras
@@ -54,7 +55,7 @@ You don't need to know any of this to use the SDK, but if you're wondering what 
 * `darpy-sdk[hosting]` adds the Activity and hosting-core packages for hosted turn handling.
 * `darpy-sdk[protocols]` selects the protocol integration dependencies together.
 
-These optional packages can impose additional Python requirements. Their tested
-baselines and supported runtime behavior are documented in
+The locked optional integrations use the same Python 3.14 baseline. Their
+supported runtime behavior and dependency versions are documented in
 [Protocol integrations](../protocols.md). The MCP implementation is part of the
 root SDK; it does not require an external `mcp` installation.

@@ -93,8 +93,8 @@ occasional one-line payoff. Carry that — sachlich, direkt, freundlich.
   quotation marks.
 - Dashes: an English em-dash aside becomes a Gedankenstrich — an en dash with a
   space on each side (Text – Einschub – Text) — or commas, parentheses or a
-  second sentence; never an em dash (—) in German text. Ranges: 3.10 bis 3.14,
-  or 3.10–3.14 with an en dash and no spaces.
+  second sentence; never an em dash (—) in German text. Ranges: 1 bis 4,
+  or 1–4 with an en dash and no spaces.
 - Compounds are closed or hyphenated, never spaced. A compound with an English,
   abbreviated or code-font part is hyphenated through every joint: der
   MCP-Server, das JSON-RPC-Format, der Streamable-HTTP-Transport, das

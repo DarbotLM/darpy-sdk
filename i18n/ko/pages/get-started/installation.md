@@ -5,7 +5,7 @@ translation:
 ---
 # 설치 {#installation}
 
-Python SDK는 PyPI에 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)라는 이름으로 올라와 있습니다. **Python 3.10 이상**이 필요합니다.
+Python SDK는 PyPI에 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)라는 이름으로 올라와 있습니다. **Python 3.14 이상**이 필요합니다.
 
 이 문서는 현재 안정 릴리스 계열인 **v2**를 설명합니다.
 
@@ -38,7 +38,7 @@ SDK를 사용하는 데 이런 내용을 알 필요는 전혀 없지만, 각 의
 * [`jsonschema`](https://pypi.org/project/jsonschema/): 도구의 구조화된 출력이 선언된 출력 스키마에 맞는지 검증합니다.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): 인가에 쓰이는 OAuth 토큰 처리를 담당합니다.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): 가벼운 API만 들어 있으므로, OpenTelemetry SDK와 익스포터를 직접 설치하지 않는 한 SDK의 트레이싱 미들웨어에는 아무 비용도 들지 않습니다.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/)와 [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.10에서 최신 타이핑 기능을 쓸 수 있게 해 줍니다.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/)와 [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.14에서 최신 타이핑 기능을 쓸 수 있게 해 줍니다.
 * [`pywin32`](https://pypi.org/project/pywin32/): Windows 전용으로, `stdio` 하위 프로세스 관리에 사용됩니다.
 
 ## 선택적 추가 기능 {#optional-extras}

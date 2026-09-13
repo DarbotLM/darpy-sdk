@@ -8,7 +8,7 @@ from darpy_sdk.server.mcpserver import Context
 
 class Database:
     @classmethod
-    async def connect(cls) -> "Database":
+    async def connect(cls) -> Database:
         return cls()
 
     async def disconnect(self) -> None: ...

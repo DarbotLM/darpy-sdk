@@ -2,6 +2,10 @@
 
 `darpy-sdk` is a library that lives inside other people's environments, so its requirements in the static `pyproject.toml` are chosen to constrain your resolver as little as possible while still describing what the SDK needs.
 
+Python 3.14 is the shared baseline for runtime, optional integrations, development
+tools, and examples. Dependency changes must resolve and pass their relevant
+checks on that interpreter with both locked and lowest direct versions.
+
 ## How requirements are declared
 
 Every runtime dependency is a `>=` floor set to the oldest version that provides what the SDK uses, with no upper bound unless a dependency's next major is known to break the SDK. The one exception is `darpy-sdk-types`, the wire-types package released in lockstep with `darpy-sdk`: each `darpy-sdk` release requires exactly its own version of it, so it is the other half of the SDK rather than an independent constraint.

@@ -34,6 +34,11 @@ Python API availability.
 
 ## Support and announcements
 
+Python 3.14 is the supported development and validation baseline for the SDK,
+wire types, protocol extras, and examples. Package metadata requires Python
+3.14 or newer. CI verifies Python 3.14 on Windows and Linux using both locked
+and lowest direct dependency versions; older interpreters are unsupported.
+
 `main` is the Darbot development line. This fork does not inherit upstream
 1.x maintenance promises, triage deadlines, project boards, or trusted-publisher
 configuration. Release notes state tested Python/platform/dependency matrices,

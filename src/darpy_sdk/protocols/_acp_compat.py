@@ -35,6 +35,15 @@ def check_version() -> None:
         raise RuntimeError(f"The ACP compatibility bridge requires {SUPPORTED_ACP_VERSION}; found {installed}")
 
 
+def close_process_transport(process: asyncio.subprocess.Process) -> None:
+    """Close the direct child's pipes and force termination through its asyncio transport.
+
+    Process exposes no transport-close API. Isolate this attribute access here,
+    as in the SDK's inherited subprocess cleanup; this does not kill descendants.
+    """
+    cast(asyncio.SubprocessTransport, getattr(process, "_transport")).close()
+
+
 def encode_meta(meta: dict[str, Any] | None) -> dict[str, Any]:
     return {INTERNAL_META: meta} if meta is not None else {}
 

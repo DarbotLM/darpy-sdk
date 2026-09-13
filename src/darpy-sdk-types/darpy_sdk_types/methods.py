@@ -8,12 +8,10 @@ the version gate; shape validation is per schema era, i.e. 2025-11-25 for every
 pre-2026 version and 2026-07-28 for 2026). Monolith maps key `method` to the
 version-free `darpy_sdk_types` models user code receives."""
 
-from __future__ import annotations
-
 from collections.abc import Mapping
 from functools import cache
 from types import MappingProxyType, UnionType
-from typing import Any, Final, Literal, TypeGuard, TypeVar, cast, get_args
+from typing import Any, Final, Literal, TypeGuard, cast, get_args
 
 from pydantic import BaseModel, TypeAdapter
 
@@ -468,10 +466,7 @@ def _adapter(target: type[BaseModel] | UnionType) -> TypeAdapter[Any]:
     return TypeAdapter(target)
 
 
-_MonolithT = TypeVar("_MonolithT")
-
-
-def _monolith_row(monolith: Mapping[str, _MonolithT], method: str) -> _MonolithT:
+def _monolith_row[MonolithT](monolith: Mapping[str, MonolithT], method: str) -> MonolithT:
     """Look up `method` in `monolith`, raising RuntimeError on miss.
 
     Not KeyError: the surface row already matched, so a miss is inconsistent

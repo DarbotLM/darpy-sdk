@@ -53,7 +53,7 @@ def extract_trace_context(meta: Mapping[str, Any] | None) -> Context | None:
         return None
     try:
         ctx = extract(meta)
-    except (ValueError, TypeError):
+    except ValueError, TypeError:
         return None
     if not get_current_span(ctx).get_span_context().is_valid:
         return None

@@ -1,12 +1,10 @@
 """MCPServer - A more ergonomic interface for MCP servers."""
 
-from __future__ import annotations
-
 import base64
 import inspect
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterable, Mapping, Sequence
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
-from typing import Any, Generic, Literal, TypeVar, cast, overload
+from typing import Any, Literal, TypeVar, cast, overload
 
 import anyio
 import pydantic_core
@@ -108,7 +106,7 @@ logger = get_logger(__name__)
 _CallableT = TypeVar("_CallableT", bound=Callable[..., Any])
 
 
-class Settings(BaseModel, Generic[LifespanResultT]):
+class Settings[LifespanResultT = Any](BaseModel):
     """MCPServer settings, as passed to the `MCPServer` constructor."""
 
     # Server settings
@@ -154,7 +152,7 @@ def lifespan_wrapper(
     return wrap
 
 
-class MCPServer(Generic[LifespanResultT]):
+class MCPServer[LifespanResultT = Any]:
     def __init__(
         self,
         name: str | None = None,
@@ -601,7 +599,7 @@ class MCPServer(Generic[LifespanResultT]):
             if not isinstance(content, str | bytes):
                 raise TypeError(f"Resource.read() must return str or bytes, not {type(content).__name__}")
             return [ReadResourceContents(content=content, mime_type=resource.mime_type, meta=resource.meta)]
-        except (MCPError, ResourceError):
+        except MCPError, ResourceError:
             raise
         except Exception as exc:
             raise UnexpectedResourceError(f"Error reading resource {uri}") from exc

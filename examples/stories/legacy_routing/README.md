@@ -62,7 +62,7 @@ buffer the body, classify, replay:
 
 ```python
 async def mcp_endpoint(scope, receive, send):
-    body, replay = await buffer_body(receive)          # your ASGI helper
+    body, replay = await buffer_body(receive)  # your ASGI helper
     headers = {k.decode("ascii").lower(): v.decode("latin-1") for k, v in scope["headers"]}
     match classify_era(json.loads(body or b"{}"), headers):
         case "legacy":

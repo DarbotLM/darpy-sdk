@@ -75,7 +75,7 @@ async def test_cancelling_the_client_mid_session_terminates_the_whole_server_tre
         params = StdioServerParameters(command=sys.executable, args=["-c", parent])
 
         entered = anyio.Event()
-        # A child-task scope avoids a CPython 3.11 coverage tracing bug during host self-cancellation.
+        # Keep cancellation scoped to the client task so the test can observe shutdown.
         cancel_scope = anyio.CancelScope()
 
         async def run_client_until_cancelled() -> None:
@@ -122,7 +122,7 @@ async def test_a_server_that_exits_mid_session_keeps_its_own_exit_code(
 
         # Allow one cold interpreter start on loaded CI.
         with anyio.fail_after(10.0):
-            # Coverage mis-traces nested `async with` exit arcs on Python 3.11+.
+            # Coverage can misreport nested `async with` exit arcs.
             async with stdio_client(params):  # pragma: no branch
                 stream = await accept_alive(sock)
                 stack.push_async_callback(stream.aclose)
@@ -169,7 +169,7 @@ async def test_server_stderr_output_reaches_the_errlog_file(
 
 
 @pytest.mark.skipif(
-    not hasattr(os, "waitid"), reason="needs os.waitid(WNOWAIT); absent on Windows and macOS before 3.13"
+    not hasattr(os, "waitid"), reason="requires os.waitid(WNOWAIT) to observe a child exit without reaping it"
 )
 # lax no cover: Windows runners enforce 100% per job but lack os.waitid and skip this
 # test; test_windows.py's SelectorEventLoop lifecycle test exercises the property there.

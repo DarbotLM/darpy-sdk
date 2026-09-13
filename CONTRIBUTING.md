@@ -27,13 +27,13 @@ for Darbot work. Security disclosures follow [SECURITY.md](SECURITY.md).
 
 ## Development setup
 
-Python 3.10+ and uv are required for the core SDK. Optional protocol dependencies
-may require a newer interpreter; their package markers and CI define that scope.
+Python 3.14 and uv are required for the SDK, its wire types, and every example.
+CI verifies Windows and Linux with locked and lowest direct dependencies.
 
 ```bash
 git clone https://github.com/DarbotLM/darpy-sdk.git
 cd darpy-sdk
-uv sync --frozen --all-extras --group codegen
+uv sync --frozen --python 3.14 --all-extras --group codegen
 ```
 
 Create a branch from `main`. This is the Darbot 0.1 development line; the fork

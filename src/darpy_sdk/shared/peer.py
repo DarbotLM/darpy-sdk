@@ -11,6 +11,7 @@ model. Gating (and `NoBackChannelError`) is the wrapped `Outbound`'s job.
 
 from collections.abc import Mapping
 from typing import Any, cast, overload
+from warnings import deprecated
 
 from darpy_sdk_types import (
     CreateMessageRequestParams,
@@ -31,7 +32,6 @@ from darpy_sdk_types import (
     ToolChoice,
 )
 from pydantic import BaseModel
-from typing_extensions import deprecated
 
 from darpy_sdk.shared.dispatcher import CallOptions, Outbound
 from darpy_sdk.shared.exceptions import MCPDeprecationWarning

@@ -1,7 +1,7 @@
 """Protocol-visible rejection and permission policy for DARPy ACP adapters."""
 
-from collections.abc import AsyncIterator, Awaitable
-from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator, Awaitable, Iterator
+from contextlib import AsyncExitStack, asynccontextmanager, contextmanager
 from typing import NoReturn
 
 import anyio
@@ -54,11 +54,19 @@ class Endpoint:
 
 
 @asynccontextmanager
-async def transports() -> AsyncIterator[tuple[Endpoint, Endpoint]]:
+async def running_agent(agent: ACPAgent) -> AsyncIterator[tuple[Endpoint, Endpoint, AsyncExitStack]]:
     left_send, right_receive = anyio.create_memory_object_stream[dict[str, JsonValue]](10)
     right_send, left_receive = anyio.create_memory_object_stream[dict[str, JsonValue]](10)
-    async with left_send, left_receive, right_send, right_receive:
-        yield Endpoint(left_send, left_receive), Endpoint(right_send, right_receive)
+    # Keep LIFO cleanup without nested async-with tracing gaps on Python 3.14.
+    async with AsyncExitStack() as lifetime:
+        await lifetime.enter_async_context(left_send)
+        await lifetime.enter_async_context(left_receive)
+        await lifetime.enter_async_context(right_send)
+        await lifetime.enter_async_context(right_receive)
+        left, right = Endpoint(left_send, left_receive), Endpoint(right_send, right_receive)
+        group = await lifetime.enter_async_context(anyio.create_task_group())
+        group.start_soon(run_agent, agent, right)
+        yield left, right, lifetime
 
 
 async def unexpected_callback(*args: object, **kwargs: object) -> NoReturn:
@@ -98,59 +106,49 @@ async def test_invalid_session_operations_return_protocol_errors_without_running
     agent = ACPAgent(Runtime(execute), max_sessions=1)
     errors: dict[str, JsonValue] = {}
 
-    async def rejected(label: str, request: Awaitable[object], expected: RequestError) -> None:
+    @contextmanager
+    def rejected(label: str, expected: RequestError) -> Iterator[None]:
         with pytest.raises(RequestError) as error:
-            await request
+            yield
         assert error.value.code == expected.code
         errors[label] = error.value.to_error_obj()
 
+    # Keep rejection handling outside the connection teardown frame for reliable coverage tracing.
+    async def exercise_invalid_operations(peer: ClientSideConnection) -> None:
+        with rejected("before initialization", RequestError.invalid_request()):
+            await peer.new_session("/workspace")
+        await peer.initialize(protocol_version=1)
+        with rejected("relative cwd", RequestError.invalid_params()):
+            await peer.new_session("workspace")
+        with rejected("relative additional directory", RequestError.invalid_params()):
+            await peer.new_session("/workspace", additional_directories=["relative"])
+        with rejected("MCP server configuration", RequestError.invalid_params()):
+            await peer.new_session(
+                "/workspace", mcp_servers=[McpServerStdio(name="unused", command="unused", args=[], env=[])]
+            )
+        session = await peer.new_session("C:\\workspace", additional_directories=["/shared"])
+        with rejected("session capacity", RequestError.invalid_request()):
+            await peer.new_session("/overflow")
+        with rejected("unknown session", RequestError.invalid_params()):
+            await peer.prompt("unknown", [])
+        with rejected("unsupported image", RequestError.invalid_params()):
+            await peer.prompt(session.session_id, [ImageContentBlock(type="image", data="AA==", mime_type="image/png")])
+        with rejected("unsupported load", RequestError.method_not_found("")):
+            await peer.load_session("/workspace", session.session_id)
+        with rejected("unsupported list", RequestError.method_not_found("")):
+            await peer.list_sessions()
+        with rejected("unsupported mode", RequestError.method_not_found("")):
+            await peer.set_session_mode(session.session_id, "unknown")
+        with rejected("unsupported authentication", RequestError.method_not_found("")):
+            await peer.authenticate("unknown")
+        with rejected("unsupported extension", RequestError.method_not_found("")):
+            await peer.ext_method("unknown", {})
+
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
+        async with running_agent(agent) as (left, _right, lifetime):
             peer: ClientSideConnection = connect_official_peer(IdlePeer(), left)
-            async with peer:
-                await rejected("before initialization", peer.new_session("/workspace"), RequestError.invalid_request())
-                await peer.initialize(protocol_version=1)
-                await rejected("relative cwd", peer.new_session("workspace"), RequestError.invalid_params())
-                await rejected(
-                    "relative additional directory",
-                    peer.new_session("/workspace", additional_directories=["relative"]),
-                    RequestError.invalid_params(),
-                )
-                await rejected(
-                    "MCP server configuration",
-                    peer.new_session(
-                        "/workspace", mcp_servers=[McpServerStdio(name="unused", command="unused", args=[], env=[])]
-                    ),
-                    RequestError.invalid_params(),
-                )
-                session = await peer.new_session("C:\\workspace", additional_directories=["/shared"])
-                await rejected("session capacity", peer.new_session("/overflow"), RequestError.invalid_request())
-                await rejected("unknown session", peer.prompt("unknown", []), RequestError.invalid_params())
-                await rejected(
-                    "unsupported image",
-                    peer.prompt(
-                        session.session_id, [ImageContentBlock(type="image", data="AA==", mime_type="image/png")]
-                    ),
-                    RequestError.invalid_params(),
-                )
-                await rejected(
-                    "unsupported load",
-                    peer.load_session("/workspace", session.session_id),
-                    RequestError.method_not_found(""),
-                )
-                await rejected("unsupported list", peer.list_sessions(), RequestError.method_not_found(""))
-                await rejected(
-                    "unsupported mode",
-                    peer.set_session_mode(session.session_id, "unknown"),
-                    RequestError.method_not_found(""),
-                )
-                await rejected(
-                    "unsupported authentication", peer.authenticate("unknown"), RequestError.method_not_found("")
-                )
-                await rejected(
-                    "unsupported extension", peer.ext_method("unknown", {}), RequestError.method_not_found("")
-                )
+            await lifetime.enter_async_context(peer)
+            await exercise_invalid_operations(peer)
     assert errors == snapshot(
         {
             "before initialization": {
@@ -273,17 +271,16 @@ async def test_unknown_or_mutated_permission_choices_are_rejected_against_the_or
     agent = ACPAgent(Runtime(execute))
     client = ACPClient(update, on_permission=permission)
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
+        async with running_agent(agent) as (left, right, lifetime):
             connection: ACPConnection = connect_to_agent(client, left)
-            async with connection:
-                await connection.initialize()
-                session = await connection.new_session("/workspace")
-                for current_choice in ("unknown", "mutation"):
-                    with pytest.raises(RequestError) as error:
-                        await connection.prompt(session.session_id, [TextContentBlock(type="text", text="edit")])
-                    assert error.value.code == RequestError.invalid_params().code
-                    errors[current_choice] = error.value.to_error_obj()
+            await lifetime.enter_async_context(connection)
+            await connection.initialize()
+            session = await connection.new_session("/workspace")
+            for current_choice in ("unknown", "mutation"):
+                with pytest.raises(RequestError) as error:
+                    await connection.prompt(session.session_id, [TextContentBlock(type="text", text="edit")])
+                assert error.value.code == RequestError.invalid_params().code
+                errors[current_choice] = error.value.to_error_obj()
     assert errors == snapshot(
         {
             "unknown": {
@@ -335,20 +332,19 @@ async def test_agents_and_clients_reject_invalid_capacity_and_unguarded_or_reuse
         client.on_connect(agent)
     errors["unguarded client"] = str(client_unguarded.value)
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
-            async with client.connect(left) as connection:
-                await connection.initialize()
-                with pytest.raises(RuntimeError) as agent_reused:
-                    await agent.serve(right)
-                errors["reused agent"] = str(agent_reused.value)
-                with pytest.raises(RuntimeError) as client_reused:
-                    client.connect(left)
-                errors["reused client"] = str(client_reused.value)
-                with pytest.raises(RuntimeError) as client_hook_reused:
-                    client.on_connect(agent)
-                errors["reused client hook"] = str(client_hook_reused.value)
-                assert (await connection.new_session("/workspace")).session_id
+        async with running_agent(agent) as (left, right, lifetime):
+            connection = await lifetime.enter_async_context(client.connect(left))
+            await connection.initialize()
+            with pytest.raises(RuntimeError) as agent_reused:
+                await agent.serve(right)
+            errors["reused agent"] = str(agent_reused.value)
+            with pytest.raises(RuntimeError) as client_reused:
+                client.connect(left)
+            errors["reused client"] = str(client_reused.value)
+            with pytest.raises(RuntimeError) as client_hook_reused:
+                client.on_connect(agent)
+            errors["reused client hook"] = str(client_hook_reused.value)
+            assert (await connection.new_session("/workspace")).session_id
     assert errors == snapshot(
         {
             "invalid capacity": "max_sessions must be positive",
@@ -402,34 +398,33 @@ async def test_disconnected_and_overlapping_prompts_fail_without_disturbing_the_
     )
     agent = ACPAgent(Runtime(execute))
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
+        async with running_agent(agent) as (left, _right, lifetime):
             peer = (
                 connect_official_peer(IdlePeer(), left)
                 if peer_kind == "official"
                 else connect_to_agent(ACPClient(update), left)
             )
-            async with peer:
-                await peer.initialize(protocol_version=PROTOCOL_VERSION)
-                live = await peer.new_session("/workspace")
+            await lifetime.enter_async_context(peer)
+            await peer.initialize(protocol_version=PROTOCOL_VERSION)
+            live = await peer.new_session("/workspace")
 
-                async def active_prompt() -> None:
-                    await rejected(
-                        "active turn finished",
-                        peer.prompt(live.session_id, [TextContentBlock(type="text", text="active")]),
-                        RequestError.invalid_request(),
-                    )
+            async def active_prompt() -> None:
+                await rejected(
+                    "active turn finished",
+                    peer.prompt(live.session_id, [TextContentBlock(type="text", text="active")]),
+                    RequestError.invalid_request(),
+                )
 
-                async with anyio.create_task_group() as prompts:
-                    prompts.start_soon(active_prompt)
-                    await started.wait()
-                    await peer.cancel("unknown")
-                    await rejected(
-                        "overlapping prompt",
-                        peer.prompt(live.session_id, [TextContentBlock(type="text", text="overlap")]),
-                        RequestError.invalid_request(),
-                    )
-                    release.set()
+            prompts = await lifetime.enter_async_context(anyio.create_task_group())
+            prompts.start_soon(active_prompt)
+            await started.wait()
+            await peer.cancel("unknown")
+            await rejected(
+                "overlapping prompt",
+                peer.prompt(live.session_id, [TextContentBlock(type="text", text="overlap")]),
+                RequestError.invalid_request(),
+            )
+            release.set()
     assert errors == snapshot(
         {
             "disconnected prompt": {
@@ -476,33 +471,30 @@ async def test_missing_permission_policy_cancels_and_duplicate_options_fail_befo
 
     agent, client = ACPAgent(Runtime(execute)), ACPClient(update)
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
-            async with connect_to_agent(client, left) as connection:
-                await connection.initialize()
-                session = await connection.new_session("/workspace")
-                await connection.prompt(session.session_id, [TextContentBlock(type="text", text="missing policy")])
-                client.on_permission = permission
-                with pytest.raises(RequestError) as error:
-                    await connection.prompt(
-                        session.session_id, [TextContentBlock(type="text", text="duplicate options")]
-                    )
-                assert error.value.code == RequestError.invalid_params().code
-                assert error.value.to_error_obj() == snapshot(
-                    {
-                        "code": -32602,
-                        "message": "Invalid params",
-                        "data": {"reason": "Permission option identifiers must be unique"},
-                    }
-                )
-                assert len(updates) == 1
-                assert updates[0].session_id == session.session_id
-                assert updates[0].update.model_dump(mode="json", by_alias=True, exclude_none=True) == snapshot(
-                    {"content": {"text": "False", "type": "text"}, "sessionUpdate": "agent_message_chunk"}
-                )
-                assert [message["result"] for message in left.sent if "result" in message] == snapshot(
-                    [{"outcome": {"outcome": "cancelled"}}]
-                )
+        async with running_agent(agent) as (left, _right, lifetime):
+            connection = await lifetime.enter_async_context(connect_to_agent(client, left))
+            await connection.initialize()
+            session = await connection.new_session("/workspace")
+            await connection.prompt(session.session_id, [TextContentBlock(type="text", text="missing policy")])
+            client.on_permission = permission
+            with pytest.raises(RequestError) as error:
+                await connection.prompt(session.session_id, [TextContentBlock(type="text", text="duplicate options")])
+            assert error.value.code == RequestError.invalid_params().code
+            assert error.value.to_error_obj() == snapshot(
+                {
+                    "code": -32602,
+                    "message": "Invalid params",
+                    "data": {"reason": "Permission option identifiers must be unique"},
+                }
+            )
+            assert len(updates) == 1
+            assert updates[0].session_id == session.session_id
+            assert updates[0].update.model_dump(mode="json", by_alias=True, exclude_none=True) == snapshot(
+                {"content": {"text": "False", "type": "text"}, "sessionUpdate": "agent_message_chunk"}
+            )
+            assert [message["result"] for message in left.sent if "result" in message] == snapshot(
+                [{"outcome": {"outcome": "cancelled"}}]
+            )
 
 
 @pytest.mark.anyio
@@ -548,26 +540,27 @@ async def test_permission_approval_during_cancellation_send_is_returned_as_cance
 
     agent = ACPAgent(Runtime(execute))
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
+        async with running_agent(agent) as (left, _right, lifetime):
             outgoing = DrainingEndpoint(left.outgoing, left.incoming)
-            group.start_soon(run_agent, agent, right)
-            async with connect_to_agent(ACPClient(update, on_permission=permission), outgoing) as connection:
-                await connection.initialize()
-                session = await connection.new_session("/workspace")
+            connection = await lifetime.enter_async_context(
+                connect_to_agent(ACPClient(update, on_permission=permission), outgoing)
+            )
+            await connection.initialize()
+            session = await connection.new_session("/workspace")
 
-                async def prompt() -> None:
-                    result = await connection.prompt(session.session_id, [TextContentBlock(type="text", text="work")])
-                    assert result.stop_reason == "cancelled"
-                    prompt_finished.set()
+            async def prompt() -> None:
+                result = await connection.prompt(session.session_id, [TextContentBlock(type="text", text="work")])
+                assert result.stop_reason == "cancelled"
+                prompt_finished.set()
 
-                async with anyio.create_task_group() as prompts:
-                    prompts.start_soon(prompt)
-                    await permission_started.wait()
-                    await connection.cancel(session.session_id)
-                    await prompt_finished.wait()
-                assert [message["result"] for message in outgoing.sent if "result" in message] == snapshot(
-                    [{"outcome": {"outcome": "cancelled"}}]
-                )
+            prompts = await lifetime.enter_async_context(anyio.create_task_group())
+            prompts.start_soon(prompt)
+            await permission_started.wait()
+            await connection.cancel(session.session_id)
+            await prompt_finished.wait()
+            assert [message["result"] for message in outgoing.sent if "result" in message] == snapshot(
+                [{"outcome": {"outcome": "cancelled"}}]
+            )
 
 
 @pytest.mark.anyio
@@ -613,29 +606,30 @@ async def test_settling_one_permission_retains_other_requests_for_session_cancel
 
     agent = ACPAgent(Runtime(execute))
     with anyio.fail_after(5):
-        async with transports() as (left, right), anyio.create_task_group() as group:
-            group.start_soon(run_agent, agent, right)
-            async with connect_to_agent(ACPClient(update, on_permission=permission), left) as connection:
-                await connection.initialize()
-                session = await connection.new_session("/workspace")
+        async with running_agent(agent) as (left, _right, lifetime):
+            connection = await lifetime.enter_async_context(
+                connect_to_agent(ACPClient(update, on_permission=permission), left)
+            )
+            await connection.initialize()
+            session = await connection.new_session("/workspace")
 
-                async def prompt() -> None:
-                    result = await connection.prompt(
-                        session.session_id, [TextContentBlock(type="text", text="parallel permissions")]
-                    )
-                    assert result.stop_reason == "cancelled"
-                    prompt_finished.set()
-
-                async with anyio.create_task_group() as prompts:
-                    prompts.start_soon(prompt)
-                    await first_started.wait()
-                    await second_started.wait()
-                    release_first.set()
-                    await first_completed.wait()
-                    assert not second_finished.is_set()
-                    await connection.cancel(session.session_id)
-                    await prompt_finished.wait()
-                    await second_finished.wait()
-                assert [message["result"] for message in left.sent if "result" in message] == snapshot(
-                    [{"outcome": {"optionId": "allow", "outcome": "selected"}}, {"outcome": {"outcome": "cancelled"}}]
+            async def prompt() -> None:
+                result = await connection.prompt(
+                    session.session_id, [TextContentBlock(type="text", text="parallel permissions")]
                 )
+                assert result.stop_reason == "cancelled"
+                prompt_finished.set()
+
+            prompts = await lifetime.enter_async_context(anyio.create_task_group())
+            prompts.start_soon(prompt)
+            await first_started.wait()
+            await second_started.wait()
+            release_first.set()
+            await first_completed.wait()
+            assert not second_finished.is_set()
+            await connection.cancel(session.session_id)
+            await prompt_finished.wait()
+            await second_finished.wait()
+            assert [message["result"] for message in left.sent if "result" in message] == snapshot(
+                [{"outcome": {"optionId": "allow", "outcome": "selected"}}, {"outcome": {"outcome": "cancelled"}}]
+            )

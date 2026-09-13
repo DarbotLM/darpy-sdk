@@ -17,12 +17,11 @@ discarded - server-initiated notifications are inherently advisory.
 is the only spec-sanctioned standalone request.
 """
 
-from __future__ import annotations
-
 import logging
 from collections.abc import Mapping
 from contextlib import AsyncExitStack
 from typing import Any, Final, TypeVar, get_args, overload
+from warnings import deprecated
 
 import anyio
 from darpy_sdk_types import (
@@ -44,7 +43,6 @@ from darpy_sdk_types import (
 from darpy_sdk_types import methods as _methods
 from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, MODERN_PROTOCOL_VERSIONS
 from pydantic import BaseModel, ValidationError
-from typing_extensions import deprecated
 
 from darpy_sdk.shared.dispatcher import CallOptions, Outbound
 from darpy_sdk.shared.exceptions import MCPDeprecationWarning, NoBackChannelError
@@ -107,7 +105,7 @@ _RESULT_FOR: dict[type[Request[Any, Any]], type[BaseModel]] = {
 _ModelT = TypeVar("_ModelT", bound=BaseModel)
 
 
-def _typed(model: type[_ModelT], raw: Any) -> _ModelT | None:
+def _typed[ModelT: BaseModel](model: type[ModelT], raw: Any) -> ModelT | None:
     """Validate a raw envelope value into a typed model.
 
     A missing, null or mis-shaped value falls through to `ValidationError`
@@ -406,7 +404,7 @@ class Connection:
         """
         try:
             await self.outbound.notify(method, params, opts)
-        except (anyio.BrokenResourceError, anyio.ClosedResourceError):
+        except anyio.BrokenResourceError, anyio.ClosedResourceError:
             logger.debug("dropped %s: standalone stream closed", method)
 
     async def ping(self, *, meta: Meta | None = None, opts: CallOptions | None = None) -> None:

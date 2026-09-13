@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Generic, Literal, Protocol, TypeVar
+from typing import Any, Literal, Protocol, TypeVar
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 from pydantic import AnyUrl, BaseModel
@@ -143,7 +143,11 @@ RefreshTokenT = TypeVar("RefreshTokenT", bound=RefreshToken)
 AccessTokenT = TypeVar("AccessTokenT", bound=AccessToken)
 
 
-class OAuthAuthorizationServerProvider(Protocol, Generic[AuthorizationCodeT, RefreshTokenT, AccessTokenT]):
+class OAuthAuthorizationServerProvider[
+    AuthorizationCodeT: AuthorizationCode,
+    RefreshTokenT: RefreshToken,
+    AccessTokenT: AccessToken,
+](Protocol):
     async def get_client(self, client_id: str) -> OAuthClientInformationFull | None:
         """Retrieves client information by client ID.
 
@@ -372,7 +376,7 @@ class ProviderTokenVerifier(TokenVerifier):
     the TokenVerifier protocol with a dedicated implementation like IntrospectionTokenVerifier.
     """
 
-    def __init__(self, provider: "OAuthAuthorizationServerProvider[AuthorizationCode, RefreshToken, AccessToken]"):
+    def __init__(self, provider: OAuthAuthorizationServerProvider[AuthorizationCode, RefreshToken, AccessToken]):
         self.provider = provider
 
     async def verify_token(self, token: str) -> AccessToken | None:

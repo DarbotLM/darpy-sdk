@@ -35,7 +35,7 @@ def _assert_no_memory_stream_leak() -> Iterator[None]:
     leaked: list[str] = []
     old_hook = sys.unraisablehook
 
-    def hook(args: "sys.UnraisableHookArgs") -> None:  # pragma: no cover
+    def hook(args: sys.UnraisableHookArgs) -> None:  # pragma: no cover
         # Only executes if a leak occurs (i.e. the bug is present).
         # args.object is the __del__ function (not the stream instance) when
         # unraisablehook fires from a finalizer, so check exc_value — the

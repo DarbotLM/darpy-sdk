@@ -5,9 +5,9 @@ tests. Server fixtures and assertion helpers belong in the test that uses them.
 """
 
 from types import TracebackType
+from typing import Self
 
 import anyio
-from typing_extensions import Self
 
 from darpy_sdk.client._transport import ReadStream, Transport, TransportStreams, WriteStream
 from darpy_sdk.shared.message import SessionMessage

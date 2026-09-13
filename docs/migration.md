@@ -2250,9 +2250,11 @@ stdio pipes closing rather than on process exit, so a child holding an inherited
 pipe made a well-behaved server look hung: shutdown stalled for the full grace
 period, then attempted a tree-kill that in practice failed against the
 already-exited server (its process group could no longer be looked up) and logged
-a warning, leaving the children alive anyway. (That gating is an asyncio behavior
-specific to Python 3.11+; on Python 3.10 and the trio backend the old wait already
-resolved on process exit, so the spurious stall never happened there.) A server that does not exit within the grace
+a warning, leaving the children alive anyway. On the Python 3.14.7 runtime used
+for current validation, asyncio process waiters wake on process exit, as Trio's
+do; transport pipe closure remains a separate lifecycle step. The SDK polls the
+process return code and closes its streams separately, so inherited pipes do not
+control its shutdown grace period. A server that does not exit within the grace
 period is still terminated
 along with its entire process group. On Windows, children stay in the server's Job
 Object and are still killed at shutdown — now deterministically when the job handle

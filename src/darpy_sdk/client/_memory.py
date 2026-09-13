@@ -70,26 +70,12 @@ class InMemoryTransport:
                 try:
                     yield client_read, client_write
                 finally:
-                    # EOF the server (and our own read side) instead of
-                    # cancelling outright. The dispatcher's run() cancels its
-                    # own in-flight handlers on read-stream EOF, so for a
-                    # well-behaved server the task exits naturally and the
-                    # task-group join below is immediate. Cancelling here
-                    # unconditionally would `coro.throw()` into this task,
-                    # which on CPython 3.11 (gh-106749) drops `'call'` trace
-                    # events for the outer await chain and desyncs coverage's
-                    # CTracer past the test frame.
+                    # Signal EOF so the dispatcher cancels its in-flight handlers and
+                    # the server can run its own teardown before the task-group join.
                     await client_write.aclose()
                     await server_write.aclose()
-                    # Backstop: the dispatcher exits on EOF, but the server's
-                    # own teardown (lifespan __aexit__, connection.exit_stack
-                    # callbacks) runs after that and is user code. If it never
-                    # completes the join would hang forever, so bound the wait
-                    # and fall back to cancelling. The healthy path returns
-                    # from wait() without the timeout firing, so the cancel is
-                    # never reached and gh-106749 stays avoided. If the cancel
-                    # does fire, the checkpoint at the end of
-                    # `create_client_server_memory_streams` resyncs the tracer.
+                    # User lifespan and connection callbacks can stall after EOF;
+                    # bound that graceful shutdown before cancelling the server.
                     with anyio.move_on_after(SERVER_SHUTDOWN_GRACE):
                         await server_done.wait()
                     if not server_done.is_set():

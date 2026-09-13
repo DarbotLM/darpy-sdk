@@ -16,7 +16,7 @@ class StaticBearerAuth(httpx2.Auth):
     def __init__(self, token: str) -> None:
         self.token = token
 
-    def auth_flow(self, request: httpx2.Request) -> Generator[httpx2.Request, httpx2.Response, None]:
+    def auth_flow(self, request: httpx2.Request) -> Generator[httpx2.Request, httpx2.Response]:
         request.headers["Authorization"] = f"Bearer {self.token}"
         yield request
 

@@ -7,7 +7,7 @@ import sys
 import weakref
 from contextlib import suppress
 from pathlib import Path
-from typing import BinaryIO, TextIO, TypeAlias, cast
+from typing import BinaryIO, TextIO, cast
 
 import anyio
 from anyio.abc import Process
@@ -58,7 +58,7 @@ _EXIT_POLL_INTERVAL = 0.01
 # Values stay pywin32 PyHANDLEs: if no pop site ever runs, the dying weak entry
 # drops the last reference and the PyHANDLE destructor closes the handle, which
 # is what makes KILL_ON_JOB_CLOSE reap an abandoned tree.
-_process_jobs: "weakref.WeakKeyDictionary[Process | FallbackProcess, object]" = weakref.WeakKeyDictionary()
+_process_jobs: weakref.WeakKeyDictionary[Process | FallbackProcess, object] = weakref.WeakKeyDictionary()
 
 
 def get_windows_executable_command(command: str) -> str:
@@ -130,7 +130,7 @@ class FallbackProcess:
 
 # The process handle stdio_client drives: anyio's Process, or the Popen-backed
 # fallback used on Windows event loops without async subprocess support.
-ServerProcess: TypeAlias = Process | FallbackProcess
+ServerProcess = Process | FallbackProcess
 
 
 async def create_windows_process(

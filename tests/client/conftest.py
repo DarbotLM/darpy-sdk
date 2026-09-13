@@ -74,7 +74,7 @@ class StreamSpyCollection:
 
 
 @pytest.fixture
-def stream_spy() -> Generator[Callable[[], StreamSpyCollection], None, None]:
+def stream_spy() -> Generator[Callable[[], StreamSpyCollection]]:
     """Fixture that provides spies for both client and server write streams.
 
     Example:

@@ -4,13 +4,10 @@ Regenerate with `scripts/gen_surface_types.py` from `schema/2026-07-28.json`
 (sha256 `6293cdfe015c14bd36eda4b1331ce37bda377609e58ed6d09d16f28e7d3c7ad4`)."""
 # pyright: reportIncompatibleVariableOverride=false, reportGeneralTypeIssues=false
 
-from __future__ import annotations
-
-from typing import Annotated, Any, Literal, Union
+from typing import Annotated, Any, Literal
 
 from darpy_sdk_types._wire_base import WireModel
 from pydantic import ConfigDict, Field
-from typing_extensions import TypeAliasType
 
 
 class BaseMetadata(WireModel):
@@ -415,10 +412,7 @@ class JSONRPCNotification(WireModel):
     params: dict[str, Any] | None = None
 
 
-JSONValue = TypeAliasType(
-    "JSONValue",
-    Union[dict[str, "JSONValue"], list["JSONValue"], str | int | float | bool | None],
-)
+type JSONValue = dict[str, JSONValue] | list[JSONValue] | str | int | float | bool | None
 
 
 class LegacyTitledEnumSchema(WireModel):

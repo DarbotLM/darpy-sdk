@@ -63,7 +63,7 @@ def _module_runner_lease() -> None:
 class _FakeStdin:
     """The fake process's stdin: records what the client writes, signals closure."""
 
-    def __init__(self, process: "FakeProcess") -> None:
+    def __init__(self, process: FakeProcess) -> None:
         self._process = process
 
     async def send(self, data: bytes) -> None:
@@ -457,10 +457,7 @@ async def test_cancelling_the_client_still_runs_the_full_shutdown(monkeypatch: p
     process = FakeProcess()
     terminated = install_fake_process(monkeypatch, process, grace_period=0.05)
     entered = anyio.Event()
-    # Cancel a scope owned by the client's task, not the test's task group: a host
-    # self-cancel is delivered by throwing through this test function's suspended
-    # frames, and Python 3.11's tracer loses coverage events after such a throw()
-    # traversal (python/cpython#106749).
+    # Keep cancellation scoped to the client task so the test can observe shutdown.
     cancel_scope = anyio.CancelScope()
 
     async def run_client_until_cancelled() -> None:
@@ -589,10 +586,7 @@ async def test_cancellation_during_spawn_leaks_no_streams(monkeypatch: pytest.Mo
 
     monkeypatch.setattr(stdio, "_create_platform_compatible_process", hanging_spawn)
 
-    # Cancel a scope owned by the client's task, not the test's task group: a host
-    # self-cancel is delivered by throwing through this test function's suspended
-    # frames, and Python 3.11's tracer loses coverage events after such a throw()
-    # traversal (python/cpython#106749).
+    # Keep cancellation scoped to the client task so the test can observe shutdown.
     cancel_scope = anyio.CancelScope()
 
     async def run_client() -> None:

@@ -5,7 +5,7 @@ translation:
 ---
 # Installation {#installation}
 
-Le SDK Python est disponible sur PyPI sous le nom [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Il nécessite **Python 3.10+**.
+Le SDK Python est disponible sur PyPI sous le nom [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Il nécessite **Python 3.14+**.
 
 Cette documentation décrit la **v2**, la ligne de versions stable actuelle :
 
@@ -38,7 +38,7 @@ Vous n’avez pas besoin de connaître tout cela pour utiliser le SDK, mais si v
 * [`jsonschema`](https://pypi.org/project/jsonschema/) : valide la sortie structurée d’un outil par rapport au schéma de sortie qu’il déclare.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/) : gestion des jetons OAuth pour l’autorisation.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/) : l’API légère uniquement, de sorte que le middleware de traçage du SDK ne coûte rien tant que vous n’installez pas vous-même un SDK OpenTelemetry et un exporteur.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) et [`typing-inspection`](https://pypi.org/project/typing-inspection/) : les fonctionnalités de typage modernes sous Python 3.10.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) et [`typing-inspection`](https://pypi.org/project/typing-inspection/) : les fonctionnalités de typage modernes sous Python 3.14.
 * [`pywin32`](https://pypi.org/project/pywin32/) : Windows uniquement, utilisé pour la gestion des sous-processus `stdio`.
 
 ## Extras optionnels {#optional-extras}

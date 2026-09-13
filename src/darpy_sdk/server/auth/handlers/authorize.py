@@ -107,7 +107,7 @@ class AuthorizationHandler:
                             best_effort_extract_string("redirect_uri", params)
                         )
                     redirect_uri = client.validate_redirect_uri(raw_redirect_uri)
-                except (ValidationError, InvalidRedirectUriError):
+                except ValidationError, InvalidRedirectUriError:
                     # if the redirect URI is invalid, ignore it & just return the
                     # initial error
                     pass

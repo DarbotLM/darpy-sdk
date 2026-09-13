@@ -2,7 +2,7 @@
 
 import json
 from collections.abc import AsyncIterator, Awaitable, Callable, Mapping, Sequence
-from contextlib import asynccontextmanager
+from contextlib import AsyncExitStack, asynccontextmanager
 from dataclasses import dataclass
 from importlib.metadata import version
 from pathlib import Path, PurePosixPath, PureWindowsPath
@@ -46,6 +46,7 @@ from darpy_sdk.protocols._acp_compat import (
     MessageTransport,
     MetadataTransport,
     StdioTransport,
+    close_process_transport,
     decode_meta,
     encode_meta,
 )
@@ -283,7 +284,7 @@ class ACPClient(Client):
         self._guarded = False
         self._connected = False
 
-    def connect(self, transport: MessageTransport) -> "ACPConnection":
+    def connect(self, transport: MessageTransport) -> ACPConnection:
         """Bind this client to one guarded connection.
 
         Raises:
@@ -435,7 +436,7 @@ class ACPConnection:
         """Close the connection and its owned transport."""
         await self._connection.close()
 
-    async def __aenter__(self) -> "ACPConnection":
+    async def __aenter__(self) -> ACPConnection:
         return self
 
     async def __aexit__(self, *args: object) -> None:
@@ -466,8 +467,32 @@ async def spawn_agent_process(
     cwd: str | Path | None = None,
     env: Mapping[str, str] | None = None,
 ) -> AsyncIterator[ACPConnection]:
-    """Launch an ACP subprocess using official lifecycle/framing and guarded metadata."""
-    async with spawn_stdio_transport(command, *args, cwd=cwd, env=env, stderr=None, limit=_BUFFER_LIMIT) as streams:
-        reader, writer, _ = streams
-        async with connect_to_agent(client, StdioTransport(reader, writer)) as connection:
-            yield connection
+    """Launch an ACP subprocess with bounded cleanup of its direct child.
+
+    Cleanup shields cancellation, allows two seconds for graceful closure, then
+    closes the pipes and forces the child to exit. Descendants are not managed.
+
+    Raises:
+        TimeoutError: The direct child could not be reaped within two seconds after forced closure.
+    """
+    stack = AsyncExitStack()
+    streams = await stack.enter_async_context(
+        spawn_stdio_transport(command, *args, cwd=cwd, env=env, stderr=None, limit=_BUFFER_LIMIT)
+    )
+    reader, writer, process = streams
+    try:
+        transport = StdioTransport(reader, writer)
+        stack.push_async_callback(transport.close)
+        connection = await stack.enter_async_context(connect_to_agent(client, transport))
+        yield connection
+    finally:
+        # ACP's asyncio cleanup otherwise inherits AnyIO's repeated cancellation.
+        with anyio.CancelScope(shield=True):
+            with anyio.move_on_after(2) as graceful:
+                await stack.aclose()
+            if graceful.cancelled_caught:
+                if writer.transport.get_write_buffer_size():
+                    writer.transport.abort()
+                close_process_transport(process)
+                with anyio.fail_after(2):
+                    await process.wait()

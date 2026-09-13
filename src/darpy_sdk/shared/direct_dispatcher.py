@@ -27,7 +27,6 @@ import anyio.abc
 from darpy_sdk_types import CONNECTION_CLOSED, INTERNAL_ERROR, INVALID_PARAMS, REQUEST_TIMEOUT, RequestId
 from pydantic import ValidationError
 
-from darpy_sdk.shared._compat import resync_tracer
 from darpy_sdk.shared.dispatcher import (
     CallOptions,
     OnNotify,
@@ -286,8 +285,6 @@ class DirectDispatcher:
                 code=REQUEST_TIMEOUT,
                 message=f"Timed out after {opts.get('timeout')}s waiting for {method!r}",
             ) from None
-        finally:
-            await resync_tracer()
 
     async def _dispatch_notify(self, method: str, params: Mapping[str, Any] | None) -> None:
         try:

@@ -432,8 +432,8 @@ class _ArmDeleteFailingStore:
         raise NotImplementedError
 
 
-# The lax pragmas here and in the wedged-store tests: 3.11's settrace-based coverage loses
-# tracing in frames resumed after the coordinator's bounded-shield cleanup cancellation.
+# The lax pragmas mark cancellation-resume tracing edges in the wedged-store tests:
+# these frames resume after the coordinator's bounded-shield cleanup cancellation.
 class _WedgingDeleteStore:
     """Once `wedged` flips, every `delete` blocks forever (an Event nothing sets),
     modelling a remote store with no socket timeout of its own."""

@@ -657,7 +657,7 @@ class StreamableHTTPServerTransport:
                     # here: anything else scoped to the request has no wire in
                     # JSON-response mode.
                     event_message = await request_stream_reader.receive()
-                except (anyio.EndOfStream, anyio.ClosedResourceError):
+                except anyio.EndOfStream, anyio.ClosedResourceError:
                     # The stream closed with no response: the session was
                     # terminated while this request was in flight.
                     logger.debug(f"Session terminated with request {request_id} in flight; no response to send")
@@ -1024,13 +1024,7 @@ class StreamableHTTPServerTransport:
     @asynccontextmanager
     async def connect(
         self,
-    ) -> AsyncGenerator[
-        tuple[
-            ReadStream[SessionMessage | Exception],
-            WriteStream[SessionMessage],
-        ],
-        None,
-    ]:
+    ) -> AsyncGenerator[tuple[ReadStream[SessionMessage | Exception], WriteStream[SessionMessage]]]:
         """Context manager that provides read and write streams for a connection.
 
         Yields:
@@ -1096,7 +1090,7 @@ class StreamableHTTPServerTransport:
                             try:
                                 # Send both the message and the event ID
                                 await self._request_streams[request_stream_id][0].send(EventMessage(message, event_id))
-                            except (anyio.BrokenResourceError, anyio.ClosedResourceError):  # pragma: no cover
+                            except anyio.BrokenResourceError, anyio.ClosedResourceError:  # pragma: no cover
                                 # Stream might be closed, remove from registry
                                 self._request_streams.pop(request_stream_id, None)
                         else:

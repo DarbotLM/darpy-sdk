@@ -10,18 +10,15 @@ Run as a script it just (re)generates `docs/api/`; imported, `generate`
 also returns the nav so the config builder can consume it.
 """
 
-from __future__ import annotations
-
 import shutil
 from pathlib import Path
-from typing import TypeAlias
 
 import griffe
 
 # A MkDocs/Zensical nav is a list of entries, each either `{title: url}` for a
 # page or `{title: [children]}` for a section (a bare `url` string attaches
 # a section index page, courtesy of the `navigation.indexes` feature).
-NavItem: TypeAlias = "str | dict[str, str | list[NavItem]]"
+type NavItem = str | dict[str, str | list[NavItem]]
 
 ROOT = Path(__file__).parent.parent.parent
 API_DIR = ROOT / "docs" / "api"
