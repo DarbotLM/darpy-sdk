@@ -11,10 +11,10 @@ from typing import Any
 
 from pydantic import Field
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.extension import Extension, MethodBinding, ToolBinding
-from mcp.server.mcpserver import MCPServer, require_client_extension
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.extension import Extension, MethodBinding, ToolBinding
+from darpy_sdk.server.mcpserver import MCPServer, require_client_extension
 from stories._hosting import run_server_from_args
 
 EXTENSION_ID = "com.example/catalog"

@@ -3,8 +3,8 @@ import os
 from cryptography.exceptions import InvalidTag
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import InvalidRequestState, RequestStateSecurity
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import InvalidRequestState, RequestStateSecurity
 
 PREFIX = "kms1."  # format version; fed to GCM as associated data, so it is bound under the tag
 

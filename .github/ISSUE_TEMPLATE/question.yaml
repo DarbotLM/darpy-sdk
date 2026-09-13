@@ -1,11 +1,11 @@
-name: ❓ MCP Python SDK Question
-description: "Ask a question about the MCP Python SDK"
+name: ❓ Darbot Python SDK Question
+description: "Ask a question about the Darbot Python SDK"
 labels: ["question"]
 
 body:
   - type: markdown
     attributes:
-      value: Thank you for reaching out to the MCP Python SDK community! We're here to help! 🤝
+      value: Thank you for reaching out to the Darbot Python SDK community! We're here to help! 🤝
 
   - type: textarea
     id: question
@@ -28,6 +28,6 @@ body:
       label: Additional Context
       description: |
         Please provide any additional context that might help us better understand your question, such as:
-        * Your MCP Python SDK version
+        * Your Darbot Python SDK version
         * Your Python version
         * Relevant configuration or environment details 📝

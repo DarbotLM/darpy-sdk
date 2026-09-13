@@ -5,18 +5,18 @@ from typing import Any, cast
 
 import anyio
 import pytest
+from darpy_sdk_types import INTERNAL_ERROR, ListToolsResult, PaginatedRequestParams, Tool
 from inline_snapshot import snapshot
-from mcp_types import INTERNAL_ERROR, ListToolsResult, PaginatedRequestParams, Tool
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import CacheConfig
+from darpy_sdk.client.caching import InMemoryResponseCacheStore
+from darpy_sdk.server import CacheHint, MCPServer, Server, ServerRequestContext
+from darpy_sdk.server.caching import CacheableMethod
 from docs_src.caching import tutorial001, tutorial002, tutorial003
-from mcp import Client, MCPError
-from mcp.client import CacheConfig
-from mcp.client.caching import InMemoryResponseCacheStore
-from mcp.server import CacheHint, MCPServer, Server, ServerRequestContext
-from mcp.server.caching import CacheableMethod
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_a_mapped_method_carries_the_configured_hint() -> None:

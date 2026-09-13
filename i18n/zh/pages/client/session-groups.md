@@ -29,7 +29,7 @@ translation:
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` 接受的是传输参数，而不是服务器对象：用 `StdioServerParameters`（来自 `mcp`）启动子进程，或用 `StreamableHttpParameters` / `SseServerParameters`（来自 `mcp.client.session_group`）连接已在某个 URL 上监听的服务器。
+* `connect_to_server` 接受的是传输参数，而不是服务器对象：用 `StdioServerParameters`（来自 `mcp`）启动子进程，或用 `StreamableHttpParameters` / `SseServerParameters`（来自 `darpy_sdk.client.session_group`）连接已在某个 URL 上监听的服务器。
 * `group.tools` 是一个 `dict[str, Tool]`，包含所有已连接服务器的工具。`group.resources` 和 `group.prompts` 形式相同。
 * `group.call_tool(name, arguments)` 查找名称，找到拥有它的会话，然后转发调用。不需要指明是哪个服务器。
 
@@ -37,7 +37,7 @@ translation:
     把 `client.py` 放在两个服务器旁边运行。第二次 `connect_to_server` 会被拒绝：
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     这是一个 `MCPError`，在第二个服务器的任何内容注册之前就抛出了。名称必须在**整个**组内唯一，而两个不受你控制的服务器迟早会冲突。

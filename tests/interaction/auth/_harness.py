@@ -20,13 +20,13 @@ import httpx2
 from pydantic import AnyHttpUrl, AnyUrl, BaseModel
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from mcp.client.auth import OAuthClientProvider
-from mcp.client.client import Client
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server
-from mcp.server.auth.provider import AccessToken, ProviderTokenVerifier
-from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
-from mcp.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
+from darpy_sdk.client.auth import OAuthClientProvider
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server
+from darpy_sdk.server.auth.provider import AccessToken, ProviderTokenVerifier
+from darpy_sdk.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
+from darpy_sdk.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
 from tests.interaction._connect import BASE_URL, NO_DNS_REBINDING_PROTECTION
 from tests.interaction.auth._provider import InMemoryAuthorizationServerProvider
 from tests.interaction.transports._bridge import StreamingASGITransport

@@ -14,9 +14,7 @@ import json
 import anyio
 import httpx2
 import pytest
-from httpx2 import EventSource, ServerSentEvent
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequest,
     CallToolRequestParams,
     CallToolResult,
@@ -27,12 +25,14 @@ from mcp_types import (
     TextContent,
     jsonrpc_message_adapter,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
+from httpx2 import EventSource, ServerSentEvent
+from inline_snapshot import snapshot
 
-from mcp.client.session import ClientSession
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.message import ClientMessageMetadata
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.message import ClientMessageMetadata
 from tests.interaction._connect import (
     BASE_URL,
     base_headers,

@@ -2,9 +2,9 @@
 
 from typing import Literal
 
-import mcp.types as types
-from mcp.client import Client, advertise
-from mcp.types import TextContent
+import darpy_sdk.types as types
+from darpy_sdk.client import Client, advertise
+from darpy_sdk.types import TextContent
 from stories._harness import Target, run_client
 
 EXTENSION_ID = "com.example/catalog"

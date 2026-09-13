@@ -19,7 +19,7 @@ Bir şeyi arayıp bulan bir araç düşünün; arama sonuçsuz kalsın:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`mcp.server.mcpserver.exceptions` içindeki `ToolError`, bir aracın modele bir şeylerin ters gittiğini söyleme yoludur.
+`darpy_sdk.server.mcpserver.exceptions` içindeki `ToolError`, bir aracın modele bir şeylerin ters gittiğini söyleme yoludur.
 
 Katalogda olmayan bir başlıkla çağırın ve sonuca bakın:
 
@@ -63,13 +63,13 @@ Sunucuda bir `ToolError`, log'da tek bir `INFO` satırıdır; traceback yoktur. 
 
 * **Sonuç yoktur**. `content` yok, `is_error` yok: modelin okuyacağı hiçbir şey yok.
 * Hatayı bunun yerine **host** uygulama alır; tıpkı araç hiç var olmasaydı alacağı gibi.
-* `code`, `message` ve `data` bozulmadan ulaşır. `INVALID_PARAMS` sabiti `-32602` değerini taşır; `mcp.types` onu ve diğer JSON-RPC hata kodlarını (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) sabit olarak dışa aktarır, böylece hiçbir zaman sihirli bir sayı yazmazsınız.
+* `code`, `message` ve `data` bozulmadan ulaşır. `INVALID_PARAMS` sabiti `-32602` değerini taşır; `darpy_sdk.types` onu ve diğer JSON-RPC hata kodlarını (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) sabit olarak dışa aktarır, böylece hiçbir zaman sihirli bir sayı yazmazsınız.
 
 !!! check
     Aynı arama, aynı sonuçsuzluk; ama bu kez çağrı istemci tarafında döndürmek yerine *fırlatır*:
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     İlk sürüm modele tepki verebileceği bir cümle vermişti. Bu sürüm ona hiçbir şey vermez.
@@ -87,7 +87,7 @@ Kararı tek bir soru verir: **daha akıllı bir model bundan kaçınabilir miydi
 Bu ölçüte göre `get_author`'ın ikinci sürümü yanlış seçim yaptı: daha iyi bir başlık sorunu çözer, yani model mesajı görmeyi hak ediyordu. O sürüm size mekanizmayı göstermek için orada, onu önermek için değil.
 
 !!! info
-    `MCPError`, `from mcp import MCPError` ile içe aktarılır ve `code`, `message` ile isteğe bağlı
+    `MCPError`, `from darpy_sdk import MCPError` ile içe aktarılır ve `code`, `message` ile isteğe bağlı
     bir `data` yükü alır. Bunlara ne koyarsanız istemci onu alır: SDK, fırlatılan bir
     `MCPError`'ı temizlemek yerine olduğu gibi iletir.
 
@@ -155,7 +155,7 @@ Bu, yazmadığınız koca bir `raise` ifadesi sınıfı demektir: kendi tür ipu
 * Diğer **her istisna** bir çökmedir -> model için yalnızca `Error executing tool <name>` içeren `is_error=True`, sizin için ise traceback'li bir `ERROR` kaydı.
 * Bir kaynak işleyicisinden `ResourceNotFoundError` -> protokolün `-32602` kodu, URI `data`'da.
 * Hatalı argümanlar, fonksiyonunuz çalışmadan önce şemaya göre reddedilir; bunlar için `raise` yazmazsınız.
-* İçe aktarmalar: `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError` ve `mcp.types`'tan hata kodu sabitleri.
+* İçe aktarmalar: `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError` ve `darpy_sdk.types`'tan hata kodu sabitleri.
 
 Hatalar halloldu. Bir sunucunun *sunduğu* her şey bu kadar. Her işleyicinin çalışırken neleri okuyabildiği ve istemciye geri neler yapabildiği bir sonraki bölümde: **[İşleyicinin içinde](../handlers/index.md)**.
 

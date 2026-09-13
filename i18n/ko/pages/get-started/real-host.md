@@ -19,7 +19,7 @@ translation:
 
 * 인자 없이 호출한 `mcp.run()`은 **stdio** 서버를 시작합니다. 블로킹 상태로 동작하며, stdin에서 프로토콜 메시지를 읽고 stdout에 씁니다. 이 페이지의 모든 호스트가 사용하는 트랜스포트가 바로 이것입니다. 호스트가 파일을 자식 프로세스로 시작하고 그 두 파이프를 소유하기 때문에, 연결은 언제나 "명령은 이것입니다"로 끝납니다. 포트를 고를 일이 없고, 포트에서 대기하는 것도 없습니다.
 * `run()`은 `if __name__ == "__main__":` 아래에 있습니다. 아래에 나오는 모든 방법은 이 파일을 실행하는 대신 **임포트**하므로, 가드 없이 `run()`을 두면 무엇이든 이 모듈을 로드하는 순간 서버가 시작되어 버립니다.
-* 서버 객체는 `mcp`라는 이름의 모듈 수준 전역 변수입니다. `mcp run`이 찾는 이름이 바로 이것입니다(`server`와 `app`도 동작합니다). 다른 이름을 쓴다면 `mcp run server.py:bookshop`처럼 명시적으로 지정합니다.
+* 서버 객체는 `mcp`라는 이름의 모듈 수준 전역 변수입니다. `darpy-sdk run`이 찾는 이름이 바로 이것입니다(`server`와 `app`도 동작합니다). 다른 이름을 쓴다면 `darpy-sdk run server.py:bookshop`처럼 명시적으로 지정합니다.
 
 이것이 이 페이지의 마지막 Python 코드입니다. 여기서부터는 전부 호스트 설정입니다.
 
@@ -28,17 +28,17 @@ translation:
 아래의 모든 호스트에는 같은 명령을 사용합니다.
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 모든 호스트에 명령 하나로 충분한 이유는 `uv run --with`가 그 자리에서 SDK를 새 환경에 설치해 주기 때문입니다. 어느 디렉터리에서든 동작하며, 프로젝트도 활성화할 가상 환경도 필요 없습니다. 이 점은 다른 어느 곳보다 여기서 중요합니다. 호스트는 셸이 아니라 **호스트 자신의** 작업 디렉터리에서, 거의 비어 있는 환경으로 서버를 실행하기 때문입니다.
 
-이 명령은 `mcp install`이 Claude Desktop 설정에 대신 써 주는 명령이기도 합니다(아래 참고). 따라서 직접 입력하는 내용과 도구가 생성하는 내용은, 도구가 덧붙이는 정확한 버전 고정만 빼면 일치합니다.
+이 명령은 `darpy-sdk install`이 Claude Desktop 설정에 대신 써 주는 명령이기도 합니다(아래 참고). 따라서 직접 입력하는 내용과 도구가 생성하는 내용은, 도구가 덧붙이는 정확한 버전 고정만 빼면 일치합니다.
 
 !!! tip "호스트가 `uv`를 찾지 못할 때"
     호스트는 최소한의 `PATH`로 서버를 실행하므로 `uv`가 그 안에 없을 수 있습니다. 그냥 `uv`라고
     쓴 부분을 `which uv`(macOS/Linux) 또는 `where uv`(Windows)로 얻은 절대 경로로 바꾸세요.
-    `mcp install`이 쓰는 것도 정확히 이것입니다.
+    `darpy-sdk install`이 쓰는 것도 정확히 이것입니다.
 
 !!! note "이 페이지는 로컬 실행을 다룹니다"
     여기 나오는 모든 방법은 호스트가 있는 바로 그 머신에서 서버를 실행합니다. 호스트가 파일을
@@ -58,10 +58,10 @@ uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
 SDK가 대신 설정해 줄 수 있는 유일한 호스트입니다.
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-이게 전부입니다. `mcp install`은 파일을 임포트해 서버 이름을 읽고, Claude Desktop의 설정 파일을 찾아 실행 명령을 써 넣습니다. 그 과정에서 경로를 절대 경로로 바꿔 주므로 직접 할 필요가 없습니다.
+이게 전부입니다. `darpy-sdk install`은 파일을 임포트해 서버 이름을 읽고, Claude Desktop의 설정 파일을 찾아 실행 명령을 써 넣습니다. 그 과정에서 경로를 절대 경로로 바꿔 주므로 직접 할 필요가 없습니다.
 
 감춰진 것은 아무것도 없습니다. 써 넣는 항목은 다음과 같습니다.
 
@@ -74,8 +74,8 @@ uv run mcp install server.py
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -89,17 +89,17 @@ uv run mcp install server.py
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-이 파일은 손으로 직접 써도 됩니다. `mcp install`은 그 과정에서 흔히 하는 실수(상대 경로)를 막기 위해 존재합니다.
+이 파일은 손으로 직접 써도 됩니다. `darpy-sdk install`은 그 과정에서 흔히 하는 실수(상대 경로)를 막기 위해 존재합니다.
 
 Claude Desktop을 창만 닫지 말고 완전히 종료한 뒤 다시 여세요.
 
 !!! warning
-    Claude Desktop의 설정 **디렉터리**가 아직 없으면 `mcp install`은 `Claude app not found` 오류로
+    Claude Desktop의 설정 **디렉터리**가 아직 없으면 `darpy-sdk install`은 `Claude app not found` 오류로
     실패합니다. Claude Desktop을 설치하고 한 번 실행하세요. 디렉터리는 그때 만들어집니다.
 
 !!! tip
     Claude Desktop은 서버를 별도의 프로세스로 시작하므로 셸의 환경 변수는 거기에 없습니다.
-    `uv run mcp install server.py -v API_KEY=abc123` 명령(또는 `-f .env` 옵션)을 사용하면 환경
+    `uv run darpy-sdk install server.py -v API_KEY=abc123` 명령(또는 `-f .env` 옵션)을 사용하면 환경
     변수가 항목의 `env` 필드에 기록됩니다. `--name` 옵션은 항목 이름을 덮어쓰며, 기본값은 서버의
     `name`입니다.
 
@@ -108,7 +108,7 @@ Claude Desktop을 창만 닫지 말고 완전히 종료한 뒤 다시 여세요.
 편집할 파일은 없습니다. `claude` CLI로 서버를 등록하세요. `--` 뒤에 오는 모든 것이 실행 명령입니다.
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Claude Code 세션 안에서 `/mcp`를 실행해 `bookshop`이 연결되어 있고 도구가 나열되는지 확인하세요.
@@ -122,7 +122,7 @@ Claude Code 세션 안에서 `/mcp`를 실행해 `bookshop`이 연결되어 있�
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -140,7 +140,7 @@ Claude Desktop이 쓰는 것과 같은 `mcpServers` 키 아래에, 같은 `comma
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -158,7 +158,7 @@ Cursor의 파일과 다른 점은 두 가지이며, 정확히 그 두 가지뿐�
 호스트 설정을 건드리기 전에 실행 명령을 직접 실행해 보세요.
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 아무것도 출력되지 않고, 명령이 반환되지도 않습니다. 이 침묵이 정상입니다. stdio 서버는 호스트가 stdin으로 먼저 말을 걸기를 기다리고 있습니다(멈추려면 `Ctrl-C`를 누르세요). 트레이스백이 뜨거나 즉시 종료된다면 그것이 진짜 버그이며, 이제 호스트 너머로 추측하는 대신 직접 읽을 수 있습니다.
@@ -176,8 +176,8 @@ Claude Desktop은 서버마다 로그를 남깁니다. `mcp-server-<NAME>.log`�
 ## 요약 {#recap}
 
 * **호스트**(Claude Desktop, IDE)는 MCP 클라이언트를 실행하고, 이 클라이언트가 서버를 자식 프로세스로 띄워 stdio로 통신합니다. 연결한다는 것은 호스트에 실행 명령 하나를 알려 주는 것입니다.
-* 그 명령은 `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`입니다. 활성화할 가상 환경이 필요 없고, 어느 디렉터리에서든 동작합니다.
-* **Claude Desktop**은 `mcp install`이 대신 설정해 주는 유일한 호스트입니다. 바로 그 명령에 `uv`의 절대 경로, `--frozen`, 설치된 버전을 정확히 지정하는 버전 고정을 더해 `claude_desktop_config.json`에 써 주므로 직접 쓸 일이 전혀 없습니다.
+* 그 명령은 `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`입니다. 활성화할 가상 환경이 필요 없고, 어느 디렉터리에서든 동작합니다.
+* **Claude Desktop**은 `darpy-sdk install`이 대신 설정해 주는 유일한 호스트입니다. 바로 그 명령에 `uv`의 절대 경로, `--frozen`, 설치된 버전을 정확히 지정하는 버전 고정을 더해 `claude_desktop_config.json`에 써 주므로 직접 쓸 일이 전혀 없습니다.
 * **Claude Code**는 `claude mcp add bookshop -- <launch command>`입니다. **Cursor**는 `.cursor/mcp.json`의 `mcpServers` 아래입니다. **VS Code**는 `.vscode/mcp.json`의 `servers` 아래이며, 각 항목에 `type`을 둡니다.
 * 어디서나 절대 경로를 쓰고, 설정을 수정한 뒤에는 호스트를 다시 시작하며, SDK 외에는 무엇도 stdout에 쓰지 못하게 하세요.
 

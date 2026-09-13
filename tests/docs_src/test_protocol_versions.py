@@ -8,13 +8,13 @@ against that server object, so each `mode=` is exercised without a port.
 import re
 
 import pytest
-from mcp_types import SERVER_INFO_META_KEY, DiscoverResult, Implementation, ServerCapabilities
+from darpy_sdk_types import SERVER_INFO_META_KEY, DiscoverResult, Implementation, ServerCapabilities
 
+from darpy_sdk import Client
 from docs_src.client import tutorial001 as bookshop
-from mcp import Client
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_auto_lands_on_the_modern_version() -> None:

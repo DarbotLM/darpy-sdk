@@ -1,5 +1,5 @@
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.subscriptions import SubscriptionBus
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.subscriptions import SubscriptionBus
 
 NOTES = {"todo": "buy milk"}
 

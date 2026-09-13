@@ -8,10 +8,10 @@ Start the server using either stdio (default) or Streamable HTTP transport:
 
 ```bash
 # Using stdio transport (default)
-uv run mcp-simple-prompt
+uv run darpy-sdk-simple-prompt
 
 # Using Streamable HTTP transport on custom port
-uv run mcp-simple-prompt --transport streamable-http --port 8000
+uv run darpy-sdk-simple-prompt --transport streamable-http --port 8000
 ```
 
 The server exposes a prompt named "simple" that accepts two optional arguments:
@@ -25,13 +25,13 @@ Using the MCP client, you can retrieve the prompt like this using the STDIO tran
 
 ```python
 import asyncio
-from mcp.client.session import ClientSession
-from mcp.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
 
 
 async def main():
     async with stdio_client(
-        StdioServerParameters(command="uv", args=["run", "mcp-simple-prompt"])
+        StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-prompt"])
     ) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()

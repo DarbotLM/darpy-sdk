@@ -19,7 +19,7 @@ translation:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`ToolError` 來自 `mcp.server.mcpserver.exceptions`，是工具告訴模型出了問題的方式。
+`ToolError` 來自 `darpy_sdk.server.mcpserver.exceptions`，是工具告訴模型出了問題的方式。
 
 用一個不在目錄裡的書名呼叫它，看看結果：
 
@@ -61,13 +61,13 @@ result.structured_content  # None
 
 * **沒有結果**。沒有 `content`，沒有 `is_error`：模型沒有東西可讀。
 * 錯誤改由**主機（host）**應用程式收到，跟工具根本不存在時一模一樣。
-* `code`、`message` 和 `data` 原封不動地送達。`INVALID_PARAMS` 是 `-32602`；`mcp.types` 把它和其他 JSON-RPC 錯誤碼（`INVALID_REQUEST`、`INTERNAL_ERROR`……）都匯出成常數，所以永遠不用手打魔術數字。
+* `code`、`message` 和 `data` 原封不動地送達。`INVALID_PARAMS` 是 `-32602`；`darpy_sdk.types` 把它和其他 JSON-RPC 錯誤碼（`INVALID_REQUEST`、`INTERNAL_ERROR`……）都匯出成常數，所以永遠不用手打魔術數字。
 
 !!! check
     同樣的查詢、同樣落空，但現在呼叫在用戶端**引發**例外，而不是回傳：
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     第一個版本交給模型一句它能回應的話。這個版本什麼都沒給。對 `get_author` 來說這絕對更糟，而這正是下一節的重點。
@@ -84,7 +84,7 @@ result.structured_content  # None
 照這個標準，第二版的 `get_author` 選錯了：換個更好的書名就能解決，所以模型理應看到訊息。放在那裡是為了示範機制，不是建議這麼做。
 
 !!! info
-    `MCPError` 位於 `from mcp import MCPError`，接受 `code`、`message` 和選用的 `data` 承載。放進去什麼，用戶端就收到什麼：SDK 會把引發的 `MCPError` 原封不動地轉送，不會加以清理。
+    `MCPError` 位於 `from darpy_sdk import MCPError`，接受 `code`、`message` 和選用的 `data` 承載。放進去什麼，用戶端就收到什麼：SDK 會把引發的 `MCPError` 原封不動地轉送，不會加以清理。
 
 ## 其他任何例外 {#any-other-exception}
 
@@ -146,7 +146,7 @@ result.content   # [TextContent(text="Error executing tool get_author")]
 * 任何**其他例外**都是崩潰 -> `is_error=True`，模型只看到 `Error executing tool <name>`，而你得到一筆附上 traceback 的 `ERROR` 記錄。
 * 資源處理函式引發的 `ResourceNotFoundError` -> 協定的 `-32602`，URI 在 `data` 裡。
 * 錯誤的引數會在函式執行前依 schema 被拒絕；這些不用 `raise`。
-* 匯入：`from mcp import MCPError`、`from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`，以及來自 `mcp.types` 的錯誤碼常數。
+* 匯入：`from darpy_sdk import MCPError`、`from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`，以及來自 `darpy_sdk.types` 的錯誤碼常數。
 
 錯誤處理完畢。這就是伺服器**公開**的全部內容。每個處理函式在執行時能讀到什麼、又能反過來對用戶端做什麼，是下一節的主題：**[在處理函式內部](../handlers/index.md)**。
 

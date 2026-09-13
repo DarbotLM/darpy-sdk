@@ -34,7 +34,7 @@ Zwei Dinge fallen auf:
 * `structured_content` ist `None`. Ein `Image` ist Inhalt, den das Modell anschaut, keine Daten, die die Anwendung parst: Es gibt kein Output-Schema. (Vergleiche **[Strukturierte Ausgabe](structured-output.md)**, wo die Rückgabeannotation das Schema *ist*.)
 
 !!! info
-    `ImageContent` und `AudioContent` liegen in `mcp.types`, direkt neben dem `TextContent`,
+    `ImageContent` und `AudioContent` liegen in `darpy_sdk.types`, direkt neben dem `TextContent`,
     zu dem ein einfaches `str`-Ergebnis wird (**[Tools](tools.md)**). Ein Tool-Ergebnis ist eine Liste von Content-Blöcken; `Image` und `Audio` sind
     der kürzeste Weg, die beiden binären Arten zu erzeugen.
 
@@ -43,7 +43,7 @@ Zwei Dinge fallen auf:
 Lege ein beliebiges PNG neben `server.py`, nenne es `logo.png` und starte:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Öffne den Tab **Tools** und rufe `logo` auf. Das Ergebnis ist kein String: Es ist ein Content-Block vom Typ `image`, und der Inspector rendert dein Bild. Alles zwischen der Datei auf der Platte und den Pixeln auf dem Bildschirm hat das SDK erledigt.
@@ -95,7 +95,7 @@ Ein Tool kann auch ein Dokument zurückgeben: etwas Text oder Bytes zusammen mit
 ```
 
 * `brand://guidelines` ist eine gewöhnliche Ressource (die behandelt **[Ressourcen](resources.md)**). Das Tool reicht dem Modell auf Anfrage dasselbe Dokument, und weil es `guidelines()` direkt aufruft, bleibt es bei einer einzigen maßgeblichen Quelle.
-* `EmbeddedResource` und `TextResourceContents` kommen aus `mcp.types`. Einen Helfer wie für Bilder gibt es nicht: Der Block, den du baust, landet unverändert im Ergebnis, und es gibt kein `structured_content`.
+* `EmbeddedResource` und `TextResourceContents` kommen aus `darpy_sdk.types`. Einen Helfer wie für Bilder gibt es nicht: Der Block, den du baust, landet unverändert im Ergebnis, und es gibt kein `structured_content`.
 * Verwende den URI, unter dem die Ressource registriert ist, damit ein Client erkennen kann, dass der Anhang und `brand://guidelines` dasselbe Dokument sind. Erlaubt ist jeder URI, registriert oder nicht.
 
 ```python
@@ -123,7 +123,7 @@ Dasselbe Keyword `icons=[...]` akzeptieren `MCPServer(...)`, `@mcp.tool()`, `@mc
 Icons reisen mit dem, was sie schmücken. Die des Servers kommen an, wenn sich der Client verbindet, auf `client.server_info` (auf Verbindungen der 2026er-Generation optional, also grenze es zuerst ein):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

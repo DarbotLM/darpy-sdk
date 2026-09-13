@@ -7,7 +7,7 @@ ReadResourceContents is the return type for resource read handlers. It's used in
 by the low-level server to package resource content before sending it over the MCP protocol.
 """
 
-from mcp.server.lowlevel.helper_types import ReadResourceContents
+from darpy_sdk.server.lowlevel.helper_types import ReadResourceContents
 
 
 def test_read_resource_contents_with_metadata():

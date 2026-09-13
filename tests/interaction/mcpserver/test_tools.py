@@ -4,8 +4,7 @@ import logging
 from typing import Annotated, Literal
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     URL_ELICITATION_REQUIRED,
     CallToolResult,
     ElicitRequestURLParams,
@@ -14,13 +13,14 @@ from mcp_types import (
     LoggingMessageNotificationParams,
     TextContent,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel, Field
 
-from mcp import MCPError
-from mcp.client import IncomingMessage
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.exceptions import ToolError
-from mcp.shared.exceptions import UrlElicitationRequiredError
+from darpy_sdk import MCPError
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ToolError
+from darpy_sdk.shared.exceptions import UrlElicitationRequiredError
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
@@ -357,7 +357,7 @@ async def test_registering_a_tool_with_a_spec_invalid_name_warns_but_does_not_re
     """
     mcp = MCPServer("naming")
 
-    with caplog.at_level(logging.WARNING, logger="mcp.shared.tool_name_validation"):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.shared.tool_name_validation"):
 
         @mcp.tool(name="bad name!")
         def bad() -> str:

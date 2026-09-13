@@ -1,8 +1,8 @@
 """Probe server/discover once, persist the result, reconnect with zero round-trips — a fresh `Client` via `targets`."""
 
-from mcp.client import Client
-from mcp.types import DiscoverResult
-from mcp.types.version import LATEST_MODERN_VERSION
+from darpy_sdk.client import Client
+from darpy_sdk.types import DiscoverResult
+from darpy_sdk.types.version import LATEST_MODERN_VERSION
 from stories._harness import TargetFactory, run_client
 
 

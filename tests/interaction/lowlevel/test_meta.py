@@ -6,11 +6,11 @@ which also proves the SDK injected nothing alongside it beyond the 2026-era serv
 stripped via `unstamped` before comparison.
 """
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import CallToolResult, RequestParamsMeta, TextContent
+from darpy_sdk_types import CallToolResult, RequestParamsMeta, TextContent
 
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

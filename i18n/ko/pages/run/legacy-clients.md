@@ -32,7 +32,7 @@ SDK는 모든 요청을 `MCP-Protocol-Version` 헤더에 따라 라우팅합니�
 HTTP로 띄우세요. 다음은 이 도구를 호출하는 두 시대의 클라이언트입니다.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -128,7 +128,7 @@ mcp.run(transport="streamable-http", session_idle_timeout=None, max_sessions=50_
     요청 전체가 최상위 프로토콜 오류로 실패합니다.
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve`도 구해 주지 못했습니다. `2025-11-25` 연결에서는 `elicitation/create`를 **반드시** 보내야 하며,

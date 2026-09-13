@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Serve the v2 documentation locally with live reload (the English site only).
+# Serve the Darbot Python SDK documentation locally with live reload (the English site only).
 #
 # Regenerates the API reference and the concrete Zensical config, then serves
 # it. Re-run the script to pick up changes to `src/` (the API reference) or the

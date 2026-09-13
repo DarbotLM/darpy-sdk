@@ -62,7 +62,7 @@ Du brauchst auch kein `try`/`except` in jedem Handler, nur um Fehlschläge festz
 Starte den Server mit dem MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Ruf `search_books` im Tab **Tools** auf. Der Inspector zeigt dir das Ergebnis: nur den Rückgabewert. Die Zeile

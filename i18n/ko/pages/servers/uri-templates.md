@@ -145,7 +145,7 @@ list 핸들러는 클라이언트에게 사용 가능한 것을 알려 주고, r
 
 ### 템플릿 {#templates}
 
-`MCPServer`가 사용하는 템플릿 엔진은 `mcp.shared.uri_template`에 있으며 독립적으로 동작합니다. 동일한 파싱과 매칭을 얻되, 라우팅과 보안 정책은 직접 연결합니다.
+`MCPServer`가 사용하는 템플릿 엔진은 `darpy_sdk.shared.uri_template`에 있으며 독립적으로 동작합니다. 동일한 파싱과 매칭을 얻되, 라우팅과 보안 정책은 직접 연결합니다.
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
 --8<-- "docs_src/uri_templates/tutorial005.py"
@@ -154,7 +154,7 @@ list 핸들러는 클라이언트에게 사용 가능한 것을 알려 주고, r
 강조 표시된 줄에서는 세 가지 일이 일어납니다.
 
 * **한 번 파싱하고, 요청마다 매칭합니다.** `UriTemplate.parse()`가 템플릿을 만들고, `template.match(uri)`는 추출된 변수를 `dict`로 반환하거나 URI가 맞지 않으면 `None`을 반환합니다. URL 디코딩은 `match()` 안에서 일어나며, 디코딩된 값은 경로 안전성 검증 없이 그대로 반환됩니다. 값은 문자열로 나오므로 직접 변환하세요(`int(matched["id"])`, `Path(matched["path"])`).
-* **안전성 검사를 직접 적용합니다.** `MCPServer`가 기본으로 실행하는 `..` 검사와 절대 경로 검사는 `mcp.shared.path_security`에 있습니다. `read_manual_safely`는 `MANUALS`를 건드리기 전에 이를 호출합니다. 매개변수가 파일시스템 경로가 아니라면(ISBN, 검색 쿼리 등) 해당 값의 검사는 건너뛰세요. 정책은 설정 객체가 아니라 핸들러마다 직접 제어합니다.
+* **안전성 검사를 직접 적용합니다.** `MCPServer`가 기본으로 실행하는 `..` 검사와 절대 경로 검사는 `darpy_sdk.shared.path_security`에 있습니다. `read_manual_safely`는 `MANUALS`를 건드리기 전에 이를 호출합니다. 매개변수가 파일시스템 경로가 아니라면(ISBN, 검색 쿼리 등) 해당 값의 검사는 건너뛰세요. 정책은 설정 객체가 아니라 핸들러마다 직접 제어합니다.
 * **같은 출처에서 템플릿을 나열합니다.** 클라이언트는 `resources/templates/list`를 통해 템플릿을 발견합니다. `str(template)`은 원래 템플릿 문자열을 돌려주므로, 목록과 매처가 하나의 단일 출처를 공유합니다.
 
 ## 요약 {#recap}
@@ -164,4 +164,4 @@ list 핸들러는 클라이언트에게 사용 가능한 것을 알려 주고, r
 * 매개변수에 타입을 표기하면(`order_id: int`) SDK가 변환합니다.
 * 기본 보안 정책은 핸들러가 실행되기 전에 `..`, 절대 경로, 널 바이트를 거부합니다. 리소스별로는 `security=ResourceSecurity(...)`로, 서버 전체로는 `resource_security=`로 재정의하세요.
 * 파일시스템 접근에서는 `safe_join`이 격리 경계입니다.
-* 저수준 `Server`에서는 `UriTemplate.parse()`로 파싱하고, `.match()`로 매칭하며, `mcp.shared.path_security`를 직접 적용하세요.
+* 저수준 `Server`에서는 `UriTemplate.parse()`로 파싱하고, `.match()`로 매칭하며, `darpy_sdk.shared.path_security`를 직접 적용하세요.

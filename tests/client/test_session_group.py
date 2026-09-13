@@ -1,19 +1,19 @@
 import contextlib
 from unittest import mock
 
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
 
-import mcp
-from mcp.client.session_group import (
+import darpy_sdk
+from darpy_sdk.client.session_group import (
     ClientSessionGroup,
     ClientSessionParameters,
     SseServerParameters,
     StreamableHttpParameters,
 )
-from mcp.client.stdio import StdioServerParameters
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.client.stdio import StdioServerParameters
+from darpy_sdk.shared.exceptions import MCPError
 
 
 @pytest.fixture
@@ -109,7 +109,7 @@ async def test_client_session_group_connect_to_server(mock_exit_stack: contextli
     # --- Mock Dependencies ---
     mock_server_info = mock.Mock(spec=types.Implementation)
     mock_server_info.name = "TestServer1"
-    mock_session = mock.AsyncMock(spec=mcp.ClientSession)
+    mock_session = mock.AsyncMock(spec=darpy_sdk.ClientSession)
     mock_tool1 = mock.Mock(spec=types.Tool)
     mock_tool1.name = "tool_a"
     mock_resource1 = mock.Mock(spec=types.Resource)
@@ -148,7 +148,7 @@ async def test_client_session_group_connect_to_server_with_name_hook(mock_exit_s
     # --- Mock Dependencies ---
     mock_server_info = mock.Mock(spec=types.Implementation)
     mock_server_info.name = "HookServer"
-    mock_session = mock.AsyncMock(spec=mcp.ClientSession)
+    mock_session = mock.AsyncMock(spec=darpy_sdk.ClientSession)
     mock_tool = mock.Mock(spec=types.Tool)
     mock_tool.name = "base_tool"
     mock_session.list_tools.return_value = mock.AsyncMock(tools=[mock_tool])
@@ -181,8 +181,8 @@ async def test_client_session_group_disconnect_from_server():
     server_name = "ServerToDisconnect"
 
     # Manually populate state using standard mocks
-    mock_session1 = mock.MagicMock(spec=mcp.ClientSession)
-    mock_session2 = mock.MagicMock(spec=mcp.ClientSession)
+    mock_session1 = mock.MagicMock(spec=darpy_sdk.ClientSession)
+    mock_session2 = mock.MagicMock(spec=darpy_sdk.ClientSession)
     mock_tool1 = mock.Mock(spec=types.Tool)
     mock_tool1.name = "tool1"
     mock_resource1 = mock.Mock(spec=types.Resource)
@@ -192,7 +192,7 @@ async def test_client_session_group_disconnect_from_server():
     mock_tool2 = mock.Mock(spec=types.Tool)
     mock_tool2.name = "tool2"
     mock_component_named_like_server = mock.Mock()
-    mock_session = mock.Mock(spec=mcp.ClientSession)
+    mock_session = mock.Mock(spec=darpy_sdk.ClientSession)
 
     group._tools = {
         "tool1": mock_tool1,
@@ -250,14 +250,14 @@ async def test_client_session_group_connect_to_server_duplicate_tool_raises_erro
     group._tools[existing_tool_name] = mock.Mock(spec=types.Tool)
     group._tools[existing_tool_name].name = existing_tool_name
     # Need a dummy session associated with the existing tool
-    mock_session = mock.MagicMock(spec=mcp.ClientSession)
+    mock_session = mock.MagicMock(spec=darpy_sdk.ClientSession)
     group._tool_to_session[existing_tool_name] = mock_session
     group._session_exit_stacks[mock_session] = mock.Mock(spec=contextlib.AsyncExitStack)
 
     # --- Mock New Connection Attempt ---
     mock_server_info_new = mock.Mock(spec=types.Implementation)
     mock_server_info_new.name = "ServerWithDuplicate"
-    mock_session_new = mock.AsyncMock(spec=mcp.ClientSession)
+    mock_session_new = mock.AsyncMock(spec=darpy_sdk.ClientSession)
 
     # Configure the new session to return a tool with the *same name*
     duplicate_tool = mock.Mock(spec=types.Tool)
@@ -289,7 +289,7 @@ async def test_client_session_group_connect_to_server_duplicate_tool_raises_erro
 @pytest.mark.anyio
 async def test_client_session_group_disconnect_non_existent_server():
     """Test disconnecting a server that isn't connected."""
-    session = mock.Mock(spec=mcp.ClientSession)
+    session = mock.Mock(spec=darpy_sdk.ClientSession)
     group = ClientSessionGroup()
     with pytest.raises(MCPError):
         await group.disconnect_from_server(session)
@@ -303,17 +303,17 @@ async def test_client_session_group_disconnect_non_existent_server():
         (
             StdioServerParameters(command="test_stdio_cmd"),
             "stdio",
-            "mcp.client.session_group.mcp.stdio_client",
+            "darpy_sdk.client.session_group.darpy_sdk.stdio_client",
         ),
         (
             SseServerParameters(url="http://test.com/sse", timeout=10.0),
             "sse",
-            "mcp.client.session_group.sse_client",
+            "darpy_sdk.client.session_group.sse_client",
         ),  # url, headers, timeout, sse_read_timeout
         (
             StreamableHttpParameters(url="http://test.com/stream", terminate_on_close=False),
             "streamablehttp",
-            "mcp.client.session_group.streamable_http_client",
+            "darpy_sdk.client.session_group.streamable_http_client",
         ),  # url, headers, timeout, sse_read_timeout, terminate_on_close
     ],
 )
@@ -322,7 +322,7 @@ async def test_client_session_group_establish_session_parameterized(
     client_type_name: str,  # Just for clarity or conditional logic if needed
     patch_target_for_client_func: str,
 ):
-    with mock.patch("mcp.client.session_group.mcp.ClientSession") as mock_ClientSession_class:
+    with mock.patch("darpy_sdk.client.session_group.darpy_sdk.ClientSession") as mock_ClientSession_class:
         with mock.patch(patch_target_for_client_func) as mock_specific_client_func:
             mock_client_cm_instance = mock.AsyncMock(name=f"{client_type_name}ClientCM")
             mock_read_stream = mock.AsyncMock(name=f"{client_type_name}Read")
@@ -334,7 +334,7 @@ async def test_client_session_group_establish_session_parameterized(
             mock_client_cm_instance.__aexit__ = mock.AsyncMock(return_value=None)
             mock_specific_client_func.return_value = mock_client_cm_instance
 
-            # --- Mock mcp.ClientSession (class) ---
+            # --- Mock darpy_sdk.ClientSession (class) ---
             # mock_ClientSession_class is already provided by the outer patch
             mock_raw_session_cm = mock.AsyncMock(name="RawSessionCM")
             mock_ClientSession_class.return_value = mock_raw_session_cm

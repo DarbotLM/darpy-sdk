@@ -94,7 +94,7 @@ Everything above treats `request_state` as an echo, and on the wire that is all 
 The default key lives and dies with the process, which is the one thing you must know before deploying beyond a single process:
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

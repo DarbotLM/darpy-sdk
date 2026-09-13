@@ -31,7 +31,7 @@ translation:
 
 ### 직접 해 보기 {#try-it}
 
-`mcp run`은 `MCPServer`만 받으므로 이 서버는 직접 띄워야 합니다. `server.py`의 마지막 줄이 `Server`로 평범한 ASGI 앱을 만들고, uvicorn이 그 앱을 실행합니다.
+`darpy-sdk run`은 `MCPServer`만 받으므로 이 서버는 직접 띄워야 합니다. `server.py`의 마지막 줄이 `Server`로 평범한 ASGI 앱을 만들고, uvicorn이 그 앱을 실행합니다.
 
 ```console
 uvicorn server:app --port 8000

@@ -129,7 +129,7 @@ Standardmäßig reist das Secret als HTTP Basic Auth im Token-Request (`client_s
     Lies `client_secret` aus der Umgebung oder einem Secret-Manager, nie aus der Versionsverwaltung.
 
 !!! info
-    Ein weiterer Provider liegt in `mcp.client.auth.extensions.client_credentials`:
+    Ein weiterer Provider liegt in `darpy_sdk.client.auth.extensions.client_credentials`:
     **`PrivateKeyJWTOAuthProvider`**, für Clients, die sich mit einem JWT statt einem
     gemeinsamen Secret authentifizieren (`private_key_jwt`, die Variante mit Schlüsselpaar und Workload-Identität). Er folgt
     demselben Muster: einen erzeugen (er nimmt denselben optionalen `issuer` entgegen), auf `auth=` setzen. Dasselbe Modul liefert
@@ -139,7 +139,7 @@ Es gibt noch eine Situation ohne Menschen: Der Client gehört zu einem Unternehm
 
 ## Wenn es fehlschlägt {#when-it-fails}
 
-Wenn der OAuth-Flow schiefgeht, löst der Provider einen `OAuthFlowError` aus `mcp.client.auth` aus. Er hat zwei Unterklassen. `OAuthRegistrationError` bedeutet, dass die Registrierung keinen Client ergeben hat, den du verwenden kannst: Der Autorisierungsserver hat die Registrierung abgelehnt, oder er hat dich zwar registriert, aber mit Zugangsdaten, die dieser Flow nicht verwenden kann (zum Beispiel eine Authentifizierungsmethode, die er nicht implementiert). `OAuthTokenError` bedeutet, dass kein Token beschafft werden konnte: Der Token-Endpunkt hat abgelehnt, oder ein gespeicherter Client-Eintrag trägt eine Authentifizierungsmethode, die dieser Client nicht anwenden kann – das wird beim Bauen des Token-Requests gemeldet statt gesendet. Ein einziges `except OAuthFlowError:` deckt Discovery, Registrierung, Autorisierung und Austausch ab.
+Wenn der OAuth-Flow schiefgeht, löst der Provider einen `OAuthFlowError` aus `darpy_sdk.client.auth` aus. Er hat zwei Unterklassen. `OAuthRegistrationError` bedeutet, dass die Registrierung keinen Client ergeben hat, den du verwenden kannst: Der Autorisierungsserver hat die Registrierung abgelehnt, oder er hat dich zwar registriert, aber mit Zugangsdaten, die dieser Flow nicht verwenden kann (zum Beispiel eine Authentifizierungsmethode, die er nicht implementiert). `OAuthTokenError` bedeutet, dass kein Token beschafft werden konnte: Der Token-Endpunkt hat abgelehnt, oder ein gespeicherter Client-Eintrag trägt eine Authentifizierungsmethode, die dieser Client nicht anwenden kann – das wird beim Bauen des Token-Requests gemeldet statt gesendet. Ein einziges `except OAuthFlowError:` deckt Discovery, Registrierung, Autorisierung und Austausch ab.
 
 Nicht alles ist ein Flow-Fehler. Das Netzwerk kann weiterhin ausfallen; das sind gewöhnliche `httpx2`-Exceptions, und sie werden unverändert durchgereicht.
 

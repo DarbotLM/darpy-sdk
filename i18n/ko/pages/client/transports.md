@@ -125,13 +125,13 @@ TLS 관련 참고 사항이 하나 있습니다. `httpx2`는 번들된 CA 목록
 
 ## SSE {#sse}
 
-`mcp.client.sse`의 `sse_client(url)`은 Streamable HTTP로 대체된 이전 HTTP 트랜스포트입니다. 아직 이 방식을 쓰는 서버와 통신하려면 `Client(sse_client("http://localhost:8000/sse"))`처럼 같은 방식으로 감싸서 사용하되, 새로운 것을 이 위에 만들지는 마세요.
+`darpy_sdk.client.sse`의 `sse_client(url)`은 Streamable HTTP로 대체된 이전 HTTP 트랜스포트입니다. 아직 이 방식을 쓰는 서버와 통신하려면 `Client(sse_client("http://localhost:8000/sse"))`처럼 같은 방식으로 감싸서 사용하되, 새로운 것을 이 위에 만들지는 마세요.
 
 ## `Transport` 프로토콜 {#the-transport-protocol}
 
 `Client`에게 위의 모든 것은 같은 것입니다.
 
-**트랜스포트**란 `(read, write)` 메시지 스트림 쌍을 내어주는 비동기 컨텍스트 매니저라면 무엇이든 해당합니다. 정식으로는 `mcp.client`의 `Transport` 프로토콜입니다. `Client`는 인자를 타입으로 구분합니다. `str`은 `streamable_http_client(url)`이 되고, `StdioServerParameters`는 `stdio_client(params)`가 되며, 서버 객체는 프로세스 내에서 연결하고, 그 밖의 것은 트랜스포트로 직접 진입합니다. 마지막 규칙 덕분에 `stdio_client(...)`, `streamable_http_client(...)`, `sse_client(...)`가 모두 같은 자리에 들어가고, 직접 만든 트랜스포트도 쓸 수 있습니다.
+**트랜스포트**란 `(read, write)` 메시지 스트림 쌍을 내어주는 비동기 컨텍스트 매니저라면 무엇이든 해당합니다. 정식으로는 `darpy_sdk.client`의 `Transport` 프로토콜입니다. `Client`는 인자를 타입으로 구분합니다. `str`은 `streamable_http_client(url)`이 되고, `StdioServerParameters`는 `stdio_client(params)`가 되며, 서버 객체는 프로세스 내에서 연결하고, 그 밖의 것은 트랜스포트로 직접 진입합니다. 마지막 규칙 덕분에 `stdio_client(...)`, `streamable_http_client(...)`, `sse_client(...)`가 모두 같은 자리에 들어가고, 직접 만든 트랜스포트도 쓸 수 있습니다.
 
 ## 요약 {#recap}
 

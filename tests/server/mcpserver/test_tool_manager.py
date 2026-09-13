@@ -4,14 +4,14 @@ from dataclasses import dataclass
 from typing import Any, TypedDict
 
 import pytest
-from mcp_types import CallToolResult, TextContent, ToolAnnotations
+from darpy_sdk_types import CallToolResult, TextContent, ToolAnnotations
 from pydantic import BaseModel
 
-from mcp.server.context import LifespanContextT, RequestT
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.exceptions import ToolError
-from mcp.server.mcpserver.tools import Tool, ToolManager
-from mcp.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata
+from darpy_sdk.server.context import LifespanContextT, RequestT
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ToolError
+from darpy_sdk.server.mcpserver.tools import Tool, ToolManager
+from darpy_sdk.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata
 
 
 class TestAddTools:

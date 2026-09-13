@@ -3,9 +3,9 @@
 import httpx2
 from pydantic import AnyUrl
 
-from mcp.client import Client
-from mcp.client.auth import OAuthClientProvider
-from mcp.shared.auth import OAuthClientMetadata
+from darpy_sdk.client import Client
+from darpy_sdk.client.auth import OAuthClientProvider
+from darpy_sdk.shared.auth import OAuthClientMetadata
 from stories._harness import TargetFactory, run_client
 
 # MCP_URL pins the resource to :8000. The demo AS's own metadata (issuer, PRM `resource`)

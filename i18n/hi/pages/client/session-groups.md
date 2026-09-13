@@ -29,7 +29,7 @@ translation:
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` transport parameters लेता है, server object नहीं: subprocess शुरू करने के लिए `StdioServerParameters` (`mcp` से), या पहले से किसी URL पर सुन रहे server के लिए `StreamableHttpParameters` / `SseServerParameters` (`mcp.client.session_group` से)।
+* `connect_to_server` transport parameters लेता है, server object नहीं: subprocess शुरू करने के लिए `StdioServerParameters` (`mcp` से), या पहले से किसी URL पर सुन रहे server के लिए `StreamableHttpParameters` / `SseServerParameters` (`darpy_sdk.client.session_group` से)।
 * `group.tools` हर जुड़े हुए server के tools का `dict[str, Tool]` है। `group.resources` और `group.prompts` का आकार भी यही है।
 * `group.call_tool(name, arguments)` नाम खोजता है, वह session ढूँढता है जिसका यह tool है, और call आगे भेज देता है। आपको कभी बताना नहीं पड़ता कि कौन सा server।
 
@@ -37,7 +37,7 @@ translation:
     `client.py` को दोनों servers के साथ रखें और चलाएँ। दूसरा `connect_to_server` मना कर देता है:
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     यह `MCPError` है, जो दूसरे server से कुछ भी register होने से पहले raise होता है। नाम **पूरे**

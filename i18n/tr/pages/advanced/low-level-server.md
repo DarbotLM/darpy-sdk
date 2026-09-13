@@ -36,7 +36,7 @@ Bu, **[Araçlar](../servers/tools.md)** sayfasında dokuz satır `@mcp.tool()` i
 
 ### Deneyin {#try-it}
 
-`mcp dev` ve `mcp run` yalnızca `MCPServer` kabul eder, bu yüzden bunu kendiniz sunarsınız. `server.py` dosyasının son satırı ondan sıradan bir ASGI uygulaması oluşturur, uvicorn da onu çalıştırır:
+`darpy-sdk dev` ve `darpy-sdk run` yalnızca `MCPServer` kabul eder, bu yüzden bunu kendiniz sunarsınız. `server.py` dosyasının son satırı ondan sıradan bir ASGI uygulaması oluşturur, uvicorn da onu çalıştırır:
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ Inspector'ı ya da herhangi bir istemciyi `http://localhost:8000/mcp` adresine y
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -206,7 +206,7 @@ El sıkışma çalıştırıcıya aittir. `server/discover`, `ping` ve diğer t�
 
 Bunların her biri, artık kavramlarını bildiğiniz birer fikir; her birinin kendi sayfası var.
 
-* `on_call_tool`, `on_get_prompt` ve `on_read_resource`, çağrıyı duraklatıp istemciden girdi istemek için normal sonuçları yerine bir `InputRequiredResult` döndürebilir; bkz. **[Çok turlu istekler](../handlers/multi-round-trip.md)** (multi-round-trip). Bu katmanın ruhuna uygun olarak sizin için hiçbir şey kurulmaz: `MCPServer` varsayılan olarak `requestState`'i mühürlerken burada ayarladığınız `request_state`, siz `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` ile katılana kadar ağı tam yazıldığı gibi geçer: `MCPServer`'ın yaptığı mühürleme ve doğrulamanın aynısı için tek satır (iki ad da `mcp.server.request_state`'ten içe aktarılır) (**[`requestState`'i koruma](../handlers/multi-round-trip.md#protecting-requeststate)**).
+* `on_call_tool`, `on_get_prompt` ve `on_read_resource`, çağrıyı duraklatıp istemciden girdi istemek için normal sonuçları yerine bir `InputRequiredResult` döndürebilir; bkz. **[Çok turlu istekler](../handlers/multi-round-trip.md)** (multi-round-trip). Bu katmanın ruhuna uygun olarak sizin için hiçbir şey kurulmaz: `MCPServer` varsayılan olarak `requestState`'i mühürlerken burada ayarladığınız `request_state`, siz `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` ile katılana kadar ağı tam yazıldığı gibi geçer: `MCPServer`'ın yaptığı mühürleme ve doğrulamanın aynısı için tek satır (iki ad da `darpy_sdk.server.request_state`'ten içe aktarılır) (**[`requestState`'i koruma](../handlers/multi-round-trip.md#protecting-requeststate)**).
 * `on_list_resources`, `on_read_resource`, `on_list_prompts`, `on_get_prompt`, `on_completion`, diğer ilkel öğeler için aynı `(ctx, params) -> result` biçimidir.
 * `on_subscriptions_listen`, 2026-07-28 `subscriptions/listen` akışını sunar. Bir `SubscriptionBus` üzerine kurulu bir `ListenHandler` geçirin ve olayları diğer işleyicilerinizden veri yoluna yayımlayın; bileşimin tamamı için bkz. **[Abonelikler](../handlers/subscriptions.md)**.
 * `server.streamable_http_app()`, `MCPServer`'ınkiyle aynı Starlette uygulamasını döndürür; onu **[Sunucunuzu çalıştırma](../run/index.md)** sayfasının herhangi bir ASGI uygulamasını dağıttığı gibi dağıtın. Burada `server.run(transport=...)` yoktur: `server.run(read_stream, write_stream, server.create_initialization_options())` bir akış çifti üzerinden tek bir bağlantıyı yürütür ve bu tek satır işin tamamıdır.

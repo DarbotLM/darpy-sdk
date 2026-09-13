@@ -4,10 +4,18 @@ from collections.abc import Awaitable, Callable
 from typing import Any
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 from trio.testing import MockClock
 
+from darpy_sdk import Client
+from darpy_sdk.server.auth.middleware.auth_context import auth_context_var
+from darpy_sdk.server.auth.middleware.bearer_auth import AuthenticatedUser
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.server.subscriptions import SUBSCRIPTION_ID_META_KEY, ListenHandler, ToolsListChanged
+from darpy_sdk.shared.exceptions import MCPError
 from docs_src.subscriptions import (
     tutorial001,
     tutorial002,
@@ -18,21 +26,13 @@ from docs_src.subscriptions import (
     tutorial005,
     tutorial006,
 )
-from mcp import Client
-from mcp.server.auth.middleware.auth_context import auth_context_var
-from mcp.server.auth.middleware.bearer_auth import AuthenticatedUser
-from mcp.server.auth.provider import AccessToken
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
-from mcp.server.subscriptions import SUBSCRIPTION_ID_META_KEY, ListenHandler, ToolsListChanged
-from mcp.shared.exceptions import MCPError
 
 _ReadResource = Callable[
     [ServerRequestContext[Any], types.ReadResourceRequestParams], Awaitable[types.ReadResourceResult]
 ]
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 @pytest.fixture(autouse=True)

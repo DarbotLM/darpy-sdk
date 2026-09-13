@@ -1,7 +1,7 @@
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Weather")
 

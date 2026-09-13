@@ -240,7 +240,7 @@ Server](../advanced/low-level-server.md)**), обработчики для ме�
 ### Шаблоны {#templates}
 
 Движок шаблонов, который использует `MCPServer`, находится в
-`mcp.shared.uri_template` и работает сам по себе. Разбор и сопоставление
+`darpy_sdk.shared.uri_template` и работает сам по себе. Разбор и сопоставление
 те же; маршрутизацию и политику безопасности вы подключаете сами.
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
@@ -257,7 +257,7 @@ Server](../advanced/low-level-server.md)**), обработчики для ме�
   преобразуйте их сами (`int(matched["id"])`, `Path(matched["path"])`).
 * **Проверки безопасности применяйте сами.** Проверки на `..` и
   абсолютные пути, которые `MCPServer` выполняет по умолчанию, находятся в
-  `mcp.shared.path_security`. `read_manual_safely` вызывает их перед
+  `darpy_sdk.shared.path_security`. `read_manual_safely` вызывает их перед
   обращением к `MANUALS`. Если параметр не является путём в файловой
   системе (ISBN, поисковый запрос), пропустите проверки для этого
   значения: политикой вы управляете в каждом обработчике, а не через
@@ -282,5 +282,5 @@ Server](../advanced/low-level-server.md)**), обработчики для ме�
   через `resource_security=`.
 * Для доступа к файловой системе границей изоляции служит `safe_join`.
 * На низкоуровневом `Server` разбирайте с помощью `UriTemplate.parse()`,
-  сопоставляйте через `.match()` и применяйте `mcp.shared.path_security`
+  сопоставляйте через `.match()` и применяйте `darpy_sdk.shared.path_security`
   сами.

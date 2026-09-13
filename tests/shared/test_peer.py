@@ -6,11 +6,12 @@ return value is the typed result model.
 """
 
 from collections.abc import Mapping
-from typing import Any
+from typing import Any, Literal
 
 import anyio
+import darpy_sdk_types as types
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CreateMessageResult,
     CreateMessageResultWithTools,
     ElicitResult,
@@ -20,11 +21,13 @@ from mcp_types import (
     Tool,
     ToolChoice,
 )
+from inline_snapshot import snapshot
+from pydantic import JsonValue
 
-from mcp.shared.dispatcher import DispatchContext
-from mcp.shared.exceptions import MCPDeprecationWarning
-from mcp.shared.peer import ClientPeer, dump_params
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.shared.dispatcher import DispatchContext
+from darpy_sdk.shared.exceptions import MCPDeprecationWarning
+from darpy_sdk.shared.peer import ClientPeer, dump_params, dump_request
+from darpy_sdk.shared.transport_context import TransportContext
 
 from .conftest import direct_pair
 from .test_dispatcher import running_pair
@@ -218,3 +221,36 @@ async def test_peer_ping_sends_ping_and_returns_none():
         method, _ = rec.seen[0]
         assert method == "ping"
         assert result is None
+
+
+def test_dump_request_changes_only_opaque_metadata_null_filtering() -> None:
+    """SDK-defined: null metadata and aliases survive serialization without changing other request fields."""
+    generic = types.Request[dict[str, JsonValue], Literal["custom"]](
+        method="custom",
+        params={"nullable": None, "_meta": {"nullable": None}},
+    )
+    assert {
+        "absent_params": dump_request(types.ListToolsRequest()),
+        "absent_meta": dump_request(types.CallToolRequest(params=types.CallToolRequestParams(name="tool"))),
+        "empty_meta": dump_request(types.CallToolRequest(params=types.CallToolRequestParams(name="tool", _meta={}))),
+        "typed_meta": dump_request(
+            types.CallToolRequest(
+                params=types.CallToolRequestParams(
+                    name="tool",
+                    _meta={"progress_token": 0, "nullable": None},
+                )
+            )
+        ),
+        "generic_params": dump_request(generic),
+    } == snapshot(
+        {
+            "absent_params": {"method": "tools/list"},
+            "absent_meta": {"method": "tools/call", "params": {"name": "tool"}},
+            "empty_meta": {"method": "tools/call", "params": {"_meta": {}, "name": "tool"}},
+            "typed_meta": {
+                "method": "tools/call",
+                "params": {"_meta": {"progressToken": 0, "nullable": None}, "name": "tool"},
+            },
+            "generic_params": {"method": "custom", "params": {"nullable": None, "_meta": {"nullable": None}}},
+        }
+    )

@@ -245,7 +245,7 @@ Exception aus.
 ### Templates {#templates}
 
 Die Template-Engine, die `MCPServer` verwendet, liegt in
-`mcp.shared.uri_template` und funktioniert eigenständig. Du bekommst
+`darpy_sdk.shared.uri_template` und funktioniert eigenständig. Du bekommst
 dasselbe Parsing und Matching; Routing und Sicherheitsrichtlinie
 verdrahtest du selbst.
 
@@ -264,7 +264,7 @@ In den hervorgehobenen Zeilen passieren drei Dinge:
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Die Sicherheitsprüfungen selbst anwenden.** Die `..`- und
   Absolutpfad-Prüfungen, die `MCPServer` standardmäßig ausführt, liegen in
-  `mcp.shared.path_security`. `read_manual_safely` ruft sie auf, bevor es
+  `darpy_sdk.shared.path_security`. `read_manual_safely` ruft sie auf, bevor es
   `MANUALS` anfasst. Ist ein Parameter kein Dateisystempfad (eine ISBN, eine
   Suchanfrage), überspring die Prüfungen für diesen Wert: Du steuerst die
   Richtlinie pro Handler statt über ein Konfigurationsobjekt.
@@ -289,4 +289,4 @@ In den hervorgehobenen Zeilen passieren drei Dinge:
   `resource_security=`.
 * Für Dateisystemzugriffe ist `safe_join` die Eindämmungsgrenze.
 * Auf dem Low-Level-`Server` parst du mit `UriTemplate.parse()`, matchst
-  mit `.match()` und wendest `mcp.shared.path_security` selbst an.
+  mit `.match()` und wendest `darpy_sdk.shared.path_security` selbst an.

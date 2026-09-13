@@ -1,5 +1,5 @@
-from mcp.server.apps import Apps, ResourceCsp, ResourcePermissions
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.apps import Apps, ResourceCsp, ResourcePermissions
+from darpy_sdk.server.mcpserver import MCPServer
 
 DASHBOARD_HTML = "<!doctype html><title>Dashboard</title><canvas id='chart'></canvas>"
 

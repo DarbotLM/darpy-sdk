@@ -1,4 +1,4 @@
-"""Tests for `mcp.client.caching`. The store-contract tests are parametrized
+"""Tests for `darpy_sdk.client.caching`. The store-contract tests are parametrized
 over `STORE_FACTORIES`; a third-party store can be run against the same
 contract by adding its factory."""
 
@@ -11,8 +11,7 @@ from typing import Any
 import anyio
 import anyio.lowlevel
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     ListPromptsResult,
     ListToolsResult,
     LoggingMessageNotification,
@@ -25,8 +24,9 @@ from mcp_types import (
     ServerNotification,
     ToolListChangedNotification,
 )
+from inline_snapshot import snapshot
 
-from mcp.client.caching import (
+from darpy_sdk.client.caching import (
     MAX_TTL_MS,
     CacheConfig,
     CacheEntry,
@@ -805,7 +805,7 @@ async def test_evict_key_with_a_wedged_store_delete_returns_at_the_cleanup_bound
     deletes are abandoned, and the unreaped entries age out by TTL."""
     store = _WedgingDeleteStore(wedged=True)
     cache = _coordinator(store, store_cleanup_timeout=0.01)
-    with caplog.at_level(logging.WARNING, logger="mcp.client.caching"), anyio.fail_after(5):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.client.caching"), anyio.fail_after(5):
         await cache.evict_key("tools/list", "")
     assert store.deletes_started == 1  # pragma: lax no cover  # the second arm's delete was abandoned with the first
     assert caplog.messages == snapshot(  # pragma: lax no cover
@@ -865,7 +865,7 @@ async def test_an_entry_rehydrated_into_the_wrong_shape_is_a_warned_miss(
     """A persistent store has no method-to-model mapping, so its `get` may return serialized shapes;
     the warned miss is one burst, not one warning per cached read."""
     cache = _coordinator(_RehydratingStore(rehydrated))
-    with caplog.at_level(logging.WARNING, logger="mcp.client.caching"):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.client.caching"):
         assert await cache.read("tools/list", "") is None
         assert await cache.read("tools/list", "") is None
     assert len(caplog.records) == 1
@@ -939,7 +939,7 @@ async def test_eviction_with_a_raising_delete_still_bumps_the_generation() -> No
 async def test_store_failures_warn_once_per_burst(caplog: pytest.LogCaptureFixture) -> None:
     store = _FailingStore(fail_get=True)
     cache = _coordinator(store)
-    with caplog.at_level(logging.WARNING, logger="mcp.client.caching"):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.client.caching"):
         await cache.read("tools/list", "")  # consecutive failing reads, one burst
         await cache.read("tools/list", "")
         assert len(caplog.records) == 1
@@ -955,7 +955,7 @@ async def test_a_set_only_store_failure_warns_once_across_write_cycles(caplog: p
     """Bursts are tracked per operation kind - the healthy deletes between failing sets never re-arm."""
     store = _FailingStore(fail_set=True)
     cache = _coordinator(store)
-    with caplog.at_level(logging.WARNING, logger="mcp.client.caching"):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.client.caching"):
         for _ in range(3):  # each cycle: opposite-arm delete succeeds, then the set fails
             gen = cache.capture("tools/list", "")
             await cache.write("tools/list", "", _wire_result(ttl_ms=60_000), gen, "use")

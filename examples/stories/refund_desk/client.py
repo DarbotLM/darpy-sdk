@@ -1,7 +1,7 @@
 """Prove the refund amount is schema-hidden, resolvers memoize per call, and decline semantics differ per consumer."""
 
-import mcp.types as types
-from mcp.client import Client, ClientRequestContext
+import darpy_sdk.types as types
+from darpy_sdk.client import Client, ClientRequestContext
 from stories._harness import Target, run_client
 
 

@@ -5,7 +5,7 @@ A simple example that exposes the desktop directory as a resource.
 
 from pathlib import Path
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create server
 mcp = MCPServer("Demo")

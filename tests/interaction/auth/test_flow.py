@@ -13,16 +13,16 @@ from collections import Counter
 from urllib.parse import parse_qs, urlsplit
 
 import anyio
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
+from darpy_sdk_types import CallToolResult, ListToolsResult, TextContent, Tool
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, ListToolsResult, TextContent, Tool
 from pydantic import AnyUrl
 
-from mcp.server import Server, ServerRequestContext
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.shared.auth import OAuthClientInformationFull
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.shared.auth import OAuthClientInformationFull
 from tests.interaction._connect import BASE_URL
 from tests.interaction._requirements import requirement
 from tests.interaction.auth._harness import (

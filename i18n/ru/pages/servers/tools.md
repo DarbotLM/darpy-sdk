@@ -63,7 +63,7 @@ result.structured_content  # {'result': "Found 3 books matching 'dune' (showing 
 Запустите сервер через MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Откройте URL, который он напечатает, перейдите на вкладку **Tools** и вызовите `search_books`.

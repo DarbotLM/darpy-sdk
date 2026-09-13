@@ -3,13 +3,12 @@ import sys
 from types import ModuleType
 from typing import Any
 
-import mcp_types
-import mcp_types.jsonrpc
-import mcp_types.methods
-import mcp_types.version
+import darpy_sdk_types
+import darpy_sdk_types.jsonrpc
+import darpy_sdk_types.methods
+import darpy_sdk_types.version
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     LATEST_PROTOCOL_VERSION,
     CallToolResult,
     ClientCapabilities,
@@ -43,13 +42,14 @@ from mcp_types import (
     client_request_adapter,
     jsonrpc_message_adapter,
 )
+from inline_snapshot import snapshot
 from pydantic import ValidationError
 
-import mcp
-import mcp.types
-import mcp.types.jsonrpc
-import mcp.types.methods
-import mcp.types.version
+import darpy_sdk
+import darpy_sdk.types
+import darpy_sdk.types.jsonrpc
+import darpy_sdk.types.methods
+import darpy_sdk.types.version
 
 
 @pytest.mark.anyio
@@ -466,36 +466,36 @@ def _assert_mirrors(mirror: ModuleType, source: ModuleType) -> None:
     assert all(getattr(mirror, name) is getattr(source, name) for name in source.__all__)
 
 
-def test_mcp_types_namespace_mirrors_mcp_types_exactly():
-    """SDK-defined: `mcp.types` is a permanent alias whose every name is the `mcp_types` object."""
-    _assert_mirrors(mcp.types, mcp_types)
+def test_darpy_sdk_types_namespace_mirrors_darpy_sdk_types_exactly():
+    """SDK-defined: `darpy_sdk.types` is a permanent alias whose every name is the `darpy_sdk_types` object."""
+    _assert_mirrors(darpy_sdk.types, darpy_sdk_types)
 
 
 @pytest.mark.parametrize(
     ("mirror", "source"),
     [
-        (mcp.types.jsonrpc, mcp_types.jsonrpc),
-        (mcp.types.methods, mcp_types.methods),
-        (mcp.types.version, mcp_types.version),
+        (darpy_sdk.types.jsonrpc, darpy_sdk_types.jsonrpc),
+        (darpy_sdk.types.methods, darpy_sdk_types.methods),
+        (darpy_sdk.types.version, darpy_sdk_types.version),
     ],
     ids=["jsonrpc", "methods", "version"],
 )
-def test_mcp_types_submodules_mirror_mcp_types_submodules_exactly(mirror: ModuleType, source: ModuleType):
-    """SDK-defined: every supported `mcp_types` submodule has an `mcp.types` mirror, name for name."""
+def test_darpy_sdk_types_submodules_mirror_darpy_sdk_types_submodules_exactly(mirror: ModuleType, source: ModuleType):
+    """SDK-defined: every supported `darpy_sdk_types` submodule has an `darpy_sdk.types` mirror, name for name."""
     _assert_mirrors(mirror, source)
 
 
-def test_bare_import_mcp_binds_the_types_submodule():
-    """SDK-defined: `import mcp` alone binds `mcp.types`, so v1's `mcp.types.Tool` idiom works.
+def test_bare_import_darpy_sdk_binds_the_types_submodule():
+    """SDK-defined: `import darpy_sdk` alone binds `darpy_sdk.types`, so the `darpy_sdk.types.Tool` idiom works.
 
-    A fresh interpreter is required to observe `import mcp` in isolation: this test process
-    has already imported `mcp.types`, and reloading `mcp` here would rebind classes that other
+    A fresh interpreter is required to observe `import darpy_sdk` in isolation: this test process
+    has already imported `darpy_sdk.types`, and reloading `mcp` here would rebind classes that other
     tests hold references to.
     """
     # A regression hangs forever, so the bound only has to beat never (matches the suite's
     # other subprocess.run calls).
     result = subprocess.run(
-        [sys.executable, "-X", "utf8", "-c", "import mcp; print(mcp.types.Tool.__name__)"],
+        [sys.executable, "-X", "utf8", "-c", "import darpy_sdk; print(darpy_sdk.types.Tool.__name__)"],
         capture_output=True,
         encoding="utf-8",
         check=False,

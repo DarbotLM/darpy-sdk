@@ -52,7 +52,7 @@ Das Modell liest `content`; der iframe ist für Menschen. Ein UI-fähiger Host f
 Stelle `server.py` über HTTP bereit und starte dann den Client in einem zweiten Terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

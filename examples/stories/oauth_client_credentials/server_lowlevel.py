@@ -11,12 +11,12 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
-import mcp.types as types
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.server.auth.provider import AccessToken
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
-from mcp.shared.auth import OAuthMetadata, OAuthToken
+import darpy_sdk.types as types
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.shared.auth import OAuthMetadata, OAuthToken
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 from stories._shared.auth import BASE_URL, auth_settings
 

@@ -1,7 +1,7 @@
 """Asserts each variant publishes a `who` object schema and the call round-trips."""
 
-from mcp.client import Client
-from mcp.types import TextContent
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
 from stories._harness import Target, run_client
 
 

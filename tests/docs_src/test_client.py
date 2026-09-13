@@ -5,15 +5,15 @@ by URL, so each test drives the same calls in-process against `tutorial001.mcp` 
 """
 
 import pytest
+from darpy_sdk_types import Prompt, PromptArgument, PromptReference, TextContent, TextResourceContents, Tool
 from inline_snapshot import snapshot
-from mcp_types import Prompt, PromptArgument, PromptReference, TextContent, TextResourceContents, Tool
 
+from darpy_sdk import Client, MCPDeprecationWarning, MCPError
+from darpy_sdk.shared.metadata_utils import get_display_name
 from docs_src.client import tutorial001, tutorial007
-from mcp import Client, MCPDeprecationWarning, MCPError
-from mcp.shared.metadata_utils import get_display_name
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_connected_properties_are_populated_inside_the_block() -> None:

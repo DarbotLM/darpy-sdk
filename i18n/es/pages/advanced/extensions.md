@@ -77,7 +77,7 @@ La extensión útil más pequeña es una herramienta y un mapa de ajustes:
 Sírvela por HTTP, y un cliente es la prueba:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -199,7 +199,7 @@ según la capacidad, el cliente no hace nada, como en el cliente de búsqueda de
 `advertise()`:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -247,7 +247,7 @@ forma reclamada que llega a un llamador del nivel de sesión lanza `UnexpectedCl
 ### Verbos de extensión {#extension-verbs}
 
 Los métodos de solicitud propios de una extensión no necesitan registro del lado del cliente. Un tipo
-de solicitud de proveedor es una subclase de `mcp.types.Request` y pasa por `client.session.send_request`,
+de solicitud de proveedor es una subclase de `darpy_sdk.types.Request` y pasa por `client.session.send_request`,
 como en [Servir tus propios métodos](#serving-your-own-methods). Toma un servidor cuya
 extensión sirve un único verbo sobre un trabajo con nombre:
 

@@ -49,7 +49,7 @@ Asıl mesele de bu son kısım. Modelin sağlayamadığı bir parametre, modelin
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `reserve_book` formunda tek bir `title` alanı var. `stock` hiçbir yerinde yok. `Dune` ile çağırın:

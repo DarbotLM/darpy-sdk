@@ -52,7 +52,7 @@ repos:
         name: Check uv.lock is up to date
         entry: uv lock --check
         language: system
-        files: ^(pyproject\.toml|uv\.lock)$
+        files: ^(pyproject\.toml|uv\.lock|src/darpy-sdk-types/pyproject\.toml|packages/[^/]+/pyproject\.toml|examples/(.*/)?pyproject\.toml)$
         pass_filenames: false
       - id: readme-snippets
         name: Check README snippets are up to date

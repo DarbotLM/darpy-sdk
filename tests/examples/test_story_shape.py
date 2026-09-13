@@ -19,8 +19,8 @@ _HARNESS_ALLOWLIST = frozenset({"run_client", "target_from_args", "Target", "Tar
 additionally allowed in a ``client.py`` that defines ``build_auth`` (the auth seam
 ``run_client`` and the conftest both look up by name)."""
 
-_MCPSERVER_TIER = ("mcp.server.mcpserver", "mcp.server.MCPServer")
-"""Both spellings of the high-level tier: the ``mcpserver`` module and its ``mcp.server`` re-export."""
+_MCPSERVER_TIER = ("darpy_sdk.server.mcpserver", "darpy_sdk.server.MCPServer")
+"""Both spellings of the high-level tier: the ``mcpserver`` module and its ``darpy_sdk.server`` re-export."""
 
 _LOWLEVEL_STORIES = [name for name in sorted(STORIES) if story_cfg(name)["lowlevel"]]
 
@@ -38,8 +38,8 @@ def _resolve(node: ast.ImportFrom, package: str) -> str:
 
 def _module_paths(tree: ast.Module, package: str) -> set[str]:
     """Every dotted module path the file (a module in ``package``) references — imports, with relative
-    ones resolved to absolute, plus attribute chains rooted at an import-bound name (``import mcp.shared``
-    + ``mcp.shared._memory.f()``), so a reach-in is caught however it is spelled."""
+    ones resolved to absolute, plus attribute chains rooted at an import-bound name (``import darpy_sdk.shared``
+    + ``darpy_sdk.shared._memory.f()``), so a reach-in is caught however it is spelled."""
     paths: set[str] = set()
     bound: dict[str, str] = {}
     for node in ast.walk(tree):

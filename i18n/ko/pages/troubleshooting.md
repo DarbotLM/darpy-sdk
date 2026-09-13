@@ -16,7 +16,7 @@ translation:
 해당 항목은 `http://localhost:8000/mcp`로 이 서버에 접속하므로, HTTP로 실행한 채로 두세요.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 이 페이지에서 인용하는 오류는 모두 실제 오류입니다. SDK 자체의 테스트 스위트가 하나하나 전부 재현합니다.
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -137,7 +137,7 @@ TypeError: The @tool decorator was used incorrectly. Did you forget to call it? 
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list`가 보고하는 `forecast`는 하나뿐이고, 그 정체는 `forecast_today`입니다. 둘 중 하나의 이름을 바꾸세요. `MCPServer(..., warn_on_duplicate_tools=False)`는 결과는 바꾸지 않은 채 경고만 끄므로, 켜 둔 채로 두세요. 리소스와 프롬프트에도 같은 규칙과 같은 로그 줄(`Resource already exists:`, `Prompt already exists:`)이 적용됩니다.
@@ -172,13 +172,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 서버가 실제로 보낸 문구인 `421`과 `Invalid Host header`는 클라이언트까지 오지 않습니다. 421 본문에 `Content-Type: application/json`이 없어서 클라이언트가 파싱할 수 없기 때문입니다. 이 문구는 **서버 로그**에 있으며, 다음으로 살펴볼 곳이 바로 거기입니다.
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 해결책은 `transport_security=`입니다. 실제로 서비스하는 호스트 이름을 허용 목록에 넣으세요.
@@ -310,7 +310,7 @@ async def main() -> None:
 !!! info
     `-32021`은 `MISSING_REQUIRED_CLIENT_CAPABILITY`로, 2026-07-28 사양이 추가한 세 오류 코드 중
     하나입니다. 셋 중 어느 것도 예외 클래스가 아닙니다. 모두 `MCPError`로 도착하며, 살펴볼 곳은
-    `e.error.code`입니다. 상수는 `mcp.types`가 내보냅니다. 나머지 둘은
+    `e.error.code`입니다. 상수는 `darpy_sdk.types`가 내보냅니다. 나머지 둘은
     `-32020` `HEADER_MISMATCH`(HTTP 헤더가 함께 온 요청 본문과 어긋남)와
     `-32022` `UNSUPPORTED_PROTOCOL_VERSION`(요청이 이 서버가 말하지 않는 버전을 지정함)입니다.
     규격을 따르는 SDK 클라이언트는 둘 다 만들어 낼 수 없으므로, 둘 중 하나가 보인다면 클라이언트와
@@ -339,7 +339,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **`stateless_http=True` 서버의 레거시 연결.** 무상태란 모든 요청이 저마다 독립된 세계라는 뜻입니다. 세션도, 서버에서 클라이언트로 가는 스트림도 없으므로, 해당 메서드가 있는 세대라 해도 `elicitation/create`(또는 `sampling/createMessage`, `roots/list`)를 보낼 곳이 없습니다.
@@ -380,13 +380,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 메시지는 의도적으로 고정되어 있습니다. 와이어는 어느 검사가 실패했는지 절대 드러내지 않습니다. 이유는 **서버 로그**로 가며, 로그를 읽는 것이 진단의 전부입니다.
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 실제로 보게 될 이유는 다음과 같습니다.
@@ -417,8 +417,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## 여전히 해결되지 않는 경우 {#still-stuck}
 
 * SDK가 낸 메시지가 이 페이지에 없다면, 그 자체로 제보할 가치가 있는 문서 버그입니다.
-* [이슈 트래커](https://github.com/modelcontextprotocol/python-sdk/issues)를 검색하세요. 거기에 나오는 오류 문자열은 대부분 이미 누군가가 정리해 둔 것입니다.
-* 아무것도 찾지 못했다면 전체 트레이스백과 함께 [이슈를 등록](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)하거나, [MCP Contributors Discord의 #python-sdk-dev](https://discord.gg/6CSzBmMkjX)에서 물어보세요.
+* [이슈 트래커](https://github.com/DarbotLM/darpy-sdk/issues)를 검색하세요. 거기에 나오는 오류 문자열은 대부분 이미 누군가가 정리해 둔 것입니다.
+* 아무것도 찾지 못했다면 전체 트레이스백과 함께 [이슈를 등록](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)하거나, [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues)에서 물어보세요.
 
 ## 요약 {#recap}
 

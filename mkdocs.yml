@@ -1,20 +1,22 @@
-site_name: MCP Python SDK
-site_description: The official Python SDK for the Model Context Protocol
+site_name: Darbot Python SDK
+site_description: DarbotLabs Python SDK for model, agent, client, activity, and context protocol runtimes
 
-repo_name: modelcontextprotocol/python-sdk
-repo_url: https://github.com/modelcontextprotocol/python-sdk
+repo_name: DarbotLM/darpy-sdk
+repo_url: https://github.com/DarbotLM/darpy-sdk
 edit_uri: edit/main/docs/
-site_url: https://py.sdk.modelcontextprotocol.io/
+# Configured build target; publication requires a separate deployment decision.
+site_url: https://darbotlm.github.io/darpy-sdk/
 
-# TODO(Marcelo): Add Anthropic copyright?
-# copyright: © Model Context Protocol 2025 to present
+copyright: DarbotLabs contributors; upstream attribution retained in NOTICE.md
 
 # The "API Reference" entry is a placeholder: `scripts/docs/gen_ref_pages.py`
 # generates the `docs/api/` tree and `scripts/docs/build_config.py` splices the
 # real nested nav in before the build. See `scripts/docs/build.sh`.
 nav:
-  - MCP Python SDK: index.md
-  - "What's new in v2": whats-new.md
+  - Darbot Python SDK: index.md
+  - Darbot SDK migration: darbot-migration.md
+  - Protocol integrations: protocols.md
+  - "Inherited MCP framework tour": whats-new.md
   - Get started:
       - get-started/index.md
       - Installation: get-started/installation.md
@@ -69,7 +71,7 @@ nav:
       - MCP Apps: advanced/apps.md
   - Troubleshooting: troubleshooting.md
   - Translations: translations.md
-  - Migration Guide: migration.md
+  - Upstream API migration history: migration.md
   - API Reference: api/
 
 theme:
@@ -79,7 +81,7 @@ theme:
     text: Inter
     code: JetBrains Mono
   icon:
-    logo: mcp
+    logo: darpy-sdk
   favicon: favicon.svg
   palette:
     - media: "(prefers-color-scheme)"
@@ -192,10 +194,10 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [src, src/mcp-types]
+          paths: [src, src/darpy-sdk-types]
           # Zensical renders pages in undefined (filesystem-dependent) order
           # against one shared griffe collection, so a cross-package re-export
-          # (`mcp` -> `mcp_types`) resolves only if its target package happens
+          # (`darpy_sdk` -> `darpy_sdk_types`) resolves only if its target package happens
           # to have been collected first. Chasing exported aliases into their
           # packages at load time makes resolution order-independent;
           # scripts/docs/check_render_order.py enforces that property.

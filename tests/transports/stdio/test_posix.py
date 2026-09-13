@@ -11,8 +11,8 @@ import anyio
 import anyio.abc
 import pytest
 
-from mcp.client.stdio import StdioServerParameters, stdio_client
-from mcp.os.win32.utilities import FallbackProcess
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.os.win32.utilities import FallbackProcess
 from tests.transports.stdio._liveness import (
     accept_alive,
     assert_peer_echoes,

@@ -3,7 +3,7 @@
 from typing import Literal
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     MISSING_REQUIRED_CLIENT_CAPABILITY,
     CreateMessageRequestParams,
     CreateMessageResult,
@@ -13,12 +13,12 @@ from mcp_types import (
 )
 from pydantic import FileUrl
 
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.shared.exceptions import MCPError
 from docs_src.sampling_and_roots import tutorial001, tutorial002
-from mcp import Client
-from mcp.client import ClientRequestContext
-from mcp.shared.exceptions import MCPError
 
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 @pytest.mark.parametrize("mode", ["legacy", "auto"])

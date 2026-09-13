@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from mcp.server.context import ServerRequestContext
-from mcp.server.mcpserver import Context
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.mcpserver import Context
 
 pytestmark = pytest.mark.anyio
 

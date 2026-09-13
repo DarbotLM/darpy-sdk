@@ -236,7 +236,7 @@ içeriği sunar. Önce kayıt defterinizi denetleyin, varsa şablonlara
 
 ### Şablonlar {#templates}
 
-`MCPServer`'ın kullandığı şablon motoru `mcp.shared.uri_template` içinde
+`MCPServer`'ın kullandığı şablon motoru `darpy_sdk.shared.uri_template` içinde
 yaşar ve tek başına çalışır. Aynı ayrıştırma ve eşleştirmeyi alırsınız;
 yönlendirmeyi ve güvenlik politikasını kendiniz kurarsınız.
 
@@ -254,7 +254,7 @@ Vurgulanan satırlarda üç şey oluyor:
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Güvenlik denetimlerini kendiniz uygulayın.** `MCPServer`'ın varsayılan
   olarak çalıştırdığı `..` ve mutlak yol denetimleri
-  `mcp.shared.path_security` içinde yaşar. `read_manual_safely`,
+  `darpy_sdk.shared.path_security` içinde yaşar. `read_manual_safely`,
   `MANUALS`'a dokunmadan önce bunları çağırır. Bir parametre dosya sistemi
   yolu değilse (ISBN, arama sorgusu), o değer için denetimleri atlayın:
   politikayı bir yapılandırma nesnesi üzerinden değil, işleyici başına siz
@@ -278,5 +278,5 @@ Vurgulanan satırlarda üç şey oluyor:
   `resource_security=` ile geçersiz kılın.
 * Dosya sistemi erişimi için kapsama sınırı `safe_join`'dur.
 * Düşük seviyeli `Server` üzerinde `UriTemplate.parse()` ile ayrıştırın,
-  `.match()` ile eşleştirin ve `mcp.shared.path_security`'yi kendiniz
+  `.match()` ile eşleştirin ve `darpy_sdk.shared.path_security`'yi kendiniz
   uygulayın.

@@ -29,7 +29,7 @@ translation:
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` はサーバーオブジェクトではなく、トランスポートのパラメーターを受け取ります。サブプロセスを起動するなら `StdioServerParameters`（`mcp` から）、すでに URL で待ち受けているサーバーなら `StreamableHttpParameters` または `SseServerParameters`（`mcp.client.session_group` から）です。
+* `connect_to_server` はサーバーオブジェクトではなく、トランスポートのパラメーターを受け取ります。サブプロセスを起動するなら `StdioServerParameters`（`mcp` から）、すでに URL で待ち受けているサーバーなら `StreamableHttpParameters` または `SseServerParameters`（`darpy_sdk.client.session_group` から）です。
 * `group.tools` は、接続しているすべてのサーバーのツールを集めた `dict[str, Tool]` です。`group.resources` と `group.prompts` も同じ形です。
 * `group.call_tool(name, arguments)` は名前を引き、それを所有するセッションを見つけて呼び出しを転送します。どのサーバーかを指定する必要はありません。
 
@@ -37,7 +37,7 @@ translation:
     `client.py` を 2 つのサーバーと同じ場所に置いて実行してください。2 回目の `connect_to_server` は拒否されます。
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     これは `MCPError` で、2 つ目のサーバーの何かが登録される前に送出されます。名前はグループ**全体**で一意でなければならず、自分で管理していない 2 つのサーバーはいずれ衝突します。

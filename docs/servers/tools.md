@@ -58,7 +58,7 @@ Don't worry about `structured_content` yet. Return real Python objects from your
 Run the server with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Open the URL it prints, go to the **Tools** tab, and call `search_books`.

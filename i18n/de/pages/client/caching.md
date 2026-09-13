@@ -80,12 +80,12 @@ Ein Vorbehalt bei `resources/updated`: Verdrängt wird nur bei exakt gleichem UR
 ### Konfiguration: `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: wo die Einträge liegen. Standardmäßig ist das ein frischer In-Memory-Store pro Client; übergib deine eigene `ResponseCacheStore`-Implementierung (etwa mit Redis dahinter), um einen Cache über Clients oder Prozesse hinweg zu teilen. Die Vertragstypen (`ResponseCacheStore`, `CacheKey`, `CacheEntry` und der Standard-`InMemoryResponseCacheStore`) lassen sich aus `mcp.client` importieren. Ein Lookup kann bis zu zwei aufeinanderfolgende `get`s am Store auslösen (erst den privaten Zweig, dann den öffentlichen), plane die Latenzerwartungen an einen entfernten Store also entsprechend. Ein eigener Store **erfordert** eine explizite `partition`.
+* `store`: wo die Einträge liegen. Standardmäßig ist das ein frischer In-Memory-Store pro Client; übergib deine eigene `ResponseCacheStore`-Implementierung (etwa mit Redis dahinter), um einen Cache über Clients oder Prozesse hinweg zu teilen. Die Vertragstypen (`ResponseCacheStore`, `CacheKey`, `CacheEntry` und der Standard-`InMemoryResponseCacheStore`) lassen sich aus `darpy_sdk.client` importieren. Ein Lookup kann bis zu zwei aufeinanderfolgende `get`s am Store auslösen (erst den privaten Zweig, dann den öffentlichen), plane die Latenzerwartungen an einen entfernten Store also entsprechend. Ein eigener Store **erfordert** eine explizite `partition`.
 * `partition`: das Label für den Autorisierungskontext, das verhindert, dass die `"private"`-Einträge eines Principals in einem gemeinsam genutzten Store an einen anderen ausgeliefert werden.
 * `target_id`: explizite Server-Identität, für eigene Transporte und In-Process-Server (siehe unten).
 * `default_ttl_ms`: TTL für Ergebnisse, die keinen `ttlMs`-Hinweis tragen. Der Standardwert `0` lässt Ergebnisse ohne Hinweis ungecacht.
@@ -113,7 +113,7 @@ Cache-Schlüssel tragen außerdem die **Identität des Servers**: den URL-String
 * **Kein Stale-if-error.** Ein abgelaufener Eintrag wird nie deshalb ausgeliefert, weil der erneute Abruf fehlschlug; der Fehler wird weitergereicht.
 * **Kein vorzeitiger Neuabruf.** Ein gespeicherter Eintrag wird ausgeliefert, bis seine TTL abläuft, und der nächste Aufruf danach bezahlt den Roundtrip; nichts wird im Hintergrund aktualisiert.
 * **Kein Zusammenfassen.** Zwei gleichzeitige identische Aufrufe sind zwei Abrufe.
-* **Keine TTL über 24 Stunden.** Ein größeres `ttlMs`, ob vom Server gesendet oder konfiguriert, wird beim Speichern gekappt (`mcp.client.caching.MAX_TTL_MS`); das begrenzt, wie lange irgendein Eintrag ausgeliefert werden kann, egal wie großzügig der Hinweis war.
+* **Keine TTL über 24 Stunden.** Ein größeres `ttlMs`, ob vom Server gesendet oder konfiguriert, wird beim Speichern gekappt (`darpy_sdk.client.caching.MAX_TTL_MS`); das begrenzt, wie lange irgendein Eintrag ausgeliefert werden kann, egal wie großzügig der Hinweis war.
 * Auf einem **gemeinsam genutzten Store** laufen Clients gegeneinander um die Wette. Jeder Client verwirft seinen eigenen Schreibvorgang, wenn eine Verdrängung den laufenden Abruf überholt hat, aber ein Client eines *Mit-Mandanten* kann trotzdem einen Eintrag zurückschreiben, den eine Verdrängung entfernt hatte, die er nie gesehen hat; und diese Race-Buchführung ist selbst begrenzt: Jenseits von 4096 verfolgten Schlüsseln wird zuerst der Schutz des ältesten Schlüssels verworfen. Beide Fenster sind akzeptiert und werden durch die TTL-Obergrenze oben geschlossen.
 * **Kein Ausliefern über Protokollgenerationen hinweg.** Einträge sind auf die ausgehandelte Protokollversion beschränkt: Auf einem gemeinsam genutzten persistenten Store liefert eine Session nie einen Eintrag aus, der unter einer anderen ausgehandelten Version geschrieben wurde (dieselbe Liste unterscheidet sich tatsächlich je nach Generation, weil das SDK die 2026er-Felder für ältere Sessions entfernt). Verdrängung berührt ebenso nur die Einträge der aktuellen Generation; Einträge einer anderen Generation laufen einfach per TTL ab.
 

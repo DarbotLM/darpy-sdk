@@ -1,4 +1,4 @@
-from mcp.server.extension import Extension
+from darpy_sdk.server.extension import Extension
 
 
 class Stamps(Extension):

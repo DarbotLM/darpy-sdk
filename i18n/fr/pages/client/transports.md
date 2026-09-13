@@ -125,13 +125,13 @@ La même forme sert aussi d’API d’intégration : une application qui constru
 
 ## SSE {#sse}
 
-`sse_client(url)`, du module `mcp.client.sse`, est le transport HTTP que Streamable HTTP a remplacé. Enveloppez-le de la même manière, `Client(sse_client("http://localhost:8000/sse"))`, pour dialoguer avec un serveur qui le parle encore, et ne construisez rien de nouveau dessus.
+`sse_client(url)`, du module `darpy_sdk.client.sse`, est le transport HTTP que Streamable HTTP a remplacé. Enveloppez-le de la même manière, `Client(sse_client("http://localhost:8000/sse"))`, pour dialoguer avec un serveur qui le parle encore, et ne construisez rien de nouveau dessus.
 
 ## Le protocole `Transport` {#the-transport-protocol}
 
 Pour `Client`, tout ce qui précède est une seule et même chose.
 
-Un **transport** est n’importe quel gestionnaire de contexte asynchrone qui produit une paire `(read, write)` de flux de messages : formellement, le protocole `Transport` de `mcp.client`. `Client` résout son argument selon son type : une `str` devient `streamable_http_client(url)`, un `StdioServerParameters` devient `stdio_client(params)`, un objet serveur se connecte dans le processus, et tout le reste est ouvert directement comme transport. C’est cette dernière règle qui explique pourquoi `stdio_client(...)`, `streamable_http_client(...)` et `sse_client(...)` s’insèrent tous au même emplacement, et pourquoi vous pouvez écrire le vôtre.
+Un **transport** est n’importe quel gestionnaire de contexte asynchrone qui produit une paire `(read, write)` de flux de messages : formellement, le protocole `Transport` de `darpy_sdk.client`. `Client` résout son argument selon son type : une `str` devient `streamable_http_client(url)`, un `StdioServerParameters` devient `stdio_client(params)`, un objet serveur se connecte dans le processus, et tout le reste est ouvert directement comme transport. C’est cette dernière règle qui explique pourquoi `stdio_client(...)`, `streamable_http_client(...)` et `sse_client(...)` s’insèrent tous au même emplacement, et pourquoi vous pouvez écrire le vôtre.
 
 ## Récapitulatif {#recap}
 

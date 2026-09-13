@@ -2,7 +2,7 @@
 
 from pydantic import Field
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create server
 mcp = MCPServer("Parameter Descriptions Server")

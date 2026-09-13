@@ -16,13 +16,13 @@ Start the server on the default or custom port:
 ```bash
 
 # Using custom port
-uv run mcp-simple-streamablehttp --port 3000
+uv run darpy-sdk-simple-streamablehttp --port 3000
 
 # Custom logging level
-uv run mcp-simple-streamablehttp --log-level DEBUG
+uv run darpy-sdk-simple-streamablehttp --log-level DEBUG
 
 # Enable JSON responses instead of SSE streams
-uv run mcp-simple-streamablehttp --json-response
+uv run darpy-sdk-simple-streamablehttp --json-response
 ```
 
 The server exposes a tool named "start-notification-stream" that accepts three arguments:

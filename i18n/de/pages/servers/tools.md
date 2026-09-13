@@ -63,7 +63,7 @@ Kümmere dich noch nicht um `structured_content`. Gib aus deinen Tools echte Pyt
 Starte den Server mit dem MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Öffne die URL, die er ausgibt, geh zum Tab **Tools** und ruf `search_books` auf.

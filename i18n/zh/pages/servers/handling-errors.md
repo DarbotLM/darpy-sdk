@@ -19,7 +19,7 @@ translation:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`ToolError` 来自 `mcp.server.mcpserver.exceptions`，是工具告诉模型出了问题的方式。
+`ToolError` 来自 `darpy_sdk.server.mcpserver.exceptions`，是工具告诉模型出了问题的方式。
 
 用一个书目里没有的书名去调用它，看看结果：
 
@@ -61,13 +61,13 @@ result.structured_content  # None
 
 * **没有结果**。没有 `content`，没有 `is_error`：模型没有任何东西可读。
 * 收到这个错误的是**宿主**应用，和工具根本不存在时的情形一样。
-* `code`、`message` 和 `data` 原封不动地送达。`INVALID_PARAMS` 就是 `-32602`；`mcp.types` 把它和其他 JSON-RPC 错误码（`INVALID_REQUEST`、`INTERNAL_ERROR`……）作为常量导出，这样你永远不用手写魔法数字。
+* `code`、`message` 和 `data` 原封不动地送达。`INVALID_PARAMS` 就是 `-32602`；`darpy_sdk.types` 把它和其他 JSON-RPC 错误码（`INVALID_REQUEST`、`INTERNAL_ERROR`……）作为常量导出，这样你永远不用手写魔法数字。
 
 !!! check
     同样的查找，同样没查到，但这次调用在客户端一侧**抛出了异常**，而不是返回：
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     第一个版本递给模型一句它能据此应对的话。这个版本什么也没给。对 `get_author` 来说这只会更糟，而这正是下一节要讲的重点。
@@ -84,7 +84,7 @@ result.structured_content  # None
 按这个标准，第二版 `get_author` 选错了：换个更好的书名就能解决，所以模型理应看到那条消息。它放在这里是为了让你看清机制，而不是推荐这种写法。
 
 !!! info
-    `MCPError` 通过 `from mcp import MCPError` 导入，接受 `code`、`message` 和可选的 `data` 载荷。你往里放什么，客户端就收到什么：SDK 会把抛出的 `MCPError` 原样转发，不做任何清理。
+    `MCPError` 通过 `from darpy_sdk import MCPError` 导入，接受 `code`、`message` 和可选的 `data` 载荷。你往里放什么，客户端就收到什么：SDK 会把抛出的 `MCPError` 原样转发，不做任何清理。
 
 ## 任何其他异常 {#any-other-exception}
 
@@ -146,7 +146,7 @@ result.content   # [TextContent(text="Error executing tool get_author")]
 * 任何**其他异常**都是崩溃 -> `is_error=True`，模型只看到 `Error executing tool <name>`，你拿到一条带 traceback 的 `ERROR` 记录。
 * 资源处理函数抛出 `ResourceNotFoundError` -> 协议的 `-32602`，URI 在 `data` 里。
 * 不合法的参数在你的函数运行之前就会对照模式被拒掉；这些不用你 `raise`。
-* 导入：`from mcp import MCPError`、`from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`，以及来自 `mcp.types` 的错误码常量。
+* 导入：`from darpy_sdk import MCPError`、`from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`，以及来自 `darpy_sdk.types` 的错误码常量。
 
 错误处理完毕。服务器**对外暴露**的内容就是这些。每个处理函数在运行期间能读到什么、又能反过来对客户端做什么，是下一部分的内容：**[在处理函数内部](../handlers/index.md)**。
 

@@ -16,18 +16,18 @@ translation:
 Чтобы повторять шаги по ходу чтения, вставьте блок в файл `server.py` и откройте его в MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Настоятельно рекомендуем** писать (или копировать) код, править его и запускать локально. Именно работа в собственном редакторе показывает суть: как мало приходится писать, как помогает автодополнение, как проверка типов ловит ошибки ещё до запуска.
 
 ## Гадать не придётся {#you-will-not-be-guessing}
 
-Каждый пример в этой документации — полный файл в каталоге [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) в репозитории самого SDK, и каждый из них прогоняется набором тестов SDK через **клиент в памяти**:
+Каждый пример в этой документации — полный файл в каталоге [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) в репозитории самого SDK, и каждый из них прогоняется набором тестов SDK через **клиент в памяти**:
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

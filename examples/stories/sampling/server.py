@@ -1,7 +1,7 @@
 """Sampling primitive: a tool asks the client's LLM for a completion mid-call."""
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.types import SamplingMessage, TextContent
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.types import SamplingMessage, TextContent
 from stories._hosting import run_server_from_args
 
 

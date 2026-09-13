@@ -9,9 +9,9 @@ import uuid
 
 from pydantic import BaseModel, Field
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.exceptions import UrlElicitationRequiredError
-from mcp.types import ElicitRequestURLParams
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.exceptions import UrlElicitationRequiredError
+from darpy_sdk.types import ElicitRequestURLParams
 
 mcp = MCPServer(name="Elicitation Example")
 

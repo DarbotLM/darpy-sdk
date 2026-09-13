@@ -16,7 +16,7 @@ translation:
 那幾則會從 `http://localhost:8000/mcp` 連上它，所以讓它以 HTTP 持續執行著：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 這一頁引用的錯誤都是真的：SDK 自己的測試套件會重現每一個。
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -132,7 +132,7 @@ TypeError: The @tool decorator was used incorrectly. Did you forget to call it? 
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` 只回報一個 `forecast`，而且是 `forecast_today`。把其中一個改名。`MCPServer(..., warn_on_duplicate_tools=False)` 會讓警告安靜，但結果不變，所以保持開著。資源和提示詞有同樣的規則和同樣的記錄行（`Resource already exists:`、`Prompt already exists:`）。
@@ -167,13 +167,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 伺服器實際送出的字眼 `421` 和 `Invalid Host header` 永遠到不了你手上：421 的本文沒有 `Content-Type: application/json`，所以用戶端無法解析。它們在**伺服器的記錄**裡，那就是下一步該看的地方：
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 修正是 `transport_security=`。把實際服務的主機名稱加入允許清單：
@@ -302,7 +302,7 @@ async def main() -> None:
 **[用戶端回呼](client/callbacks.md)** 列出其他的（`sampling_callback`、`list_roots_callback`），每一個同樣都是宣告。
 
 !!! info
-    `-32021` 是 `MISSING_REQUIRED_CLIENT_CAPABILITY`，是 2026-07-28 規格新增的三個錯誤碼之一。它們都不是例外類別：全部以 `MCPError` 送達，要看的是 `e.error.code`。`mcp.types` 匯出了這些常數。另外兩個是 `-32020` `HEADER_MISMATCH`（HTTP 標頭和它伴隨的請求本文不一致）和 `-32022` `UNSUPPORTED_PROTOCOL_VERSION`（請求指定了這個伺服器不會講的版本）。符合規範的 SDK 用戶端兩者都產生不了，所以如果看到其中一個，去查是什麼東西在用戶端和伺服器之間改寫請求。
+    `-32021` 是 `MISSING_REQUIRED_CLIENT_CAPABILITY`，是 2026-07-28 規格新增的三個錯誤碼之一。它們都不是例外類別：全部以 `MCPError` 送達，要看的是 `e.error.code`。`darpy_sdk.types` 匯出了這些常數。另外兩個是 `-32020` `HEADER_MISMATCH`（HTTP 標頭和它伴隨的請求本文不一致）和 `-32022` `UNSUPPORTED_PROTOCOL_VERSION`（請求指定了這個伺服器不會講的版本）。符合規範的 SDK 用戶端兩者都產生不了，所以如果看到其中一個，去查是什麼東西在用戶端和伺服器之間改寫請求。
 
 ## `MCPError: Elicitation not supported` {#mcperror-elicitation-not-supported}
 
@@ -327,7 +327,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **`stateless_http=True` 伺服器上的舊版連線。** 無狀態表示每個請求都自成一個世界：沒有工作階段、沒有伺服器到用戶端的串流，所以即使是有這些方法的世代，也無處可送 `elicitation/create`（或 `sampling/createMessage`、或 `roots/list`）：
@@ -364,13 +364,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 這則訊息是刻意固定不變的：線路上永遠不會透露是哪一項檢查失敗。原因會寫進**伺服器記錄**，讀它就是全部的診斷：
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 實際上會看到的原因：
@@ -401,8 +401,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## 還是卡住？ {#still-stuck}
 
 * 如果 SDK 產生的某則訊息不在這一頁上，那本身就是值得回報的文件 bug。
-* 搜尋 [issue tracker](https://github.com/modelcontextprotocol/python-sdk/issues)；出現在那裡的錯誤字串，大多已經有人寫過紀錄了。
-* 什麼都沒找到？附上完整的 traceback [開一個 issue](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)，或到 [MCP Contributors Discord 的 #python-sdk-dev](https://discord.gg/6CSzBmMkjX) 發問。
+* 搜尋 [issue tracker](https://github.com/DarbotLM/darpy-sdk/issues)；出現在那裡的錯誤字串，大多已經有人寫過紀錄了。
+* 什麼都沒找到？附上完整的 traceback [開一個 issue](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)，或到 [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues) 發問。
 
 ## 重點回顧 {#recap}
 

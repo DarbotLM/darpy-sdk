@@ -1,58 +1,48 @@
-# MCP Python SDK
+# Darbot Python SDK
 
-<div align="center">
+**`darpy-sdk` is the DarbotLabs Python framework for model, agent, client,
+activity, and context protocol runtime integration.**
 
-<strong>Python implementation of the Model Context Protocol (MCP)</strong>
+The framework lives in this repository under `darpy_sdk`, with its standalone
+wire types under `darpy_sdk_types`. It derives from the MCP Python SDK 2.2.0
+implementation at commit `9972c21aa42054fb1450c5fc614761ed11847ec6` and retains
+its client/server, transport, authentication, type-generation, and conformance
+infrastructure. This is a full framework fork, with its own packages and
+release line, rather than a wrapper that installs the upstream `mcp` package.
+See [source attribution](NOTICE.md).
 
-[![PyPI][pypi-badge]][pypi-url]
-[![MIT licensed][mit-badge]][mit-url]
-[![Python Version][python-badge]][python-url]
-[![Documentation][docs-badge]][docs-url]
-[![Protocol][protocol-badge]][protocol-url]
-[![Specification][spec-badge]][spec-url]
+The initial Darbot version is **0.1.0**. It does not imply an upstream 2.x
+release or a completed production certification. The package supports MCP and
+adds optional Agent Client Protocol and Microsoft Activity integrations. The
+separate [DARPy platform](https://github.com/DarbotLM/darpy) provides `darpy`;
+this SDK provides `darpy_sdk` and the `darpy-sdk` CLI.
 
-</div>
+## Start from this checkout
 
-> [!NOTE]
-> **This is v2 of the MCP Python SDK, the current stable release line.** It is a major rework of the SDK, both to support the [2026-07-28 MCP specification](https://modelcontextprotocol.io/specification/2026-07-28) (and every earlier revision) and to fix long-standing architectural issues. Coming from v1? See [What's new in v2](https://py.sdk.modelcontextprotocol.io/whats-new/) for the tour of what changed and the [migration guide](https://py.sdk.modelcontextprotocol.io/migration/) for every breaking change.
->
-> **Not ready to migrate?** v1.x lives on the [`v1.x` branch](https://github.com/modelcontextprotocol/python-sdk/tree/v1.x), continues to receive critical bug fixes and security patches, and is documented at <https://py.sdk.modelcontextprotocol.io/v1/>. Since `pip install mcp` now installs 2.x, keep a `<2` upper bound on your requirement (for example `mcp>=1.28,<2`) until you've migrated.
->
-> Something rough, confusing, or broken? [Open an issue](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml) or find us in [#python-sdk-dev on the MCP Contributors Discord](https://discord.gg/6CSzBmMkjX).
-
-## Documentation
-
-**The documentation lives at <https://py.sdk.modelcontextprotocol.io/>.**
-
-It has a [Get started guide](https://py.sdk.modelcontextprotocol.io/get-started/), [What's new in v2](https://py.sdk.modelcontextprotocol.io/whats-new/), the [API reference](https://py.sdk.modelcontextprotocol.io/api/mcp/), and the [migration guide](https://py.sdk.modelcontextprotocol.io/migration/).
-
-## What is MCP?
-
-The [Model Context Protocol](https://modelcontextprotocol.io) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but designed for LLM interactions. With this SDK you can:
-
-- **Build MCP servers** that expose tools, resources, and prompts to any MCP host
-- **Build MCP clients** that connect to any MCP server
-- Speak every standard transport: stdio, Streamable HTTP, and SSE
-
-## Requirements
-
-Python 3.10+.
-
-## Installation
+Python 3.10+ is required for the core SDK. Optional integrations may have a
+higher Python requirement, recorded by their dependency metadata.
 
 ```bash
-uv add "mcp[cli]"      # or: pip install "mcp[cli]"
+git clone https://github.com/DarbotLM/darpy-sdk.git
+cd darpy-sdk
+uv sync --frozen --all-extras
+uv run --frozen darpy-sdk version
+uv run --frozen darpy-sdk doctor
 ```
 
-The `cli` extra adds the `mcp` command-line tool (`mcp dev`, `mcp run`, `mcp install`) on top of the SDK; install plain `mcp` if you don't need it. For one-off commands, `uv run --with "mcp[cli]" mcp ...` works without a project.
+Use the checkout and its lockfile until a DarbotLabs package release is
+published. The repository contains release tooling; that alone does not mean
+PyPI projects, trusted publishers, or a hosted documentation site are active.
+[Installation](docs/get-started/installation.md) describes the package layout,
+optional extras, and local distribution builds.
 
-## A server in 15 lines
+## Build an MCP server
 
-Create a `server.py`:
+Create `server.py`:
 
 <!-- snippet-source docs_src/index/tutorial001.py -->
 ```python
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Demo")
 
@@ -69,65 +59,74 @@ def greeting(name: str) -> str:
     return f"Hello, {name}!"
 ```
 
-_Full example: [docs_src/index/tutorial001.py](https://github.com/modelcontextprotocol/python-sdk/blob/main/docs_src/index/tutorial001.py)_
+_Full example: [docs_src/index/tutorial001.py](https://github.com/DarbotLM/darpy-sdk/blob/main/docs_src/index/tutorial001.py)_
 <!-- /snippet-source -->
 
-That's a complete MCP server: one tool, one templated resource. Open it in the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):
+Run the server from the synchronized checkout:
 
 ```bash
-uv run mcp dev server.py
+uv run --frozen darpy-sdk run server.py --transport streamable-http
 ```
 
-Call `add` with `a=1`, `b=2` and you get `3` back.
+MCP remains the protocol name. Paths such as `/mcp`, protocol headers,
+`mcpServers` host configuration keys, and MCP specification URLs remain
+unchanged so existing clients and hosts can interoperate.
 
-Notice what you did **not** write: no JSON Schema (`a: int, b: int` _is_ the schema), no request parsing, no validation code, no protocol handling. Two type-hinted Python functions and a docstring.
-
-[Get started](https://py.sdk.modelcontextprotocol.io/get-started/) takes it from here.
-
-## A client in 10 lines
-
-The same package is a full MCP **client**. Serve `server.py` over HTTP:
-
-```bash
-uv run mcp run server.py --transport streamable-http
-```
-
-then point a `Client` at it:
+## Connect a client
 
 ```python
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
     async with Client("http://localhost:8000/mcp") as client:
         result = await client.call_tool("add", {"a": 1, "b": 2})
-        print(result.structured_content)  # {'result': 3}
+        print(result.structured_content)
 
 
 asyncio.run(main())
 ```
 
-A URL means Streamable HTTP, the transport you deploy. `Client` can also launch a local server as a stdio subprocess or take any custom transport; [Clients](https://py.sdk.modelcontextprotocol.io/client/) has the rest.
+The MCP client supports HTTP, stdio subprocesses, custom transports, and
+in-memory servers. Optional integrations use `darpy_sdk.protocols.acp` and
+`darpy_sdk.protocols.activity`; see [protocol integrations](docs/protocols.md)
+for supported behavior and limits. Verified dependency baselines for this
+work are `agent-client-protocol==0.12.1`,
+`microsoft-agents-activity==1.5.0`, and
+`microsoft-agents-hosting-core==1.5.0`. The lockfile records exact resolved
+versions; installing a dependency alone is not a conformance result.
 
-## Contributing
+## Documentation
 
-We are passionate about supporting contributors of all levels of experience and would love to see you get involved in the project. See the [contributing guide](https://github.com/modelcontextprotocol/python-sdk/blob/main/CONTRIBUTING.md) to get started.
+- [Framework guide](docs/index.md) and [installation](docs/get-started/installation.md)
+- [Migration from upstream packages](docs/darbot-migration.md)
+- [MCP client and server framework tour](docs/whats-new.md)
+- [Protocol integrations](docs/protocols.md) and [protocol versions](docs/protocol-versions.md)
+- [Roadmap](ROADMAP.md), [version policy](VERSIONING.md), and [release gates](RELEASE.md)
+- [Contribution guide](CONTRIBUTING.md) and [security policy](SECURITY.md)
+
+Build the API reference and documentation locally with
+`bash scripts/docs/build.sh`. The strict build checks links and API rendering.
+Language editions use current English fallback while inherited translations
+await regeneration under the Darbot namespace; [translation status](docs/translations.md)
+explains this explicitly.
+
+## Verification
+
+```bash
+uv run --frozen ruff check .
+uv run --frozen pyright
+./scripts/test
+uv run --frozen --group codegen python scripts/gen_surface_types.py --check
+```
+
+The retained test gate requires 100% branch coverage and checks unnecessary
+coverage exclusions. CI also defines cross-version/platform and MCP conformance
+jobs. Configured checks do not mean every hosted job has already passed.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/modelcontextprotocol/python-sdk/blob/main/LICENSE) file for details.
-
-[pypi-badge]: https://img.shields.io/pypi/v/mcp.svg
-[pypi-url]: https://pypi.org/project/mcp/
-[mit-badge]: https://img.shields.io/pypi/l/mcp.svg
-[mit-url]: https://github.com/modelcontextprotocol/python-sdk/blob/main/LICENSE
-[python-badge]: https://img.shields.io/pypi/pyversions/mcp.svg
-[python-url]: https://www.python.org/downloads/
-[docs-badge]: https://img.shields.io/badge/docs-python--sdk-blue.svg
-[docs-url]: https://py.sdk.modelcontextprotocol.io/
-[protocol-badge]: https://img.shields.io/badge/protocol-modelcontextprotocol.io-blue.svg
-[protocol-url]: https://modelcontextprotocol.io
-[spec-badge]: https://img.shields.io/badge/spec-spec.modelcontextprotocol.io-blue.svg
-[spec-url]: https://modelcontextprotocol.io/specification/latest
+The SDK is MIT licensed. See [LICENSE](LICENSE) and [NOTICE](NOTICE.md) for
+retained upstream copyright, source history, and DarbotLabs changes.

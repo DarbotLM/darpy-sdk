@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 透過 HTTP 提供服務，用戶端就是證明：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ uv run mcp run server.py --transport streamable-http
 要宣告一個**沒有**任何用戶端行為的識別碼（伺服器以這個能力為關卡，用戶端什麼都不做，就像上面的搜尋用戶端），使用 `advertise()`：
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### 擴充功能動詞 {#extension-verbs}
 
-擴充功能自己的請求方法不需要用戶端註冊。廠商請求型別繼承 `mcp.types.Request`，並透過 `client.session.send_request` 送出，如[提供自己的方法](#serving-your-own-methods)所示。以一個伺服器為例，它的擴充功能提供一個和具名工作有關的動詞：
+擴充功能自己的請求方法不需要用戶端註冊。廠商請求型別繼承 `darpy_sdk.types.Request`，並透過 `client.session.send_request` 送出，如[提供自己的方法](#serving-your-own-methods)所示。以一個伺服器為例，它的擴充功能提供一個和具名工作有關的動詞：
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

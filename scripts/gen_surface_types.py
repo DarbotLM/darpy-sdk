@@ -1,7 +1,7 @@
 """Regenerate the per-version wire-shape surface packages from vendored schemas.
 
 Runs `datamodel-code-generator` over each `schema/PINNED.json` entry and
-writes the result to `src/mcp-types/mcp_types/_v<version>/__init__.py` (the
+writes the result to `src/darpy-sdk-types/darpy_sdk_types/_v<version>/__init__.py` (the
 underscore marks these as internal validators, not public API) with only
 the fixes the raw output needs: a small JSON pre-patch for the known
 `number`-as-`integer` schema.json defect, a header, full URLs for the spec's
@@ -25,7 +25,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = REPO_ROOT / "schema"
-TYPES_DIR = REPO_ROOT / "src" / "mcp-types" / "mcp_types"
+TYPES_DIR = REPO_ROOT / "src" / "darpy-sdk-types" / "darpy_sdk_types"
 
 # The result-meta serverInfo stamp: every `$defs` entry carrying this property
 # gets its typed `$ref` stripped by `make_server_info_opaque` below.
@@ -191,7 +191,7 @@ def run_codegen(schema_path: Path, output_path: Path) -> None:
             "--output", str(output_path),
             "--output-model-type", "pydantic_v2.BaseModel",
             "--target-python-version", "3.10",
-            "--base-class", "mcp_types._wire_base.WireModel",
+            "--base-class", "darpy_sdk_types._wire_base.WireModel",
             "--snake-case-field", "--remove-special-field-name-prefix",
             "--use-annotated", "--use-field-description", "--use-schema-description",
             "--enum-field-as-literal", "all",

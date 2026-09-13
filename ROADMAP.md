@@ -1,21 +1,55 @@
-# Roadmap
+# Darbot Python SDK roadmap
 
-The SDK's work is organized by MCP specification revision, with one GitHub project board per revision; each item is an issue or pull request you can follow.
+The SDK provides the protocol framework for the separate
+[DARPy platform](https://github.com/DarbotLM/darpy). DarbotLabs owns the
+`darpy_sdk` and `darpy_sdk_types` namespaces and release metadata in this fork.
 
-## The 2026-07-28 revision
+## Initial foundation
 
-v2 implements the [2026-07-28 specification](https://modelcontextprotocol.io/specification/2026-07-28) and negotiates back to every earlier revision. Board: **[python-sdk · 2026-07-28 spec](https://github.com/orgs/modelcontextprotocol/projects/42)**; the cross-SDK view is [2026-07-28 Spec Implementation](https://github.com/orgs/modelcontextprotocol/projects/41). Still open there: making advertised capabilities configurable rather than pre-computed ([#2896](https://github.com/modelcontextprotocol/python-sdk/issues/2896)).
+- Refactor the inherited SDK into `darpy-sdk` and `darpy-sdk-types`, with the
+  `darpy-sdk` CLI and Darbot documentation, examples, build, and test paths.
+- Retain inherited MCP client/server, transport, authorization, telemetry,
+  protocol-version negotiation, and schema-generation behavior.
+- Provide optional Agent Client Protocol and Microsoft Activity adapters with
+  explicit supported behavior, tested dependency baselines, and failure modes.
+- Keep wire schemas, protocol identifiers, upstream attribution, and the
+  scientific platform's separate `darpy` namespace intact.
 
-## Not yet implemented
+The initial Darbot version is 0.1.0. A completed rename or an installed protocol
+package is not a claim of production certification or complete DARPy platform
+implementation.
 
-Of the extensions and optional client-auth mechanisms not yet implemented, those the conformance suite already exercises appear in its expected-failures baseline, [`.github/actions/conformance/expected-failures.yml`](.github/actions/conformance/expected-failures.yml), which burns down as each lands. The main ones:
+## Protocol workstreams
 
-* **Tasks extension** (`io.modelcontextprotocol/tasks`, [SEP-2663](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/seps/2663-tasks-extension.md)) — deferred at 2.0 because the 2026-07-28 design is wire-incompatible with the earlier in-core Tasks; tracked in [#2806](https://github.com/modelcontextprotocol/python-sdk/issues/2806).
-* **DPoP-bound access tokens** ([SEP-1932](https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1932)) in the OAuth client.
-* **The workload-identity `jwt-bearer` grant** in the OAuth client.
+The current inherited schema snapshots and hashes are recorded in
+[schema/PINNED.json](schema/PINNED.json). The MCP conformance suite and
+[expected failures](.github/actions/conformance/expected-failures.yml) make
+unsupported scenarios inspectable. Preserve these gates while adapting to later
+specification revisions.
 
-Everything else — bugs and smaller features — lives in the [issue tracker](https://github.com/modelcontextprotocol/python-sdk/issues), prioritized `P0`–`P3`. The SDK aims to release support for each new specification revision alongside that revision.
+Agent Client Protocol and Activity package baselines, capabilities, transport
+boundaries, and integration tests belong in [protocol integrations](docs/protocols.md).
+Changes to those integrations must distinguish protocol fields that pass through
+unchanged from behavior the Darbot runtime actually executes.
 
-## The previous major
+Upstream optional MCP work, including Tasks-extension behavior, DPoP-bound
+authorization, and workload identity, remains separate work unless implemented
+and verified in this fork. Upstream issues and boards are research references;
+they are not Darbot delivery commitments.
 
-`v1.x` is a maintenance line: critical bug fixes and security fixes only. Support terms are in [Versioning and support policy](VERSIONING.md#support-and-announcements); the path off it is the **[Migration Guide](https://py.sdk.modelcontextprotocol.io/migration/)**.
+## Runtime and platform integration
+
+Extend typed task/context contracts, cancellation, session lifecycle, bounded
+execution, tool authorization, and observable errors through measured increments.
+The DARPy platform owns scientific computation, orchestration, and its broader
+agent/team/swarm roadmap; the SDK provides interoperable protocol and transport
+surfaces. Cross-repository integrations require explicit version and schema
+contracts, rather than installing both packages into the same namespace.
+
+## Release readiness
+
+Before publication, meet [release gates](RELEASE.md), inspect built artifacts,
+verify the configured platform matrix, and record remaining limitations.
+Track concrete work through [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues).
+No upstream maintenance schedule, issue-response SLA, or automatically recursive
+improvement guarantee is implied.

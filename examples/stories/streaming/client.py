@@ -2,8 +2,8 @@
 
 import anyio
 
-from mcp.client import Client
-from mcp.types import LoggingMessageNotificationParams
+from darpy_sdk.client import Client
+from darpy_sdk.types import LoggingMessageNotificationParams
 from stories._harness import Target, run_client
 
 

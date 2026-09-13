@@ -3,15 +3,15 @@
 import traceback
 
 import pytest
+from darpy_sdk_types import PromptArgument, PromptMessage, TextContent
 from inline_snapshot import snapshot
-from mcp_types import PromptArgument, PromptMessage, TextContent
 
+from darpy_sdk import Client, MCPError
 from docs_src.prompts import tutorial001, tutorial002, tutorial003
-from mcp import Client, MCPError
 from tests.docs_src._helpers import strip_server_info
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_function_becomes_the_prompt() -> None:
@@ -58,7 +58,7 @@ async def test_missing_required_argument_is_a_protocol_error() -> None:
         assert exc_info.value.message == "Internal server error"
         # The line a traceback prints, exactly as the page quotes it: the code is not in the message.
         assert traceback.format_exception_only(exc_info.value) == snapshot(
-            ["mcp.shared.exceptions.MCPError: Internal server error\n"]
+            ["darpy_sdk.shared.exceptions.MCPError: Internal server error\n"]
         )
 
 

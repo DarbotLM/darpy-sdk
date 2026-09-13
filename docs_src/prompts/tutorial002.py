@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.server.mcpserver.prompts.base import AssistantMessage, Message, UserMessage
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver.prompts.base import AssistantMessage, Message, UserMessage
 
 mcp = MCPServer("Code Helper")
 

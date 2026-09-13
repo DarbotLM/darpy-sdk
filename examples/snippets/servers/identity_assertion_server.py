@@ -25,14 +25,14 @@ import secrets
 import time
 from dataclasses import dataclass
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     IdentityAssertionParams,
     OAuthAuthorizationServerProvider,
     RefreshToken,
 )
-from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthToken
 
 
 @dataclass

@@ -14,7 +14,7 @@ from typing import Any, Literal
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     LATEST_PROTOCOL_VERSION,
     ClientCapabilities,
     CreateMessageRequest,
@@ -33,12 +33,12 @@ from mcp_types import (
     SamplingContextCapability,
     SamplingToolsCapability,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
 from pydantic import BaseModel, ValidationError
 
-from mcp.server.connection import Connection
-from mcp.shared.dispatcher import CallOptions
-from mcp.shared.exceptions import NoBackChannelError
+from darpy_sdk.server.connection import Connection
+from darpy_sdk.shared.dispatcher import CallOptions
+from darpy_sdk.shared.exceptions import NoBackChannelError
 
 _CLIENT_INFO = Implementation(name="t", version="0")
 
@@ -147,7 +147,7 @@ async def test_connection_notify_forwards_to_outbound():
 
 @pytest.mark.anyio
 async def test_connection_notify_swallows_broken_stream_and_debug_logs(caplog: pytest.LogCaptureFixture):
-    caplog.set_level(logging.DEBUG, logger="mcp.server.connection")
+    caplog.set_level(logging.DEBUG, logger="darpy_sdk.server.connection")
     out = StubOutbound(raise_on_send=anyio.BrokenResourceError)
     conn = Connection.for_loop(out)
     await conn.notify("notifications/message", {"data": "x"})  # must not raise
@@ -157,7 +157,7 @@ async def test_connection_notify_swallows_broken_stream_and_debug_logs(caplog: p
 @pytest.mark.anyio
 async def test_connection_notify_drops_when_no_standalone_channel(caplog: pytest.LogCaptureFixture):
     """SDK-defined: the no-channel sentinel debug-logs and drops; `notify` never raises."""
-    caplog.set_level(logging.DEBUG, logger="mcp.server.connection")
+    caplog.set_level(logging.DEBUG, logger="darpy_sdk.server.connection")
     conn = Connection.from_envelope(LATEST_PROTOCOL_VERSION, None, None)
     await conn.notify("notifications/message", {"data": "x"})  # must not raise
     assert "no standalone channel" in caplog.text.lower()

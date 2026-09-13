@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -78,13 +84,18 @@
       "source": "sampling",
       "target": "采样",
       "note": "The (deprecated) client feature that lets a server borrow the client's model. Gloss the English on first use per page: 采样（sampling）. The `sampling` capability key and `sampling/createMessage` stay Latin. 抽样/取样 mean statistical sampling and are the wrong sense here.",
-      "avoid": ["抽样", "取样"]
+      "avoid": [
+        "抽样",
+        "取样"
+      ]
     },
     {
       "source": "roots",
       "target": "根目录",
       "note": "The (deprecated) client feature listing workspace folders; a `Root` object in code font stays Latin. Gloss the English on first use per page: 根目录（roots）. Never the bare 根 and never 根节点 (a tree node). Provisional pending native review.",
-      "avoid": ["根节点"]
+      "avoid": [
+        "根节点"
+      ]
     },
     {
       "source": "elicitation",
@@ -105,7 +116,9 @@
       "source": "session",
       "target": "会话",
       "note": "An MCP session (the negotiated connection state); `session` objects in code font stay Latin. Not 会议 (a meeting). Provisional pending native review.",
-      "avoid": ["会议"]
+      "avoid": [
+        "会议"
+      ]
     },
     {
       "source": "handler",
@@ -126,7 +139,9 @@
       "source": "server",
       "target": "服务器",
       "note": "An MCP server (the program you build). \"server-side\" → 服务器端. The low-level `Server` class stays Latin in code font. Not 伺服器 (the zh-TW term); do not mix in 服务端 for the same noun. Provisional pending native review.",
-      "avoid": ["伺服器"]
+      "avoid": [
+        "伺服器"
+      ]
     },
     {
       "source": "host",
@@ -162,7 +177,9 @@
       "source": "wire",
       "target": "线路",
       "note": "The corpus's light metaphor for the transport stream (\"on the wire\" → 在线路上; \"nothing changes on the wire\" → 线路上没有任何变化). Never 电线 (a physical cable). Provisional pending native review.",
-      "avoid": ["电线"]
+      "avoid": [
+        "电线"
+      ]
     },
     {
       "source": "deprecated",
@@ -183,7 +200,9 @@
       "source": "you",
       "target": "你",
       "note": "The register rule from instructions.md made machine-checkable: 您 must never appear on a page. Prefer dropping the pronoun; when one is needed it is 你.",
-      "avoid": ["您"]
+      "avoid": [
+        "您"
+      ]
     },
     {
       "source": "Get started",

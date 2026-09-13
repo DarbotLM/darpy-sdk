@@ -29,7 +29,7 @@ SDK はすべてのリクエストを `MCP-Protocol-Version` ヘッダーで振�
 これを HTTP で公開します。続いて、両方の世代のクライアントがそれを呼び出す様子です。
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -115,7 +115,7 @@ mcp.run(transport="streamable-http", session_idle_timeout=None, max_sessions=50_
     レガシークライアントの呼び出しは、モデルが読める `is_error` の結果としては返ってきません。リクエスト全体が、トップレベルのプロトコルエラーとして失敗します。
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` は助けにはなりませんでした。`2025-11-25` の接続では `elicitation/create` を送る「しかない」のですが、そのために必要なチャネルこそが、`stateless_http=True` で手放したものです。世代間で可搬なコードは、バックチャネル（back-channel）を必要としないコードではありません。

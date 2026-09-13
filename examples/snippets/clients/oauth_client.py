@@ -3,7 +3,7 @@ To spin up RS server locally, see
     examples/servers/simple-auth/README.md
 
 cd to the `examples/snippets` directory and run:
-    uv run oauth-client
+    uv run darpy-sdk-oauth-client
 """
 
 import asyncio
@@ -12,10 +12,10 @@ from urllib.parse import parse_qs, urlparse
 import httpx2
 from pydantic import AnyUrl
 
-from mcp import ClientSession
-from mcp.client.auth import AuthorizationCodeResult, OAuthClientProvider, TokenStorage
-from mcp.client.streamable_http import streamable_http_client
-from mcp.shared.auth import OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
+from darpy_sdk import ClientSession
+from darpy_sdk.client.auth import AuthorizationCodeResult, OAuthClientProvider, TokenStorage
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
 
 
 class InMemoryTokenStorage(TokenStorage):

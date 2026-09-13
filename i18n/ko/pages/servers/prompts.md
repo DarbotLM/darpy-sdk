@@ -64,7 +64,7 @@ SDK는 도구에서 읽는 것과 똑같은 세 가지를 읽습니다.
     요청 자체가 JSON-RPC 오류(코드 `-32603`)로 실패합니다.
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     이 과정에는 모델이 관여하지 않으므로 모델에게 돌려줄 도구 방식의 오류 결과는 없습니다.
@@ -75,7 +75,7 @@ SDK는 도구에서 읽는 것과 똑같은 세 가지를 읽습니다.
 MCP Inspector로 서버를 실행하세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Prompts** 탭을 열고 `review_code`를 선택하세요. Inspector가 필수 `code` 필드 하나가 있는 양식을 그립니다. 필드를 채우고 렌더링하면 위의 사용자 메시지가 그대로 돌아옵니다.
@@ -90,7 +90,7 @@ uv run mcp dev server.py
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage`와 `AssistantMessage`는 `mcp.server.mcpserver.prompts.base`에 있습니다. `str`을 넘기면 알아서 `TextContent`로 감싸 줍니다. 역할은 클래스 이름입니다.
+* `UserMessage`와 `AssistantMessage`는 `darpy_sdk.server.mcpserver.prompts.base`에 있습니다. `str`을 넘기면 알아서 `TextContent`로 감싸 줍니다. 역할은 클래스 이름입니다.
 * `Message`는 둘의 공통 기반 클래스입니다. 반환 어노테이션으로 사용하세요.
 
 이제 `debug_error`를 렌더링하면 메시지 세 개가 순서대로 만들어집니다.
@@ -154,7 +154,7 @@ uv run mcp dev server.py
 ```
 
 * 스타일 가이드는 `style://python`에 있는 리소스이며(**[리소스](resources.md)**에서 다룹니다), `server.py` 옆의 `style-guide.md`에서 읽어 옵니다. 아무 Markdown 파일이나 그 자리에 두세요.
-* `EmbeddedResource(resource=TextResourceContents(...))`(둘 다 `mcp.types`에 있습니다)는 URI와 MIME 타입과 함께 파일을 첫 번째 메시지로 담고, 이 파일을 참조하는 요청이 일반 텍스트로 뒤따릅니다.
+* `EmbeddedResource(resource=TextResourceContents(...))`(둘 다 `darpy_sdk.types`에 있습니다)는 URI와 MIME 타입과 함께 파일을 첫 번째 메시지로 담고, 이 파일을 참조하는 요청이 일반 텍스트로 뒤따릅니다.
 * 가이드를 f-string에 붙여 넣는 대신 임베딩하면 클라이언트가 첨부 파일로 보여 주고 나중에 `style://python`을 다시 열 수 있으며, 모델은 파일을 원문 그대로 받습니다. 바이너리 파일에는 base64 `blob`을 담은 `BlobResourceContents`를 사용하세요.
 
 렌더링하면 첫 번째 메시지의 `content`는 `resource` 블록입니다.

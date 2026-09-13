@@ -1,9 +1,9 @@
 import anyio
 
-from mcp import Client
-from mcp.client import advertise
-from mcp.server.apps import APP_MIME_TYPE, EXTENSION_ID
-from mcp.types import TextContent
+from darpy_sdk import Client
+from darpy_sdk.client import advertise
+from darpy_sdk.server.apps import APP_MIME_TYPE, EXTENSION_ID
+from darpy_sdk.types import TextContent
 
 APPS_SUPPORT = advertise(EXTENSION_ID, {"mimeTypes": [APP_MIME_TYPE]})
 

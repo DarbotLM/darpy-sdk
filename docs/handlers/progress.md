@@ -26,7 +26,7 @@ The client opts in **per call**, by passing `progress_callback=` to `call_tool`:
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -60,7 +60,7 @@ The callback is an `async` function taking exactly what the server reported: `pr
 Serve `server.py` over HTTP, then run the client from a second terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

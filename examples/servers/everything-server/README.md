@@ -8,7 +8,7 @@ The Everything Server is a reference implementation that demonstrates all featur
 
 ## Installation
 
-From the python-sdk root directory:
+From the darpy-sdk root directory:
 
 ```bash
 uv sync --frozen
@@ -21,13 +21,13 @@ uv sync --frozen
 Start the server with default settings (port 3001):
 
 ```bash
-uv run -m mcp_everything_server
+uv run -m darpy_sdk_everything_server
 ```
 
 Or with custom options:
 
 ```bash
-uv run -m mcp_everything_server --port 3001 --log-level DEBUG
+uv run -m darpy_sdk_everything_server --port 3001 --log-level DEBUG
 ```
 
 The server will be available at: `http://localhost:3001/mcp`

@@ -52,7 +52,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 server को MCP Inspector के साथ चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 यह जो URL print करता है उसे खोलें और **Resources** tab पर जाएँ। `config://app` अपने description के साथ सूची में है। उस पर click करें और Inspector उसे पढ़ लेता है: config की आपकी दोनों lines सामने हैं।
@@ -128,7 +128,7 @@ placeholder syntax [RFC 6570](https://datatracker.ietf.org/doc/html/rfc6570) ह
 !!! tip
     जब आप इन्हें function से derive नहीं करना चाहते, तब `@mcp.resource()` `name=`, `title=` और `description=` भी
     स्वीकार करता है। और जब लिखने को कोई function ही न हो, तब
-    `mcp.server.mcpserver.resources` में तैयार `Resource` classes हैं (`TextResource`,
+    `darpy_sdk.server.mcpserver.resources` में तैयार `Resource` classes हैं (`TextResource`,
     `BinaryResource`, `FileResource`, `HttpResource`, `DirectoryResource`) जिन्हें आप
     `mcp.add_resource(...)` से register करते हैं।
 

@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "Client",
-      "note": "An MCP client, and the client side of a connection: der Client / die Clients. Not Kunde (a customer). The `Client` class and the `mcp.client` module are code and stay untouched."
+      "note": "An MCP client, and the client side of a connection: der Client / die Clients. Not Kunde (a customer). The `Client` class and the `darpy_sdk.client` module are code and stay untouched."
     },
     {
       "source": "server",
@@ -133,7 +139,9 @@
       "source": "host",
       "target": "Host",
       "note": "The MCP host — the application the person talks to, which embeds the client and drives the model (Claude Desktop, an IDE) — and also a network host: der Host / die Hosts in both senses. Never Gastgeber.",
-      "avoid": ["Gastgeber"]
+      "avoid": [
+        "Gastgeber"
+      ]
     },
     {
       "source": "context",
@@ -184,7 +192,9 @@
       "source": "lifespan",
       "target": "Lifespan",
       "note": "The server's startup/shutdown scope (the \"Lifespan\" page, as in the ASGI lifespan); kept in English so the prose matches the `lifespan=` parameter: der Lifespan. May take the gloss \"Lifespan (Start- und Stopp-Phase des Servers)\" on first mention. Lebensdauer is the word for the neighbouring \"lifetime\" (\"for the lifetime of the app\" → für die Lebensdauer der App) and is not banned; Lebenserwartung is always wrong.",
-      "avoid": ["Lebenserwartung"]
+      "avoid": [
+        "Lebenserwartung"
+      ]
     },
     {
       "source": "back-channel",
@@ -225,7 +235,9 @@
       "source": "library",
       "target": "Bibliothek",
       "note": "A software library: die Bibliothek / die Bibliotheken (Library is heard in speech but pin the German word). Bücherei is a lending library and never right here.",
-      "avoid": ["Bücherei"]
+      "avoid": [
+        "Bücherei"
+      ]
     },
     {
       "source": "deploy",

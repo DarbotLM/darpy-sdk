@@ -1,7 +1,7 @@
 import httpx2
 
-from mcp import Client
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk import Client
+from darpy_sdk.client.streamable_http import streamable_http_client
 
 
 async def main() -> None:

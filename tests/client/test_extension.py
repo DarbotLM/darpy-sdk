@@ -1,16 +1,16 @@
-"""Construction-time tests for `mcp.client.extension`; no session is ever opened."""
+"""Construction-time tests for `darpy_sdk.client.extension`; no session is ever opened."""
 
 from dataclasses import FrozenInstanceError
 from typing import Any, Literal, cast
 
 import pytest
+from darpy_sdk_types import CallToolResult, InputRequiredResult, Result
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, InputRequiredResult, Result
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
 from pydantic import AliasChoices, AliasPath, BaseModel, Field
 from pydantic.fields import FieldInfo
 
-from mcp.client.extension import (
+from darpy_sdk.client.extension import (
     ClaimContext,
     ClientExtension,
     NotificationBinding,
@@ -136,7 +136,7 @@ def test_claim_rejects_model_not_subclassing_result() -> None:
     with pytest.raises(ValueError) as exc_info:
         ResultClaim(result_type="plain", model=cast("type[Result]", _NotAResult), resolve=_resolve)
 
-    assert str(exc_info.value) == snapshot("_NotAResult must subclass mcp_types.Result")
+    assert str(exc_info.value) == snapshot("_NotAResult must subclass darpy_sdk_types.Result")
 
 
 def test_claim_rejects_model_aliasing_core_surface_fields() -> None:

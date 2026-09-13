@@ -261,7 +261,7 @@ def test_provenance_front_matter_round_trips_and_keeps_all_digit_hashes_as_strin
 ---
 translation:
   sections: ['1234567890123456', 00ff00ff00ff00ff]
-  tool: 1
+  tool: 2
 ---
 # 本文
 """)
@@ -592,7 +592,7 @@ usage: 4000 input / 1600 output / 3600 cache-write / 400 cache-read tokens
 ---
 translation:
   sections: [66b1e7a79f363f39, 0c72bd9638620faf, 21db181e57737c09]
-  tool: 1
+  tool: 2
 ---
 # ツール {#tools}
 
@@ -1211,7 +1211,7 @@ def test_status_classifies_each_page_against_the_current_english_and_lists_remov
     root = make_repo(tmp_path)
     translate_all(capsys, root)
     index = root / "i18n" / "ja" / "pages" / "index.md"
-    write(index, index.read_text(encoding="utf-8").replace("  tool: 1\n", ""))
+    write(index, index.read_text(encoding="utf-8").replace(f"  tool: {t.TOOL_VERSION}\n", ""))
     write(root / "docs" / "tools.md", TOOLS.replace("Raise to signal a failure.", "Raise `ToolError` to fail."))
     write(root / "i18n" / "languages.yml", LANGUAGES.replace("[migration.md]", "[migration.md, translations.md]"))
 
@@ -1322,7 +1322,7 @@ def test_stage_serves_an_outdated_translation_exactly_as_generated_and_a_missing
     intro, first_tool, errors = t.sections(TOOLS.replace("Raise to signal a failure.", "Raise `ToolError`."))
     write(root / "docs" / "tools.md", intro + errors + first_tool + "\n## More\n\nText.\n")
     index = root / "i18n" / "ja" / "pages" / "index.md"
-    write(index, index.read_text(encoding="utf-8").replace("  tool: 1\n", ""))
+    write(index, index.read_text(encoding="utf-8").replace(f"  tool: {t.TOOL_VERSION}\n", ""))
 
     code, out, err = run(capsys, root, "stage", "--lang", "ja")
 

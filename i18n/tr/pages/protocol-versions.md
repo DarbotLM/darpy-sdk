@@ -14,7 +14,7 @@ Bununla neredeyse hiç ilgilenmeniz gerekmez, çünkü anlaşmayı sizin yeriniz
 Bu sayfadaki her kod parçası, **[İstemci](client/index.md)** sayfasındaki Bookshop `server.py` sunucusuyla konuşan bir `client.py` dosyasıdır. O sunucuyu bir terminalde başlatın:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Ardından her kod parçasını ikinci bir terminalde `python client.py` ile çalıştırın.

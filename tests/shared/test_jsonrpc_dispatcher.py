@@ -10,7 +10,7 @@ from typing import Any
 import anyio
 import anyio.lowlevel
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CONNECTION_CLOSED,
     INTERNAL_ERROR,
     INVALID_PARAMS,
@@ -31,21 +31,21 @@ from mcp_types import (
 )
 from trio.testing import MockClock
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.shared._compat import resync_tracer
-from mcp.shared._context_streams import ContextReceiveStream, ContextSendStream
-from mcp.shared.dispatcher import CallOptions, DispatchContext, OnRequest, coerce_request_id
-from mcp.shared.exceptions import MCPError, NoBackChannelError
-from mcp.shared.jsonrpc_dispatcher import (  # pyright: ignore[reportPrivateUsage]
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared._compat import resync_tracer
+from darpy_sdk.shared._context_streams import ContextReceiveStream, ContextSendStream
+from darpy_sdk.shared.dispatcher import CallOptions, DispatchContext, OnRequest, coerce_request_id
+from darpy_sdk.shared.exceptions import MCPError, NoBackChannelError
+from darpy_sdk.shared.jsonrpc_dispatcher import (  # pyright: ignore[reportPrivateUsage]
     JSONRPCDispatcher,
     PeerCancelMode,
     _OutboundPlan,
     _Pending,
     _plan_outbound,
 )
-from mcp.shared.message import ClientMessageMetadata, MessageMetadata, ServerMessageMetadata, SessionMessage
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.shared.message import ClientMessageMetadata, MessageMetadata, ServerMessageMetadata, SessionMessage
+from darpy_sdk.shared.transport_context import TransportContext
 
 from .conftest import jsonrpc_pair
 from .test_dispatcher import Recorder, echo_handlers, running_pair
@@ -1220,7 +1220,7 @@ async def test_notify_after_connection_close_is_dropped_with_debug_log(caplog: p
         s2c_send.close()  # peer drops: run() sees immediate EOF and returns
         with anyio.fail_after(5):
             await client.run(on_request, on_notify)
-        with caplog.at_level(logging.DEBUG, logger="mcp.shared.jsonrpc_dispatcher"):
+        with caplog.at_level(logging.DEBUG, logger="darpy_sdk.shared.jsonrpc_dispatcher"):
             await client.notify("notifications/roots/list_changed", None)
         assert "dropped notifications/roots/list_changed: dispatcher closed" in caplog.text
         with pytest.raises(anyio.EndOfStream):
@@ -1243,7 +1243,7 @@ async def test_notify_on_torn_down_transport_is_dropped_with_debug_log(caplog: p
             await tg.start(client.run, on_request, on_notify)
             # Close only the peer's receive end, so run() has not observed EOF when the write fails.
             c2s_recv.close()
-            with caplog.at_level(logging.DEBUG, logger="mcp.shared.jsonrpc_dispatcher"), anyio.fail_after(5):
+            with caplog.at_level(logging.DEBUG, logger="darpy_sdk.shared.jsonrpc_dispatcher"), anyio.fail_after(5):
                 await client.notify("notifications/roots/list_changed", None)
             assert "dropped notifications/roots/list_changed: write stream closed" in caplog.text
             tg.cancel_scope.cancel()
@@ -2418,14 +2418,14 @@ def test_plan_outbound_with_related_request_id_drops_resumption_hints_but_keeps_
     caplog: pytest.LogCaptureFixture,
 ):
     """`related_request_id` wins the metadata slot; dropped hints don't suppress the abandon cancel."""
-    with caplog.at_level(logging.DEBUG, logger="mcp.shared.jsonrpc_dispatcher"):
+    with caplog.at_level(logging.DEBUG, logger="darpy_sdk.shared.jsonrpc_dispatcher"):
         plan = _plan_outbound(7, {"resumption_token": "abc"})
     assert isinstance(plan.metadata, ServerMessageMetadata)
     assert plan.metadata.related_request_id == 7
     assert plan.cancel_on_abandon is True
     assert "dropping resumption hints" in caplog.text
     caplog.clear()
-    with caplog.at_level(logging.DEBUG, logger="mcp.shared.jsonrpc_dispatcher"):
+    with caplog.at_level(logging.DEBUG, logger="darpy_sdk.shared.jsonrpc_dispatcher"):
         plan = _plan_outbound(7, {"timeout": 1.0})
     assert isinstance(plan.metadata, ServerMessageMetadata)
     assert "dropping resumption hints" not in caplog.text

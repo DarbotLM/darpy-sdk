@@ -9,9 +9,7 @@ travels on -- that the SDK client never exposes. Transport-agnostic behaviour is
 import anyio
 import pytest
 from anyio.lowlevel import checkpoint
-from httpx2 import ServerSentEvent
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     INVALID_PARAMS,
@@ -32,10 +30,12 @@ from mcp_types import (
     SubscribeRequestParams,
     TextContent,
 )
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
+from httpx2 import ServerSentEvent
+from inline_snapshot import snapshot
 
-from mcp.server import Server, ServerRequestContext
-from mcp.server.transport_security import TransportSecuritySettings
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.transport_security import TransportSecuritySettings
 from tests.interaction._connect import (
     base_headers,
     initialize_body,

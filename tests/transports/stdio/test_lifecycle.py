@@ -11,12 +11,12 @@ from textwrap import dedent
 import anyio
 import anyio.abc
 import pytest
-from mcp_types import TextContent
+from darpy_sdk_types import TextContent
 
-from mcp.client import stdio
-from mcp.client.client import Client
-from mcp.client.stdio import StdioServerParameters, stdio_client
-from mcp.os.win32.utilities import FallbackProcess
+from darpy_sdk.client import stdio
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.os.win32.utilities import FallbackProcess
 from tests.transports.stdio._liveness import (
     accept_alive,
     assert_stream_closed,
@@ -232,7 +232,7 @@ async def test_a_tool_spawned_childs_stdout_writes_never_reach_the_wire(tmp_path
     server = dedent(
         """
         import subprocess, sys
-        from mcp.server import MCPServer
+        from darpy_sdk.server import MCPServer
 
         mcp = MCPServer("noisy-spawner")
 

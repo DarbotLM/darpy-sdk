@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.types import EmbeddedResource, TextResourceContents
+from darpy_sdk.server import MCPServer
+from darpy_sdk.types import EmbeddedResource, TextResourceContents
 
 mcp = MCPServer("Brand kit")
 

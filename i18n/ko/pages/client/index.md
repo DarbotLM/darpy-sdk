@@ -18,7 +18,7 @@ translation:
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 이렇게 하면 `http://localhost:8000/mcp`에서 서버가 제공됩니다. 클라이언트는 별도의 프로그램입니다. `client.py`로 저장하고 두 번째 터미널에서 `python client.py`를 실행하세요.
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 블록에 들어가는 순간 채워지는 읽기 전용 프로퍼티 네 개가 있습니다.
 
-* `client.server_info`: 서버의 신원 정보입니다. 이를 보고하지 않는 2026년 시대의 서버라면 `None`입니다(python-sdk 서버는 기본적으로 보고합니다). 여기서 `server_info.name`은 `"Bookshop"`이고, `server_info.version`은 서버가 보고하는 값입니다.
+* `client.server_info`: 서버의 신원 정보입니다. 이를 보고하지 않는 2026년 시대의 서버라면 `None`입니다(Darbot Python SDK 서버는 기본적으로 보고합니다). 여기서 `server_info.name`은 `"Bookshop"`이고, `server_info.version`은 서버가 보고하는 값입니다.
 * `client.server_capabilities`: 서버가 할 수 있는 것(`tools`, `resources`, `prompts`, `completions`, ...)입니다. 서버에 없는 기능은 `None`입니다.
 * `client.protocol_version`: 양쪽이 합의한 프로토콜 버전입니다. 여기서는 `"2026-07-28"`입니다.
 * `client.instructions`: 서버의 `instructions=` 문자열이며, 설정하지 않았다면 `None`입니다.
@@ -91,7 +91,7 @@ tool.description   # 'Search the catalog by title or author.'
 
 !!! tip
     `title`은 선택 사항이므로, 사람에게 도구를 보여 주는 UI는 무엇을 표시할지 골라야 합니다. `title`이 있으면 쓰고,
-    없으면 `name`을 씁니다. `from mcp.shared.metadata_utils import get_display_name`이 정확히 그 일을 하며,
+    없으면 `name`을 씁니다. `from darpy_sdk.shared.metadata_utils import get_display_name`이 정확히 그 일을 하며,
     도구, 리소스, 리소스 템플릿, 프롬프트 모두에 쓸 수 있습니다.
 
 ## 도구 호출 {#calling-a-tool}

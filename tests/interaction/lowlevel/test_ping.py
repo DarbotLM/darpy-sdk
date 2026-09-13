@@ -1,11 +1,11 @@
 """Ping interactions against the low-level Server, driven through the public Client API."""
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import CallToolResult, EmptyResult, TextContent
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, EmptyResult, TextContent
 
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

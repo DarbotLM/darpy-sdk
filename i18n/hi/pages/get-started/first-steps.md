@@ -52,15 +52,15 @@ server ठीक तीन तरह की चीज़ें expose करत�
 बाकी सब कुछ (नाम, description, argument schema) SDK function से ही पढ़ लेता है: उसका नाम, उसका docstring, उसके type hints। आपने इनमें से कुछ भी अलग से declare नहीं किया।
 
 !!! tip
-    SDK के दो हिस्सों के दो import paths हैं: `from mcp import Client` और
-    `from mcp.server import MCPServer`। `from mcp import MCPServer` जैसा कुछ नहीं है।
+    SDK के दो हिस्सों के दो import paths हैं: `from darpy_sdk import Client` और
+    `from darpy_sdk.server import MCPServer`। `from darpy_sdk import MCPServer` जैसा कुछ नहीं है।
 
 ### इसे आज़माएँ {#try-it}
 
 इसे MCP Inspector से चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 जो URL यह print करता है उसे खोलें। Inspector में हर primitive के लिए एक tab है; उन्हें क्रम से देखें।
@@ -86,7 +86,7 @@ Inspector में आपने तीन tabs देखे। उसे कै
 खुद देखें। एक terminal में `server.py` को HTTP पर चलता छोड़ दें:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 और दूसरे terminal से client को उससे जोड़ें:
@@ -127,7 +127,7 @@ python client.py
 * JSON Schema। `a: int, b: int` **ही** `add` का schema है।
 * request handler। `tools/list`, `resources/read`, `prompts/get`: सब आपके लिए serve होते हैं।
 * capability declaration। `MCPServer` ने आपके लिए बना दिया।
-* protocol की एक भी line। version negotiation, JSON-RPC framing, capability exchange: यह सब `mcp dev` और `client.py` के अंदर हुआ, और आपने कभी देखा ही नहीं।
+* protocol की एक भी line। version negotiation, JSON-RPC framing, capability exchange: यह सब `darpy-sdk dev` और `client.py` के अंदर हुआ, और आपने कभी देखा ही नहीं।
 
 यही अनुपात SDK का पूरा मतलब है।
 

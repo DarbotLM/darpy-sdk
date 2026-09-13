@@ -12,9 +12,9 @@ import pytest
 from inline_snapshot import Is, snapshot
 from pydantic import AnyHttpUrl, AnyUrl
 
-from mcp.client.auth import OAuthClientProvider, PKCEParameters
-from mcp.client.auth.exceptions import OAuthFlowError, OAuthRegistrationError, OAuthTokenError
-from mcp.client.auth.utils import (
+from darpy_sdk.client.auth import OAuthClientProvider, PKCEParameters
+from darpy_sdk.client.auth.exceptions import OAuthFlowError, OAuthRegistrationError, OAuthTokenError
+from darpy_sdk.client.auth.utils import (
     build_oauth_authorization_server_metadata_discovery_urls,
     build_protected_resource_metadata_discovery_urls,
     create_client_info_from_metadata_url,
@@ -33,9 +33,9 @@ from mcp.client.auth.utils import (
     validate_authorization_response_iss,
     validate_metadata_issuer,
 )
-from mcp.server.auth.routes import build_metadata
-from mcp.server.auth.settings import ClientRegistrationOptions, RevocationOptions
-from mcp.shared.auth import (
+from darpy_sdk.server.auth.routes import build_metadata
+from darpy_sdk.server.auth.settings import ClientRegistrationOptions, RevocationOptions
+from darpy_sdk.shared.auth import (
     AuthorizationCodeResult,
     OAuthClientInformationFull,
     OAuthClientMetadata,

@@ -88,10 +88,10 @@ O rastreamento é um middleware, o primeiro da lista do seu servidor. Se você q
 que não emite spans, retire-o:
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

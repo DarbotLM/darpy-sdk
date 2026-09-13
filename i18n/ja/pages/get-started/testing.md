@@ -41,8 +41,8 @@ SDK の `Client` クラスは、URL に接続したりサブプロセスを起�
 ```python title="test_server.py"
 import pytest
 from inline_snapshot import snapshot
-from mcp import Client
-from mcp.types import CallToolResult, TextContent
+from darpy_sdk import Client
+from darpy_sdk.types import CallToolResult, TextContent
 
 from server import mcp
 

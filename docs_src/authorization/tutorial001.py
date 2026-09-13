@@ -1,8 +1,8 @@
 from pydantic import AnyHttpUrl
 
-from mcp.server import MCPServer
-from mcp.server.auth.provider import AccessToken, TokenVerifier
-from mcp.server.auth.settings import AuthSettings
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.auth.provider import AccessToken, TokenVerifier
+from darpy_sdk.server.auth.settings import AuthSettings
 
 RESOURCE = "http://127.0.0.1:8000/mcp"
 

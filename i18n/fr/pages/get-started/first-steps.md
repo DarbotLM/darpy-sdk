@@ -52,15 +52,15 @@ Trois fonctions ordinaires, trois décorateurs. Chaque décorateur constitue à 
 Tout le reste (le nom, la description, le schéma des arguments), le SDK le lit dans la fonction elle-même : son nom, sa docstring, ses annotations de type. Vous n’avez rien déclaré de tout cela séparément.
 
 !!! tip
-    Les deux moitiés du SDK ont deux chemins d’import : `from mcp import Client` et
-    `from mcp.server import MCPServer`. Il n’existe pas de `from mcp import MCPServer`.
+    Les deux moitiés du SDK ont deux chemins d’import : `from darpy_sdk import Client` et
+    `from darpy_sdk.server import MCPServer`. Il n’existe pas de `from darpy_sdk import MCPServer`.
 
 ### Essayer {#try-it}
 
 Lancez-le avec le MCP Inspector :
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Ouvrez l’URL qu’il affiche. L’Inspector a un onglet par primitive ; parcourez-les dans l’ordre.
@@ -86,7 +86,7 @@ Lorsqu’un client se connecte, le serveur déclare ses **capacités** (capabili
 Regardez par vous-même. Laissez `server.py` tourner en HTTP dans un terminal :
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 et pointez un client dessus depuis un autre :
@@ -127,7 +127,7 @@ Reprenez cette page depuis le début. Vous avez écrit trois petites fonctions P
 * De JSON Schema. `a: int, b: int` *est* le schéma de `add`.
 * De gestionnaire de requêtes. `tools/list`, `resources/read`, `prompts/get` : tous servis pour vous.
 * De déclaration de capacités. `MCPServer` l’a faite pour vous.
-* Une seule ligne de protocole. La négociation de version, l’encapsulation JSON-RPC, l’échange de capacités : tout cela s’est passé à l’intérieur de `mcp dev` et de `client.py`, et vous n’en avez rien vu.
+* Une seule ligne de protocole. La négociation de version, l’encapsulation JSON-RPC, l’échange de capacités : tout cela s’est passé à l’intérieur de `darpy-sdk dev` et de `client.py`, et vous n’en avez rien vu.
 
 Ce rapport est tout l’intérêt du SDK.
 

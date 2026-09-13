@@ -10,12 +10,12 @@ from contextlib import AbstractAsyncContextManager
 from typing import Any
 
 import pytest
-from mcp_types import SERVER_INFO_META_KEY
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types import SERVER_INFO_META_KEY
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 
-from mcp.client.client import Client
-from mcp.server import Server
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.client.client import Client
+from darpy_sdk.server import Server
+from darpy_sdk.server.mcpserver import MCPServer
 from tests._stamp import R, Unstamp
 from tests._stamp import unstamped as _strip_required_stamp
 from tests.interaction._connect import (

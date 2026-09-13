@@ -52,7 +52,7 @@ from zensical.config import ConfigurationError
 parse_mkdocs_config = cast("Callable[[str], dict[str, Any]]", getattr(zensical.config, "parse_mkdocs_config"))
 
 # Bumped only when the generated-file contract changes; older files then read as missing.
-TOOL_VERSION = 1
+TOOL_VERSION = 2
 # `max_tokens` per request: several times the longest page, leaving room for
 # any thinking the model does, while inside the ceiling streaming allows.
 OUTPUT_TOKEN_BUDGET = 64_000

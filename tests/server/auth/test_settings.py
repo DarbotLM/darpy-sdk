@@ -3,8 +3,8 @@ import warnings
 import pytest
 from pydantic import AnyHttpUrl, ValidationError
 
-from mcp.server.auth.settings import AuthSettings
-from mcp.shared.exceptions import MCPDeprecationWarning
+from darpy_sdk.server.auth.settings import AuthSettings
+from darpy_sdk.shared.exceptions import MCPDeprecationWarning
 
 ISSUER = AnyHttpUrl("https://auth.example.com")
 RESOURCE = AnyHttpUrl("https://mcp.example.com/mcp")

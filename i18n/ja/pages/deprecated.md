@@ -107,7 +107,7 @@ server = Server("Bookshop", on_roots_list_changed=roots_changed)
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -115,10 +115,10 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 API はこれだけです。メソッドごとのスイッチはありませんし、必要もありません。カテゴリが 1 つである利点は、1 行で黙らせ、1 行で元に戻せることです。
 
 !!! check
-    フィルターを逆向きにかければ、無料で回帰テストが手に入ります。pytest の設定の `filterwarnings` に `"error::mcp.MCPDeprecationWarning"` を追加すると、非推奨の呼び出しは警告ではなく**例外を送出**します。まだ `ctx.info()` を呼んでいる `old_log` という名前のツールは通らなくなります。呼び出しは `is_error=True` と `Error executing tool old_log` を伴って返り、キャプチャされたサーバーのログが原因を名指しします。
+    フィルターを逆向きにかければ、無料で回帰テストが手に入ります。pytest の設定の `filterwarnings` に `"error::darpy_sdk.MCPDeprecationWarning"` を追加すると、非推奨の呼び出しは警告ではなく**例外を送出**します。まだ `ctx.info()` を呼んでいる `old_log` という名前のツールは通らなくなります。呼び出しは `is_error=True` と `Error executing tool old_log` を伴って返り、キャプチャされたサーバーのログが原因を名指しします。
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     pytest の設定を 1 行足すだけで、非推奨の呼び出しがテストを失敗させずにコードベースへ紛れ込むことは二度とありません。
@@ -139,7 +139,7 @@ API はこれだけです。メソッドごとのスイッチはありません�
 * 「代わりにすること」の列が次の行き先を示しています。サンプリングとルートには **[マルチラウンドトリップリクエスト](handlers/multi-round-trip.md)**、ロギングには **[ロギング](handlers/logging.md)**、進捗には **[進捗](handlers/progress.md)** です。`ping` には何も必要ありません。
 * 非推奨は勧告にすぎません。通信上の変更はなく、2026 年より前のセッションに対してはすべてが引き続き動作します。そして目に見える `MCPDeprecationWarning` が出ます（`UserWarning` なので、デフォルトで有効です）。
 * サンプリングとルートにはさらに、2026-07-28 のセッションにはないバックチャネルが必要です。現行仕様の接続では警告を出し、そのあと例外を送出します。
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` でカテゴリ全体を黙らせます。pytest で `"error::mcp.MCPDeprecationWarning"` を指定すれば、テストの失敗に変わります。
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` でカテゴリ全体を黙らせます。pytest で `"error::darpy_sdk.MCPDeprecationWarning"` を指定すれば、テストの失敗に変わります。
 * [SDK 独自の非推奨](#deprecated-sdk-helpers)も同じルールに従います。今は警告を出し、3.0 で古い形式がなくなります。
 * 新しいコードは、これらのどれの上にも築くべきではありません。
 

@@ -3,12 +3,12 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "Esta documentación describe v2, la línea de versiones estable actual"
     ¿Eres nuevo en v2 o vienes de v1? **[Novedades de v2](whats-new.md)** es el recorrido de cinco minutos por lo que cambió, y la **[Guía de migración](migration.md)** cubre cada cambio incompatible.
     ¿Sigues en v1.x? Su documentación está en la [documentación de v1.x](https://py.sdk.modelcontextprotocol.io/v1/).
-    ¿Algo quedó tosco o confuso? [Cuéntanos](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    ¿Algo quedó tosco o confuso? [Cuéntanos](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 El **Model Context Protocol (MCP)** permite que las aplicaciones proporcionen contexto a los LLM de forma estandarizada, separando la tarea de *proporcionar* contexto de la interacción con el LLM en sí.
 
@@ -27,13 +27,13 @@ Python 3.10+.
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 El extra `[cli]` te da el comando `mcp`; lo vas a necesitar para desarrollar.
@@ -56,13 +56,13 @@ Expone una **herramienta**, `add`, y un **recurso** con plantilla, `greeting://{
 ### Ejecútalo {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Esto inicia el servidor y abre el [MCP Inspector](https://github.com/modelcontextprotocol/inspector), una interfaz interactiva para explorarlo. Abre la URL que imprime.
 
 !!! note
-    El Inspector es una app de Node.js, así que `mcp dev` necesita `npx` en tu `PATH`.
+    El Inspector es una app de Node.js, así que `darpy-sdk dev` necesita `npx` en tu `PATH`.
 
 ### Pruébalo {#try-it}
 
@@ -96,7 +96,7 @@ Escribiste dos funciones de Python con anotaciones de tipo y un docstring. El SD
 * ¿Buscas un mensaje de error exacto? **[Solución de problemas](troubleshooting.md)** está organizada por el texto literal.
 * ¿Te preguntas qué cambió en v2? **[Novedades de v2](whats-new.md)** es el recorrido de cinco minutos.
 * ¿Migras desde v1? Empieza por la **[Guía de migración](migration.md)**.
-* ¿Buscas una firma exacta? La **[Referencia de la API](api/mcp/index.md)** se genera a partir del código fuente.
+* ¿Buscas una firma exacta? La **[Referencia de la API](api/darpy_sdk/index.md)** se genera a partir del código fuente.
 * ¿Lees con un LLM? Esta documentación también se publica en el formato [llms.txt](https://llmstxt.org/):
   [llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) es un índice de las páginas, y
   [llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) contiene todas las páginas en un solo archivo.

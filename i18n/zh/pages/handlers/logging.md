@@ -56,7 +56,7 @@ MCP 在协议层面有一个**日志能力**（logging capability）：服务器
 用 MCP Inspector 运行服务器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 在 **Tools** 标签页调用 `search_books`。Inspector 显示的结果只有返回值。这一行

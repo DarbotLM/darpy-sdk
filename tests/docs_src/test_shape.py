@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+pytestmark = pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 DOCS_SRC = REPO_ROOT / "docs_src"
@@ -22,11 +22,11 @@ DOCS_SRC = REPO_ROOT / "docs_src"
 EXAMPLE_FILES = sorted(p for p in DOCS_SRC.rglob("*.py") if p.name != "__init__.py")
 """Every example module under `docs_src/` (the `__init__.py` scaffolding is not an example)."""
 
-_PRIVATE_MCP_IMPORT = re.compile(r"^\s*(?:from|import)\s+(mcp(?:\.\w+)*\._\w+)", re.MULTILINE)
-"""A `_`-private segment inside the imported MODULE path: `from mcp.client._memory import X`."""
+_PRIVATE_SDK_IMPORT = re.compile(r"^\s*(?:from|import)\s+(darpy_sdk(?:\.\w+)*\._\w+)", re.MULTILINE)
+"""A `_`-private segment inside the imported MODULE path: `from darpy_sdk.client._memory import X`."""
 
-_PRIVATE_MCP_NAME = re.compile(r"^\s*from\s+(mcp(?:\.\w+)*)\s+import\s+[^#\n]*?\b(_\w+)\b", re.MULTILINE)
-"""A `_`-private NAME imported from a public `mcp` module: `from mcp.client import _memory`."""
+_PRIVATE_SDK_NAME = re.compile(r"^\s*from\s+(darpy_sdk(?:\.\w+)*)\s+import\s+[^#\n]*?\b(_\w+)\b", re.MULTILINE)
+"""A `_`-private NAME imported from a public `darpy_sdk` module: `from darpy_sdk.client import _memory`."""
 
 RETIRED_NAMES = ("UrlElicitationRequiredError",)
 """Public SDK names built on protocol surfaces retired by the 2026-07-28 spec.
@@ -50,15 +50,15 @@ def _module_name(path: Path) -> str:
     return _rel(path).removesuffix(".py").replace("/", ".")
 
 
-def _private_mcp_imports(source: str) -> list[str]:
-    """Every `mcp.*` import in `source` that reaches a `_`-private module OR name.
+def _private_darpy_sdk_imports(source: str) -> list[str]:
+    """Every `darpy_sdk.*` import in `source` that reaches a `_`-private module OR name.
 
     Two single-line spellings are covered: a private segment in the module path
-    (`from mcp.client._memory import X`, `import mcp.server._otel`) and a private
-    name pulled from a public module (`from mcp.client import _memory`).
+    (`from darpy_sdk.client._memory import X`, `import darpy_sdk.server._otel`) and a private
+    name pulled from a public module (`from darpy_sdk.client import _memory`).
     """
-    named = [f"{module}.{name}" for module, name in _PRIVATE_MCP_NAME.findall(source)]
-    return _PRIVATE_MCP_IMPORT.findall(source) + named
+    named = [f"{module}.{name}" for module, name in _PRIVATE_SDK_NAME.findall(source)]
+    return _PRIVATE_SDK_IMPORT.findall(source) + named
 
 
 def _retired_names_used(source: str) -> list[str]:
@@ -77,25 +77,30 @@ def _is_real_file(rel: str) -> bool:
     return (REPO_ROOT / rel).is_file()
 
 
-def test_private_mcp_import_detector() -> None:
-    """The detector flags both single-line spellings of a private `mcp` reach-in, and only those.
+def test_private_darpy_sdk_import_detector() -> None:
+    """The detector flags both single-line spellings of a private `darpy_sdk` reach-in, and only those.
 
     It does not parse Python: a private name hidden behind an `as` alias or inside a
     parenthesised multi-line `import` would slip through. Examples are short single-line
     imports, so the cheap detector is the right trade against a 100-line AST analyzer.
     """
-    assert _private_mcp_imports("from mcp.client._memory import InMemoryTransport") == ["mcp.client._memory"]
-    assert _private_mcp_imports("import mcp.server._otel") == ["mcp.server._otel"]
-    assert _private_mcp_imports("from mcp.client import _memory") == ["mcp.client._memory"]
-    assert _private_mcp_imports("from mcp.server import MCPServer\nfrom mcp.client.client import Client") == []
-    # only `mcp` is policed: another library's private module is not this test's business
-    assert _private_mcp_imports("from pydantic._internal import _fields") == []
+    assert _private_darpy_sdk_imports("from darpy_sdk.client._memory import InMemoryTransport") == [
+        "darpy_sdk.client._memory"
+    ]
+    assert _private_darpy_sdk_imports("import darpy_sdk.server._otel") == ["darpy_sdk.server._otel"]
+    assert _private_darpy_sdk_imports("from darpy_sdk.client import _memory") == ["darpy_sdk.client._memory"]
+    assert (
+        _private_darpy_sdk_imports("from darpy_sdk.server import MCPServer\nfrom darpy_sdk.client.client import Client")
+        == []
+    )
+    # only `darpy_sdk` is policed: another library's private module is not this test's business
+    assert _private_darpy_sdk_imports("from pydantic._internal import _fields") == []
 
 
 def test_retired_name_detector() -> None:
     """The detector flags a retired name and stays quiet on clean source."""
     assert _retired_names_used("raise UrlElicitationRequiredError([])") == ["UrlElicitationRequiredError"]
-    assert _retired_names_used("from mcp.server import MCPServer") == []
+    assert _retired_names_used("from darpy_sdk.server import MCPServer") == []
 
 
 @pytest.mark.parametrize("path", EXAMPLE_FILES, ids=_rel)
@@ -113,9 +118,11 @@ def test_example_imports(path: Path) -> None:
 
 
 @pytest.mark.parametrize("path", EXAMPLE_FILES, ids=_rel)
-def test_example_uses_only_public_mcp_modules(path: Path) -> None:
-    """An example is the public API contract: it must never import a `_`-private `mcp` module."""
-    assert not _private_mcp_imports(path.read_text(encoding="utf-8")), f"{_rel(path)} reaches into private mcp"
+def test_example_uses_only_public_darpy_sdk_modules(path: Path) -> None:
+    """An example is the public API contract: it must never import a `_`-private `darpy_sdk` module."""
+    assert not _private_darpy_sdk_imports(path.read_text(encoding="utf-8")), (
+        f"{_rel(path)} reaches into private darpy_sdk"
+    )
 
 
 @pytest.mark.parametrize("path", EXAMPLE_FILES, ids=_rel)

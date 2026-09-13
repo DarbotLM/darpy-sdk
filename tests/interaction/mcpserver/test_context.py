@@ -1,8 +1,7 @@
 """The Context convenience methods MCPServer injects into tool functions, observed from the client."""
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     METHOD_NOT_FOUND,
     CallToolResult,
     ElicitRequestFormParams,
@@ -14,12 +13,13 @@ from mcp_types import (
     LoggingMessageNotificationParams,
     TextContent,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext, IncomingMessage
-from mcp.server.elicitation import AcceptedElicitation
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext, IncomingMessage
+from darpy_sdk.server.elicitation import AcceptedElicitation
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

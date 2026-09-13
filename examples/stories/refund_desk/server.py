@@ -6,14 +6,14 @@ from typing import Annotated
 
 from pydantic import BaseModel
 
-from mcp.server.mcpserver import (
+from darpy_sdk.server.mcpserver import (
     AcceptedElicitation,
     Elicit,
     ElicitationResult,
     MCPServer,
     Resolve,
 )
-from mcp.server.mcpserver.exceptions import ToolError
+from darpy_sdk.server.mcpserver.exceptions import ToolError
 from stories._hosting import run_server_from_args
 
 

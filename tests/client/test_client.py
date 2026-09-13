@@ -9,10 +9,9 @@ from contextlib import asynccontextmanager, contextmanager
 from unittest.mock import patch
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     EmptyResult,
     GetPromptResult,
@@ -33,19 +32,20 @@ from mcp_types import (
     Tool,
     ToolsCapability,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
+from inline_snapshot import snapshot
 from pydantic import FileUrl
 
-from mcp import MCPDeprecationWarning, MCPError, StdioServerParameters
-from mcp.client._memory import InMemoryTransport
-from mcp.client._transport import TransportStreams
-from mcp.client.client import Client
-from mcp.client.session import ClientRequestContext
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.memory import MessageStream, create_client_server_memory_streams
-from mcp.shared.message import SessionMessage
+from darpy_sdk import MCPDeprecationWarning, MCPError, StdioServerParameters
+from darpy_sdk.client._memory import InMemoryTransport
+from darpy_sdk.client._transport import TransportStreams
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.session import ClientRequestContext
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.memory import MessageStream, create_client_server_memory_streams
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction._connect import BASE_URL, mounted_app
 
 pytestmark = pytest.mark.anyio
@@ -398,7 +398,7 @@ async def test_complete_with_prompt_reference(simple_server: Server):
 
 
 def test_client_with_url_initializes_streamable_http_transport():
-    with patch("mcp.client.client.streamable_http_client") as mock:
+    with patch("darpy_sdk.client.client.streamable_http_client") as mock:
         _ = Client("http://localhost:8000/mcp")
     mock.assert_called_once_with("http://localhost:8000/mcp")
 
@@ -421,9 +421,9 @@ async def test_client_with_stdio_parameters_launches_the_server_as_a_subprocess(
     behaviour, hence a real child interpreter running a one-line `MCPServer`."""
     params = StdioServerParameters(
         command=sys.executable,
-        args=["-c", "from mcp.server import MCPServer; MCPServer('stdio-demo').run()"],
+        args=["-c", "from darpy_sdk.server import MCPServer; MCPServer('stdio-demo').run()"],
     )
-    # Wider than the standard 5: a cold interpreter start plus `import mcp.server` in the child takes
+    # Wider than the standard 5: a cold interpreter start plus `import darpy_sdk.server` in the child takes
     # seconds on a loaded Windows runner, and exit may wait out stdio_client's terminate/kill
     # escalation (PROCESS_TERMINATION_TIMEOUT + FORCE_KILL_TIMEOUT + reap, ~6s) if the child is slow.
     with anyio.fail_after(20):
@@ -523,7 +523,7 @@ async def test_client_auto_mode_recovers_from_a_timed_out_probe_over_a_stream_lo
     (slow-starting) server and locks the connection modern; the fallback
     handshake's -32022 is modern evidence, so one corrective re-probe completes
     the connect instead of stranding `mode='auto'`."""
-    monkeypatch.setattr("mcp.client.session.DISCOVER_TIMEOUT_SECONDS", 0.05)
+    monkeypatch.setattr("darpy_sdk.client.session.DISCOVER_TIMEOUT_SECONDS", 0.05)
     c2relay_send, c2relay_recv = anyio.create_memory_object_stream[SessionMessage | Exception](32)
     relay2s_send, relay2s_recv = anyio.create_memory_object_stream[SessionMessage | Exception](32)
     s2c_send, s2c_recv = anyio.create_memory_object_stream[SessionMessage | Exception](32)

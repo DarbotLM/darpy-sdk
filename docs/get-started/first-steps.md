@@ -47,15 +47,15 @@ Three plain functions, three decorators. Each decorator is the entire registrati
 Everything else (the name, the description, the argument schema) the SDK reads from the function itself: its name, its docstring, its type hints. You never declared any of it separately.
 
 !!! tip
-    The two halves of the SDK have two import paths: `from mcp import Client` and
-    `from mcp.server import MCPServer`. There is no `from mcp import MCPServer`.
+    The two halves of the SDK have two import paths: `from darpy_sdk import Client` and
+    `from darpy_sdk.server import MCPServer`. There is no `from darpy_sdk import MCPServer`.
 
 ### Try it
 
 Run it with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Open the URL it prints. The Inspector has one tab per primitive; walk through them in order.
@@ -81,7 +81,7 @@ When a client connects, the server declares its **capabilities**: which families
 Look at it yourself. Leave `server.py` running over HTTP in one terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 and point a client at it from another:
@@ -122,7 +122,7 @@ Look back over this page. You wrote three small Python functions. You did **not*
 * A JSON Schema. `a: int, b: int` *is* the schema for `add`.
 * A request handler. `tools/list`, `resources/read`, `prompts/get`: all served for you.
 * A capability declaration. `MCPServer` made it for you.
-* A line of protocol. The version negotiation, the JSON-RPC framing, the capability exchange: all of it happened inside `mcp dev` and `client.py`, and you never saw it.
+* A line of protocol. The version negotiation, the JSON-RPC framing, the capability exchange: all of it happened inside `darpy-sdk dev` and `client.py`, and you never saw it.
 
 That ratio is the whole point of the SDK.
 

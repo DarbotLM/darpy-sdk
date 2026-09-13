@@ -64,7 +64,7 @@ Esa es toda la vida de un prompt: se lista por nombre, se renderiza a demanda y 
     propia solicitud falla con un error JSON-RPC (código `-32603`):
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     No hay un resultado de error al estilo de las herramientas que devolver a un modelo, porque no hay
@@ -76,7 +76,7 @@ Esa es toda la vida de un prompt: se lista por nombre, se renderiza a demanda y 
 Ejecuta el servidor con el MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Abre la pestaña **Prompts** y selecciona `review_code`. El Inspector dibuja un formulario con un campo obligatorio `code`. Rellénalo, renderízalo y te devuelve exactamente el mensaje de usuario de arriba.
@@ -91,7 +91,7 @@ Devuelve una lista de mensajes en lugar de un `str`:
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` y `AssistantMessage` vienen de `mcp.server.mcpserver.prompts.base`. Dales un `str` y lo envuelven en `TextContent` por ti. El rol es el nombre de la clase.
+* `UserMessage` y `AssistantMessage` vienen de `darpy_sdk.server.mcpserver.prompts.base`. Dales un `str` y lo envuelven en `TextContent` por ti. El rol es el nombre de la clase.
 * `Message` es su base común. Úsala como anotación de retorno.
 
 Renderizar `debug_error` ahora produce tres mensajes, en orden:
@@ -155,7 +155,7 @@ La entrada de `prompts/list` ahora lleva todo lo que un cliente necesita para di
 ```
 
 * La guía de estilo es un recurso en `style://python` (**[Recursos](resources.md)** los cubre), leído de un `style-guide.md` junto a `server.py`. Pon ahí cualquier archivo Markdown.
-* `EmbeddedResource(resource=TextResourceContents(...))`, ambos de `mcp.types`, lleva el archivo con su URI y su tipo MIME como primer mensaje; la solicitud que se refiere a él va después como texto plano.
+* `EmbeddedResource(resource=TextResourceContents(...))`, ambos de `darpy_sdk.types`, lleva el archivo con su URI y su tipo MIME como primer mensaje; la solicitud que se refiere a él va después como texto plano.
 * Incrustar la guía, en lugar de pegarla en el f-string, permite al cliente mostrarla como adjunto y volver a abrir `style://python` más tarde, y el modelo recibe el archivo tal cual. Para un archivo binario usa `BlobResourceContents` con un `blob` en base64.
 
 Renderizado, el `content` del primer mensaje es un bloque `resource`:

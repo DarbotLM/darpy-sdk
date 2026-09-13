@@ -26,7 +26,7 @@ Pagination is for the server whose resource list is really a database: thousands
 
 ### Try it
 
-`mcp run` only accepts an `MCPServer`, so you serve this one yourself. The last line of `server.py` builds an ordinary ASGI app from the `Server`, and uvicorn runs that:
+`darpy-sdk run` only accepts an `MCPServer`, so you serve this one yourself. The last line of `server.py` builds an ordinary ASGI app from the `Server`, and uvicorn runs that:
 
 ```console
 uvicorn server:app --port 8000

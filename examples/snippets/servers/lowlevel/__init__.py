@@ -1,1 +1,1 @@
-"""Low-level server examples for MCP Python SDK."""
+"""Low-level server examples for Darbot Python SDK."""

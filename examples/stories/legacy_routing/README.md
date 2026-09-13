@@ -1,9 +1,9 @@
 # legacy-routing
 
 The exported era classifier. `classify_inbound_request(body, headers=...)` from
-`mcp.shared.inbound` is the body-primary test for "is this a 2026-era request?";
+`darpy_sdk.shared.inbound` is the body-primary test for "is this a 2026-era request?";
 wrap it as `classify_era()` to route eras to different backends in your own
-ASGI/ingress layer. Unlike most SDKs, the Python SDK's built-in
+ASGI/ingress layer. Unlike most SDKs, the Darbot Python SDK's built-in
 `streamable_http_app()` already serves **sessionful** 2025 alongside stateless
 2026 on one `/mcp` route — so the predicate is for when you need *different*
 arms (per-era auth, separate ports, an existing v1 deployment to keep), not to
@@ -94,7 +94,7 @@ eras need different auth, rate limits, or scaling.
 - DNS-rebinding protection is on by default; the harness disables it
   (`NO_DNS_REBIND`) because the in-process httpx2 client sends no `Origin`.
   Drop the kwarg for a real deployment.
-- `mcp.shared.inbound` is a deep import path; there is no shorter re-export.
+- `darpy_sdk.shared.inbound` is a deep import path; there is no shorter re-export.
 
 ## Spec
 

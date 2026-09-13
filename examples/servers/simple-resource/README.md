@@ -8,10 +8,10 @@ Start the server using either stdio (default) or Streamable HTTP transport:
 
 ```bash
 # Using stdio transport (default)
-uv run mcp-simple-resource
+uv run darpy-sdk-simple-resource
 
 # Using Streamable HTTP transport on custom port
-uv run mcp-simple-resource --transport streamable-http --port 8000
+uv run darpy-sdk-simple-resource --transport streamable-http --port 8000
 ```
 
 The server exposes some basic text file resources that can be read by clients.
@@ -23,13 +23,13 @@ Using the MCP client, you can retrieve resources like this using the STDIO trans
 ```python
 import asyncio
 from pydantic import AnyUrl
-from mcp.client.session import ClientSession
-from mcp.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
 
 
 async def main():
     async with stdio_client(
-        StdioServerParameters(command="uv", args=["run", "mcp-simple-resource"])
+        StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-resource"])
     ) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()

@@ -10,7 +10,7 @@ import yaml
 from inline_snapshot import snapshot
 
 NAV: list[build_config.NavItem] = [
-    {"MCP Python SDK": "index.md"},
+    {"Darbot Python SDK": "index.md"},
     {"Servers": ["servers/index.md", {"Tools": "servers/tools.md"}]},
     {"Elsewhere": [{"Spec": "https://modelcontextprotocol.io/"}]},
     "troubleshooting.md",
@@ -35,7 +35,7 @@ languages:
 
 # What `translations.py stage` records beside the staged tree: each staged page's H1 (a page without one is
 # absent), which is all the config generator knows of the pages' content.
-TITLES = {"index.md": "MCP Python SDK", "servers/index.md": "サーバー", "servers/tools.md": "ツール"}
+TITLES = {"index.md": "Darbot Python SDK", "servers/index.md": "サーバー", "servers/tools.md": "ツール"}
 
 
 def write_repo(root: Path) -> None:
@@ -116,7 +116,7 @@ def test_lang_config_builds_the_staged_tree_into_site_code_without_an_api_refere
                     {"サーバー": ["servers/index.md", "servers/tools.md"]},
                     {"Elsewhere": [{"Spec": "https://modelcontextprotocol.io/"}]},
                     "troubleshooting.md",
-                    {"API Reference": "../api/mcp/"},
+                    {"API Reference": "../api/darpy_sdk/"},
                 ],
                 "extra": {
                     "alternate": [

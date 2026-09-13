@@ -62,7 +62,7 @@ Yalnızca hataları kaydetmek için her işleyiciye bir `try`/`except` koymanız
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** sekmesinden `search_books`'u çağırın. Inspector size sonucu gösterir: yalnızca dönüş değeri. Şu satır

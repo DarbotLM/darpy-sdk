@@ -10,19 +10,19 @@ from inline_snapshot import snapshot
 from pydantic import AnyHttpUrl
 from starlette.applications import Starlette
 
+from darpy_sdk import Client
+from darpy_sdk.client.auth import OAuthClientProvider
+from darpy_sdk.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.server.auth.provider import IdentityAssertionParams, ProviderTokenVerifier, TokenError
+from darpy_sdk.server.auth.settings import AuthSettings
 from docs_src.identity_assertion import tutorial001, tutorial002
 from docs_src.oauth_clients import tutorial001 as oauth_clients_tutorial001
-from mcp import Client
-from mcp.client.auth import OAuthClientProvider
-from mcp.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import MCPServer
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.server.auth.provider import IdentityAssertionParams, ProviderTokenVerifier, TokenError
-from mcp.server.auth.settings import AuthSettings
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 MCP_SERVER_URL = "http://localhost:8001/mcp"
 

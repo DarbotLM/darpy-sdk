@@ -2,7 +2,7 @@
 
 from PIL import Image as PILImage
 
-from mcp.server.mcpserver import Image, MCPServer
+from darpy_sdk.server.mcpserver import Image, MCPServer
 
 mcp = MCPServer("Image Example")
 

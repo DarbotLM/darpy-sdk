@@ -1,7 +1,7 @@
 """Prove the lifespan-yielded state is reachable from a tool call."""
 
-from mcp.client import Client
-from mcp.types import TextContent
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
 from stories._harness import Target, run_client
 
 

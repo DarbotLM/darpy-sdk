@@ -7,9 +7,9 @@ degrades gracefully: `client_supports_apps(ctx)` reports whether the client
 negotiated Apps, so it returns text-only output otherwise.
 """
 
-from mcp.server.apps import Apps, client_supports_apps
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.context import Context
+from darpy_sdk.server.apps import Apps, client_supports_apps
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.context import Context
 from stories._hosting import run_server_from_args
 
 RESOURCE_URI = "ui://get-time/app.html"

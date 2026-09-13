@@ -128,7 +128,7 @@ result.structured_content  # {'result': ['elicitation']}
 
 `logging_callback` 會收到伺服器送出的 `notifications/message`，型別是 `LoggingMessageNotificationParams`（`level`、`logger`、`data`）。協定記錄本身已被 2026-07-28 規格棄用（該怎麼改做請見 **[記錄](../handlers/logging.md)**），所以這個回呼是為了還在送出它的伺服器而存在。在 2026 世代的連線上，光有回呼什麼都收不到，因為 2026 的伺服器只會把記錄訊息送給主動選擇接收的請求：把 `log_level="info"`（或其他層級）傳給 `Client(...)`，就會在每個請求上蓋上這個選擇，並收到該層級以上的訊息。2026 之前的伺服器會忽略它，維持原本的 `logging/setLevel` 行為。
 
-`message_handler` 是總攬一切的那個：工作階段浮現的每一個伺服器通知都會送到它（同時也送到各自專屬的回呼），在以串流為基礎的傳輸方式上，每一個傳輸層級的 `Exception` 也會。有兩種永遠不會：`notifications/cancelled` 由 SDK 直接套用而不浮現，而正在運作的 `listen()` 串流的訂閱確認則由那個串流自己消化。把這個參數註記為 `IncomingMessage`（`ServerNotification | Exception`，從 `mcp.client` 匯出）。唯一值得知道的寫法是 `if isinstance(message, Exception): raise message`，這樣連線斷掉時會大聲失敗，而不是悄悄消失。
+`message_handler` 是總攬一切的那個：工作階段浮現的每一個伺服器通知都會送到它（同時也送到各自專屬的回呼），在以串流為基礎的傳輸方式上，每一個傳輸層級的 `Exception` 也會。有兩種永遠不會：`notifications/cancelled` 由 SDK 直接套用而不浮現，而正在運作的 `listen()` 串流的訂閱確認則由那個串流自己消化。把這個參數註記為 `IncomingMessage`（`ServerNotification | Exception`，從 `darpy_sdk.client` 匯出）。唯一值得知道的寫法是 `if isinstance(message, Exception): raise message`，這樣連線斷掉時會大聲失敗，而不是悄悄消失。
 
 ## 重點回顧 {#recap}
 

@@ -14,7 +14,7 @@ handshake-era cells, so one comparison line enforces both eras.
 
 from typing import Any, Protocol, TypeVar
 
-from mcp_types import SERVER_INFO_META_KEY, Result
+from darpy_sdk_types import SERVER_INFO_META_KEY, Result
 
 R = TypeVar("R", bound=Result)
 

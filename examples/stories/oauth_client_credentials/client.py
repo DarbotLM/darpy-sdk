@@ -2,8 +2,8 @@
 
 import httpx2
 
-from mcp.client import Client
-from mcp.client.auth.extensions.client_credentials import ClientCredentialsOAuthProvider
+from darpy_sdk.client import Client
+from darpy_sdk.client.auth.extensions.client_credentials import ClientCredentialsOAuthProvider
 from stories._harness import Target, run_client
 
 # MCP_URL pins the resource to :8000, and the server side builds its PRM/AS metadata from

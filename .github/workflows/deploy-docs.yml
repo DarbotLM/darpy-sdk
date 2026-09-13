@@ -3,9 +3,7 @@ name: Deploy Docs
 on:
   push:
     branches:
-      # main is the sole deployer of the combined site (v2 at / and /v2/, v1.x
-      # at /v1/); the v1.x branch has no deploy workflow. A v1.x docs change is
-      # published by the next main deploy or a manual workflow_dispatch here.
+      # Build the checked-out Darbot SDK documentation only.
       - main
     paths:
       - docs/**
@@ -15,8 +13,8 @@ on:
       # translated pages and the language registry feed the site/<code>/ sites
       - i18n/**
       - mkdocs.yml
-      - src/mcp/**
-      - src/mcp-types/**
+      - src/darpy_sdk/**
+      - src/darpy-sdk-types/**
       - scripts/build-docs.sh
       - scripts/docs/**
       - pyproject.toml
@@ -30,6 +28,7 @@ concurrency:
 
 jobs:
   deploy-docs:
+    if: github.repository == 'DarbotLM/darpy-sdk' && vars.DARPY_SDK_DOCS_DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
 
     permissions:
@@ -52,7 +51,7 @@ jobs:
           enable-cache: true
           version: 0.9.5
 
-      - name: Build combined docs (main at / and /v2/, v1.x at /v1/)
+      - name: Build Darbot Python SDK documentation
         run: bash scripts/build-docs.sh site
 
       - name: Configure Pages

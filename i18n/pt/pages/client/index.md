@@ -18,7 +18,7 @@ Um cliente precisa de um servidor com quem conversar. Esta Bookshop é o servido
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Isso o serve em `http://localhost:8000/mcp`. O cliente é um programa à parte. Salve-o como `client.py` e execute `python client.py` em um segundo terminal:
@@ -46,7 +46,7 @@ Todo o resto desta página é idêntico entre os quatro. Cabeçalhos, subprocess
 
 Quatro propriedades somente leitura, preenchidas no instante em que você entra no bloco:
 
-* `client.server_info`: a identidade do servidor, ou `None` para um servidor da era 2026 que não informa uma (servidores do python-sdk informam por padrão). `server_info.name` aqui é `"Bookshop"`, `server_info.version` é o que o servidor informar.
+* `client.server_info`: a identidade do servidor, ou `None` para um servidor da era 2026 que não informa uma (servidores do Darbot Python SDK informam por padrão). `server_info.name` aqui é `"Bookshop"`, `server_info.version` é o que o servidor informar.
 * `client.server_capabilities`: o que o servidor sabe fazer (`tools`, `resources`, `prompts`, `completions`, ...). Uma capacidade que o servidor não tem é `None`.
 * `client.protocol_version`: a versão do protocolo em que os dois lados concordaram. Aqui é `"2026-07-28"`.
 * `client.instructions`: a string `instructions=` do servidor, ou `None` se ele não definiu uma.
@@ -91,7 +91,7 @@ A segunda ferramenta, `lookup_book`, foi registrada sem um `title=`, então o `t
 
 !!! tip
     `title` é opcional, então uma UI que mostra ferramentas a um humano tem que escolher: o `title` se houver um,
-    o `name` se não. `from mcp.shared.metadata_utils import get_display_name` faz exatamente isso,
+    o `name` se não. `from darpy_sdk.shared.metadata_utils import get_display_name` faz exatamente isso,
     para ferramentas, recursos, templates de recurso e prompts.
 
 ## Chamando uma ferramenta {#calling-a-tool}

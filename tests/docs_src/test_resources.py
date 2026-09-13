@@ -3,15 +3,15 @@
 import base64
 
 import pytest
+from darpy_sdk_types import BlobResourceContents, Resource, ResourceTemplate, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import BlobResourceContents, Resource, ResourceTemplate, TextResourceContents
 
+from darpy_sdk import Client
+from darpy_sdk.server import MCPServer
 from docs_src.resources import tutorial001, tutorial002, tutorial003
-from mcp import Client
-from mcp.server import MCPServer
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_function_becomes_a_listed_resource() -> None:

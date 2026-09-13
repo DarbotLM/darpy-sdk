@@ -1,20 +1,20 @@
-"""Assert every per-version surface model's wire fields are a subset of its `mcp_types` superset counterpart."""
+"""Assert every per-version surface model's wire fields are a subset of its `darpy_sdk_types` superset counterpart."""
 
 from __future__ import annotations
 
 import inspect
 from types import ModuleType
 
-import mcp_types as monolith
-import mcp_types._types as _types
-import mcp_types._v2025_11_25 as v2025_11_25
-import mcp_types._v2026_07_28 as v2026_07_28
+import darpy_sdk_types as monolith
+import darpy_sdk_types._types as _types
+import darpy_sdk_types._v2025_11_25 as v2025_11_25
+import darpy_sdk_types._v2026_07_28 as v2026_07_28
 import pytest
 from pydantic import BaseModel
 
 SURFACES: tuple[ModuleType, ...] = (v2025_11_25, v2026_07_28)
 
-# Envelope fields the monolith models on `mcp_types.jsonrpc` instead of on each request/notification.
+# Envelope fields the monolith models on `darpy_sdk_types.jsonrpc` instead of on each request/notification.
 ENVELOPE_FIELDS: frozenset[str] = frozenset({"jsonrpc", "id"})
 
 # Surface classes whose monolith counterpart has a different name (key: "<surface_tail>.<ClassName>").
@@ -185,7 +185,7 @@ def test_monolith_is_superset_of_surface_fields(
     assert not missing, f"{qualname}: monolith {mono_cls.__name__} missing wire fields {sorted(missing)}"
 
 
-# Monolith model classes intentionally kept out of `mcp_types.__all__`.
+# Monolith model classes intentionally kept out of `darpy_sdk_types.__all__`.
 PRIVATE_MONOLITH_MODELS: frozenset[str] = frozenset(
     {
         "MCPModel",  # internal base; users subclass the concrete spec types instead
@@ -193,7 +193,7 @@ PRIVATE_MONOLITH_MODELS: frozenset[str] = frozenset(
 )
 
 
-def test_every_public_monolith_model_is_exported_from_mcp_types() -> None:
+def test_every_public_monolith_model_is_exported_from_darpy_sdk_types() -> None:
     defined = {
         name
         for name, obj in vars(_types).items()
@@ -204,7 +204,7 @@ def test_every_public_monolith_model_is_exported_from_mcp_types() -> None:
         and obj.__module__ == _types.__name__
     }
     missing = defined - set(monolith.__all__) - PRIVATE_MONOLITH_MODELS
-    assert not missing, f"_types models not in mcp_types.__all__: {sorted(missing)}"
+    assert not missing, f"_types models not in darpy_sdk_types.__all__: {sorted(missing)}"
 
 
 def test_every_surface_class_is_accounted_for() -> None:

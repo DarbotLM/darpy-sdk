@@ -16,7 +16,7 @@ translation:
 それらの項目は `http://localhost:8000/mcp` でこのサーバーにアクセスするので、HTTP で起動したままにしておいてください。
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 このページで引用しているエラーは本物です。SDK 自身のテストスイートが、そのすべてを再現しています。
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -132,7 +132,7 @@ TypeError: The @tool decorator was used incorrectly. Did you forget to call it? 
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` が報告する `forecast` は 1 つで、それは `forecast_today` のほうです。どちらかの名前を変えてください。`MCPServer(..., warn_on_duplicate_tools=False)` は結果を変えずに警告だけを黙らせるので、有効のままにしておいてください。リソースとプロンプトにも同じ規則と同じログ行があります（`Resource already exists:`、`Prompt already exists:`）。
@@ -167,13 +167,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 サーバーが実際に送った言葉、`421` と `Invalid Host header` は、手元には届きません。421 のボディには `Content-Type: application/json` がないので、クライアントはそれをパースできないのです。それらは**サーバーのログ**にあります。次に見るべき場所はそこです。
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 直し方は `transport_security=` です。実際に提供するホスト名を許可リストに入れてください。
@@ -302,7 +302,7 @@ async def main() -> None:
 他のコールバック（`sampling_callback`、`list_roots_callback`）は **[クライアントのコールバック](client/callbacks.md)** に一覧があります。どれも同じように宣言を兼ねています。
 
 !!! info
-    `-32021` は `MISSING_REQUIRED_CLIENT_CAPABILITY` で、2026-07-28 の仕様が追加した 3 つのエラーコードのうちの 1 つです。どれも例外クラスではありません。すべて `MCPError` として届き、見るべき場所は `e.error.code` です。定数は `mcp.types` がエクスポートしています。残りの 2 つは `-32020` `HEADER_MISMATCH`（HTTP ヘッダーが、それに伴うリクエストボディと食い違っている）と `-32022` `UNSUPPORTED_PROTOCOL_VERSION`（リクエストが、このサーバーの話さないバージョンを指定した）です。仕様に準拠した SDK クライアントはどちらも起こせないので、見かけたら、クライアントとサーバーの間でリクエストを書き換えている何かを調べてください。
+    `-32021` は `MISSING_REQUIRED_CLIENT_CAPABILITY` で、2026-07-28 の仕様が追加した 3 つのエラーコードのうちの 1 つです。どれも例外クラスではありません。すべて `MCPError` として届き、見るべき場所は `e.error.code` です。定数は `darpy_sdk.types` がエクスポートしています。残りの 2 つは `-32020` `HEADER_MISMATCH`（HTTP ヘッダーが、それに伴うリクエストボディと食い違っている）と `-32022` `UNSUPPORTED_PROTOCOL_VERSION`（リクエストが、このサーバーの話さないバージョンを指定した）です。仕様に準拠した SDK クライアントはどちらも起こせないので、見かけたら、クライアントとサーバーの間でリクエストを書き換えている何かを調べてください。
 
 ## `MCPError: Elicitation not supported` {#mcperror-elicitation-not-supported}
 
@@ -327,7 +327,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **`stateless_http=True` のサーバーでのレガシー接続。** ステートレスとは、すべてのリクエストがそれぞれ独立した世界だということです。セッションもサーバーからクライアントへのストリームもなく、したがって、それらを持つ世代であっても `elicitation/create`（または `sampling/createMessage`、または `roots/list`）を送る先がどこにもありません。
@@ -364,13 +364,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 メッセージは意図的に固定されています。どのチェックが失敗したかは、通信上には決して現れません。理由は**サーバーログ**に行くので、それを読むことが診断のすべてです。
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 実際に目にする理由は次のとおりです。
@@ -401,8 +401,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## まだ解決しない場合 {#still-stuck}
 
 * SDK が出したメッセージがこのページにないなら、それ自体が報告する価値のあるドキュメントのバグです。
-* [イシュートラッカー](https://github.com/modelcontextprotocol/python-sdk/issues)を検索してください。そこに出てくるエラー文字列の大半は、すでに誰かがまとめています。
-* 何も見つからない場合は、完全なトレースバックを添えて[イシューを開く](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)か、[MCP Contributors Discord の #python-sdk-dev](https://discord.gg/6CSzBmMkjX) で尋ねてください。
+* [イシュートラッカー](https://github.com/DarbotLM/darpy-sdk/issues)を検索してください。そこに出てくるエラー文字列の大半は、すでに誰かがまとめています。
+* 何も見つからない場合は、完全なトレースバックを添えて[イシューを開く](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)か、[Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues) で尋ねてください。
 
 ## まとめ {#recap}
 

@@ -48,7 +48,7 @@ translation:
 用 MCP Inspector 运行服务器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `reserve_book` 的表单只有一个 `title` 字段，哪儿都找不到 `stock`。用 `Dune` 调用它：

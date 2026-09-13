@@ -35,11 +35,15 @@ DOCS = ROOT / "docs"
 
 # Pages with no markdown source, linked as HTML under "## Optional".
 _OPTIONAL_PAGES = [
-    ("api/mcp/index.md", "mcp API reference", "Auto-generated API reference for the mcp package (rendered HTML)"),
     (
-        "api/mcp_types/index.md",
-        "mcp-types API reference",
-        "Auto-generated API reference for the mcp-types package (rendered HTML)",
+        "api/darpy_sdk/index.md",
+        "darpy_sdk API reference",
+        "Auto-generated API reference for the darpy_sdk package (rendered HTML)",
+    ),
+    (
+        "api/darpy_sdk_types/index.md",
+        "darpy-sdk-types API reference",
+        "Auto-generated API reference for the darpy-sdk-types package (rendered HTML)",
     ),
 ]
 

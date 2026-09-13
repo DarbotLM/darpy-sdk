@@ -19,7 +19,7 @@ Yani bir host'a bağlanmak tek bir eylemdir: ona **sunucunuzu başlatan komutu**
 
 * Argümansız `mcp.run()` bir **stdio** sunucusu başlatır: bloke olur, protokol mesajlarını stdin'den okur ve stdout'a yazar. Bu sayfadaki her host'un konuştuğu aktarım budur. Host dosyanızı bir alt süreç olarak başlatır ve bu iki kanalın sahibidir; bağlanmanın her zaman yalnızca "işte komut" olmasının nedeni de budur. Hiçbir zaman port seçmezsiniz ve hiçbir şey bir portu dinlemez.
 * `run()`, `if __name__ == "__main__":` altındadır. Aşağıdaki her şey bu dosyayı çalıştırmak yerine **import eder**; bu yüzden korumasız bir `run()`, herhangi bir şey modülü yüklediği anda bir sunucu başlatırdı.
-* Sunucu nesnesi, `mcp` adında modül düzeyinde bir globaldir. `mcp run`'ın aradığı ad budur (`server` ve `app` de olur). Başka bir ad verirseniz adı açıkça belirtirsiniz: `mcp run server.py:bookshop`.
+* Sunucu nesnesi, `mcp` adında modül düzeyinde bir globaldir. `darpy-sdk run`'ın aradığı ad budur (`server` ve `app` de olur). Başka bir ad verirseniz adı açıkça belirtirsiniz: `darpy-sdk run server.py:bookshop`.
 
 Bu, bu sayfadaki son Python satırı. Buradan aşağısı tamamen host yapılandırması.
 
@@ -28,17 +28,17 @@ Bu, bu sayfadaki son Python satırı. Buradan aşağısı tamamen host yapıland
 Aşağıdaki her host aynı komutu alır:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Hepsi için tek komut, çünkü `uv run --with` SDK'yı anında yeni bir ortama çözümler: herhangi bir dizinden çalışır, ne bir projeye ne de etkinleştirilecek bir sanal ortama ihtiyaç duyar. Bu, burada başka her yerden daha önemlidir; çünkü host sunucunuzu sizin kabuğunuzdan değil, *kendi* çalışma dizininden ve neredeyse boş bir ortamla başlatır.
 
-Bu aynı zamanda `mcp install`'un sizin için Claude Desktop'ın yapılandırmasına yazdığı komuttur (aşağıda). Yani elle yazdığınız ile aracın ürettiği, aracın eklediği tam sürüm sabitlemesi dışında örtüşür.
+Bu aynı zamanda `darpy-sdk install`'un sizin için Claude Desktop'ın yapılandırmasına yazdığı komuttur (aşağıda). Yani elle yazdığınız ile aracın ürettiği, aracın eklediği tam sürüm sabitlemesi dışında örtüşür.
 
 !!! tip "Host `uv`'yi bulamazsa"
     Host sunucunuzu asgari bir `PATH` ile başlatır ve `uv` bunun üzerinde olmayabilir. Yalın
     `uv`'yi `which uv` (macOS/Linux) veya `where uv` (Windows) çıktısındaki mutlak yolla değiştirin.
-    `mcp install`'un yazdığı da tam olarak budur.
+    `darpy-sdk install`'un yazdığı da tam olarak budur.
 
 !!! note "Bu sayfa yerel senaryoyu anlatır"
     Buradaki her şey sunucunuzu host'un bulunduğu makinede çalıştırır: host dosyanızı stdio
@@ -58,10 +58,10 @@ Bu aynı zamanda `mcp install`'un sizin için Claude Desktop'ın yapılandırmas
 SDK'nın sizin için yapılandırabildiği tek host:
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-Hepsi bu. `mcp install` sunucunun adını okumak için dosyayı import eder, Claude Desktop'ın yapılandırma dosyasını bulur ve başlatma komutunu içine yazar. Bu arada yolunuzu mutlak bir yola çevirir, sizin yapmanıza gerek kalmaz.
+Hepsi bu. `darpy-sdk install` sunucunun adını okumak için dosyayı import eder, Claude Desktop'ın yapılandırma dosyasını bulur ve başlatma komutunu içine yazar. Bu arada yolunuzu mutlak bir yola çevirir, sizin yapmanıza gerek kalmaz.
 
 Kafa karıştıracak bir şey yok. Yazdığı kayıt şu:
 
@@ -74,8 +74,8 @@ Kafa karıştıracak bir şey yok. Yazdığı kayıt şu:
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -89,17 +89,17 @@ Bu, yukarıdaki bölümdeki başlatma komutunun üç eklemeli hâli: `uv`'nin mu
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Bu dosyayı elle yazabilirsiniz. `mcp install`, bunu yaparken klasik hatayı (göreli yol) yapmayın diye vardır.
+Bu dosyayı elle yazabilirsiniz. `darpy-sdk install`, bunu yaparken klasik hatayı (göreli yol) yapmayın diye vardır.
 
 Claude Desktop'tan tamamen çıkın (yalnızca penceresini kapatmayın) ve yeniden açın.
 
 !!! warning
-    Claude Desktop'ın yapılandırma *dizini* henüz yoksa `mcp install`, `Claude app not found`
+    Claude Desktop'ın yapılandırma *dizini* henüz yoksa `darpy-sdk install`, `Claude app not found`
     hatasıyla başarısız olur. Claude Desktop'ı kurun ve bir kez çalıştırın: dizini oluşturan budur.
 
 !!! tip
     Claude Desktop sunucunuzu kendi sürecinde başlatır; bu yüzden kabuğunuzun ortam değişkenleri
-    orada yoktur. `uv run mcp install server.py -v API_KEY=abc123` (veya `-f .env`) bunları kaydın
+    orada yoktur. `uv run darpy-sdk install server.py -v API_KEY=abc123` (veya `-f .env`) bunları kaydın
     `env` alanına işler. `--name` kayıt adını geçersiz kılar; varsayılan olarak sunucunun `name`
     değeridir.
 
@@ -108,7 +108,7 @@ Claude Desktop'tan tamamen çıkın (yalnızca penceresini kapatmayın) ve yenid
 Düzenlenecek dosya yok. Sunucuyu `claude` CLI ile kaydedin; `--` sonrasındaki her şey başlatma komutudur.
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 `bookshop`'un bağlı olduğunu ve araçlarının listelendiğini doğrulamak için bir Claude Code oturumunda `/mcp` çalıştırın.
@@ -122,7 +122,7 @@ Proje kök dizininizde `.cursor/mcp.json` dosyasını oluşturun.
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -140,7 +140,7 @@ Proje kök dizininizde `.vscode/mcp.json` dosyasını oluşturun.
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -157,7 +157,7 @@ Cursor'ın dosyasından iki fark var ve yalnızca bu ikisi: sarmalayıcı anahta
 Herhangi bir host yapılandırmasına dokunmadan önce başlatma komutunu kendiniz çalıştırın:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Hiçbir şey yazdırmaz ve geri dönmez. Bu sessizlik doğrudur: stdio sunucusu, bir host'un stdin'de ilk konuşan taraf olmasını bekler (durdurmak için `Ctrl-C`). Asıl hata bir traceback ya da anında çıkıştır; artık onu bir host üzerinden tahmin etmeye çalışmak yerine okuyabilirsiniz.
@@ -175,8 +175,8 @@ Bu üçünün ötesindeki her şey için doğru sayfa **[Sorun giderme](../troub
 ## Özet {#recap}
 
 * **Host** (Claude Desktop, bir IDE), sunucunuzu stdio üzerinden bir alt süreç olarak başlatan bir MCP istemcisi çalıştırır. Bağlanmak, ona tek bir başlatma komutu vermek demektir.
-* O komut `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`: etkinleştirilecek venv yok, her dizinden çalışır.
-* **Claude Desktop**, `mcp install`'un sizin için yapılandırdığı tek host'tur. Aynı komutu (artı `uv`'nin mutlak yolu, `--frozen` ve kurulu sürüme tam bir sabitleme) `claude_desktop_config.json` dosyasına yazar; böylece sizin yapmanıza hiç gerek kalmaz.
+* O komut `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`: etkinleştirilecek venv yok, her dizinden çalışır.
+* **Claude Desktop**, `darpy-sdk install`'un sizin için yapılandırdığı tek host'tur. Aynı komutu (artı `uv`'nin mutlak yolu, `--frozen` ve kurulu sürüme tam bir sabitleme) `claude_desktop_config.json` dosyasına yazar; böylece sizin yapmanıza hiç gerek kalmaz.
 * **Claude Code** için `claude mcp add bookshop -- <launch command>`. **Cursor** için `mcpServers` altında `.cursor/mcp.json`. **VS Code** için `servers` altında `.vscode/mcp.json`, her kayıtta bir `type` ile.
 * Her yerde mutlak yollar, yapılandırmasını düzenledikten sonra host'u yeniden başlatın ve SDK dışında hiçbir şeyin stdout'a yazmasına izin vermeyin.
 

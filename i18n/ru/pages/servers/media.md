@@ -34,7 +34,7 @@ result.structured_content  # None
 * `structured_content` равно `None`. `Image` — это содержимое, на которое смотрит модель, а не данные, которые разбирает приложение: схемы выходных данных нет. (Сравните со страницей **[Структурированный вывод](structured-output.md)**, где аннотация возвращаемого типа и *есть* схема.)
 
 !!! info
-    `ImageContent` и `AudioContent` находятся в `mcp.types`, рядом с `TextContent`,
+    `ImageContent` и `AudioContent` находятся в `darpy_sdk.types`, рядом с `TextContent`,
     в который превращается обычный результат типа `str` (**[Инструменты](tools.md)**). Результат инструмента — это список блоков содержимого; `Image` и `Audio` —
     самый короткий способ получить два двоичных вида.
 
@@ -43,7 +43,7 @@ result.structured_content  # None
 Положите любой PNG рядом с `server.py`, назовите его `logo.png` и запустите:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Откройте вкладку **Tools** и вызовите `logo`. Результат — не строка, а блок содержимого `image`, и Inspector показывает вашу картинку. Всё, что произошло между файлом на диске и пикселями на экране, сделал SDK.
@@ -95,7 +95,7 @@ result.structured_content  # None
 ```
 
 * `brand://guidelines` — обычный ресурс (о них — на странице **[Ресурсы](resources.md)**). Инструмент по запросу отдаёт модели тот же документ, а прямой вызов `guidelines()` сохраняет единый источник истины.
-* `EmbeddedResource` и `TextResourceContents` берутся из `mcp.types`. Вспомогательного класса, как для изображений, нет: собранный вами блок попадает в результат как есть, а `structured_content` отсутствует.
+* `EmbeddedResource` и `TextResourceContents` берутся из `darpy_sdk.types`. Вспомогательного класса, как для изображений, нет: собранный вами блок попадает в результат как есть, а `structured_content` отсутствует.
 * Используйте тот URI, под которым ресурс зарегистрирован, чтобы клиент мог понять, что вложение и `brand://guidelines` — один и тот же документ. Допустим любой URI, зарегистрированный или нет.
 
 ```python
@@ -123,7 +123,7 @@ result.content  # [EmbeddedResource(type="resource", resource=TextResourceConten
 Иконки путешествуют вместе с тем, что они украшают. Иконки сервера приходят при подключении клиента, в `client.server_info` (на подключениях поколения 2026 это поле необязательное, поэтому сначала сузьте тип):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

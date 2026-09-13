@@ -4,13 +4,13 @@ import inspect
 
 import pytest
 
+from darpy_sdk import Client
+from darpy_sdk.client.stdio import get_default_environment
+from darpy_sdk.client.streamable_http import streamable_http_client
 from docs_src.client_transports import tutorial001, tutorial004
-from mcp import Client
-from mcp.client.stdio import get_default_environment
-from mcp.client.streamable_http import streamable_http_client
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_in_memory_program_on_the_page_runs(capsys: pytest.CaptureFixture[str]) -> None:

@@ -8,9 +8,9 @@ import pytest
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server import Server
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
-from mcp.server.transport_security import TransportSecuritySettings
+from darpy_sdk.server import Server
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.server.transport_security import TransportSecuritySettings
 from tests.interaction.transports import StreamingASGITransport
 
 SERVER_NAME = "test_streamable_http_security_server"

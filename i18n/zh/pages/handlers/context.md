@@ -47,7 +47,7 @@ translation:
 用 MCP Inspector 运行服务器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `search_books` 的表单只有一个 `query` 字段。用 `dune` 调用它：

@@ -129,7 +129,7 @@ Por padrão, o secret viaja como HTTP Basic auth na requisição de token (`clie
     Leia `client_secret` do ambiente ou de um gerenciador de segredos, nunca do controle de versão.
 
 !!! info
-    Mais um provider mora em `mcp.client.auth.extensions.client_credentials`:
+    Mais um provider mora em `darpy_sdk.client.auth.extensions.client_credentials`:
     **`PrivateKeyJWTOAuthProvider`**, para clientes que se autenticam com um JWT em vez de um
     segredo compartilhado (`private_key_jwt`, a variante de par de chaves e workload identity). Ele segue
     o mesmo padrão: construa um (ele aceita o mesmo `issuer` opcional), coloque em `auth=`. O mesmo módulo traz
@@ -139,7 +139,7 @@ Há mais uma situação sem humano: o cliente pertence a uma empresa cujo proved
 
 ## Quando falha {#when-it-fails}
 
-Quando o fluxo OAuth dá errado, o provider levanta um `OAuthFlowError` de `mcp.client.auth`. Ele tem duas subclasses. `OAuthRegistrationError` significa que o registro não rendeu um cliente que você possa usar: o servidor de autorização se recusou a registrar você, ou até registrou, mas com credenciais que este fluxo não consegue usar (por exemplo, um método de autenticação que ele não implementa). `OAuthTokenError` significa que não foi possível obter um token: o endpoint de token disse não, ou um registro de cliente armazenado carrega um método de autenticação que este cliente não consegue aplicar, o que é reportado durante a montagem da requisição de token em vez de ser enviado. Um único `except OAuthFlowError:` cobre descoberta, registro, autorização e troca.
+Quando o fluxo OAuth dá errado, o provider levanta um `OAuthFlowError` de `darpy_sdk.client.auth`. Ele tem duas subclasses. `OAuthRegistrationError` significa que o registro não rendeu um cliente que você possa usar: o servidor de autorização se recusou a registrar você, ou até registrou, mas com credenciais que este fluxo não consegue usar (por exemplo, um método de autenticação que ele não implementa). `OAuthTokenError` significa que não foi possível obter um token: o endpoint de token disse não, ou um registro de cliente armazenado carrega um método de autenticação que este cliente não consegue aplicar, o que é reportado durante a montagem da requisição de token em vez de ser enviado. Um único `except OAuthFlowError:` cobre descoberta, registro, autorização e troca.
 
 Nem tudo é erro de fluxo. A rede ainda pode falhar; essas são exceções comuns do `httpx2` e passam intactas.
 

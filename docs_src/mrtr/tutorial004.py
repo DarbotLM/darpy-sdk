@@ -1,6 +1,6 @@
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.prompts.base import UserMessage
-from mcp.types import ElicitRequest, ElicitRequestFormParams, ElicitResult, InputRequiredResult
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.prompts.base import UserMessage
+from darpy_sdk.types import ElicitRequest, ElicitRequestFormParams, ElicitResult, InputRequiredResult
 
 mcp = MCPServer("Briefing")
 

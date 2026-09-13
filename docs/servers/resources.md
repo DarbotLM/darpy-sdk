@@ -47,7 +47,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 Run the server with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Open the URL it prints and go to the **Resources** tab. `config://app` is in the list with its description. Click it and the Inspector reads it: there are your two lines of config.
@@ -123,7 +123,7 @@ The same rule applies to anything else JSON-serialisable: a list, a Pydantic mod
 !!! tip
     `name=`, `title=` and `description=` are also accepted by `@mcp.resource()` when you don't
     want to derive them from the function. And when there's no function to write at all,
-    `mcp.server.mcpserver.resources` has ready-made `Resource` classes (`TextResource`,
+    `darpy_sdk.server.mcpserver.resources` has ready-made `Resource` classes (`TextResource`,
     `BinaryResource`, `FileResource`, `HttpResource`, `DirectoryResource`) that you register
     with `mcp.add_resource(...)`.
 

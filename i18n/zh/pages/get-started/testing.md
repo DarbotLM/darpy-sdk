@@ -41,8 +41,8 @@ SDK 的 `Client` 类，也就是连接 URL 或启动子进程的那个类，还�
 ```python title="test_server.py"
 import pytest
 from inline_snapshot import snapshot
-from mcp import Client
-from mcp.types import CallToolResult, TextContent
+from darpy_sdk import Client
+from darpy_sdk.types import CallToolResult, TextContent
 
 from server import mcp
 

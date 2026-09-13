@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -98,7 +104,9 @@
       "source": "transport",
       "target": "transport",
       "note": "The connection mechanism (\"every standard transport\" → हर standard transport). Latin script, masculine. Never परिवहन, which is road and freight transport; not ट्रांसपोर्ट. The transport names stdio, Streamable HTTP and SSE are on the keep list.",
-      "avoid": ["परिवहन"]
+      "avoid": [
+        "परिवहन"
+      ]
     },
     {
       "source": "session",
@@ -123,7 +131,7 @@
     {
       "source": "client",
       "target": "client",
-      "note": "An MCP client and the client side of a connection. Latin script, masculine (client जुड़ता है). Provisional pending native review: not क्लाइंट; and never ग्राहक, which is a customer — ग्राहक is right only where the English itself talks about the example bookshop's customers. The `Client` class and the `mcp.client` module are code."
+      "note": "An MCP client and the client side of a connection. Latin script, masculine (client जुड़ता है). Provisional pending native review: not क्लाइंट; and never ग्राहक, which is a customer — ग्राहक is right only where the English itself talks about the example bookshop's customers. The `Client` class and the `darpy_sdk.client` module are code."
     },
     {
       "source": "server",
@@ -134,7 +142,10 @@
       "source": "host",
       "target": "host",
       "note": "The MCP host — the application the user talks to (Claude Desktop, an IDE, an agent runtime) — and a network host alike. Latin script, masculine. Never मेज़बान / मेजबान (the host of a party or event); not होस्ट.",
-      "avoid": ["मेज़बान", "मेजबान"]
+      "avoid": [
+        "मेज़बान",
+        "मेजबान"
+      ]
     },
     {
       "source": "context",
@@ -195,7 +206,9 @@
       "source": "deprecated",
       "target": "deprecated",
       "note": "Advisory status: still works, scheduled for removal later (\"sampling is deprecated\" → sampling deprecated है; \"Deprecated features\" → Deprecated features; \"deprecation warning\" → deprecation warning). Latin script, invariable adjective. Provisional pending native review: never the coinage पदावनत; not अप्रचलित (obsolete, out of use) or बहिष्कृत; \"removed\" is हटा दिया गया. `MCPDeprecationWarning` is code.",
-      "avoid": ["पदावनत"]
+      "avoid": [
+        "पदावनत"
+      ]
     },
     {
       "source": "legacy",
@@ -246,7 +259,9 @@
       "source": "library",
       "target": "library",
       "note": "A code library (\"the standard library\" → standard library). Latin script, feminine (library देती है). Never पुस्तकालय, which is a building with books; not लाइब्रेरी.",
-      "avoid": ["पुस्तकालय"]
+      "avoid": [
+        "पुस्तकालय"
+      ]
     },
     {
       "source": "exception",

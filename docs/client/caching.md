@@ -74,12 +74,12 @@ One caveat on `resources/updated`: eviction is exact-URI only. The store contrac
 ### Configuring it: `CacheConfig`
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: where entries live. The default is a fresh in-memory store per client; pass your own `ResponseCacheStore` implementation (Redis-backed, say) to share a cache across clients or processes. The contract types (`ResponseCacheStore`, `CacheKey`, `CacheEntry`, and the default `InMemoryResponseCacheStore`) are importable from `mcp.client`. A lookup may issue up to two sequential store `get`s (the private arm, then the public one), so size a remote store's latency expectations accordingly. A custom store **requires** an explicit `partition`.
+* `store`: where entries live. The default is a fresh in-memory store per client; pass your own `ResponseCacheStore` implementation (Redis-backed, say) to share a cache across clients or processes. The contract types (`ResponseCacheStore`, `CacheKey`, `CacheEntry`, and the default `InMemoryResponseCacheStore`) are importable from `darpy_sdk.client`. A lookup may issue up to two sequential store `get`s (the private arm, then the public one), so size a remote store's latency expectations accordingly. A custom store **requires** an explicit `partition`.
 * `partition`: the authorization-context label that keeps one principal's `"private"` entries from being served to another within a shared store.
 * `target_id`: explicit server identity, for custom transports and in-process servers (below).
 * `default_ttl_ms`: TTL applied to results that carry no `ttlMs` hint. The default `0` leaves hint-less results uncached.
@@ -107,7 +107,7 @@ Cache keys also carry the **server's identity**: the URL string you dialed, with
 * **No stale-if-error.** An expired entry is never served because the refetch failed; the error propagates.
 * **No early re-fetch.** A stored entry is served until its TTL expires and the next call after that pays the round trip; nothing refreshes in the background.
 * **No coalescing.** Two concurrent identical calls are two fetches.
-* **No TTL beyond 24 hours.** A larger `ttlMs`, whether server-sent or configured, is clamped down on store (`mcp.client.caching.MAX_TTL_MS`), bounding how long any entry, however generously hinted, can be served.
+* **No TTL beyond 24 hours.** A larger `ttlMs`, whether server-sent or configured, is clamped down on store (`darpy_sdk.client.caching.MAX_TTL_MS`), bounding how long any entry, however generously hinted, can be served.
 * On a **shared store**, clients race each other. Each client drops its own write when an eviction overtook the fetch in flight, but a *co-tenant* client can still write back an entry that an eviction it never saw had removed; and that race bookkeeping is itself bounded: past 4096 tracked keys the oldest key's guard is dropped first. Both windows are accepted, and closed by the TTL cap above.
 * **No serving across protocol eras.** Entries are scoped to the negotiated protocol version: on a shared persistent store, a session never serves an entry written under a different negotiated version (the same listing genuinely differs by era, since the SDK strips the 2026 fields for older sessions). Eviction likewise touches only the current era's entries; another era's entries simply age out by TTL.
 

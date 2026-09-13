@@ -4,13 +4,13 @@ import inspect
 
 import anyio
 import pytest
-from mcp_types import TextContent
+from darpy_sdk_types import TextContent
 
+from darpy_sdk import Client
 from docs_src.progress import tutorial001, tutorial002
-from mcp import Client
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 URLS = ["https://example.com/a.json", "https://example.com/b.json"]
 

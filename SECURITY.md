@@ -1,35 +1,29 @@
-# Security Policy
+# Security policy
 
-Thank you for helping keep the Model Context Protocol and its ecosystem secure.
+Security reports for Darbot Python SDK belong to the DarbotLabs fork. MCP
+protocol issues may also affect upstream implementations, but this repository
+does not inherit another project's private reporting channel or support SLA.
 
-## Supported Versions
+## Supported scope
 
-| Version                                  | Line                    | Support                                     |
-| ---------------------------------------- | ----------------------- | ------------------------------------------- |
-| 2.x (newest release)                     | current stable (`main`) | bug fixes, security fixes, new features     |
-| 1.x newest release (`v1.x` branch)       | maintenance             | critical bug fixes and security fixes       |
-| older 1.x releases, and all pre-releases | unsupported             | upgrade to the newest 1.x release or to 2.x |
+The initial Darbot package line is `darpy-sdk==0.1.0` with the matching
+`darpy-sdk-types`. It is a development foundation derived from the upstream
+MCP SDK 2.2.0 codebase; the Darbot version is independent. No upstream 1.x or
+2.x support promise applies to this fork. Release notes and
+[VERSIONING.md](VERSIONING.md) identify the actual Darbot support policy.
 
-Only the newest release of a supported line receives fixes, so reproduce against
-it before reporting. If your project depends on `mcp` and is not yet ready for
-2.x, keep a `<2` upper bound on your `mcp` requirement and follow the
-[migration guide](https://py.sdk.modelcontextprotocol.io/migration/) when you
-migrate.
+## Reporting
 
-## Reporting Security Issues
+Use this repository's **Security → Report a vulnerability** option when private
+vulnerability reporting is enabled. If it is unavailable, use contact information
+made available by the maintainers on the
+[DarbotLM GitHub profile](https://github.com/DarbotLM) to arrange private disclosure.
+Do not disclose exploit details, credentials, or private user data in public
+issues or pull requests. No unverified security email address is advertised here.
 
-If you discover a security vulnerability in this repository, please report it through
-the [GitHub Security Advisory process](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability)
-for this repository.
-
-Please **do not** report security vulnerabilities through public GitHub issues, discussions,
-or pull requests.
-
-## What to Include
-
-To help us triage and respond quickly, please include:
-
-- A description of the vulnerability
-- Steps to reproduce the issue
-- The potential impact
-- Any suggested fixes (optional)
+Include the affected Darbot version or commit, Python/platform/dependency
+versions, a minimal reproduction, impact, and relevant protocol configuration.
+Provide synthetic or redacted data where possible. A passing unit test does
+not establish that arbitrary tool execution or a network deployment is isolated;
+applications must configure authorization and execution boundaries appropriate
+to their handlers.

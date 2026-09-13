@@ -14,7 +14,7 @@ from typing import Any
 import anyio
 import httpx2
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     HEADER_MISMATCH,
@@ -39,21 +39,21 @@ from mcp_types import (
     PaginatedRequestParams,
     Tool,
 )
-from mcp_types.version import LATEST_MODERN_VERSION, MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import LATEST_MODERN_VERSION, MODERN_PROTOCOL_VERSIONS
 from starlette.types import Message, Receive, Scope, Send
 from trio.testing import MockClock
 
-from mcp.server import Server, ServerRequestContext, _streamable_http_modern, runner
-from mcp.server._streamable_http_modern import (
+from darpy_sdk.server import Server, ServerRequestContext, _streamable_http_modern, runner
+from darpy_sdk.server._streamable_http_modern import (
     _SingleExchangeDispatchContext,
     _to_jsonrpc_response,
     handle_modern_request,
 )
-from mcp.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ServerEvent
-from mcp.server.transport_security import TransportSecuritySettings
-from mcp.shared.exceptions import MCPError, NoBackChannelError
-from mcp.shared.inbound import MCP_METHOD_HEADER, MCP_NAME_HEADER, MCP_PROTOCOL_VERSION_HEADER
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ServerEvent
+from darpy_sdk.server.transport_security import TransportSecuritySettings
+from darpy_sdk.shared.exceptions import MCPError, NoBackChannelError
+from darpy_sdk.shared.inbound import MCP_METHOD_HEADER, MCP_NAME_HEADER, MCP_PROTOCOL_VERSION_HEADER
+from darpy_sdk.shared.transport_context import TransportContext
 from tests.interaction.transports import StreamingASGITransport
 
 pytestmark = pytest.mark.anyio
@@ -508,7 +508,7 @@ async def test_sse_mode_emits_keepalive_comment_between_events(monkeypatch: pyte
 
     Runs on trio's autojumping MockClock so the `move_on_after(_SSE_PING_INTERVAL)` deadlines and
     the handler's `anyio.sleep` advance without wall-clock time."""
-    monkeypatch.setattr("mcp.server._streamable_http_modern._SSE_PING_INTERVAL", 1.0)
+    monkeypatch.setattr("darpy_sdk.server._streamable_http_modern._SSE_PING_INTERVAL", 1.0)
 
     async def list_tools(ctx: ServerRequestContext, params: PaginatedRequestParams | None) -> ListToolsResult:
         await ctx.session.report_progress(1.0)
@@ -540,7 +540,7 @@ async def test_sse_mode_silent_handler_commits_sse_after_ping_interval(monkeypat
     `_SSE_PING_INTERVAL`.
 
     Runs on trio's autojumping MockClock; the 2.5s handler sleep takes no wall-clock time."""
-    monkeypatch.setattr("mcp.server._streamable_http_modern._SSE_PING_INTERVAL", 1.0)
+    monkeypatch.setattr("darpy_sdk.server._streamable_http_modern._SSE_PING_INTERVAL", 1.0)
 
     async def list_tools(ctx: ServerRequestContext, params: PaginatedRequestParams | None) -> ListToolsResult:
         await anyio.sleep(2.5)

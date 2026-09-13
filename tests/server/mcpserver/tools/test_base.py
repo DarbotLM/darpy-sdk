@@ -1,10 +1,10 @@
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 
-from mcp import Client
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.tools.base import Tool
-from mcp.shared.exceptions import MCPError
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.tools.base import Tool
+from darpy_sdk.shared.exceptions import MCPError
 
 
 def test_context_detected_in_union_annotation():

@@ -5,20 +5,20 @@ translation:
 ---
 # Instalación {#installation}
 
-El SDK de Python está en PyPI como [`mcp`](https://pypi.org/project/mcp/). Requiere **Python 3.10+**.
+El SDK de Python está en PyPI como [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Requiere **Python 3.10+**.
 
 Esta documentación describe **v2**, la línea de versiones estable actual:
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 !!! note "¿Vienes de v1?"
@@ -30,9 +30,9 @@ Esta documentación describe **v2**, la línea de versiones estable actual:
 
 No necesitas saber nada de esto para usar el SDK, pero si te preguntas para qué sirve cada dependencia:
 
-* `mcp-types`: todos los tipos del protocolo (solicitudes, resultados, bloques de contenido) como paquete propio, versionado a la par del SDK. El código que depende de `mcp` lo importa a través del alias `mcp.types` (cada `from mcp.types import ...` de esta documentación); importa `mcp_types` directamente solo en un proyecto que instale `mcp-types` sin el SDK.
+* `darpy-sdk-types`: todos los tipos del protocolo (solicitudes, resultados, bloques de contenido) como paquete propio, versionado a la par del SDK. El código que depende de `mcp` lo importa a través del alias `darpy_sdk.types` (cada `from darpy_sdk.types import ...` de esta documentación); importa `darpy_sdk_types` directamente solo en un proyecto que instale `darpy-sdk-types` sin el SDK.
 * [`anyio`](https://anyio.readthedocs.io/): el entorno de ejecución asíncrono. Todo el SDK está escrito sobre anyio, así que funciona tanto con `asyncio` como con `trio`.
-* [`pydantic`](https://docs.pydantic.dev/): la base de todos los modelos de `mcp.types`, además de toda la generación y validación de esquemas.
+* [`pydantic`](https://docs.pydantic.dev/): la base de todos los modelos de `darpy_sdk.types`, además de toda la generación y validación de esquemas.
 * [`httpx2`](https://pypi.org/project/httpx2/): el cliente HTTP detrás de los transportes de *cliente* Streamable HTTP y SSE, con compatibilidad integrada con server-sent events.
 * [`starlette`](https://www.starlette.io/), [`uvicorn`](https://www.uvicorn.org/), [`sse-starlette`](https://pypi.org/project/sse-starlette/) y [`python-multipart`](https://pypi.org/project/python-multipart/): los transportes HTTP de *servidor*.
 * [`jsonschema`](https://pypi.org/project/jsonschema/): valida la salida estructurada de una herramienta contra su esquema de salida declarado.
@@ -43,5 +43,5 @@ No necesitas saber nada de esto para usar el SDK, pero si te preguntas para qué
 
 ## Extras opcionales {#optional-extras}
 
-* `mcp[cli]` añade [`typer`](https://typer.tiangolo.com/) y [`python-dotenv`](https://pypi.org/project/python-dotenv/) para la herramienta de línea de comandos `mcp` (`mcp dev`, `mcp run`, `mcp install`). La querrás durante el desarrollo; puede que no la necesites en un servidor desplegado.
-* `mcp[rich]` añade [`rich`](https://rich.readthedocs.io/) para unos logs del servidor más legibles.
+* `darpy-sdk[cli]` añade [`typer`](https://typer.tiangolo.com/) y [`python-dotenv`](https://pypi.org/project/python-dotenv/) para la herramienta de línea de comandos `mcp` (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`). La querrás durante el desarrollo; puede que no la necesites en un servidor desplegado.
+* `darpy-sdk[rich]` añade [`rich`](https://rich.readthedocs.io/) para unos logs del servidor más legibles.

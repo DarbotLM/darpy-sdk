@@ -1,9 +1,8 @@
 """Completion interactions against the low-level Server, driven through the public Client API."""
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_PARAMS,
     METHOD_NOT_FOUND,
     CompleteResult,
@@ -12,9 +11,10 @@ from mcp_types import (
     PromptReference,
     ResourceTemplateReference,
 )
+from inline_snapshot import snapshot
 
-from mcp import MCPError
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.server import Server, ServerRequestContext
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

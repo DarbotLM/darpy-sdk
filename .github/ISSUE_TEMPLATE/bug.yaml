@@ -1,11 +1,11 @@
-name: 🐛 MCP Python SDK Bug
-description: Report a bug or unexpected behavior in the MCP Python SDK
+name: 🐛 Darbot Python SDK Bug
+description: Report a bug or unexpected behavior in the Darbot Python SDK
 labels: ["need confirmation"]
 
 body:
   - type: markdown
     attributes:
-      value: Thank you for contributing to the MCP Python SDK! ✊
+      value: Thank you for contributing to the Darbot Python SDK! ✊
 
   - type: checkboxes
     id: checks
@@ -17,7 +17,7 @@ body:
       options:
         - label: I confirm that I'm using the newest release of my line (the latest 2.x, or the latest 1.x if I'm still on v1)
           required: true
-        - label: I confirm that I searched for my issue in https://github.com/modelcontextprotocol/python-sdk/issues before opening this issue
+        - label: I confirm that I searched for my issue in https://github.com/DarbotLM/darpy-sdk/issues before opening this issue
           required: true
 
   - type: dropdown
@@ -52,7 +52,7 @@ body:
         demonstrating the bug.
 
       placeholder: |
-        from mcp.server.mcpserver import MCPServer
+        from darpy_sdk.server.mcpserver import MCPServer
 
         ...
       render: Python
@@ -60,9 +60,9 @@ body:
   - type: textarea
     id: version
     attributes:
-      label: Python & MCP Python SDK
+      label: Python & Darbot Python SDK
       description: |
-        Which version of Python and MCP Python SDK are you using?
+        Which version of Python and Darbot Python SDK are you using?
       render: Text
     validations:
       required: true

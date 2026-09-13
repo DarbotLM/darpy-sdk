@@ -19,7 +19,7 @@ translation:
 
 * `mcp.run()` без аргументов запускает **stdio**-сервер: он блокирует выполнение, читает сообщения протокола из stdin и пишет их в stdout. Это тот транспорт, на котором говорят все хосты на этой странице. Хост запускает ваш файл как дочерний процесс и владеет обоими каналами, поэтому подключение всегда сводится к «вот команда». Порт выбирать не нужно, и ничто на нём не слушает.
 * `run()` стоит под `if __name__ == "__main__":`. Всё, что ниже, **импортирует** этот файл, а не выполняет его, так что незащищённый `run()` запускал бы сервер в тот момент, когда что-нибудь загружает модуль.
-* Объект сервера — глобальная переменная уровня модуля с именем `mcp`. Это имя ищет `mcp run` (`server` и `app` тоже подходят). Назовёте иначе — придётся указать имя явно: `mcp run server.py:bookshop`.
+* Объект сервера — глобальная переменная уровня модуля с именем `mcp`. Это имя ищет `darpy-sdk run` (`server` и `app` тоже подходят). Назовёте иначе — придётся указать имя явно: `darpy-sdk run server.py:bookshop`.
 
 Это последняя строка Python на этой странице. Дальше — только настройка хостов.
 
@@ -28,17 +28,17 @@ translation:
 Каждый хост ниже получает одну и ту же команду:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Одна команда для всех, потому что `uv run --with` прямо на месте разворачивает SDK в свежем окружении: она работает из любого каталога, не требует проекта и не требует активировать виртуальное окружение. Здесь это важнее, чем где бы то ни было, потому что хост запускает сервер из *своего* рабочего каталога с почти пустым окружением, а не из вашей оболочки.
 
-Это же команда, которую `mcp install` записывает за вас в конфигурацию Claude Desktop (ниже), так что набранное вручную и сгенерированное инструментом совпадают, если не считать точной фиксации версии, которую добавляет инструмент.
+Это же команда, которую `darpy-sdk install` записывает за вас в конфигурацию Claude Desktop (ниже), так что набранное вручную и сгенерированное инструментом совпадают, если не считать точной фиксации версии, которую добавляет инструмент.
 
 !!! tip "Если хост не находит `uv`"
     Хост порождает ваш сервер с минимальным `PATH`, и `uv` в нём может не оказаться. Замените
     голое `uv` абсолютным путём из `which uv` (macOS/Linux) или `where uv` (Windows). Именно
-    это и записывает `mcp install`.
+    это и записывает `darpy-sdk install`.
 
 !!! note "Эта страница — про локальный сценарий"
     Всё здесь запускает сервер на той же машине, где находится хост: хост запускает ваш
@@ -59,10 +59,10 @@ uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
 Единственный хост, который SDK умеет настроить за вас:
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-Вот и всё. `mcp install` импортирует файл, чтобы прочитать имя сервера, находит файл конфигурации Claude Desktop и записывает в него команду запуска. Попутно она превращает ваш путь в абсолютный, чтобы этого не пришлось делать вам.
+Вот и всё. `darpy-sdk install` импортирует файл, чтобы прочитать имя сервера, находит файл конфигурации Claude Desktop и записывает в него команду запуска. Попутно она превращает ваш путь в абсолютный, чтобы этого не пришлось делать вам.
 
 Никакой магии здесь нет. Вот запись, которую она создаёт:
 
@@ -75,8 +75,8 @@ uv run mcp install server.py
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -90,18 +90,18 @@ uv run mcp install server.py
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Этот файл можно написать и вручную. `mcp install` существует затем, чтобы вы при этом не допустили классической ошибки (относительного пути).
+Этот файл можно написать и вручную. `darpy-sdk install` существует затем, чтобы вы при этом не допустили классической ошибки (относительного пути).
 
 Полностью завершите Claude Desktop (а не просто закройте окно) и откройте заново.
 
 !!! warning
-    `mcp install` завершается ошибкой `Claude app not found`, если *каталога* конфигурации Claude
+    `darpy-sdk install` завершается ошибкой `Claude app not found`, если *каталога* конфигурации Claude
     Desktop ещё не существует. Установите Claude Desktop и запустите его один раз: именно это
     создаёт каталог.
 
 !!! tip
     Claude Desktop запускает сервер в собственном процессе, так что переменных окружения вашей
-    оболочки там нет. `uv run mcp install server.py -v API_KEY=abc123` (или `-f .env`) записывает
+    оболочки там нет. `uv run darpy-sdk install server.py -v API_KEY=abc123` (или `-f .env`) записывает
     их в поле `env` записи. `--name` переопределяет имя записи; по умолчанию берётся `name`
     сервера.
 
@@ -110,7 +110,7 @@ uv run mcp install server.py
 Редактировать никакой файл не нужно. Зарегистрируйте сервер через CLI `claude`; всё после `--` — это команда запуска.
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Выполните `/mcp` внутри сессии Claude Code, чтобы убедиться, что `bookshop` подключён и его инструменты перечислены.
@@ -124,7 +124,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -142,7 +142,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -160,7 +160,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
 Прежде чем трогать конфигурацию какого-либо хоста, выполните команду запуска сами:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Ничего не печатается, и команда не завершается. Эта тишина правильна: stdio-сервер ждёт, пока хост первым заговорит через stdin (`Ctrl-C`, чтобы остановить). Настоящая ошибка — это трассировка или немедленный выход, и теперь её можно прочитать, а не угадывать через хост.
@@ -178,8 +178,8 @@ Claude Desktop ведёт лог для каждого сервера: `mcp-serv
 ## Итоги {#recap}
 
 * **Хост** (Claude Desktop, IDE) содержит MCP-клиент, который запускает ваш сервер как дочерний процесс через stdio. Подключиться — значит дать ему одну команду запуска.
-* Эта команда — `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`: не нужно активировать venv, работает из любого каталога.
-* **Claude Desktop** — единственный хост, который `mcp install` настраивает за вас. Она записывает ту же команду (плюс абсолютный путь к `uv`, `--frozen` и точную фиксацию установленной у вас версии) в `claude_desktop_config.json`, чтобы этого никогда не пришлось делать вам.
+* Эта команда — `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`: не нужно активировать venv, работает из любого каталога.
+* **Claude Desktop** — единственный хост, который `darpy-sdk install` настраивает за вас. Она записывает ту же команду (плюс абсолютный путь к `uv`, `--frozen` и точную фиксацию установленной у вас версии) в `claude_desktop_config.json`, чтобы этого никогда не пришлось делать вам.
 * **Claude Code** — это `claude mcp add bookshop -- <launch command>`. **Cursor** — `.cursor/mcp.json` под ключом `mcpServers`. **VS Code** — `.vscode/mcp.json` под ключом `servers`, каждая запись с `type`.
 * Везде абсолютные пути, перезапуск хоста после правки его конфигурации, и ничто, кроме SDK, не должно писать в stdout.
 

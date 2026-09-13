@@ -2,8 +2,8 @@
 
 import itertools
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.resources import TextResource
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.resources import TextResource
 from stories._hosting import run_server_from_args
 
 

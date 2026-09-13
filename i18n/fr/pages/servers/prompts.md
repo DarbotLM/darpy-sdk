@@ -64,7 +64,7 @@ C’est toute la vie d’un prompt : listé par son nom, rendu à la demande, d�
     requête elle-même échoue avec une erreur JSON-RPC (code `-32603`) :
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     Il n’y a pas de résultat d’erreur à la manière des outils à remettre à un modèle, car aucun modèle n’est dans la boucle :
@@ -75,7 +75,7 @@ C’est toute la vie d’un prompt : listé par son nom, rendu à la demande, d�
 Lancez le serveur avec le MCP Inspector :
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Ouvrez l’onglet **Prompts** et sélectionnez `review_code`. L’Inspector dessine un formulaire avec un seul champ obligatoire `code`. Renseignez-le, lancez le rendu, et vous obtenez en retour exactement le message utilisateur ci-dessus.
@@ -90,7 +90,7 @@ Renvoyez une liste de messages au lieu d’une `str` :
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` et `AssistantMessage` viennent de `mcp.server.mcpserver.prompts.base`. Passez-leur une `str` et ils l’enveloppent dans un `TextContent` pour vous. Le rôle est le nom de la classe.
+* `UserMessage` et `AssistantMessage` viennent de `darpy_sdk.server.mcpserver.prompts.base`. Passez-leur une `str` et ils l’enveloppent dans un `TextContent` pour vous. Le rôle est le nom de la classe.
 * `Message` est leur classe de base commune. Utilisez-la comme annotation de retour.
 
 Le rendu de `debug_error` produit désormais trois messages, dans l’ordre :
@@ -154,7 +154,7 @@ L’entrée `prompts/list` contient désormais tout ce dont un client a besoin p
 ```
 
 * Le guide de style est une ressource à l’adresse `style://python` (**[Ressources](resources.md)** traite de celles-ci), lue depuis un fichier `style-guide.md` placé à côté de `server.py`. Mettez-y n’importe quel fichier Markdown.
-* `EmbeddedResource(resource=TextResourceContents(...))`, tous deux issus de `mcp.types`, transporte le fichier avec son URI et son type MIME comme premier message ; la demande qui y fait référence suit sous forme de texte brut.
+* `EmbeddedResource(resource=TextResourceContents(...))`, tous deux issus de `darpy_sdk.types`, transporte le fichier avec son URI et son type MIME comme premier message ; la demande qui y fait référence suit sous forme de texte brut.
 * Incorporer le guide, plutôt que de le coller dans la f-string, permet au client de l’afficher comme pièce jointe et de rouvrir `style://python` plus tard, et le modèle reçoit le fichier tel quel. Pour un fichier binaire, utilisez `BlobResourceContents` avec un `blob` en base64.
 
 Une fois rendu, le `content` du premier message est un bloc `resource` :

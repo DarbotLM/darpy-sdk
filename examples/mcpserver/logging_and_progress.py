@@ -2,7 +2,7 @@
 
 import asyncio
 
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 # Create server
 mcp = MCPServer("Echo Server with logging and progress updates")

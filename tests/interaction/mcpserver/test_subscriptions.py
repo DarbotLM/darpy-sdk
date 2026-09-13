@@ -3,8 +3,8 @@
 import anyio
 import pytest
 
-from mcp.client.subscriptions import ListenNotSupportedError, ResourceUpdated, ToolsListChanged
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.client.subscriptions import ListenNotSupportedError, ResourceUpdated, ToolsListChanged
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

@@ -2,7 +2,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Bookshop")
 

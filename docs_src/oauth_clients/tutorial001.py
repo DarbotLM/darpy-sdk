@@ -3,10 +3,10 @@ from urllib.parse import parse_qs, urlparse
 import httpx2
 from pydantic import AnyUrl
 
-from mcp import Client
-from mcp.client.auth import AuthorizationCodeResult, OAuthClientProvider
-from mcp.client.streamable_http import streamable_http_client
-from mcp.shared.auth import OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
+from darpy_sdk import Client
+from darpy_sdk.client.auth import AuthorizationCodeResult, OAuthClientProvider
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
 
 
 class InMemoryTokenStorage:

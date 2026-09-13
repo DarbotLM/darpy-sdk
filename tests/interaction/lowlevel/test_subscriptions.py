@@ -3,13 +3,13 @@
 from typing import Any
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 
-from mcp import MCPError
-from mcp.client.subscriptions import SubscriptionLost, ToolsListChanged
-from mcp.server import Server, ServerRequestContext
-from mcp.server.subscriptions import SUBSCRIPTION_ID_META_KEY, InMemorySubscriptionBus, ListenHandler
+from darpy_sdk import MCPError
+from darpy_sdk.client.subscriptions import SubscriptionLost, ToolsListChanged
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.subscriptions import SUBSCRIPTION_ID_META_KEY, InMemorySubscriptionBus, ListenHandler
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

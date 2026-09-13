@@ -18,7 +18,7 @@ Bir istemcinin konuşacağı bir sunucuya ihtiyacı vardır. Bu sayfadaki her ö
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Bu, sunucuyu `http://localhost:8000/mcp` adresinde sunar. İstemci ayrı bir programdır. Onu `client.py` olarak kaydedin ve ikinci bir terminalde `python client.py` komutunu çalıştırın:
@@ -46,7 +46,7 @@ Bu sayfadaki geri kalan her şey dördünde de aynıdır. Başlıklar, alt süre
 
 Bloğa girdiğiniz anda doldurulan dört salt okunur özellik:
 
-* `client.server_info`: sunucunun kimliği; kimlik bildirmeyen 2026 neslinden bir sunucu için `None` (python-sdk sunucuları varsayılan olarak bildirir). Burada `server_info.name` `"Bookshop"`, `server_info.version` ise sunucu ne bildiriyorsa odur.
+* `client.server_info`: sunucunun kimliği; kimlik bildirmeyen 2026 neslinden bir sunucu için `None` (Darbot Python SDK sunucuları varsayılan olarak bildirir). Burada `server_info.name` `"Bookshop"`, `server_info.version` ise sunucu ne bildiriyorsa odur.
 * `client.server_capabilities`: sunucunun neler yapabildiği (`tools`, `resources`, `prompts`, `completions`, ...). Sunucuda olmayan bir yetenek `None` olur.
 * `client.protocol_version`: iki tarafın üzerinde anlaştığı protokol sürümü. Burada `"2026-07-28"`.
 * `client.instructions`: sunucunun `instructions=` dizesi; sunucu bir tane ayarlamadıysa `None`.
@@ -91,7 +91,7 @@ Bu şema, bir arayüzün argüman formu oluşturması için gereken her şeydir;
 
 !!! tip
     `title` isteğe bağlıdır; bu yüzden araçları bir insana gösteren arayüzün seçim yapması gerekir: varsa `title`,
-    yoksa `name`. `from mcp.shared.metadata_utils import get_display_name` tam olarak bunu yapar;
+    yoksa `name`. `from darpy_sdk.shared.metadata_utils import get_display_name` tam olarak bunu yapar;
     araçlar, kaynaklar, kaynak şablonları ve prompt'lar için.
 
 ## Bir aracı çağırma {#calling-a-tool}

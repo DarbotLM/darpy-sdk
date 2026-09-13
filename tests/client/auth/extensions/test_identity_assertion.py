@@ -12,9 +12,9 @@ import urllib.parse
 import httpx2
 import pytest
 
-from mcp.client.auth import OAuthFlowError, OAuthTokenError
-from mcp.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider, _origin
-from mcp.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
+from darpy_sdk.client.auth import OAuthFlowError, OAuthTokenError
+from darpy_sdk.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider, _origin
+from darpy_sdk.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
 
 ISSUER = "https://auth.example.com"
 RS = "https://mcp.example.com"

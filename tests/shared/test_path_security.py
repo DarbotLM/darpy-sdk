@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from mcp.shared.path_security import (
+from darpy_sdk.shared.path_security import (
     PathEscapeError,
     contains_path_traversal,
     is_absolute_path,

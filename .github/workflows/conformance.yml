@@ -48,7 +48,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-      - run: uv sync --frozen --all-extras --package mcp-everything-server
+      - run: uv sync --frozen --all-extras --package darpy-sdk-everything-server
       - name: Run server conformance (all suite, 2025-11-25 wire)
         run: >-
           ./.github/actions/conformance/run-server.sh
@@ -96,7 +96,7 @@ jobs:
           node-version: 24
       # --compile-bytecode: without it, ~40 concurrently spawned interpreters
       # race to byte-compile site-packages during the timing-sensitive window.
-      - run: uv sync --frozen --all-extras --package mcp --compile-bytecode
+      - run: uv sync --frozen --all-extras --package darpy-sdk --compile-bytecode
       - name: Pre-compile bytecode (editable sources)
         run: uv run --frozen python -m compileall -q src .github/actions/conformance
       # The harness runs a leg's scenarios via unbounded Promise.all; under

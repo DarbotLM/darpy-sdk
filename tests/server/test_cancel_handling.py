@@ -2,7 +2,7 @@
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequest,
     CallToolRequestParams,
     CallToolResult,
@@ -18,11 +18,11 @@ from mcp_types import (
     TextContent,
     Tool,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.message import SessionMessage
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio

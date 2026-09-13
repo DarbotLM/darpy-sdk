@@ -1,18 +1,18 @@
 """cd to the `examples/snippets` directory and run:
-uv run completion-client
+uv run darpy-sdk-completion-client
 """
 
 import asyncio
 import os
 
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-from mcp.types import PromptReference, ResourceTemplateReference
+from darpy_sdk import ClientSession, StdioServerParameters
+from darpy_sdk.client.stdio import stdio_client
+from darpy_sdk.types import PromptReference, ResourceTemplateReference
 
 # Create server parameters for stdio connection
 server_params = StdioServerParameters(
     command="uv",  # Using uv to run the server
-    args=["run", "server", "completion", "stdio"],  # Server with completion support
+    args=["run", "darpy-sdk-server", "completion", "stdio"],  # Server with completion support
     env={"UV_INDEX": os.environ.get("UV_INDEX", "")},
 )
 

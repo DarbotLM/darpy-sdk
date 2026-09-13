@@ -11,7 +11,7 @@ from unittest.mock import AsyncMock, patch
 import anyio
 import httpx2
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_REQUEST,
     CallToolRequestParams,
@@ -20,18 +20,18 @@ from mcp_types import (
     PaginatedRequestParams,
     TextContent,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
 from starlette.applications import Starlette
 from starlette.routing import Mount
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-from mcp import Client
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext, streamable_http_manager
-from mcp.server.auth.middleware.bearer_auth import AuthenticatedUser
-from mcp.server.auth.provider import AccessToken
-from mcp.server.streamable_http import MCP_SESSION_ID_HEADER, StreamableHTTPServerTransport
-from mcp.server.streamable_http_manager import (
+from darpy_sdk import Client
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext, streamable_http_manager
+from darpy_sdk.server.auth.middleware.bearer_auth import AuthenticatedUser
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.streamable_http import MCP_SESSION_ID_HEADER, StreamableHTTPServerTransport
+from darpy_sdk.server.streamable_http_manager import (
     DEFAULT_MAX_REQUEST_BODY_SIZE,
     DEFAULT_MAX_SESSIONS,
     DEFAULT_SESSION_IDLE_TIMEOUT,
@@ -234,7 +234,7 @@ async def test_stateful_session_cleanup_on_graceful_exit(running_manager: tuple[
         return {"type": "http.request", "body": b"", "more_body": False}
 
     # Trigger session creation
-    with patch("mcp.server.streamable_http_manager.serve_loop", mock_serve):
+    with patch("darpy_sdk.server.streamable_http_manager.serve_loop", mock_serve):
         await manager.handle_request(scope, mock_receive, mock_send)
 
     # Extract session ID from response headers
@@ -292,7 +292,7 @@ async def test_stateful_session_cleanup_on_exception(running_manager: tuple[Stre
         return {"type": "http.request", "body": b"", "more_body": False}
 
     # Trigger session creation
-    with patch("mcp.server.streamable_http_manager.serve_loop", mock_serve):
+    with patch("darpy_sdk.server.streamable_http_manager.serve_loop", mock_serve):
         await manager.handle_request(scope, mock_receive, mock_send)
 
     session_id = None

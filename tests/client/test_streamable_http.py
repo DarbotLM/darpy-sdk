@@ -14,8 +14,7 @@ from typing import Any
 import anyio
 import httpx2
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     CONNECTION_CLOSED,
@@ -29,28 +28,29 @@ from mcp_types import (
     ListToolsResult,
     PaginatedRequestParams,
 )
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 from starlette.applications import Starlette
 from starlette.routing import Mount
 from starlette.types import Receive, Scope, Send
 
-from mcp import Client, MCPError
-from mcp.client.streamable_http import (
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client.streamable_http import (
     MAX_RECONNECTION_ATTEMPTS,
     RequestContext,
     StreamableHTTPTransport,
     streamable_http_client,
 )
-from mcp.server import Server, ServerRequestContext
-from mcp.server._streamable_http_modern import handle_modern_request
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
-from mcp.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ServerEvent
-from mcp.shared._context_streams import ContextSendStream, create_context_streams
-from mcp.shared.dispatcher import CallOptions, DispatchContext
-from mcp.shared.inbound import MCP_METHOD_HEADER, MCP_PROTOCOL_VERSION_HEADER, encode_header_value
-from mcp.shared.jsonrpc_dispatcher import JSONRPCDispatcher
-from mcp.shared.message import ClientMessageMetadata, ServerMessageMetadata, SessionMessage
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server._streamable_http_modern import handle_modern_request
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ServerEvent
+from darpy_sdk.shared._context_streams import ContextSendStream, create_context_streams
+from darpy_sdk.shared.dispatcher import CallOptions, DispatchContext
+from darpy_sdk.shared.inbound import MCP_METHOD_HEADER, MCP_PROTOCOL_VERSION_HEADER, encode_header_value
+from darpy_sdk.shared.jsonrpc_dispatcher import JSONRPCDispatcher
+from darpy_sdk.shared.message import ClientMessageMetadata, ServerMessageMetadata, SessionMessage
+from darpy_sdk.shared.transport_context import TransportContext
 from tests.interaction.transports import StreamingASGITransport
 from tests.shared.test_dispatcher import Recorder, echo_handlers
 

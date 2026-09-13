@@ -8,10 +8,9 @@ Handlers block on an Event rather than a sleep, and every wait is bounded by `an
 """
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     REQUEST_TIMEOUT,
     CallToolResult,
     EmptyResult,
@@ -27,13 +26,14 @@ from mcp_types import (
     TextContent,
     Tool,
 )
+from inline_snapshot import snapshot
 
-from mcp import Client, MCPError
-from mcp.client import ClientRequestContext, ClientSession, IncomingMessage
-from mcp.server import Server, ServerRequestContext
-from mcp.server.streamable_http import REQUEST_CANCELLED
-from mcp.shared.memory import MessageStream, create_client_server_memory_streams
-from mcp.shared.message import SessionMessage
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import ClientRequestContext, ClientSession, IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.streamable_http import REQUEST_CANCELLED
+from darpy_sdk.shared.memory import MessageStream, create_client_server_memory_streams
+from darpy_sdk.shared.message import SessionMessage
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

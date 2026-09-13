@@ -2,9 +2,9 @@
 
 import anyio
 
-import mcp.types as types
-from mcp.client import Client, ClientRequestContext, IncomingMessage
-from mcp.types.version import HANDSHAKE_PROTOCOL_VERSIONS
+import darpy_sdk.types as types
+from darpy_sdk.client import Client, ClientRequestContext, IncomingMessage
+from darpy_sdk.types.version import HANDSHAKE_PROTOCOL_VERSIONS
 from stories._harness import Target, run_client
 
 

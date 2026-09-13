@@ -30,7 +30,7 @@ translation:
 
 * `run()` синхронный. Он блокирует выполнение на всё время жизни сервера.
 * Без аргументов транспорт — `stdio`.
-* Вызов стоит под `if __name__ == "__main__":`, потому что всё, что загружает ваш сервер (`mcp dev`, `mcp run`, `mcp install`, тесты), **импортирует** этот файл. Эта проверка не даёт импорту превратиться в работающий сервер.
+* Вызов стоит под `if __name__ == "__main__":`, потому что всё, что загружает ваш сервер (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`, тесты), **импортирует** этот файл. Эта проверка не даёт импорту превратиться в работающий сервер.
 
 ### stdio {#stdio}
 
@@ -49,7 +49,7 @@ python server.py
 ### Попробуйте сами {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector делает ровно то же, что и настоящий хост: запускает `server.py` как подпроцесс и подключается к нему через stdio.
@@ -110,42 +110,42 @@ Inspector делает ровно то же, что и настоящий хос
 
 Дополнение `[cli]` устанавливает небольшую утилиту командной строки поверх всего этого.
 
-`mcp dev` запускает ваш сервер под **MCP Inspector**:
+`darpy-sdk dev` запускает ваш сервер под **MCP Inspector**:
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with` добавляет пакеты в создаваемое окружение; `--with-editable` устанавливает в него ваш собственный пакет. Нужен `npx` в `PATH`: Inspector — это приложение на Node.js.
 
-`mcp run` импортирует файл, находит объект сервера (`mcp`, `server` или `app` на уровне модуля) и вызывает у него `run()`:
+`darpy-sdk run` импортирует файл, находит объект сервера (`mcp`, `server` или `app` на уровне модуля) и вызывает у него `run()`:
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 Суффикс после `:` указывает имя объекта, если он называется не `mcp`, `server` и не `app`.
 
-Блок `if __name__ == "__main__":` здесь никогда не выполняется: `mcp run` вызывает `run()` сам, и единственный параметр, который он пробрасывает, — `--transport`.
+Блок `if __name__ == "__main__":` здесь никогда не выполняется: `darpy-sdk run` вызывает `run()` сам, и единственный параметр, который он пробрасывает, — `--transport`.
 
-`mcp install` регистрирует сервер в **Claude Desktop**, чтобы приложение запускало его за вас:
+`darpy-sdk install` регистрирует сервер в **Claude Desktop**, чтобы приложение запускало его за вас:
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE` и `-f .env` записывают в эту запись переменные окружения. Claude Desktop запускает ваш сервер в отдельном процессе. Окружения вашей оболочки там нет.
 
-Claude Desktop — единственный хост, который знает `mcp install`. Все остальные хосты (Claude Code, Cursor, VS Code) принимают ту же команду запуска в собственном конфигурационном файле, и каждый из них описан на странице **[Подключение к настоящему хосту](../get-started/real-host.md)**.
+Claude Desktop — единственный хост, который знает `darpy-sdk install`. Все остальные хосты (Claude Code, Cursor, VS Code) принимают ту же команду запуска в собственном конфигурационном файле, и каждый из них описан на странице **[Подключение к настоящему хосту](../get-started/real-host.md)**.
 
-`mcp version` выводит версию установленного SDK.
+`darpy-sdk version` выводит версию установленного SDK.
 
 !!! tip
-    `mcp dev` и `mcp run` понимают только `MCPServer`. Если вы строите сервер на низкоуровневом `Server`,
+    `darpy-sdk dev` и `darpy-sdk run` понимают только `MCPServer`. Если вы строите сервер на низкоуровневом `Server`,
     запускать его придётся самим. См. **[Низкоуровневый Server](../advanced/low-level-server.md)**.
 
 ## Итоги {#recap}
@@ -155,7 +155,7 @@ Claude Desktop — единственный хост, который знает 
 * Любой параметр транспорта (`host`, `port`, `streamable_http_path`, ...) — это аргумент `run()` и никогда не `MCPServer(...)`.
 * Держите `run()` под `if __name__ == "__main__":`. Всё, что загружает ваш сервер, сначала импортирует файл.
 * `log_level=` и `debug=` — аргументы конструктора; они попадают в `mcp.settings`.
-* `mcp dev` — для Inspector, `mcp run` — чтобы выполнить файл, `mcp install` — для Claude Desktop, `mcp version` — узнать версию.
+* `darpy-sdk dev` — для Inspector, `darpy-sdk run` — чтобы выполнить файл, `darpy-sdk install` — для Claude Desktop, `darpy-sdk version` — узнать версию.
 * Транспорт никогда не меняет того, что ваш сервер собой *представляет*: все три файла на этой странице предоставляют один и тот же инструмент.
 
 Когда ограничением становится сам `run()` (сервер внутри уже существующего приложения), нужна страница **[Добавление в существующее приложение](asgi.md)**. Настоящее имя хоста и больше одного воркера — это **[Развёртывание и масштабирование](deploy.md)**. А если часть ваших клиентов всё ещё на версии спецификации 2025-11-25 или более ранней, хорошие новости ждут на странице **[Обслуживание клиентов старого поколения](legacy-clients.md)**.

@@ -3,8 +3,8 @@
 from pydantic import BaseModel
 from starlette.applications import Starlette
 
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.server.mcpserver import MCPServer
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 from stories._shared.auth import InMemoryAuthorizationServerProvider, auth_settings
 

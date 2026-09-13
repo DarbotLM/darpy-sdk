@@ -64,7 +64,7 @@ kill "$SERVER_PID"
   mounts the bearer gate + PRM route.
 - `server_lowlevel.py` — same gate, but `lowlevel.Server` takes
   `auth=` / `token_verifier=` at **`streamable_http_app(...)` time**, not in the
-  constructor. `mcp.server.auth.*` imports are allowed in lowlevel files
+  constructor. `darpy_sdk.server.auth.*` imports are allowed in lowlevel files
   (helper-tier).
 - `whoami()` — `get_access_token()` returns the per-HTTP-request `AccessToken`.
   It is **not** on `Context` (unlike other SDKs' `ctx.authInfo`); a later

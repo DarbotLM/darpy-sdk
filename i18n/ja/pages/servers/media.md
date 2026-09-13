@@ -34,14 +34,14 @@ result.structured_content  # None
 * `structured_content` は `None` です。`Image` はモデルが見るためのコンテンツであり、アプリケーションが解析するためのデータではありません。出力スキーマはありません。（戻り値の注釈そのものがスキーマになる **[構造化出力](structured-output.md)** と比べてみてください。）
 
 !!! info
-    `ImageContent` と `AudioContent` は `mcp.types` にあり、単純な `str` の結果が変換される `TextContent` のすぐ隣に並んでいます（**[ツール](tools.md)**）。ツールの結果はコンテンツブロックのリストです。`Image` と `Audio` は、2 種類のバイナリブロックを作る最短の方法です。
+    `ImageContent` と `AudioContent` は `darpy_sdk.types` にあり、単純な `str` の結果が変換される `TextContent` のすぐ隣に並んでいます（**[ツール](tools.md)**）。ツールの結果はコンテンツブロックのリストです。`Image` と `Audio` は、2 種類のバイナリブロックを作る最短の方法です。
 
 ### 試してみる {#try-it}
 
 任意の PNG を `server.py` の隣に置いて `logo.png` という名前にし、次を実行してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** タブを開いて `logo` を呼び出します。結果は文字列ではありません。`image` コンテンツブロックであり、Inspector が画像を描画します。ディスク上のファイルから画面上のピクセルまでの間は、すべて SDK が処理しました。
@@ -90,7 +90,7 @@ result.structured_content  # None
 ```
 
 * `brand://guidelines` は普通のリソースです（リソースについては **[リソース](resources.md)** で扱います）。このツールはリクエストに応じて同じドキュメントをモデルに渡します。`guidelines()` を直接呼び出すことで、情報源を 1 つに保っています。
-* `EmbeddedResource` と `TextResourceContents` は `mcp.types` にあります。画像のようなヘルパーはありません。組み立てたブロックはそのまま結果に入り、`structured_content` はありません。
+* `EmbeddedResource` と `TextResourceContents` は `darpy_sdk.types` にあります。画像のようなヘルパーはありません。組み立てたブロックはそのまま結果に入り、`structured_content` はありません。
 * リソースを登録したときの URI を使ってください。そうすれば、添付ファイルと `brand://guidelines` が同じドキュメントだとクライアントが判断できます。登録されているかどうかにかかわらず、どんな URI でも有効です。
 
 ```python
@@ -118,7 +118,7 @@ result.content  # [EmbeddedResource(type="resource", resource=TextResourceConten
 アイコンは、それが飾る対象と一緒に送られます。サーバーのアイコンはクライアントの接続時に `client.server_info` に届きます（2026 年世代の接続では省略可能なので、まず絞り込んでください）。
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

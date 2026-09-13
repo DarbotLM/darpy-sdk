@@ -9,7 +9,7 @@ from httpx2 import ASGITransport
 from pydantic import AnyHttpUrl
 from starlette.applications import Starlette
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
@@ -18,9 +18,9 @@ from mcp.server.auth.provider import (
     RefreshToken,
     TokenError,
 )
-from mcp.server.auth.routes import build_metadata, create_auth_routes
-from mcp.server.auth.settings import ClientRegistrationOptions, RevocationOptions
-from mcp.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
+from darpy_sdk.server.auth.routes import build_metadata, create_auth_routes
+from darpy_sdk.server.auth.settings import ClientRegistrationOptions, RevocationOptions
+from darpy_sdk.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
 
 ID_JAG_GRANT_PROFILE = "urn:ietf:params:oauth:grant-profile:id-jag"
 VALID_ASSERTION = "valid-id-jag"

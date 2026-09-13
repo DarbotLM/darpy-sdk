@@ -86,10 +86,10 @@ SDK, спан сервера просто стає дочірнім до тог�
 не генерує жодних спанів, приберіть його:
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

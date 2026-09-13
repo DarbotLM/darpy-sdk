@@ -1,13 +1,13 @@
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     InputRequiredResult,
     ListResourceTemplatesResult,
     TextResourceContents,
 )
 
-from mcp import Client
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.exceptions import ResourceError
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ResourceError
 
 
 @pytest.mark.anyio

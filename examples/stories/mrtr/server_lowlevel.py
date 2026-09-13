@@ -2,10 +2,10 @@
 
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
-from mcp.server.request_state import RequestStateBoundary, RequestStateSecurity
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.server.request_state import RequestStateBoundary, RequestStateSecurity
 from stories._hosting import run_server_from_args
 
 CONFIRM_SCHEMA: types.ElicitRequestedSchema = {

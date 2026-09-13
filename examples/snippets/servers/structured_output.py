@@ -4,7 +4,7 @@ from typing import TypedDict
 
 from pydantic import BaseModel, Field
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 mcp = MCPServer("Structured Output Example")
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build the v2 documentation site for this checkout into `site/`: the English
+# Build the Darbot Python SDK documentation site for this checkout into `site/`: the English
 # site at the root, then one translated site per language in
 # i18n/languages.yml under `site/<code>/`.
 #
@@ -29,7 +29,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # must therefore be the repo root.
 cd "$SCRIPT_DIR/../.."
 
-uv sync --frozen --group docs
+uv sync --frozen --all-extras --group docs --group codegen
 
 # Zensical's incremental cache is unsound: a warm rebuild where only some
 # pages re-render silently drops cross-references to cache-hit pages, and

@@ -23,7 +23,7 @@ import httpx2
 from pydantic import BeforeValidator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 
 class SurgeSettings(BaseSettings):

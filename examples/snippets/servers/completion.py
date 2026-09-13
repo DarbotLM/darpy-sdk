@@ -1,5 +1,5 @@
-from mcp.server.mcpserver import MCPServer
-from mcp.types import (
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.types import (
     Completion,
     CompletionArgument,
     CompletionContext,

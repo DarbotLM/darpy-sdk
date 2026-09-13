@@ -108,13 +108,13 @@ translation:
 
 ## SSE {#sse}
 
-`sse_client(url)` 来自 `mcp.client.sse`，是被 Streamable HTTP 取代的那个 HTTP 传输。用同样的方式包一层，`Client(sse_client("http://localhost:8000/sse"))`，就能和仍在使用它的服务器通信；不要在它之上构建任何新东西。
+`sse_client(url)` 来自 `darpy_sdk.client.sse`，是被 Streamable HTTP 取代的那个 HTTP 传输。用同样的方式包一层，`Client(sse_client("http://localhost:8000/sse"))`，就能和仍在使用它的服务器通信；不要在它之上构建任何新东西。
 
 ## `Transport` 协议 {#the-transport-protocol}
 
 对 `Client` 来说，上面这些都是同一种东西。
 
-**传输**是任何能产出一对 `(read, write)` 消息流的异步上下文管理器：正式地说，就是 `mcp.client` 中的 `Transport` 协议。`Client` 按类型解析它的参数：`str` 变成 `streamable_http_client(url)`，`StdioServerParameters` 变成 `stdio_client(params)`，服务器对象在进程内连接，其他任何东西都直接作为传输进入。正是最后这条规则让 `stdio_client(...)`、`streamable_http_client(...)` 和 `sse_client(...)` 都能放进同一个位置，也让你可以自己写一个。
+**传输**是任何能产出一对 `(read, write)` 消息流的异步上下文管理器：正式地说，就是 `darpy_sdk.client` 中的 `Transport` 协议。`Client` 按类型解析它的参数：`str` 变成 `streamable_http_client(url)`，`StdioServerParameters` 变成 `stdio_client(params)`，服务器对象在进程内连接，其他任何东西都直接作为传输进入。正是最后这条规则让 `stdio_client(...)`、`streamable_http_client(...)` 和 `sse_client(...)` 都能放进同一个位置，也让你可以自己写一个。
 
 ## 回顾 {#recap}
 

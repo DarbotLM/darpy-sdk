@@ -5,20 +5,20 @@ translation:
 ---
 # 安裝 {#installation}
 
-Python SDK 在 PyPI 上的套件名稱是 [`mcp`](https://pypi.org/project/mcp/)，需要 **Python 3.10+**。
+Python SDK 在 PyPI 上的套件名稱是 [`darpy-sdk`](https://pypi.org/project/darpy-sdk/)，需要 **Python 3.10+**。
 
 這份文件描述的是 **v2**，也就是目前的穩定版本線：
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 !!! note "從 v1 過來的嗎？"
@@ -28,9 +28,9 @@ Python SDK 在 PyPI 上的套件名稱是 [`mcp`](https://pypi.org/project/mcp/)
 
 使用 SDK 不需要知道這些，但如果你好奇每個相依套件的用途：
 
-* `mcp-types`：所有協定型別（請求、結果、內容區塊）獨立成一個套件，版本與 SDK 同步。依賴 `mcp` 的程式碼透過 `mcp.types` 這個別名匯入（這份文件裡每一個 `from mcp.types import ...` 都是如此）；只有在安裝了 `mcp-types` 但沒有安裝 SDK 的專案裡，才直接匯入 `mcp_types`。
+* `darpy-sdk-types`：所有協定型別（請求、結果、內容區塊）獨立成一個套件，版本與 SDK 同步。依賴 `mcp` 的程式碼透過 `darpy_sdk.types` 這個別名匯入（這份文件裡每一個 `from darpy_sdk.types import ...` 都是如此）；只有在安裝了 `darpy-sdk-types` 但沒有安裝 SDK 的專案裡，才直接匯入 `darpy_sdk_types`。
 * [`anyio`](https://anyio.readthedocs.io/)：非同步執行環境。整個 SDK 都是基於 anyio 寫的，所以在 `asyncio` 或 `trio` 上都能執行。
-* [`pydantic`](https://docs.pydantic.dev/)：每個 `mcp.types` 模型的基礎，也負責所有 schema 的產生與驗證。
+* [`pydantic`](https://docs.pydantic.dev/)：每個 `darpy_sdk.types` 模型的基礎，也負責所有 schema 的產生與驗證。
 * [`httpx2`](https://pypi.org/project/httpx2/)：Streamable HTTP 和 SSE **用戶端**傳輸背後的 HTTP 用戶端，內建 server-sent events 支援。
 * [`starlette`](https://www.starlette.io/)、[`uvicorn`](https://www.uvicorn.org/)、[`sse-starlette`](https://pypi.org/project/sse-starlette/) 和 [`python-multipart`](https://pypi.org/project/python-multipart/)：HTTP **伺服器**傳輸。
 * [`jsonschema`](https://pypi.org/project/jsonschema/)：依照工具宣告的輸出 schema 驗證它的結構化輸出。
@@ -41,5 +41,5 @@ Python SDK 在 PyPI 上的套件名稱是 [`mcp`](https://pypi.org/project/mcp/)
 
 ## 選用的 extra {#optional-extras}
 
-* `mcp[cli]` 會加裝 [`typer`](https://typer.tiangolo.com/) 和 [`python-dotenv`](https://pypi.org/project/python-dotenv/)，供 `mcp` 命令列工具使用（`mcp dev`、`mcp run`、`mcp install`）。開發期間會用到；部署後的伺服器可能就不需要了。
-* `mcp[rich]` 會加裝 [`rich`](https://rich.readthedocs.io/)，讓伺服器記錄更好看。
+* `darpy-sdk[cli]` 會加裝 [`typer`](https://typer.tiangolo.com/) 和 [`python-dotenv`](https://pypi.org/project/python-dotenv/)，供 `mcp` 命令列工具使用（`darpy-sdk dev`、`darpy-sdk run`、`darpy-sdk install`）。開發期間會用到；部署後的伺服器可能就不需要了。
+* `darpy-sdk[rich]` 會加裝 [`rich`](https://rich.readthedocs.io/)，讓伺服器記錄更好看。

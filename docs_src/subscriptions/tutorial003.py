@@ -1,6 +1,6 @@
-from mcp import Client
-from mcp.client.subscriptions import ResourceUpdated, ToolsListChanged
-from mcp.types import TextResourceContents
+from darpy_sdk import Client
+from darpy_sdk.client.subscriptions import ResourceUpdated, ToolsListChanged
+from darpy_sdk.types import TextResourceContents
 
 BOARD = "board://sprint"
 

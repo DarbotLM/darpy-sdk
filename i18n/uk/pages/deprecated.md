@@ -114,7 +114,7 @@ server = Server("Bookshop", on_roots_list_changed=roots_changed)
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -123,14 +123,14 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 
 !!! check
     Розверніть фільтр у зворотний бік — і отримаєте безкоштовний регресійний тест. Додайте
-    `"error::mcp.MCPDeprecationWarning"` до налаштування `filterwarnings` у конфігурації
+    `"error::darpy_sdk.MCPDeprecationWarning"` до налаштування `filterwarnings` у конфігурації
     pytest — і застарілий виклик **викидатиме виняток** замість попередження. Інструмент
     з назвою `old_log`, який досі викликає `ctx.info()`, перестає проходити тест: виклик
     повертається з `is_error=True` і текстом `Error executing tool old_log`, а захоплений
     лог сервера називає винуватця:
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     Один рядок конфігурації pytest — і застарілий виклик більше ніколи не прокрадеться назад
@@ -152,7 +152,7 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 * Стовпець із замінами вказує, куди рухатися далі: **[Багатораундові запити](handlers/multi-round-trip.md)** для семплювання й кореневих каталогів, **[Логування](handlers/logging.md)** для логування, **[Перебіг виконання](handlers/progress.md)** для перебігу виконання. `ping` не потребує взагалі нічого.
 * Застарілість має рекомендаційний характер: жодних змін у переданих даних, усе й далі працює із сесіями до 2026, а ви отримуєте помітне попередження `MCPDeprecationWarning` (це `UserWarning`, тож воно ввімкнене за замовчуванням).
 * Семплювання й кореневі каталоги додатково потребують зворотного каналу, якого сесія 2026-07-28 не має. На сучасному з'єднанні вони попереджають, а потім викидають виняток.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` приглушує всю категорію; `"error::mcp.MCPDeprecationWarning"` у pytest перетворює її на провал тесту.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` приглушує всю категорію; `"error::darpy_sdk.MCPDeprecationWarning"` у pytest перетворює її на провал тесту.
 * [Застарілі засоби на рівні SDK](#deprecated-sdk-helpers) підпорядковуються тому самому правилу: зараз вони попереджають, а версія 3.0 відкидає стару форму.
 * Новий код не варто будувати на жодній із цих можливостей.
 

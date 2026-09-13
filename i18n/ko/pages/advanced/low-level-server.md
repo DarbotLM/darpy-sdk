@@ -36,7 +36,7 @@ translation:
 
 ### 직접 해 보기 {#try-it}
 
-`mcp dev`와 `mcp run`은 `MCPServer`만 받으므로 이 서버는 직접 띄워야 합니다. `server.py`의 마지막 줄이 이 서버로 평범한 ASGI 앱을 만들고, uvicorn이 그 앱을 실행합니다.
+`darpy-sdk dev`와 `darpy-sdk run`은 `MCPServer`만 받으므로 이 서버는 직접 띄워야 합니다. `server.py`의 마지막 줄이 이 서버로 평범한 ASGI 앱을 만들고, uvicorn이 그 앱을 실행합니다.
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ Inspector든 다른 어떤 클라이언트든 `http://localhost:8000/mcp`로 향
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -206,7 +206,7 @@ use Server.middleware to observe or wrap initialization
 
 다음은 각각 이제 이해할 어휘를 갖춘 개념 하나씩이며, 각각 별도의 페이지가 있습니다.
 
-* `on_call_tool`, `on_get_prompt`, `on_read_resource`는 호출을 일시 중지하고 클라이언트에 입력을 요청하기 위해 평소의 결과 대신 `InputRequiredResult`를 반환할 수 있습니다. **[다중 왕복 요청](../handlers/multi-round-trip.md)**을 참고하세요. 이 계층답게 대신 설치해 주는 것은 없습니다. `MCPServer`가 기본적으로 `requestState`를 봉인하는 반면, 여기서는 설정한 `request_state`가 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))`로 명시적으로 켜기 전까지 쓴 그대로 와이어를 건너갑니다. 이 한 줄(두 이름 모두 `mcp.server.request_state`에서 임포트합니다)이면 `MCPServer`가 수행하는 것과 동일한 봉인과 검증이 이루어집니다(**[`requestState` 보호하기](../handlers/multi-round-trip.md#protecting-requeststate)**).
+* `on_call_tool`, `on_get_prompt`, `on_read_resource`는 호출을 일시 중지하고 클라이언트에 입력을 요청하기 위해 평소의 결과 대신 `InputRequiredResult`를 반환할 수 있습니다. **[다중 왕복 요청](../handlers/multi-round-trip.md)**을 참고하세요. 이 계층답게 대신 설치해 주는 것은 없습니다. `MCPServer`가 기본적으로 `requestState`를 봉인하는 반면, 여기서는 설정한 `request_state`가 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))`로 명시적으로 켜기 전까지 쓴 그대로 와이어를 건너갑니다. 이 한 줄(두 이름 모두 `darpy_sdk.server.request_state`에서 임포트합니다)이면 `MCPServer`가 수행하는 것과 동일한 봉인과 검증이 이루어집니다(**[`requestState` 보호하기](../handlers/multi-round-trip.md#protecting-requeststate)**).
 * `on_list_resources`, `on_read_resource`, `on_list_prompts`, `on_get_prompt`, `on_completion`은 나머지 프리미티브용으로 같은 `(ctx, params) -> result` 형태입니다.
 * `on_subscriptions_listen`은 2026-07-28의 `subscriptions/listen` 스트림을 제공합니다. `SubscriptionBus` 위에 만든 `ListenHandler`를 전달하고 다른 핸들러에서 버스로 이벤트를 발행하세요. 전체 구성은 **[구독](../handlers/subscriptions.md)**에서 확인하세요.
 * `server.streamable_http_app()`은 `MCPServer`의 것과 같은 Starlette 앱을 반환합니다. **[서버 실행하기](../run/index.md)**에서 다른 ASGI 앱을 배포하는 방식 그대로 배포하세요. 여기에는 `server.run(transport=...)` 같은 것이 없습니다. `server.run(read_stream, write_stream, server.create_initialization_options())` 호출이 스트림 한 쌍 위에서 연결 하나를 구동하며, 이 한 줄이 전부입니다.

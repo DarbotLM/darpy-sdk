@@ -238,7 +238,7 @@ Server](../advanced/low-level-server.md)**), обробники для прот�
 ### Шаблони {#templates}
 
 Рушій шаблонів, який використовує `MCPServer`, міститься в
-`mcp.shared.uri_template` і працює самостійно. Розбір і зіставлення ті
+`darpy_sdk.shared.uri_template` і працює самостійно. Розбір і зіставлення ті
 самі; маршрутизацію та політику безпеки ви під'єднуєте самі.
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
@@ -255,7 +255,7 @@ Server](../advanced/low-level-server.md)**), обробники для прот�
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Застосовуйте перевірки безпеки самі.** Перевірки на `..` та абсолютні
   шляхи, які `MCPServer` виконує за замовчуванням, містяться в
-  `mcp.shared.path_security`. `read_manual_safely` викликає їх, перш ніж
+  `darpy_sdk.shared.path_security`. `read_manual_safely` викликає їх, перш ніж
   торкнутися `MANUALS`. Якщо параметр не є шляхом файлової системи (ISBN,
   пошуковий запит), пропустіть перевірки для цього значення: політикою ви
   керуєте в кожному обробнику окремо, а не через об'єкт конфігурації.
@@ -280,5 +280,5 @@ Server](../advanced/low-level-server.md)**), обробники для прот�
   через `resource_security=`.
 * Для доступу до файлової системи межею ізоляції є `safe_join`.
 * На низькорівневому `Server` розбирайте через `UriTemplate.parse()`,
-  зіставляйте через `.match()` і застосовуйте `mcp.shared.path_security`
+  зіставляйте через `.match()` і застосовуйте `darpy_sdk.shared.path_security`
   самі.

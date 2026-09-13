@@ -9,8 +9,8 @@ from types import TracebackType
 import anyio
 from typing_extensions import Self
 
-from mcp.client._transport import ReadStream, Transport, TransportStreams, WriteStream
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client._transport import ReadStream, Transport, TransportStreams, WriteStream
+from darpy_sdk.shared.message import SessionMessage
 
 
 class _RecordingReadStream:

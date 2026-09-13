@@ -1,6 +1,6 @@
 """Walk every page of resources/list by hand until next_cursor is absent."""
 
-from mcp.client import Client
+from darpy_sdk.client import Client
 from stories._harness import Target, run_client
 
 

@@ -4,8 +4,7 @@ import logging
 from typing import Literal
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     ElicitCompleteNotification,
     ElicitRequestFormParams,
     ElicitRequestParams,
@@ -13,16 +12,17 @@ from mcp_types import (
     ElicitResult,
     TextContent,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
 from docs_src.elicitation import tutorial001, tutorial002, tutorial003, tutorial004
-from mcp import Client, MCPError
-from mcp.client import ClientRequestContext
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_an_accepted_answer_resumes_the_tool() -> None:
@@ -161,12 +161,12 @@ async def choose_seating(ctx: Context) -> str:
 async def test_a_nested_model_is_rejected_before_anything_is_sent(caplog: pytest.LogCaptureFixture) -> None:
     """`!!! warning`: a non-primitive field raises `TypeError` inside `ctx.elicit` with this exact message,
     which fails the call and lands in the server log rather than on the wire."""
-    caplog.set_level(logging.ERROR, logger="mcp.server.mcpserver.server")
+    caplog.set_level(logging.ERROR, logger="darpy_sdk.server.mcpserver.server")
     async with Client(schema_gate_server, mode="legacy") as client:
         result = await client.call_tool("sign_up", {})
     assert result.is_error
     assert result.content == [TextContent(type="text", text="Error executing tool sign_up")]
-    (record,) = [r for r in caplog.records if r.name == "mcp.server.mcpserver.server"]
+    (record,) = [r for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server"]
     assert record.exc_info is not None and record.exc_info[1] is not None
     cause = record.exc_info[1].__cause__
     assert isinstance(cause, TypeError)

@@ -9,8 +9,7 @@ onto a connection negotiated at the current protocol version fails here.
 
 import httpx2
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequestParams,
     CallToolResult,
     ListToolsResult,
@@ -18,11 +17,12 @@ from mcp_types import (
     TextContent,
     Tool,
 )
+from inline_snapshot import snapshot
 
-from mcp.client.client import Client
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction._connect import BASE_URL, mounted_app
 from tests.interaction._helpers import RecordingTransport
 from tests.interaction._modern_vocab import RecordedExchange, assert_no_modern_vocabulary

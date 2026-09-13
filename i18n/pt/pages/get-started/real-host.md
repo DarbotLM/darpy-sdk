@@ -19,7 +19,7 @@ Duas ferramentas (tools) e um recurso, um arquivo só. Três coisas sobre esse a
 
 * `mcp.run()` sem argumentos inicia um servidor **stdio**: ele bloqueia, lê mensagens do protocolo no stdin e as escreve no stdout. Esse é o transporte que todos os hosts desta página falam. O host inicia seu arquivo como um processo filho e é dono desses dois pipes, e é por isso que conectar nunca passa de "aqui está o comando". Você nunca escolhe uma porta, e nada fica escutando em uma.
 * `run()` fica dentro de `if __name__ == "__main__":`. Tudo abaixo **importa** este arquivo em vez de executá-lo, então um `run()` sem essa proteção iniciaria um servidor no instante em que qualquer coisa carregasse o módulo.
-* O objeto do servidor é uma global de nível de módulo chamada `mcp`. É esse o nome que `mcp run` procura (`server` e `app` também funcionam). Dê outro nome a ele e você precisa informá-lo explicitamente: `mcp run server.py:bookshop`.
+* O objeto do servidor é uma global de nível de módulo chamada `mcp`. É esse o nome que `darpy-sdk run` procura (`server` e `app` também funcionam). Dê outro nome a ele e você precisa informá-lo explicitamente: `darpy-sdk run server.py:bookshop`.
 
 Essa é a última linha de Python nesta página. Daqui para baixo é tudo configuração de host.
 
@@ -28,17 +28,17 @@ Essa é a última linha de Python nesta página. Daqui para baixo é tudo config
 Todos os hosts abaixo recebem o mesmo comando:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Um comando só para todos eles porque `uv run --with` resolve o SDK em um ambiente novo na hora: funciona a partir de qualquer diretório e não precisa de projeto nem de ambiente virtual para ativar. Isso importa aqui mais do que em qualquer outro lugar, porque um host inicia seu servidor a partir do diretório de trabalho *dele*, com um ambiente quase vazio, e não a partir do seu shell.
 
-É também o comando que `mcp install` grava na configuração do Claude Desktop para você (abaixo), então o que você digita à mão e o que o utilitário gera coincidem, fora o pin exato de versão que o utilitário adiciona.
+É também o comando que `darpy-sdk install` grava na configuração do Claude Desktop para você (abaixo), então o que você digita à mão e o que o utilitário gera coincidem, fora o pin exato de versão que o utilitário adiciona.
 
 !!! tip "Se um host não encontrar o `uv`"
     Um host inicia seu servidor com um `PATH` mínimo, e o `uv` pode não estar nele. Troque o
     `uv` sozinho pelo caminho absoluto que `which uv` (macOS/Linux) ou `where uv` (Windows)
-    retorna. É exatamente isso que `mcp install` grava.
+    retorna. É exatamente isso que `darpy-sdk install` grava.
 
 !!! note "Esta página é o cenário local"
     Tudo aqui executa seu servidor na máquina em que o host está: o host inicia seu
@@ -58,10 +58,10 @@ Um comando só para todos eles porque `uv run --with` resolve o SDK em um ambien
 O único host que o SDK consegue configurar para você:
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-É só isso. `mcp install` importa o arquivo para ler o nome do servidor, encontra o arquivo de configuração do Claude Desktop e grava o comando de inicialização nele. De passagem, já converte o caminho para absoluto, então você não precisa fazer isso.
+É só isso. `darpy-sdk install` importa o arquivo para ler o nome do servidor, encontra o arquivo de configuração do Claude Desktop e grava o comando de inicialização nele. De passagem, já converte o caminho para absoluto, então você não precisa fazer isso.
 
 Não há mistério nenhum. Esta é a entrada que ele grava:
 
@@ -74,8 +74,8 @@ Não há mistério nenhum. Esta é a entrada que ele grava:
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -89,18 +89,18 @@ Não há mistério nenhum. Esta é a entrada que ele grava:
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Você pode escrever esse arquivo à mão. `mcp install` existe para você não cometer o erro clássico (um caminho relativo) ao fazer isso.
+Você pode escrever esse arquivo à mão. `darpy-sdk install` existe para você não cometer o erro clássico (um caminho relativo) ao fazer isso.
 
 Encerre o Claude Desktop por completo (não só a janela) e abra-o de novo.
 
 !!! warning
-    `mcp install` falha com `Claude app not found` se o *diretório* de configuração do Claude
+    `darpy-sdk install` falha com `Claude app not found` se o *diretório* de configuração do Claude
     Desktop ainda não existir. Instale o Claude Desktop e execute-o uma vez: é isso que cria o
     diretório.
 
 !!! tip
     O Claude Desktop inicia seu servidor em um processo próprio, então as variáveis de ambiente do
-    seu shell não estão lá. `uv run mcp install server.py -v API_KEY=abc123` (ou `-f .env`) as
+    seu shell não estão lá. `uv run darpy-sdk install server.py -v API_KEY=abc123` (ou `-f .env`) as
     registra no campo `env` da entrada. `--name` sobrescreve o nome da entrada; o padrão é o
     `name` do servidor.
 
@@ -109,7 +109,7 @@ Encerre o Claude Desktop por completo (não só a janela) e abra-o de novo.
 Não há arquivo para editar. Registre o servidor com a CLI `claude`; tudo depois de `--` é o comando de inicialização.
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Execute `/mcp` dentro de uma sessão do Claude Code para confirmar que `bookshop` está conectado e que suas ferramentas aparecem listadas.
@@ -123,7 +123,7 @@ Crie `.cursor/mcp.json` na raiz do seu projeto.
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -141,7 +141,7 @@ Crie `.vscode/mcp.json` na raiz do seu projeto.
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -159,7 +159,7 @@ Duas diferenças em relação ao arquivo do Cursor, e são as únicas duas: a ch
 Antes de mexer em qualquer configuração de host, execute você mesmo o comando de inicialização:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Nada é impresso, e ele não retorna. Esse silêncio está certo: um servidor stdio está esperando um host falar primeiro no stdin (`Ctrl-C` para pará-lo). Um traceback ou uma saída imediata é o bug de verdade, e agora você consegue lê-lo em vez de tentar adivinhá-lo através de um host.
@@ -177,8 +177,8 @@ Para qualquer coisa além dessas três, a página é **[Solução de problemas](
 ## Recapitulando {#recap}
 
 * Um **host** (Claude Desktop, uma IDE) executa um cliente MCP que inicia seu servidor como processo filho via stdio. Conectar significa dar a ele um comando de inicialização.
-* Esse comando é `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`: nenhum venv para ativar, funciona a partir de qualquer diretório.
-* **Claude Desktop** é o único host que `mcp install` configura para você. Ele grava esse mesmo comando (mais o caminho absoluto do `uv`, `--frozen` e um pin exato na versão que você tem instalada) em `claude_desktop_config.json`, para você nunca precisar fazer isso.
+* Esse comando é `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`: nenhum venv para ativar, funciona a partir de qualquer diretório.
+* **Claude Desktop** é o único host que `darpy-sdk install` configura para você. Ele grava esse mesmo comando (mais o caminho absoluto do `uv`, `--frozen` e um pin exato na versão que você tem instalada) em `claude_desktop_config.json`, para você nunca precisar fazer isso.
 * **Claude Code** é `claude mcp add bookshop -- <launch command>`. **Cursor** é `.cursor/mcp.json` sob `mcpServers`. **VS Code** é `.vscode/mcp.json` sob `servers`, cada entrada com um `type`.
 * Caminhos absolutos em todo lugar, reinicie o host depois de editar a configuração dele, e nunca deixe nada além do SDK escrever no stdout.
 

@@ -2,15 +2,15 @@
 
 from typing import Any, Literal
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import ElicitRequestParams, ElicitResult, TextContent
+from darpy_sdk_types import ElicitRequestParams, ElicitResult, TextContent
 from pydantic import BaseModel, Field
 
-from mcp import Client
-from mcp.client import ClientRequestContext
-from mcp.client.session import ElicitationFnT
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.client.session import ElicitationFnT
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 
 # Shared schema for basic tests

@@ -9,15 +9,15 @@ validation).
 
 from typing import Any
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import CallToolResult, ReadResourceResult, TextContent, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, ReadResourceResult, TextContent, TextResourceContents
 
-from mcp.client import advertise
-from mcp.client.client import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.apps import (
+from darpy_sdk.client import advertise
+from darpy_sdk.client.client import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.apps import (
     APP_MIME_TYPE,
     EXTENSION_ID,
     Apps,
@@ -25,9 +25,9 @@ from mcp.server.apps import (
     ResourcePermissions,
     client_supports_apps,
 )
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.context import Context
-from mcp.server.mcpserver.resources import TextResource
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.context import Context
+from darpy_sdk.server.mcpserver.resources import TextResource
 
 pytestmark = pytest.mark.anyio
 

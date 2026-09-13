@@ -9,15 +9,15 @@ from typing import TYPE_CHECKING, Annotated, Any, Final, NamedTuple, TypedDict
 
 import annotated_types
 import pytest
+from darpy_sdk_types import CallToolResult, ContentBlock, EmbeddedResource, InputRequiredResult, TextContent
 from dirty_equals import IsPartialDict
-from mcp_types import CallToolResult, ContentBlock, EmbeddedResource, InputRequiredResult, TextContent
 from pydantic import BaseModel, Field, ValidationError
 from typing_extensions import NotRequired, ReadOnly, Required
 
-from mcp import MCPDeprecationWarning
-from mcp.server.mcpserver import Audio, Image
-from mcp.server.mcpserver.exceptions import InvalidSignature
-from mcp.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata, func_metadata
+from darpy_sdk import MCPDeprecationWarning
+from darpy_sdk.server.mcpserver import Audio, Image
+from darpy_sdk.server.mcpserver.exceptions import InvalidSignature
+from darpy_sdk.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata, func_metadata
 
 if TYPE_CHECKING:
     from decimal import Decimal

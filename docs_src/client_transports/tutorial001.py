@@ -1,5 +1,5 @@
-from mcp import Client
-from mcp.server import MCPServer
+from darpy_sdk import Client
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Bookshop")
 

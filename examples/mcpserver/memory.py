@@ -2,7 +2,7 @@
 # dependencies = ["pydantic-ai-slim[openai]", "asyncpg", "numpy", "pgvector"]
 # ///
 
-# uv pip install 'pydantic-ai-slim[openai]' asyncpg numpy pgvector
+# Optional dependencies are declared above; see README.md before running.
 
 """Recursive memory system inspired by the human brain's clustering of memories.
 Uses OpenAI's 'text-embedding-3-small' model and pgvector for efficient
@@ -24,7 +24,7 @@ from pgvector.asyncpg import register_vector  # Import register_vector
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 MAX_DEPTH = 5
 SIMILARITY_THRESHOLD = 0.7
@@ -39,8 +39,7 @@ T = TypeVar("T")
 mcp = MCPServer("memory")
 
 DB_DSN = "postgresql://postgres:postgres@localhost:54320/memory_db"
-# reset memory with rm ~/.mcp/{USER}/memory/*
-PROFILE_DIR = (Path.home() / ".mcp" / os.environ.get("USER", "anon") / "memory").resolve()
+PROFILE_DIR = (Path.home() / ".darpy-sdk" / os.environ.get("USER", "anon") / "memory").resolve()
 PROFILE_DIR.mkdir(parents=True, exist_ok=True)
 
 

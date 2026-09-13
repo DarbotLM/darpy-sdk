@@ -1,6 +1,6 @@
-from mcp import MCPError
-from mcp.server import MCPServer
-from mcp.types import INVALID_PARAMS
+from darpy_sdk import MCPError
+from darpy_sdk.server import MCPServer
+from darpy_sdk.types import INVALID_PARAMS
 
 mcp = MCPServer("Bookshop")
 

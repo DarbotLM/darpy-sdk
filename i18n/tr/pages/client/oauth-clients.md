@@ -130,7 +130,7 @@ Varsayılan olarak sır, token isteğinde HTTP Basic kimlik doğrulaması olarak
     `client_secret`'ı ortamdan ya da bir sır yöneticisinden okuyun, asla kaynak kontrolünden değil.
 
 !!! info
-    `mcp.client.auth.extensions.client_credentials` içinde bir sağlayıcı daha var:
+    `darpy_sdk.client.auth.extensions.client_credentials` içinde bir sağlayıcı daha var:
     paylaşılan bir sır yerine JWT ile kimlik doğrulayan istemciler için **`PrivateKeyJWTOAuthProvider`**
     (`private_key_jwt`; anahtar çifti ve iş yükü kimliği türü). Aynı kalıbı izler:
     bir tane oluşturun (aynı isteğe bağlı `issuer` parametresini alır), `auth=`'a koyun. Aynı modül, onun assertion'ını oluşturan iki yardımcıyı da
@@ -140,7 +140,7 @@ Varsayılan olarak sır, token isteğinde HTTP Basic kimlik doğrulaması olarak
 
 ## Başarısız olduğunda {#when-it-fails}
 
-OAuth akışı ters gittiğinde sağlayıcı, `mcp.client.auth` içinden bir `OAuthFlowError` fırlatır. İki alt sınıfı vardır. `OAuthRegistrationError`, kaydın kullanabileceğiniz bir istemci üretmediği anlamına gelir: yetkilendirme sunucusu sizi kaydetmeyi reddetti ya da kaydetti ama bu akışın kullanamayacağı kimlik bilgileriyle (örneğin uygulamadığı bir kimlik doğrulama yöntemiyle). `OAuthTokenError` ise bir token alınamadığı anlamına gelir: token endpoint'i hayır dedi ya da saklanan bir istemci kaydı bu istemcinin uygulayamayacağı bir kimlik doğrulama yöntemi taşıyor; bu durum gönderilmek yerine token isteği oluşturulurken bildirilir. Tek bir `except OAuthFlowError:` keşfi, kaydı, yetkilendirmeyi ve değişimi kapsar.
+OAuth akışı ters gittiğinde sağlayıcı, `darpy_sdk.client.auth` içinden bir `OAuthFlowError` fırlatır. İki alt sınıfı vardır. `OAuthRegistrationError`, kaydın kullanabileceğiniz bir istemci üretmediği anlamına gelir: yetkilendirme sunucusu sizi kaydetmeyi reddetti ya da kaydetti ama bu akışın kullanamayacağı kimlik bilgileriyle (örneğin uygulamadığı bir kimlik doğrulama yöntemiyle). `OAuthTokenError` ise bir token alınamadığı anlamına gelir: token endpoint'i hayır dedi ya da saklanan bir istemci kaydı bu istemcinin uygulayamayacağı bir kimlik doğrulama yöntemi taşıyor; bu durum gönderilmek yerine token isteği oluşturulurken bildirilir. Tek bir `except OAuthFlowError:` keşfi, kaydı, yetkilendirmeyi ve değişimi kapsar.
 
 Her şey bir akış hatası değildir. Ağ yine de başarısız olabilir; bunlar sıradan `httpx2` istisnalarıdır ve dokunulmadan geçer.
 

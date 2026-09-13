@@ -60,7 +60,7 @@ prefix के रूप में ऐसा domain इस्तेमाल क�
 इसे HTTP पर serve करें, और एक client इसका सबूत है:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ extension हटा दें तो इनमें से कुछ भी म
 **बिना** किसी client-side behaviour के identifier advertise करने के लिए (server capability पर gate लगाता है, client कुछ नहीं करता, जैसे ऊपर वाले search client में), `advertise()` इस्तेमाल करें:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ handler को validated params एक-एक करके, dispatch के क�
 
 ### Extension verbs {#extension-verbs}
 
-extension के अपने request methods को client-side registration की ज़रूरत नहीं। vendor request type `mcp.types.Request` को subclass करता है और `client.session.send_request` से जाता है, जैसा [अपने methods serve करना](#serving-your-own-methods) में है। ऐसा server लें जिसका extension एक named job के बारे में एक verb serve करता है:
+extension के अपने request methods को client-side registration की ज़रूरत नहीं। vendor request type `darpy_sdk.types.Request` को subclass करता है और `client.session.send_request` से जाता है, जैसा [अपने methods serve करना](#serving-your-own-methods) में है। ऐसा server लें जिसका extension एक named job के बारे में एक verb serve करता है:
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

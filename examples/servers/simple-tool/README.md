@@ -7,10 +7,10 @@ Start the server using either stdio (default) or Streamable HTTP transport:
 
 ```bash
 # Using stdio transport (default)
-uv run mcp-simple-tool
+uv run darpy-sdk-simple-tool
 
 # Using Streamable HTTP transport on custom port
-uv run mcp-simple-tool --transport streamable-http --port 8000
+uv run darpy-sdk-simple-tool --transport streamable-http --port 8000
 ```
 
 The server exposes a tool named "fetch" that accepts one required argument:
@@ -23,13 +23,13 @@ Using the MCP client, you can use the tool like this using the STDIO transport:
 
 ```python
 import asyncio
-from mcp.client.session import ClientSession
-from mcp.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
 
 
 async def main():
     async with stdio_client(
-        StdioServerParameters(command="uv", args=["run", "mcp-simple-tool"])
+        StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-tool"])
     ) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()

@@ -18,7 +18,7 @@ Un cliente necesita un servidor con el que hablar. Este Bookshop es al que se co
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Con eso queda disponible en `http://localhost:8000/mcp`. El cliente es un programa aparte. Guárdalo como `client.py` y ejecuta `python client.py` en una segunda terminal:
@@ -46,7 +46,7 @@ Todo lo demás en esta página es idéntico en los cuatro casos. Los encabezados
 
 Cuatro propiedades de solo lectura, que se rellenan en cuanto entras en el bloque:
 
-* `client.server_info`: la identidad del servidor, o `None` para un servidor de la generación 2026 que no la informa (los servidores de python-sdk lo hacen por defecto). Aquí `server_info.name` es `"Bookshop"` y `server_info.version` es lo que el servidor informe.
+* `client.server_info`: la identidad del servidor, o `None` para un servidor de la generación 2026 que no la informa (los servidores de Darbot Python SDK lo hacen por defecto). Aquí `server_info.name` es `"Bookshop"` y `server_info.version` es lo que el servidor informe.
 * `client.server_capabilities`: lo que el servidor puede hacer (`tools`, `resources`, `prompts`, `completions`, ...). Una capacidad que el servidor no tiene es `None`.
 * `client.protocol_version`: la versión del protocolo que acordaron las dos partes. Aquí es `"2026-07-28"`.
 * `client.instructions`: la cadena `instructions=` del servidor, o `None` si no definió una.
@@ -91,7 +91,7 @@ La segunda herramienta, `lookup_book`, se registró sin `title=`, así que su `t
 
 !!! tip
     `title` es opcional, así que una UI que muestra herramientas a una persona tiene que elegir: el `title` si lo hay,
-    el `name` si no. `from mcp.shared.metadata_utils import get_display_name` hace exactamente eso,
+    el `name` si no. `from darpy_sdk.shared.metadata_utils import get_display_name` hace exactamente eso,
     para herramientas, recursos, plantillas de recursos y prompts.
 
 ## Llamar a una herramienta {#calling-a-tool}

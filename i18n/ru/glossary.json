@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "клиент",
-      "note": "An MCP client, and the client side of a connection. Standard rendering; grammatically inanimate when it is a program (запустить клиент). The `Client` class and the `mcp.client` module are code and stay Latin."
+      "note": "An MCP client, and the client side of a connection. Standard rendering; grammatically inanimate when it is a program (запустить клиент). The `Client` class and the `darpy_sdk.client` module are code and stay Latin."
     },
     {
       "source": "server",

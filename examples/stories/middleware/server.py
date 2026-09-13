@@ -7,9 +7,9 @@ list as `MCPServer.middleware`, so the recipe carries over unchanged.
 import json
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import CallNext, HandlerResult, ServerRequestContext
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.context import CallNext, HandlerResult, ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
 from stories._hosting import run_server_from_args
 
 

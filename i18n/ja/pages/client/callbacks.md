@@ -128,7 +128,7 @@ result.structured_content  # {'result': ['elicitation']}
 
 `logging_callback` は、サーバーが送る `notifications/message` を `LoggingMessageNotificationParams`（`level`、`logger`、`data`）として受け取ります。プロトコルのロギング自体が 2026-07-28 の仕様で非推奨になっています（代わりにどうするかは **[ロギング](../handlers/logging.md)** にあります）。そのため、このコールバックはまだ通知を出すサーバーのために存在します。2026 年世代の接続では、コールバックだけでは何も届きません。2026 年のサーバーは、オプトインしたリクエストにしかログメッセージを送らないからです。`Client(...)` に `log_level="info"`（または別のレベル）を渡すと、すべてのリクエストにそのオプトインが付き、そのレベル以上を受け取れます。2026 年より前のサーバーはこれを無視し、従来どおり `logging/setLevel` の挙動を保ちます。
 
-`message_handler` は何でも受け取る窓口です。セッションが表に出すサーバー通知はすべて（それぞれ専用のコールバックに加えて）ここに届きます。ストリームを使うトランスポートでは、トランスポートレベルの `Exception` もすべて届きます。届かないものが 2 つあります。`notifications/cancelled` は表に出されず SDK が適用します。動作中の `listen()` ストリームに対する購読の確認応答は、そのストリームが消費します。パラメーターには `IncomingMessage`（`ServerNotification | Exception`、`mcp.client` からエクスポート）で注釈を付けてください。覚えておく価値のあるパターンは `if isinstance(message, Exception): raise message` の 1 つです。これで、接続が壊れたときに黙って消えるのではなく、はっきり失敗します。
+`message_handler` は何でも受け取る窓口です。セッションが表に出すサーバー通知はすべて（それぞれ専用のコールバックに加えて）ここに届きます。ストリームを使うトランスポートでは、トランスポートレベルの `Exception` もすべて届きます。届かないものが 2 つあります。`notifications/cancelled` は表に出されず SDK が適用します。動作中の `listen()` ストリームに対する購読の確認応答は、そのストリームが消費します。パラメーターには `IncomingMessage`（`ServerNotification | Exception`、`darpy_sdk.client` からエクスポート）で注釈を付けてください。覚えておく価値のあるパターンは `if isinstance(message, Exception): raise message` の 1 つです。これで、接続が壊れたときに黙って消えるのではなく、はっきり失敗します。
 
 ## まとめ {#recap}
 

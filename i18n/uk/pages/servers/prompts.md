@@ -64,7 +64,7 @@ SDK зчитує ті самі три речі, що й з інструмент�
     і сам запит завершиться помилкою JSON-RPC (код `-32603`):
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     Результату з помилкою на кшталт інструмента, який можна було б передати моделі, тут немає, бо моделі в цьому ланцюжку немає взагалі:
@@ -75,7 +75,7 @@ SDK зчитує ті самі три речі, що й з інструмент�
 Запустіть сервер із MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Відкрийте вкладку **Prompts** і виберіть `review_code`. Inspector намалює форму з одним обов'язковим полем `code`. Заповніть його, згенеруйте промпт — і отримаєте точно те повідомлення користувача, що наведене вище.
@@ -90,7 +90,7 @@ uv run mcp dev server.py
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` і `AssistantMessage` імпортуються з `mcp.server.mcpserver.prompts.base`. Передайте їм `str`, і вони самі загорнуть його в `TextContent`. Роль — це ім'я класу.
+* `UserMessage` і `AssistantMessage` імпортуються з `darpy_sdk.server.mcpserver.prompts.base`. Передайте їм `str`, і вони самі загорнуть його в `TextContent`. Роль — це ім'я класу.
 * `Message` — їхній спільний базовий клас. Використовуйте його як анотацію типу результату.
 
 Генерування `debug_error` тепер дає три повідомлення по порядку:
@@ -154,7 +154,7 @@ uv run mcp dev server.py
 ```
 
 * Посібник зі стилю — це ресурс за адресою `style://python` (про них — на сторінці **[Ресурси](resources.md)**), який читається з файлу `style-guide.md` поруч із `server.py`. Покладіть туди будь-який Markdown-файл.
-* `EmbeddedResource(resource=TextResourceContents(...))`, обидва з `mcp.types`, несе файл разом із його URI та MIME-типом як перше повідомлення; запит, що на нього посилається, іде слідом як звичайний текст.
+* `EmbeddedResource(resource=TextResourceContents(...))`, обидва з `darpy_sdk.types`, несе файл разом із його URI та MIME-типом як перше повідомлення; запит, що на нього посилається, іде слідом як звичайний текст.
 * Вбудовування замість вставлення посібника в f-рядок дає клієнту змогу показати його як вкладення й пізніше знову відкрити `style://python`, а модель отримує файл дослівно. Для двійкового файлу використовуйте `BlobResourceContents` із `blob` у base64.
 
 Після генерування `content` першого повідомлення — це блок `resource`:

@@ -31,7 +31,7 @@ translation:
 
 ### Спробуйте самі {#try-it}
 
-`mcp run` приймає лише `MCPServer`, тож цей сервер доведеться обслуговувати самостійно. Останній рядок `server.py` будує з `Server` звичайний ASGI-застосунок, а uvicorn його запускає:
+`darpy-sdk run` приймає лише `MCPServer`, тож цей сервер доведеться обслуговувати самостійно. Останній рядок `server.py` будує з `Server` звичайний ASGI-застосунок, а uvicorn його запускає:
 
 ```console
 uvicorn server:app --port 8000

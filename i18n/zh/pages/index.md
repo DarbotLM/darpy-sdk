@@ -3,10 +3,10 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "本文档对应 v2，即当前的稳定版本系列"
-    刚接触 v2，或者从 v1 过来？**[v2 新特性](whats-new.md)** 用五分钟带你了解有哪些变化，**[迁移指南](migration.md)** 则涵盖每一项破坏性变更。还在用 v1.x？它的文档在 [v1.x 文档](https://py.sdk.modelcontextprotocol.io/v1/)。哪里不顺手或看不明白？[告诉我们](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)。
+    刚接触 v2，或者从 v1 过来？**[v2 新特性](whats-new.md)** 用五分钟带你了解有哪些变化，**[迁移指南](migration.md)** 则涵盖每一项破坏性变更。还在用 v1.x？它的文档在 [v1.x 文档](https://py.sdk.modelcontextprotocol.io/v1/)。哪里不顺手或看不明白？[告诉我们](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)。
 
 **Model Context Protocol (MCP)** 让应用程序以标准化的方式为 LLM 提供上下文，把 **提供** 上下文这一关注点与 LLM 交互本身分离开来。
 
@@ -25,13 +25,13 @@ translation:
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 `[cli]` 附加项提供 `mcp` 命令，开发时会用到它。各个依赖的用途见 [安装](get-started/installation.md)。
@@ -53,13 +53,13 @@ translation:
 ### 运行 {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 这会启动你的服务器并打开 [MCP Inspector](https://github.com/modelcontextprotocol/inspector)，一个用来摆弄服务器的交互式界面。打开它打印出的 URL。
 
 !!! note
-    Inspector 是一个 Node.js 应用，所以 `mcp dev` 需要 `PATH` 里有 `npx`。
+    Inspector 是一个 Node.js 应用，所以 `darpy-sdk dev` 需要 `PATH` 里有 `npx`。
 
 ### 试一试 {#try-it}
 
@@ -93,5 +93,5 @@ Hello, World!
 * 在找某条确切的错误信息？**[故障排查](troubleshooting.md)** 按报错原文逐字编排索引。
 * 想知道 v2 改了什么？**[v2 新特性](whats-new.md)** 是一份五分钟导览。
 * 从 v1 迁移？从 **[迁移指南](migration.md)** 开始。
-* 在找某个确切的签名？**[API 参考](api/mcp/index.md)** 由源码生成。
+* 在找某个确切的签名？**[API 参考](api/darpy_sdk/index.md)** 由源码生成。
 * 借助 LLM 阅读？本文档也以 [llms.txt](https://llmstxt.org/) 格式发布：[llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) 是各页面的索引，[llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) 则把所有页面放在单个文件中。

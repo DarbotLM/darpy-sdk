@@ -31,7 +31,7 @@ translation:
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -61,7 +61,7 @@ anyio.run(main)
 通过 HTTP 启动 `server.py`，然后在另一个终端运行客户端：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

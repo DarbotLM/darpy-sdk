@@ -1,8 +1,8 @@
 from typing import Annotated
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Resolve, Sample
-from mcp.types import CreateMessageResult, SamplingMessage, TextContent
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Resolve, Sample
+from darpy_sdk.types import CreateMessageResult, SamplingMessage, TextContent
 
 mcp = MCPServer("Bookshop")
 

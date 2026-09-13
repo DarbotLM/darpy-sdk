@@ -49,7 +49,7 @@ Esa última parte es la clave. Un parámetro que el modelo no puede proporcionar
 Ejecuta el servidor con el MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 El formulario de `reserve_book` tiene un único campo `title`. `stock` no aparece por ningún lado. Llámala con `Dune`:

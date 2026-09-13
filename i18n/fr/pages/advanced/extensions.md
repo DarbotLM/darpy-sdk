@@ -60,7 +60,7 @@ La plus petite extension utile, c’est un outil et une table de paramètres :
 Servez-la en HTTP, et un client en est la preuve :
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ Retirez l’extension et rien de tout cela n’existe : le garde-fou du serveur 
 Pour annoncer un identifiant **sans aucun** comportement côté client (le serveur filtre sur la capacité, le client ne fait rien, comme dans le client de recherche ci-dessus), utilisez `advertise()` :
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ Deux règles discrètes. Les claims ne sont actifs que sur les connexions 2026-0
 
 ### Verbes d’extension {#extension-verbs}
 
-Les méthodes de requête propres à une extension n’ont besoin d’aucun enregistrement côté client. Un type de requête d’éditeur dérive de `mcp.types.Request` et passe par `client.session.send_request`, comme dans [Servir vos propres méthodes](#serving-your-own-methods). Prenez un serveur dont l’extension sert un seul verbe portant sur un job nommé :
+Les méthodes de requête propres à une extension n’ont besoin d’aucun enregistrement côté client. Un type de requête d’éditeur dérive de `darpy_sdk.types.Request` et passe par `client.session.send_request`, comme dans [Servir vos propres méthodes](#serving-your-own-methods). Prenez un serveur dont l’extension sert un seul verbe portant sur un job nommé :
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

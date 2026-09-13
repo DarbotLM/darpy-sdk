@@ -16,9 +16,9 @@ from typing import TextIO
 import anyio.abc
 import pytest
 
-from mcp.client import stdio
-from mcp.client.stdio import _create_platform_compatible_process, _terminate_process_tree
-from mcp.os.win32.utilities import FallbackProcess
+from darpy_sdk.client import stdio
+from darpy_sdk.client.stdio import _create_platform_compatible_process, _terminate_process_tree
+from darpy_sdk.os.win32.utilities import FallbackProcess
 
 
 @pytest.fixture

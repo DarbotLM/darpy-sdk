@@ -17,18 +17,18 @@ MCP가 처음이거나 이 SDK가 처음이라면 여기서 시작하세요. 이
 따라 하려면 코드 블록을 `server.py`에 붙여 넣고 MCP Inspector에서 여세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 코드를 직접 작성(또는 복사)하고, 수정하고, 로컬에서 실행해 보기를 **강력히 권장합니다**. 평소 쓰는 편집기에서 직접 다뤄 봐야 핵심이 제대로 와닿습니다. 작성할 코드가 얼마나 적은지, 자동 완성은 어떤지, 실행하기도 전에 타입 검사가 실수를 잡아내는 모습까지 확인할 수 있습니다.
 
 ## 추측할 필요 없는 예제 {#you-will-not-be-guessing}
 
-이 문서의 모든 예제는 SDK 저장소의 [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) 아래에 있는 완전한 파일이며, 하나도 빠짐없이 SDK의 테스트 스위트가 **인메모리 클라이언트**를 통해 실행합니다.
+이 문서의 모든 예제는 SDK 저장소의 [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) 아래에 있는 완전한 파일이며, 하나도 빠짐없이 SDK의 테스트 스위트가 **인메모리 클라이언트**를 통해 실행합니다.
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

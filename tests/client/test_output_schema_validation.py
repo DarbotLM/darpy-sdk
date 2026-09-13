@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequestParams,
     CallToolResult,
     ListToolsResult,
@@ -13,8 +13,8 @@ from mcp_types import (
 )
 from referencing.exceptions import Unresolvable
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
 
 
 def _make_server(

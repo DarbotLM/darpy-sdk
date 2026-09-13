@@ -3,12 +3,12 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "Це документація до v2, поточної стабільної лінійки випусків"
     Уперше працюєте з v2 або переходите з v1? **[Що нового у v2](whats-new.md)** — п'ятихвилинний огляд змін, а **[Посібник з міграції](migration.md)** описує кожну несумісну зміну.
     Досі на v1.x? Її документація — на сторінці [документації v1.x](https://py.sdk.modelcontextprotocol.io/v1/).
-    Щось незручне чи незрозуміле? [Розкажіть нам](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    Щось незручне чи незрозуміле? [Розкажіть нам](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 **Model Context Protocol (MCP)** дає застосункам змогу надавати контекст LLM у стандартизований спосіб, відокремлюючи *надання* контексту від самої взаємодії з LLM.
 
@@ -27,13 +27,13 @@ Python 3.10+.
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 Додатковий набір `[cli]` дає команду `mcp` — вона знадобиться для розробки.
@@ -56,13 +56,13 @@ Python 3.10+.
 ### Запуск {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Ця команда запускає сервер і відкриває [MCP Inspector](https://github.com/modelcontextprotocol/inspector) — інтерактивний інтерфейс, щоб його дослідити. Відкрийте URL, який вона надрукує.
 
 !!! note
-    Inspector — це застосунок на Node.js, тому `mcp dev` потребує `npx` у вашому `PATH`.
+    Inspector — це застосунок на Node.js, тому `darpy-sdk dev` потребує `npx` у вашому `PATH`.
 
 ### Спробуйте самі {#try-it}
 
@@ -96,7 +96,7 @@ Hello, World!
 * Шукаєте точне повідомлення про помилку? **[Усунення неполадок](troubleshooting.md)** упорядковано за дослівним текстом.
 * Цікаво, що змінилося у v2? **[Що нового у v2](whats-new.md)** — п'ятихвилинний огляд.
 * Переходите з v1? Почніть із **[Посібника з міграції](migration.md)**.
-* Шукаєте точну сигнатуру? **[Довідник API](api/mcp/index.md)** згенеровано з вихідного коду.
+* Шукаєте точну сигнатуру? **[Довідник API](api/darpy_sdk/index.md)** згенеровано з вихідного коду.
 * Читаєте разом з LLM? Цю документацію також опубліковано у форматі [llms.txt](https://llmstxt.org/):
   [llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) — це покажчик сторінок, а
   [llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) містить усі сторінки в одному файлі.

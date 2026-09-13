@@ -18,10 +18,10 @@ import asyncio
 
 import httpx2
 
-from mcp import ClientSession
-from mcp.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
-from mcp.client.streamable_http import streamable_http_client
-from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
+from darpy_sdk import ClientSession
+from darpy_sdk.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthToken
 
 
 class InMemoryTokenStorage:

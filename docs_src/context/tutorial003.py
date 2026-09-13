@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
 
 mcp = MCPServer("Bookshop")
 

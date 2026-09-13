@@ -7,7 +7,7 @@ import pytest
 from starlette.requests import Request
 from starlette.types import Message, Receive, Scope, Send
 
-from mcp.server.transport_security import (
+from darpy_sdk.server.transport_security import (
     RequestBodyLimitMiddleware,
     TransportSecurityMiddleware,
     TransportSecuritySettings,

@@ -59,8 +59,10 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-<mcp-coc@anthropic.com>.
+reported to the DarbotLabs maintainers through the contact information they
+make available on the [DarbotLM GitHub profile](https://github.com/DarbotLM).
+Do not post private incident details in a public issue. This fork does not use
+the upstream project's reporting address.
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

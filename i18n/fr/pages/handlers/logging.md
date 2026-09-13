@@ -61,7 +61,7 @@ Vous n’avez pas non plus besoin d’un `try`/`except` dans chaque gestionnaire
 Lancez le serveur avec le MCP Inspector :
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Appelez `search_books` depuis l’onglet **Tools**. L’Inspector vous montre le résultat : uniquement la valeur de retour. La ligne

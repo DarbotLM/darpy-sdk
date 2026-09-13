@@ -3,14 +3,20 @@
 from typing import Literal
 
 import pytest
+from darpy_sdk_types import (
+    CreateMessageRequestParams,
+    CreateMessageResult,
+    ElicitRequestParams,
+    ElicitResult,
+    TextContent,
+)
 from inline_snapshot import snapshot
-from mcp_types import CreateMessageRequestParams, CreateMessageResult, ElicitRequestParams, ElicitResult, TextContent
 
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
 from docs_src.dependencies import tutorial001, tutorial002, tutorial003, tutorial004
-from mcp import Client
-from mcp.client import ClientRequestContext
 
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_resolver_fills_the_parameter_from_the_tools_own_argument() -> None:

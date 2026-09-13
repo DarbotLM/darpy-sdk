@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 from logfire.testing import CaptureLogfire
 
-from mcp.client.client import Client
-from mcp.server.mcpserver import MCPServer
-from mcp.shared._otel import extract_trace_context
+from darpy_sdk.client.client import Client
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.shared._otel import extract_trace_context
 
 pytestmark = pytest.mark.anyio
 

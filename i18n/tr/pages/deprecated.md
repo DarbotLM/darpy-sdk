@@ -113,7 +113,7 @@ Ancak bakımını yaptığınız ve gerçekten 2026 öncesi istemcilere hizmet v
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -122,13 +122,13 @@ API'nin tamamı bu. Yöntem başına bir anahtar yok, zaten istemezsiniz de: tek
 
 !!! check
     Filtreyi ters yönde çalıştırın, bedava bir regresyon testi elde edersiniz. pytest
-    yapılandırmanızdaki `filterwarnings` ayarına `"error::mcp.MCPDeprecationWarning"`
+    yapılandırmanızdaki `filterwarnings` ayarına `"error::darpy_sdk.MCPDeprecationWarning"`
     ekleyin; kullanım dışı çağrı uyarmak yerine **istisna fırlatır**. Hâlâ `ctx.info()`'yu
     çağıran `old_log` adlı bir araç artık geçmez: çağrı `Error executing tool old_log` ile
     `is_error=True` olarak döner ve yakalanan sunucu log'u suçluyu adıyla gösterir:
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     Tek satır pytest yapılandırmasıyla, kullanım dışı bir çağrı bir testi başarısız kılmadan
@@ -150,7 +150,7 @@ Bunlar spesifikasyon değişikliği değil, yalnızca daha iyi bir alternatifi o
 * Yerine geçenler sütunu sizi ileriye yönlendirir: örnekleme ve kök dizinler için **[Çok turlu istekler](handlers/multi-round-trip.md)**, log tutma için **[Log tutma](handlers/logging.md)**, ilerleme için **[İlerleme](handlers/progress.md)**. `ping` için hiçbir şey gerekmez.
 * Kullanım dışı bırakma tavsiye niteliğindedir: iletilen veride değişiklik yok, her şey 2026 öncesi oturumlarda çalışmaya devam eder ve görünür bir `MCPDeprecationWarning` alırsınız (bir `UserWarning`, dolayısıyla varsayılan olarak açık).
 * Örnekleme ve kök dizinler ayrıca, 2026-07-28 oturumunda bulunmayan bir geri kanala ihtiyaç duyar. Modern bir bağlantıda önce uyarır, sonra istisna fırlatırlar.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` tüm kategoriyi susturur; pytest'te `"error::mcp.MCPDeprecationWarning"` bunu bir test hatasına dönüştürür.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` tüm kategoriyi susturur; pytest'te `"error::darpy_sdk.MCPDeprecationWarning"` bunu bir test hatasına dönüştürür.
 * [SDK düzeyindeki kullanım dışı bırakmalar](#deprecated-sdk-helpers) da aynı kurala uyar: şimdi uyarırlar, 3.0 ise eski biçimi kaldırır.
 * Yeni kod bunların hiçbiri üzerine kurulmamalıdır.
 

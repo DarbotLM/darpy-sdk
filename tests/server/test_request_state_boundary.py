@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_PARAMS,
     CallToolRequestParams,
@@ -25,22 +25,22 @@ from mcp_types import (
     Tool,
 )
 
-import mcp.server.request_state as request_state_module
-from mcp import Client
-from mcp.server import MCPServer, Server, ServerRequestContext
-from mcp.server.auth.middleware.auth_context import auth_context_var
-from mcp.server.auth.middleware.bearer_auth import AuthenticatedUser
-from mcp.server.auth.provider import AccessToken
-from mcp.server.context import HandlerResult
-from mcp.server.mcpserver import Context
-from mcp.server.mcpserver.server import _MISSING_AUDIENCE
-from mcp.server.request_state import (
+import darpy_sdk.server.request_state as request_state_module
+from darpy_sdk import Client
+from darpy_sdk.server import MCPServer, Server, ServerRequestContext
+from darpy_sdk.server.auth.middleware.auth_context import auth_context_var
+from darpy_sdk.server.auth.middleware.bearer_auth import AuthenticatedUser
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.context import HandlerResult
+from darpy_sdk.server.mcpserver import Context
+from darpy_sdk.server.mcpserver.server import _MISSING_AUDIENCE
+from darpy_sdk.server.request_state import (
     AESGCMRequestStateCodec,
     InvalidRequestState,
     RequestStateBoundary,
     RequestStateSecurity,
 )
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.shared.exceptions import MCPError
 
 from .test_runner import connected_runner
 
@@ -91,7 +91,7 @@ class _CustomMethodParams(RequestParams):
 
 
 class _Clock:
-    """Stands in for the `time` module inside `mcp.server.request_state`."""
+    """Stands in for the `time` module inside `darpy_sdk.server.request_state`."""
 
     def __init__(self, now: float) -> None:
         self.now = now
@@ -944,7 +944,9 @@ async def test_the_wire_error_never_varies_by_cause_and_logs_never_leak_secrets(
     assert shapes[0] == shapes[1] == shapes[2]
     assert seen == []
 
-    reject_logs = [r for r in caplog.records if r.name == "mcp.server.request_state" and r.levelno == logging.WARNING]
+    reject_logs = [
+        r for r in caplog.records if r.name == "darpy_sdk.server.request_state" and r.levelno == logging.WARNING
+    ]
     assert len(reject_logs) == 3
     for record in caplog.records:
         message = record.getMessage()

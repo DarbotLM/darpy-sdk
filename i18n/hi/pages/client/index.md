@@ -18,7 +18,7 @@ client को बात करने के लिए server चाहिए। 
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 इससे server `http://localhost:8000/mcp` पर serve होता है। client अपना अलग program है। इसे `client.py` के नाम से save करें और दूसरे terminal में `python client.py` चलाएँ:
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 चार read-only properties, जो block में enter करते ही भर जाती हैं:
 
-* `client.server_info`: server की पहचान, या `None` अगर 2026 पीढ़ी का server इसे report नहीं करता (python-sdk servers default रूप से करते हैं)। यहाँ `server_info.name` `"Bookshop"` है, और `server_info.version` वही है जो server report करता है।
+* `client.server_info`: server की पहचान, या `None` अगर 2026 पीढ़ी का server इसे report नहीं करता (Darbot Python SDK servers default रूप से करते हैं)। यहाँ `server_info.name` `"Bookshop"` है, और `server_info.version` वही है जो server report करता है।
 * `client.server_capabilities`: server क्या कर सकता है (`tools`, `resources`, `prompts`, `completions`, ...)। जो capability server के पास नहीं है वह `None` होती है।
 * `client.protocol_version`: वह protocol version जिस पर दोनों पक्ष सहमत हुए। यहाँ यह `"2026-07-28"` है।
 * `client.instructions`: server की `instructions=` string, या `None` अगर उसने कोई set नहीं की।
@@ -91,7 +91,7 @@ UI को argument form दिखाने के लिए, और model को
 
 !!! tip
     `title` optional है, इसलिए किसी इंसान को tools दिखाने वाले UI को चुनना पड़ता है: `title` हो तो वही,
-    नहीं तो `name`। `from mcp.shared.metadata_utils import get_display_name` ठीक यही करता है,
+    नहीं तो `name`। `from darpy_sdk.shared.metadata_utils import get_display_name` ठीक यही करता है,
     tools, resources, resource templates और prompts के लिए।
 
 ## tool call करना {#calling-a-tool}

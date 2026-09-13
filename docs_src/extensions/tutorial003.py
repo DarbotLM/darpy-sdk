@@ -1,8 +1,8 @@
 from collections.abc import Sequence
 from typing import Any
 
-from mcp.server.extension import Extension, ToolBinding
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.extension import Extension, ToolBinding
+from darpy_sdk.server.mcpserver import MCPServer
 
 
 def stamp(text: str) -> str:

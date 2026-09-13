@@ -2,7 +2,7 @@
 
 from pydantic import HttpUrl
 
-from mcp.shared.auth_utils import check_resource_allowed, resource_url_from_server_url
+from darpy_sdk.shared.auth_utils import check_resource_allowed, resource_url_from_server_url
 
 # Tests for resource_url_from_server_url function
 

@@ -3,14 +3,14 @@
 from typing import Any
 
 import pytest
-from mcp_types import TextContent, TextResourceContents
+from darpy_sdk_types import TextContent, TextResourceContents
 
+from darpy_sdk import Client
+from darpy_sdk.server.apps import APP_MIME_TYPE, EXTENSION_ID
 from docs_src.apps import tutorial001, tutorial001_client, tutorial002, tutorial003
-from mcp import Client
-from mcp.server.apps import APP_MIME_TYPE, EXTENSION_ID
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_tool_carries_the_ui_resource_reference() -> None:

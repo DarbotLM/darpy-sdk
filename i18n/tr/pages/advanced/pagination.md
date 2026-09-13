@@ -31,7 +31,7 @@ Sayfalama, kaynak listesi aslında bir veritabanı olan sunucu içindir: tek yan
 
 ### Deneyin {#try-it}
 
-`mcp run` yalnızca bir `MCPServer` kabul eder; bu yüzden bunu kendiniz sunarsınız. `server.py` dosyasının son satırı `Server`'dan sıradan bir ASGI uygulaması oluşturur, uvicorn da onu çalıştırır:
+`darpy-sdk run` yalnızca bir `MCPServer` kabul eder; bu yüzden bunu kendiniz sunarsınız. `server.py` dosyasının son satırı `Server`'dan sıradan bir ASGI uygulaması oluşturur, uvicorn da onu çalıştırır:
 
 ```console
 uvicorn server:app --port 8000

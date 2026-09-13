@@ -19,8 +19,8 @@ from contextlib import contextmanager
 import httpx2
 import pytest
 
-from mcp.client.sse import sse_client
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk.client.sse import sse_client
+from darpy_sdk.client.streamable_http import streamable_http_client
 
 
 @contextmanager

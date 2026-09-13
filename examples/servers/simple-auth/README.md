@@ -13,7 +13,7 @@ This example demonstrates OAuth 2.0 authentication with the Model Context Protoc
 cd examples/servers/simple-auth
 
 # Start Authorization Server on port 9000
-uv run mcp-simple-auth-as --port=9000
+uv run darpy-sdk-simple-auth-as --port=9000
 ```
 
 **What it provides:**
@@ -31,10 +31,10 @@ uv run mcp-simple-auth-as --port=9000
 cd examples/servers/simple-auth
 
 # Start Resource Server on port 8001, connected to Authorization Server
-uv run mcp-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http
+uv run darpy-sdk-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http
 
 # With RFC 8707 strict resource validation (recommended for production)
-uv run mcp-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http --oauth-strict
+uv run darpy-sdk-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http --oauth-strict
 
 ```
 
@@ -43,7 +43,7 @@ uv run mcp-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --tran
 ```bash
 cd examples/clients/simple-auth-client
 # Start client with streamable HTTP
-MCP_SERVER_PORT=8001 MCP_TRANSPORT_TYPE=streamable-http uv run mcp-simple-auth-client
+MCP_SERVER_PORT=8001 MCP_TRANSPORT_TYPE=streamable-http uv run darpy-sdk-simple-auth-client
 ```
 
 ## How It Works
@@ -86,7 +86,7 @@ For backwards compatibility with older MCP implementations, a legacy server is p
 ```bash
 # Start legacy server on port 8000 (the default)
 cd examples/servers/simple-auth
-uv run mcp-simple-auth-legacy --port=8000 --transport=streamable-http
+uv run darpy-sdk-simple-auth-legacy --port=8000 --transport=streamable-http
 ```
 
 **Differences from the new architecture:**
@@ -102,7 +102,7 @@ uv run mcp-simple-auth-legacy --port=8000 --transport=streamable-http
 ```bash
 # Test with client (will automatically fall back to legacy discovery)
 cd examples/clients/simple-auth-client
-MCP_SERVER_PORT=8000 MCP_TRANSPORT_TYPE=streamable-http uv run mcp-simple-auth-client
+MCP_SERVER_PORT=8000 MCP_TRANSPORT_TYPE=streamable-http uv run darpy-sdk-simple-auth-client
 ```
 
 The client will:

@@ -49,7 +49,7 @@ Tek bir özellik. `ctx` bir argüman değildir: şemada asla görünmez, modele 
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `search_books` formunda tek bir `query` alanı var. Onu `dune` ile çağırın:

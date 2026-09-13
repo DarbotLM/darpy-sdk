@@ -11,10 +11,10 @@ from typing import Any
 import anyio
 import pytest
 
-from mcp.shared.context import BaseContext
-from mcp.shared.dispatcher import DispatchContext
-from mcp.shared.peer import ClientPeer
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.shared.context import BaseContext
+from darpy_sdk.shared.dispatcher import DispatchContext
+from darpy_sdk.shared.peer import ClientPeer
+from darpy_sdk.shared.transport_context import TransportContext
 
 from .conftest import direct_pair, jsonrpc_pair
 from .test_dispatcher import Recorder, echo_handlers, running_pair

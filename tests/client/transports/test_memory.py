@@ -6,15 +6,15 @@ from typing import Any
 
 import anyio
 import anyio.lowlevel
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import ListResourcesResult, Resource
+from darpy_sdk_types import ListResourcesResult, Resource
 
-from mcp import Client
-from mcp.client import _memory
-from mcp.client._memory import InMemoryTransport
-from mcp.server import Server, ServerRequestContext
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk import Client
+from darpy_sdk.client import _memory
+from darpy_sdk.client._memory import InMemoryTransport
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.mcpserver import MCPServer
 
 
 @pytest.fixture

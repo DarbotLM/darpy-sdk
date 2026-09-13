@@ -79,12 +79,12 @@ Uma ressalva sobre `resources/updated`: a remoção é apenas por URI exata. O c
 ### Configurando: `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: onde as entradas vivem. O padrão é um store em memória novo por cliente; passe a sua própria implementação de `ResponseCacheStore` (apoiada em Redis, digamos) para compartilhar um cache entre clientes ou processos. Os tipos do contrato (`ResponseCacheStore`, `CacheKey`, `CacheEntry` e o padrão `InMemoryResponseCacheStore`) são importáveis de `mcp.client`. Uma consulta pode emitir até dois `get`s sequenciais ao store (o braço privado, depois o público), então dimensione as expectativas de latência de um store remoto de acordo. Um store personalizado **exige** uma `partition` explícita.
+* `store`: onde as entradas vivem. O padrão é um store em memória novo por cliente; passe a sua própria implementação de `ResponseCacheStore` (apoiada em Redis, digamos) para compartilhar um cache entre clientes ou processos. Os tipos do contrato (`ResponseCacheStore`, `CacheKey`, `CacheEntry` e o padrão `InMemoryResponseCacheStore`) são importáveis de `darpy_sdk.client`. Uma consulta pode emitir até dois `get`s sequenciais ao store (o braço privado, depois o público), então dimensione as expectativas de latência de um store remoto de acordo. Um store personalizado **exige** uma `partition` explícita.
 * `partition`: o rótulo de contexto de autorização que impede que as entradas `"private"` de um principal sejam servidas a outro dentro de um store compartilhado.
 * `target_id`: identidade explícita do servidor, para transportes personalizados e servidores no mesmo processo (abaixo).
 * `default_ttl_ms`: TTL aplicado a resultados que não carregam dica `ttlMs`. O padrão `0` deixa resultados sem dica fora do cache.
@@ -112,7 +112,7 @@ As chaves de cache também carregam a **identidade do servidor**: a string de UR
 * **Sem stale-if-error.** Uma entrada expirada nunca é servida porque a nova busca falhou; o erro se propaga.
 * **Sem busca antecipada.** Uma entrada armazenada é servida até o TTL expirar, e a próxima chamada depois disso paga a viagem de ida e volta; nada se atualiza em segundo plano.
 * **Sem coalescência.** Duas chamadas idênticas concorrentes são duas buscas.
-* **Sem TTL acima de 24 horas.** Um `ttlMs` maior, seja enviado pelo servidor ou configurado, é reduzido ao armazenar (`mcp.client.caching.MAX_TTL_MS`), limitando por quanto tempo qualquer entrada, por mais generosa que seja a dica, pode ser servida.
+* **Sem TTL acima de 24 horas.** Um `ttlMs` maior, seja enviado pelo servidor ou configurado, é reduzido ao armazenar (`darpy_sdk.client.caching.MAX_TTL_MS`), limitando por quanto tempo qualquer entrada, por mais generosa que seja a dica, pode ser servida.
 * Num **store compartilhado**, os clientes correm uns contra os outros. Cada cliente descarta a própria escrita quando uma remoção ultrapassou a busca em andamento, mas um cliente *co-tenant* ainda pode escrever de volta uma entrada que uma remoção que ele nunca viu havia removido; e essa contabilidade de corrida é ela própria limitada: acima de 4096 chaves rastreadas, a guarda da chave mais antiga é descartada primeiro. Ambas as janelas são aceitas, e fechadas pelo limite de TTL acima.
 * **Sem servir entre eras do protocolo.** As entradas têm escopo na versão de protocolo negociada: num store persistente compartilhado, uma sessão nunca serve uma entrada escrita sob uma versão negociada diferente (a mesma listagem difere de verdade por era, já que o SDK remove os campos de 2026 para sessões mais antigas). A remoção igualmente só toca as entradas da era atual; as entradas de outra era simplesmente envelhecem pelo TTL.
 

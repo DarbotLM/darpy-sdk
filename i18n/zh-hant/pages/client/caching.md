@@ -76,12 +76,12 @@ uvicorn server:app --port 8000
 ### 設定方式：`CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`：項目存放的地方。預設是每個用戶端各自一個全新的記憶體內存放區；傳入你自己的 `ResponseCacheStore` 實作（例如以 Redis 為後端）就能跨用戶端或跨處理程序共用快取。契約型別（`ResponseCacheStore`、`CacheKey`、`CacheEntry`，以及預設的 `InMemoryResponseCacheStore`）都可以從 `mcp.client` 匯入。一次查詢最多可能對存放區連續發出兩次 `get`（先查 private 分支，再查 public 分支），所以遠端存放區的延遲預期要據此估算。自訂存放區**必須**搭配明確的 `partition`。
+* `store`：項目存放的地方。預設是每個用戶端各自一個全新的記憶體內存放區；傳入你自己的 `ResponseCacheStore` 實作（例如以 Redis 為後端）就能跨用戶端或跨處理程序共用快取。契約型別（`ResponseCacheStore`、`CacheKey`、`CacheEntry`，以及預設的 `InMemoryResponseCacheStore`）都可以從 `darpy_sdk.client` 匯入。一次查詢最多可能對存放區連續發出兩次 `get`（先查 private 分支，再查 public 分支），所以遠端存放區的延遲預期要據此估算。自訂存放區**必須**搭配明確的 `partition`。
 * `partition`：授權上下文的標籤，用來避免在共用存放區中把某個主體的 `"private"` 項目提供給另一個主體。
 * `target_id`：明確的伺服器身分，用於自訂傳輸和同處理程序內的伺服器（見下文）。
 * `default_ttl_ms`：套用在沒有帶 `ttlMs` 提示的結果上的 TTL。預設的 `0` 讓沒有提示的結果不被快取。
@@ -109,7 +109,7 @@ client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=
 * **沒有 stale-if-error。** 過期的項目絕不會因為重新抓取失敗就被拿出來提供；錯誤會往上傳遞。
 * **沒有提前重新抓取。** 已存的項目會一直提供到 TTL 過期為止，過期後的下一次呼叫要付出往返的代價；背景不會有任何東西在更新。
 * **沒有合併。** 兩個同時發出的相同呼叫就是兩次抓取。
-* **TTL 不會超過 24 小時。** 更大的 `ttlMs`，不論是伺服器送來的還是設定的，在存入時都會被壓到上限（`mcp.client.caching.MAX_TTL_MS`），這限制了任何項目能被提供的時間，不管它的提示有多大方。
+* **TTL 不會超過 24 小時。** 更大的 `ttlMs`，不論是伺服器送來的還是設定的，在存入時都會被壓到上限（`darpy_sdk.client.caching.MAX_TTL_MS`），這限制了任何項目能被提供的時間，不管它的提示有多大方。
 * 在**共用存放區**上，用戶端之間會互相競爭。當逐出搶在進行中的抓取之前發生時，每個用戶端會丟棄自己的寫入，但**共用同一存放區的其他**用戶端仍然可能把一個項目寫回去，而那個項目其實已經被一次它沒看到的逐出移除了；這份競爭的記帳本身也有上限：追蹤的鍵超過 4096 個時，最舊那個鍵的防護會先被丟掉。這兩個空窗都是可接受的，並且由上面的 TTL 上限收尾。
 * **不會跨協定世代提供。** 項目的範圍限定在協商出來的協定版本：在共用的持久性存放區上，工作階段絕不會提供在另一個協商版本下寫入的項目（同一份清單在不同世代確實不一樣，因為 SDK 會替較舊的工作階段剝掉 2026 的欄位）。逐出同樣只碰目前世代的項目；其他世代的項目就靠 TTL 自然老化淘汰。
 

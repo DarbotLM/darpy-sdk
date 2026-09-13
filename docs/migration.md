@@ -1,13 +1,16 @@
-# Migration Guide: v1 to v2
+# Upstream MCP API migration history
 
-This guide covers the breaking changes introduced in v2 of the MCP Python SDK and how to update your code.
+!!! note "Historical upstream v1 to v2 guide"
+    This retained guide describes the upstream MCP Python SDK API transition.
+    Its `mcp`, `mcp_types`, 1.x/2.x versions, and before/after snippets are
+    historical upstream identifiers. They are not current Darbot package names
+    or Darbot release promises. First apply the relevant API changes, then use
+    [Darbot migration](darbot-migration.md) to move current imports to
+    `darpy_sdk` / `darpy_sdk_types` and commands to `darpy-sdk`.
 
-Version 2 of the MCP Python SDK introduces several breaking changes to improve the API, align with the MCP specification, and provide better type safety.
-
-!!! note "Not ready to migrate yet?"
-    The v1.x maintenance line keeps receiving critical bug fixes and security patches, and its
-    documentation is at [/v1/](https://py.sdk.modelcontextprotocol.io/v1/). If your package depends
-    on `mcp`, keep a `<2` upper bound until you've migrated.
+The Darbot 0.1.0 framework derives from upstream 2.2.0. Upstream issue and
+specification links below retain their original identity as source evidence.
+This fork does not promise an upstream v1.x maintenance line.
 
 ## Find your changes
 
@@ -204,7 +207,7 @@ nothing on PyPI to pin to, keep the unpinned form.
 The protocol wire types now live in a standalone distribution, `mcp-types` (import package
 `mcp_types`). Its only runtime dependencies are `pydantic` and `typing-extensions`, so code
 that just needs to (de)serialize MCP traffic can install it without the full SDK. Its API
-reference is at [`mcp_types`](api/mcp_types/index.md).
+reference is at [`mcp_types`](api/darpy_sdk_types/index.md).
 
 **If your project depends on `mcp`, nothing changes for you.** `import mcp.types`,
 `from mcp.types import ...`, `from mcp import types`, and `import mcp` followed by
@@ -2879,6 +2882,6 @@ Base64-sentinel decoding is strict everywhere it applies, including the `Mcp-Nam
 
 If you encounter issues during migration:
 
-1. Check the [API Reference](api/mcp/index.md) for updated method signatures
+1. Check the [API Reference](api/darpy_sdk/index.md) for updated method signatures
 2. Review the [examples](https://github.com/modelcontextprotocol/python-sdk/tree/main/examples) for updated usage patterns
 3. Open an issue on [GitHub](https://github.com/modelcontextprotocol/python-sdk/issues) if you find a bug or need further assistance

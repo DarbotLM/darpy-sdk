@@ -4,14 +4,14 @@ import base64
 from pathlib import Path
 
 import pytest
-from mcp_types import AudioContent, Icon, ImageContent
+from darpy_sdk_types import AudioContent, Icon, ImageContent
 
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import Audio, Image
 from docs_src.media import tutorial001, tutorial002, tutorial003, tutorial004
-from mcp import Client
-from mcp.server.mcpserver import Audio, Image
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 @pytest.fixture

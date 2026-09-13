@@ -29,7 +29,7 @@ Two things to notice:
 * `structured_content` is `None`. An `Image` is content for the model to look at, not data for the application to parse: there is no output schema. (Contrast **[Structured Output](structured-output.md)**, where the return annotation *is* the schema.)
 
 !!! info
-    `ImageContent` and `AudioContent` live in `mcp.types`, right next to the `TextContent`
+    `ImageContent` and `AudioContent` live in `darpy_sdk.types`, right next to the `TextContent`
     that a plain `str` result becomes (**[Tools](tools.md)**). A tool result is a list of content blocks; `Image` and `Audio` are
     the shortest way to produce the two binary kinds.
 
@@ -38,7 +38,7 @@ Two things to notice:
 Drop any PNG next to `server.py`, name it `logo.png`, and run:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Open the **Tools** tab and call `logo`. The result is not a string: it is an `image` content block, and the Inspector renders your picture. Everything between the file on disk and the pixels on screen was the SDK.
@@ -90,7 +90,7 @@ A tool can also return a document: some text or bytes together with the URI it l
 ```
 
 * `brand://guidelines` is an ordinary resource (**[Resources](resources.md)** covers those). The tool hands the same document to the model on request, and calling `guidelines()` directly keeps one source of truth.
-* `EmbeddedResource` and `TextResourceContents` come from `mcp.types`. There is no helper as there is for images: the block you build goes into the result untouched, and there is no `structured_content`.
+* `EmbeddedResource` and `TextResourceContents` come from `darpy_sdk.types`. There is no helper as there is for images: the block you build goes into the result untouched, and there is no `structured_content`.
 * Use the URI the resource is registered under, so a client can tell that the attachment and `brand://guidelines` are the same document. Any URI is legal, registered or not.
 
 ```python
@@ -118,7 +118,7 @@ The same `icons=[...]` keyword is accepted by `MCPServer(...)`, `@mcp.tool()`, `
 Icons travel with whatever they decorate. The server's arrive when the client connects, on `client.server_info` (optional on 2026-era connections, so narrow it first):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

@@ -7,8 +7,8 @@ from dataclasses import dataclass, field
 
 from pydantic import BaseModel
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.resources import FunctionResource
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.resources import FunctionResource
 from stories._hosting import run_server_from_args
 
 

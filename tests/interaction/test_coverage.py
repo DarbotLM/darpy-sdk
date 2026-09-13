@@ -14,8 +14,8 @@ from types import ModuleType
 from typing import cast
 
 import pytest
-from mcp_types import LATEST_PROTOCOL_VERSION
-from mcp_types.version import KNOWN_PROTOCOL_VERSIONS
+from darpy_sdk_types import LATEST_PROTOCOL_VERSION
+from darpy_sdk_types.version import KNOWN_PROTOCOL_VERSIONS
 
 from tests.interaction._requirements import (
     CONNECTABLE_TRANSPORTS,

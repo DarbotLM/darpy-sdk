@@ -5,11 +5,10 @@ ctx.session.create_message(), the client's sampling callback answers it, and the
 round-trips what it received back to the test through its tool result.
 """
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pydantic
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     AudioContent,
     CallToolResult,
     CreateMessageRequestParams,
@@ -25,10 +24,11 @@ from mcp_types import (
     ToolResultContent,
     ToolUseContent,
 )
+from inline_snapshot import snapshot
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

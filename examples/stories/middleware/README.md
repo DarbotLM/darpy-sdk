@@ -24,7 +24,7 @@ uv run python -m stories.middleware.client --http
   Middleware is invisible from this side — only the `audit_log` result proves
   the wrap happened.
 - `server.py` — `server.middleware.append(record_calls)` is the public
-  registration point on `mcp.server.lowlevel.Server`.
+  registration point on `darpy_sdk.server.lowlevel.Server`.
 - `client.py` — the asserted log ends at `"tools/call"` without a `:done`
   suffix: `audit_log` runs *inside* `call_next(ctx)`, so the `finally` hasn't
   fired yet. That's the wrap.
@@ -32,14 +32,14 @@ uv run python -m stories.middleware.client --http
 ## Caveats
 
 - **One list, two accessors.** `Server.middleware` on
-  `mcp.server.lowlevel.Server` is the hook this story uses; `MCPServer`
+  `darpy_sdk.server.lowlevel.Server` is the hook this story uses; `MCPServer`
   exposes the same list as `MCPServer.middleware` (or takes it at
   construction as `MCPServer(name, middleware=[...])`).
 - The middleware signature is **provisional** (see the TODO in
-  `src/mcp/server/lowlevel/server.py`): it may change in a 2.x minor release,
+  `src/darpy_sdk/server/lowlevel/server.py`): it may change in a 2.x minor release,
   tightening to a covariant `Context[L]` and gaining an outbound seam.
 - `ServerMiddleware` / `CallNext` / `HandlerResult` are imported from
-  `mcp.server.context` (helper tier); not re-exported at `mcp.server.lowlevel`.
+  `darpy_sdk.server.context` (helper tier); not re-exported at `darpy_sdk.server.lowlevel`.
 - Do **not** `await ctx.session.send_request(...)` while wrapping `initialize`
   — `initialize` is dispatched inline and the outbound channel isn't open yet.
 - To rewrite `ctx.method` / `ctx.params` before the handler runs, pass an
@@ -54,4 +54,4 @@ Middleware is SDK architecture, not an MCP spec feature.
 
 `custom_methods/` (a vendor `acme/search` handler registered with
 `add_request_handler` — middleware wraps it like any spec method),
-`src/mcp/server/_otel.py` (`OpenTelemetryMiddleware`, the SDK's own consumer).
+`src/darpy_sdk/server/_otel.py` (`OpenTelemetryMiddleware`, the SDK's own consumer).

@@ -48,7 +48,7 @@ translation:
 MCP Inspector でサーバーを実行します。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `reserve_book` のフォームには `title` フィールドが 1 つあるだけです。`stock` はどこにもありません。`Dune` で呼び出してみてください。

@@ -4,17 +4,17 @@ substitutes a claimed `tools/call` shape and the declaring client's `ClientExten
 from collections.abc import Awaitable, Callable, Sequence
 from typing import Any, Literal
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import MISSING_REQUIRED_CLIENT_CAPABILITY, CallToolResult, Result, TextContent
 from inline_snapshot import snapshot
-from mcp_types import MISSING_REQUIRED_CLIENT_CAPABILITY, CallToolResult, Result, TextContent
 from pydantic import ValidationError
 
-from mcp import MCPError
-from mcp.client import ClaimContext, ClientExtension, ResultClaim, advertise
-from mcp.server.context import CallNext, HandlerResult, ServerRequestContext
-from mcp.server.extension import Extension
-from mcp.server.mcpserver import Context, MCPServer, require_client_extension
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClaimContext, ClientExtension, ResultClaim, advertise
+from darpy_sdk.server.context import CallNext, HandlerResult, ServerRequestContext
+from darpy_sdk.server.extension import Extension
+from darpy_sdk.server.mcpserver import Context, MCPServer, require_client_extension
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

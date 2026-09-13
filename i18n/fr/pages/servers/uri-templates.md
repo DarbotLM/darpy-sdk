@@ -254,7 +254,7 @@ exception pour tout le reste.
 ### Modèles {#templates}
 
 Le moteur de modèles qu’utilise `MCPServer` se trouve dans
-`mcp.shared.uri_template` et fonctionne de manière autonome. Vous
+`darpy_sdk.shared.uri_template` et fonctionne de manière autonome. Vous
 bénéficiez de la même analyse et de la même mise en correspondance ; vous
 câblez vous-même le routage et la politique de sécurité.
 
@@ -273,7 +273,7 @@ Trois choses se passent dans les lignes mises en évidence :
   vous-même (`int(matched["id"])`, `Path(matched["path"])`).
 * **Appliquer vous-même les vérifications de sûreté.** Les vérifications
   des `..` et des chemins absolus que `MCPServer` exécute par défaut se
-  trouvent dans `mcp.shared.path_security`. `read_manual_safely` les
+  trouvent dans `darpy_sdk.shared.path_security`. `read_manual_safely` les
   appelle avant de toucher à `MANUALS`. Si un paramètre n’est pas un
   chemin du système de fichiers (un ISBN, une requête de recherche),
   sautez les vérifications pour cette valeur : vous maîtrisez la politique
@@ -302,4 +302,4 @@ Trois choses se passent dans les lignes mises en évidence :
   confinement.
 * Sur le `Server` de bas niveau, analysez avec `UriTemplate.parse()`,
   faites correspondre avec `.match()` et appliquez
-  `mcp.shared.path_security` vous-même.
+  `darpy_sdk.shared.path_security` vous-même.

@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from mcp.server.apps import Apps
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.resources import FileResource
+from darpy_sdk.server.apps import Apps
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.resources import FileResource
 
 REPORT_HTML = Path(__file__).parent / "report.html"
 

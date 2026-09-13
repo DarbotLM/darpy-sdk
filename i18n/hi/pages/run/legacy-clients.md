@@ -32,7 +32,7 @@ SDK हर request को उसके `MCP-Protocol-Version` header के ह�
 इसे HTTP पर serve करें, और ये रहे दोनों पीढ़ियों के client जो इसे call कर रहे हैं:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -138,7 +138,7 @@ worker अपने sessions खुद expire करता है।
     पूरी request fail होती है, top-level protocol error के रूप में:
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` ने आपको नहीं बचाया। `2025-11-25` connection पर इसे `elicitation/create` भेजना ही **पड़ता** है,

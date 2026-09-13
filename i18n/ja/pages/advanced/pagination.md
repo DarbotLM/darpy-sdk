@@ -29,7 +29,7 @@ translation:
 
 ### 試してみる {#try-it}
 
-`mcp run` は `MCPServer` しか受け付けないので、このサーバーは自分で配信します。`server.py` の最後の行で `Server` から普通の ASGI アプリを組み立てており、それを uvicorn が実行します。
+`darpy-sdk run` は `MCPServer` しか受け付けないので、このサーバーは自分で配信します。`server.py` の最後の行で `Server` から普通の ASGI アプリを組み立てており、それを uvicorn が実行します。
 
 ```console
 uvicorn server:app --port 8000

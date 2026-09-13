@@ -17,18 +17,18 @@ in-memory client से [उसे test करें](testing.md)।
 साथ-साथ चलने के लिए, किसी block को `server.py` में paste करें और उसे MCP Inspector में खोलें:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **पुरज़ोर सलाह** है कि code खुद लिखें (या copy करें), उसमें बदलाव करें और उसे locally चलाएँ। अपने editor में इस्तेमाल करने पर ही असली बात समझ आती है: कितना कम लिखना पड़ता है, autocompletion, और कुछ भी चलाने से पहले गलतियाँ पकड़ लेने वाले type checks।
 
 ## आपको अंदाज़ा नहीं लगाना पड़ेगा {#you-will-not-be-guessing}
 
-इन docs का हर उदाहरण SDK की अपनी repository में [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) के नीचे एक पूरी file है, और SDK का test suite हर एक को **in-memory client** के ज़रिए चलाकर परखता है:
+इन docs का हर उदाहरण SDK की अपनी repository में [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) के नीचे एक पूरी file है, और SDK का test suite हर एक को **in-memory client** के ज़रिए चलाकर परखता है:
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

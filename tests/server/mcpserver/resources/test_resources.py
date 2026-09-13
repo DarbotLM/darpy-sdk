@@ -1,8 +1,8 @@
 import pytest
-from mcp_types import Annotations
+from darpy_sdk_types import Annotations
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.resources import FunctionResource, Resource
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.resources import FunctionResource, Resource
 
 
 class TestResourceValidation:

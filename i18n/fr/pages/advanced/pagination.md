@@ -31,7 +31,7 @@ La pagination sert au serveur dont la liste de ressources est en réalité une b
 
 ### Essayer {#try-it}
 
-`mcp run` n’accepte qu’un `MCPServer`, vous servez donc celui-ci vous-même. La dernière ligne de `server.py` construit une application ASGI ordinaire à partir du `Server`, et uvicorn l’exécute :
+`darpy-sdk run` n’accepte qu’un `MCPServer`, vous servez donc celui-ci vous-même. La dernière ligne de `server.py` construit une application ASGI ordinaire à partir du `Server`, et uvicorn l’exécute :
 
 ```console
 uvicorn server:app --port 8000

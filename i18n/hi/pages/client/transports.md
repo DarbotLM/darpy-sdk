@@ -125,13 +125,13 @@ test में न कुछ deploy करना है, न कुछ launch �
 
 ## SSE {#sse}
 
-`mcp.client.sse` का `sse_client(url)` वह HTTP transport है जिसकी जगह Streamable HTTP ने ली। जो server अब भी इसे बोलता है, उससे बात करने के लिए इसे उसी तरह wrap करें, `Client(sse_client("http://localhost:8000/sse"))`, और इस पर कुछ नया न बनाएँ।
+`darpy_sdk.client.sse` का `sse_client(url)` वह HTTP transport है जिसकी जगह Streamable HTTP ने ली। जो server अब भी इसे बोलता है, उससे बात करने के लिए इसे उसी तरह wrap करें, `Client(sse_client("http://localhost:8000/sse"))`, और इस पर कुछ नया न बनाएँ।
 
 ## `Transport` protocol {#the-transport-protocol}
 
 `Client` के लिए ऊपर की सभी चीज़ें एक ही हैं।
 
-**transport** कोई भी async context manager है जो message streams का `(read, write)` जोड़ा yield करता है: औपचारिक रूप से, `mcp.client` का `Transport` protocol। `Client` अपने argument को type से resolve करता है: `str` `streamable_http_client(url)` बन जाता है, `StdioServerParameters` `stdio_client(params)` बन जाता है, server object in-process जुड़ता है, और बाकी सब कुछ सीधे transport के रूप में enter किया जाता है। यही आख़िरी नियम वजह है कि `stdio_client(...)`, `streamable_http_client(...)` और `sse_client(...)` सब उसी एक slot में बैठते हैं, और यही वजह है कि आप अपना खुद का भी लिख सकते हैं।
+**transport** कोई भी async context manager है जो message streams का `(read, write)` जोड़ा yield करता है: औपचारिक रूप से, `darpy_sdk.client` का `Transport` protocol। `Client` अपने argument को type से resolve करता है: `str` `streamable_http_client(url)` बन जाता है, `StdioServerParameters` `stdio_client(params)` बन जाता है, server object in-process जुड़ता है, और बाकी सब कुछ सीधे transport के रूप में enter किया जाता है। यही आख़िरी नियम वजह है कि `stdio_client(...)`, `streamable_http_client(...)` और `sse_client(...)` सब उसी एक slot में बैठते हैं, और यही वजह है कि आप अपना खुद का भी लिख सकते हैं।
 
 ## सारांश {#recap}
 

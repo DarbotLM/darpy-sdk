@@ -65,10 +65,10 @@ uv add opentelemetry-sdk opentelemetry-exporter-otlp
 추적은 미들웨어이며, 서버 목록의 첫 번째 미들웨어입니다. 스팬을 전혀 내보내지 않는 서버를 정말로 원한다면 제거하세요.
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

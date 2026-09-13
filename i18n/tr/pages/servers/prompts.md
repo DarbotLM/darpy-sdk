@@ -64,7 +64,7 @@ Bir prompt'un tüm yaşamı bu: adıyla listelenir, istendiğinde işlenir, sohb
     isteğin kendisi bir JSON-RPC hatasıyla (kod `-32603`) başarısız olur:
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     Bir modele geri verilecek araç tarzı bir hata sonucu yoktur, çünkü döngüde bir model yoktur:
@@ -75,7 +75,7 @@ Bir prompt'un tüm yaşamı bu: adıyla listelenir, istendiğinde işlenir, sohb
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Prompts** sekmesini açın ve `review_code`'u seçin. Inspector, tek bir zorunlu `code` alanı olan bir form çizer. Doldurun, işleyin; geriye tam olarak yukarıdaki kullanıcı mesajı döner.
@@ -90,7 +90,7 @@ Bir kod incelemesi tek bir mesajdır. Bir hata ayıklama oturumu ise bir konuşm
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` ve `AssistantMessage`, `mcp.server.mcpserver.prompts.base` modülünden gelir. Onlara bir `str` verin, sizin için `TextContent` içine sararlar. Rol, sınıfın adıdır.
+* `UserMessage` ve `AssistantMessage`, `darpy_sdk.server.mcpserver.prompts.base` modülünden gelir. Onlara bir `str` verin, sizin için `TextContent` içine sararlar. Rol, sınıfın adıdır.
 * `Message` ortak temel sınıflarıdır. Dönüş tür açıklaması olarak onu kullanın.
 
 `debug_error` işlendiğinde artık sırasıyla üç mesaj üretilir:
@@ -154,7 +154,7 @@ Sonuncusuna dikkat edin. Bir `assistant` turunu önceden doldurmak, yönlendirme
 ```
 
 * Stil kılavuzu `style://python` adresindeki bir kaynaktır (bunları **[Kaynaklar](resources.md)** sayfası anlatır) ve `server.py` dosyasının yanındaki `style-guide.md` dosyasından okunur. Oraya herhangi bir Markdown dosyası koyun.
-* Her ikisi de `mcp.types` modülünden gelen `EmbeddedResource(resource=TextResourceContents(...))`, dosyayı URI'si ve MIME türüyle birlikte ilk mesaj olarak taşır; ona atıfta bulunan istek düz metin olarak ardından gelir.
+* Her ikisi de `darpy_sdk.types` modülünden gelen `EmbeddedResource(resource=TextResourceContents(...))`, dosyayı URI'si ve MIME türüyle birlikte ilk mesaj olarak taşır; ona atıfta bulunan istek düz metin olarak ardından gelir.
 * Kılavuzu f-string'e yapıştırmak yerine gömmek, istemcinin onu bir ek olarak göstermesini ve `style://python` kaynağını daha sonra yeniden açabilmesini sağlar; model de dosyayı olduğu gibi alır. İkili bir dosya için base64 `blob` içeren `BlobResourceContents` kullanın.
 
 İşlendiğinde ilk mesajın `content` alanı bir `resource` bloğudur:

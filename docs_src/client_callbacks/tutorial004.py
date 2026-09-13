@@ -1,7 +1,7 @@
 from pydantic import FileUrl
 
-from mcp.client import ClientRequestContext
-from mcp.types import CreateMessageRequestParams, CreateMessageResult, ListRootsResult, Root, TextContent
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.types import CreateMessageRequestParams, CreateMessageResult, ListRootsResult, Root, TextContent
 
 
 async def handle_sampling(

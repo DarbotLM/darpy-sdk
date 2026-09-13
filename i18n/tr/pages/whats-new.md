@@ -10,9 +10,9 @@ v2'de iki şey aynı anda oldu. **SDK yeniden inşa edildi**: hem istemcinin hem
 Bu sayfa her iki yarının da turu: her başlık için bir bölüm, her biri konunun asıl sahibi olan sayfaya çıkar. Taşıma el kitabı değildir. O, **[Geçiş kılavuzu](migration.md)**: uyumluluğu bozan her değişiklik, öncesi ve sonrası koduyla.
 
 !!! note "v2 kararlı sürüm hattıdır"
-    `pip install mcp` 2.x sürümünü kurar; kopyalayıp yapıştırabileceğiniz kurulum satırı
+    `pip install darpy-sdk` 2.x sürümünü kurar; kopyalayıp yapıştırabileceğiniz kurulum satırı
     **[Kurulum](get-started/installation.md)** sayfasında. v2'de herhangi bir şey bozulur, sizi şaşırtır
-    ya da yavaşlatırsa [bize bildirin](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    ya da yavaşlatırsa [bize bildirin](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 ## SDK: v1'den v2'ye {#the-sdk-v1-to-v2}
 
@@ -21,12 +21,12 @@ Bu sayfa her iki yarının da turu: her başlık için bir bölüm, her biri kon
 Üst düzey sunucu sınıfının adı değişti, modülü de onunla birlikte. Her v1 sunucusunun ilk çarptığı şey budur; çünkü eski import yolu kullanım dışı bırakılmadı, doğrudan kaldırıldı:
 
 ```python
-from mcp.server import MCPServer  # v1: from mcp.server.fastmcp import FastMCP
+from darpy_sdk.server import MCPServer  # v1: from darpy_sdk.server.fastmcp import FastMCP
 
 mcp = MCPServer("Demo")  # v1: FastMCP("Demo")
 ```
 
-Dekoratörlerle kurulmuş bir sunucu için taşıma işinin büyük kısmı da budur. `@mcp.tool()`, `@mcp.resource()` ve `@mcp.prompt()` v1'de ne kabul ediyorsa onu kabul eder (`@mcp.resource()` isteğe bağlı bir `security=` anahtar sözcüğü ekler) ve girdi şeması hâlâ tür ipuçlarınızdan gelir. Kenarda köşede kalanlar: `mcp.server.fastmcp.*` altındaki her şey artık `mcp.server.mcpserver.*` altında, `ctx.fastmcp` artık `ctx.mcp_server`, `get_context()` kaldırıldı (yerine bir `ctx: Context` parametresi bildirin) ve istisna taban sınıfı `FastMCPError` artık `MCPServerError`. Import tablosu **[Geçiş kılavuzu](migration.md#fastmcp-renamed-to-mcpserver)** sayfasında.
+Dekoratörlerle kurulmuş bir sunucu için taşıma işinin büyük kısmı da budur. `@mcp.tool()`, `@mcp.resource()` ve `@mcp.prompt()` v1'de ne kabul ediyorsa onu kabul eder (`@mcp.resource()` isteğe bağlı bir `security=` anahtar sözcüğü ekler) ve girdi şeması hâlâ tür ipuçlarınızdan gelir. Kenarda köşede kalanlar: `darpy_sdk.server.fastmcp.*` altındaki her şey artık `darpy_sdk.server.mcpserver.*` altında, `ctx.fastmcp` artık `ctx.mcp_server`, `get_context()` kaldırıldı (yerine bir `ctx: Context` parametresi bildirin) ve istisna taban sınıfı `FastMCPError` artık `MCPServerError`. Import tablosu **[Geçiş kılavuzu](migration.md#fastmcp-renamed-to-mcpserver)** sayfasında.
 
 ### `Resolve`: kullanıcıdan girdi istemenin yeni yolu {#resolve-the-new-way-to-ask-the-user-for-input}
 
@@ -61,8 +61,8 @@ mcp==1.28.1 install. If you edit it, re-validate it against 1.x. -->
 ```python title="v1"
 from typing import Any
 
-import mcp.types as types
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.lowlevel import Server
 
 server = Server("Bookshop")
 
@@ -117,9 +117,9 @@ Altta, v1'in `BaseSession` alma döngüsünün yerini artık istemci ile sunucun
 
 İlgili sayfa **[Düşük düzey Server](advanced/low-level-server.md)**; **[Geçiş kılavuzu](migration.md#lowlevel-server-decorator-based-handlers-replaced-with-constructor-on_-params)** kaldırılan her kancayı tek tek anlatır. `MCPServer`'ın altına hiç inmediyseniz bunların hiçbiri sizi etkilemez.
 
-### Protokol türleri `mcp-types` paketine taşındı, her alan artık snake_case {#the-wire-types-moved-to-mcp-types-and-every-field-is-snake_case}
+### Protokol türleri `darpy-sdk-types` paketine taşındı, her alan artık snake_case {#the-wire-types-moved-to-darpy-sdk-types-and-every-field-is-snake_case}
 
-Protokol türleri artık kendi dağıtım paketlerinde, `mcp-types` içinde yaşıyor. pydantic ve typing-extensions dışında hiçbir şeye bağımlı değildir; bu yüzden bir ağ geçidi, vekil sunucu ya da kod üreteci bir HTTP yığını kurmadan MCP'nin protokol veri biçimlerini tüketebilir: böyle bir proje `mcp-types` paketini kurar ve `mcp_types`'ı import eder. `mcp`'nin kendisi bu pakete tam sürümle bağımlıdır ve onu yeniden dışa açar; dolayısıyla SDK'ya bağımlı kod `import mcp.types as types` ve `from mcp.types import Tool` yazmaya devam eder (kalıcı bir takma ad, her ad aynı nesne) ve yalnızca tek gerçek bağımlılığını, `mcp`'yi bildirir. Pratik kural: hangi pakete gerçekten bağımlıysanız onun üzerinden import edin.
+Protokol türleri artık kendi dağıtım paketlerinde, `darpy-sdk-types` içinde yaşıyor. pydantic ve typing-extensions dışında hiçbir şeye bağımlı değildir; bu yüzden bir ağ geçidi, vekil sunucu ya da kod üreteci bir HTTP yığını kurmadan MCP'nin protokol veri biçimlerini tüketebilir: böyle bir proje `darpy-sdk-types` paketini kurar ve `darpy_sdk_types`'ı import eder. `mcp`'nin kendisi bu pakete tam sürümle bağımlıdır ve onu yeniden dışa açar; dolayısıyla SDK'ya bağımlı kod `import darpy_sdk.types as types` ve `from darpy_sdk.types import Tool` yazmaya devam eder (kalıcı bir takma ad, her ad aynı nesne) ve yalnızca tek gerçek bağımlılığını, `mcp`'yi bildirir. Pratik kural: hangi pakete gerçekten bağımlıysanız onun üzerinden import edin.
 
 Bu türlerde her Python özniteliği artık snake_case: `result.is_error`, `tool.input_schema`, `listing.next_cursor`. İletilen JSON tam eskisi gibi camelCase; yalnızca özniteliklerin yazımı değişti. İki sıkı varsayılan da beraberinde gelir: bilinmeyen alanlar geri döndürülmek yerine yok sayılır (fazlalıkları `_meta`'ya koyun) ve her iki taraf da trafiği üzerinde anlaştıkları protokol sürümüne göre doğrular. Yeniden adlandırma tablosu için **[Geçiş kılavuzu](migration.md#field-names-changed-from-camelcase-to-snake_case)** sayfasına bakın.
 
@@ -139,16 +139,16 @@ Yeniden adlandırmalar kendini belli eder. Bunlar etmez:
 * **İstemciniz aldığını doğrular.** `list_tools()` ve `call_tool()` sunucunun yanıtını üzerinde anlaşılan protokol sürümüne göre denetler; bu yüzden v1'in hoşgörülü ayrıştırmasının idare ettiği tam geçerli olmayan bir sunucu artık `pydantic.ValidationError` fırlatır. Kontrol etmediğiniz sunuculara bağlanıyorsanız onları bulan kişi olmayı bekleyin; ayrıntılar **[Geçiş kılavuzu](migration.md#client-validates-inbound-traffic-against-the-protocol-schema)** sayfasında.
 * **URI şablonları artık gerçek RFC 6570.** `{+path}`, `{?query}` ve benzerleri çalışır, eşleştirme regex gevşekliğinde değil birebirdir ve çıkarılan değerlerdeki yol geçişi (path traversal) varsayılan olarak reddedilir. Daha sıkı şablonlar ilk istekte değil, dekoratör uygulanırken başarısız olur. **[URI şablonları](servers/uri-templates.md)**.
 * **Streamable HTTP lifespan'i bir kez çalışır**, başlangıçta; durumu da her oturum ve istek tarafından paylaşılır. v1'de oturum başına bir kez, `stateless_http=True` altında ise istek başına bir kez çalışıyordu. Bir lifespan'de kurulan havuzlar ve önbellekler çarpıcı biçimde ucuzlar; orada bağlantı başına bir kaynak edinen her şeyin yeri artık işleyici gövdesi. **[Lifespan](handlers/lifespan.md)**.
-* **`mcp dev` ve `mcp install` başlattıkları ortamı** kurulu SDK sürümünüze sabitler. Her iki komut da sunucunuzu yeni bir `uv run --with ...` ortamında çalıştırır; bu ortam eskiden `mcp`'yi geliştirme yaptığınız sürüme değil en yeni kararlı sürüme çözümlerdi. **[Geçiş kılavuzu](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**.
+* **`darpy-sdk dev` ve `darpy-sdk install` başlattıkları ortamı** kurulu SDK sürümünüze sabitler. Her iki komut da sunucunuzu yeni bir `uv run --with ...` ortamında çalıştırır; bu ortam eskiden `mcp`'yi geliştirme yaptığınız sürüme değil en yeni kararlı sürüme çözümlerdi. **[Geçiş kılavuzu](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**.
 * **HTTP istemcisi artık `httpx` değil, `httpx2`.** Bağımlılık değişimi kodunuzun neyi yakalayıp neyi geçirdiğini (`httpx2.AsyncClient`, `httpx2.ConnectError`) ve TLS sertifikalarının nasıl doğrulandığını değiştirir: `httpx2`, certifi'nin paketlenmiş CA listesi yerine `truststore` üzerinden işletim sisteminin güven deposuna göre doğrular. Çoğu ortam bunu hiç fark etmez; sistem CA deposu olmayan minimal bir konteyner ya da yalnızca certifi paketinin bildiği özel bir CA, TLS el sıkışmasında başarısız olmaya başlar. `SSL_CERT_FILE`/`SSL_CERT_DIR` ayarlayın veya istemcinize `verify=ssl_context` geçirin. **[Geçiş kılavuzu](migration.md#httpx-and-httpx-sse-replaced-by-httpx2)**.
 
 ### Tamamen kaldırılanlar {#removed-outright}
 
 Bunların her biri **[Geçiş kılavuzu](migration.md)** içinde bir bölüm:
 
-* **WebSocket aktarımı**, iki tarafta da, ve `mcp[ws]` ekstrası. Hiçbir zaman MCP spesifikasyonunun parçası olmadı.
+* **WebSocket aktarımı**, iki tarafta da, ve `darpy-sdk[ws]` ekstrası. Hiçbir zaman MCP spesifikasyonunun parçası olmadı.
 * **Deneysel Tasks** API'si (`mcp.*.experimental`). 2026-07-28, görevleri çekirdek protokolden çıkarıp resmi bir uzantıya taşır ([SEP-2663](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2663)); bu SDK onu henüz uygulamıyor.
-* Import yolu olarak `mcp.shared.version`, `mcp.shared.progress` ve `mcp.shared.session` (v1 `message_handler` tür açıklamalarının import ettiği `RequestResponder` taslağıyla birlikte). (`mcp.types` *kaldırılmadı*: bağımsız `mcp_types` paketi için kalıcı bir takma ad olarak kalır.)
+* Import yolu olarak `darpy_sdk.shared.version`, `darpy_sdk.shared.progress` ve `darpy_sdk.shared.session` (v1 `message_handler` tür açıklamalarının import ettiği `RequestResponder` taslağıyla birlikte). (`darpy_sdk.types` *kaldırılmadı*: bağımsız `darpy_sdk_types` paketi için kalıcı bir takma ad olarak kalır.)
 * Kullanım dışı `streamablehttp_client` yazımı ve `streamable_http_client`'tan `get_session_id` callback'i (artık tam olarak iki akış üretir).
 * `McpError`; doğrudan `(code, message, data)` kurucusuyla **`MCPError`** olarak yeniden adlandırıldı.
 * `MCPServer.get_context()`, `mount_path=` ve düşük düzey `Server`'ın dekoratör metotları, ContextVar'ı ve işleyici dict'leri.
@@ -215,4 +215,4 @@ Yayımlama ve sunma **[Abonelikler](handlers/subscriptions.md)** sayfasında, iz
 
 * Neyi değiştireceğinizin eksiksiz ve kesin listesi **[Geçiş kılavuzu](migration.md)**; bu sayfa nedenini anlattı.
 * **v1.x bir yere gitmiyor.** Bakım moduna geçer, kritik düzeltmeleri ve güvenlik yamalarını almaya devam eder ve 2026-07-28 spesifikasyon sürümündeki hiçbir şey onu bozmaz; belgeleri [/v1/](https://py.sdk.modelcontextprotocol.io/v1/) adresinde. `mcp`'ye bağımlı bir kütüphane yayımlıyor ve geçişe hazır değilseniz bir üst sınır koruyun (örneğin `mcp>=1.28,<2`); böylece sabitlenmemiş bir çözümleme 1.x'te kalır.
-* Pürüzlü, kafa karıştırıcı ya da bozuk bir şey mi var? **[v2 geri bildirimi gönderin](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)**; hepsi okunuyor.
+* Pürüzlü, kafa karıştırıcı ya da bozuk bir şey mi var? **[v2 geri bildirimi gönderin](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)**; hepsi okunuyor.

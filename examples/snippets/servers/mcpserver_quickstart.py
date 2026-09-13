@@ -4,7 +4,7 @@ Run from the repository root:
     uv run examples/snippets/servers/mcpserver_quickstart.py
 """
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create an MCP server
 mcp = MCPServer("Demo")

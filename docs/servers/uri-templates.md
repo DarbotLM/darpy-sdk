@@ -225,7 +225,7 @@ templates (below) if you have any, then raise for anything else.
 
 ### Templates
 
-The template engine `MCPServer` uses lives in `mcp.shared.uri_template`
+The template engine `MCPServer` uses lives in `darpy_sdk.shared.uri_template`
 and works on its own. You get the same parsing and matching; you wire
 up the routing and security policy yourself.
 
@@ -242,7 +242,7 @@ Three things are happening in the highlighted lines:
   validation. Values come out as strings: convert them yourself
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Apply the safety checks yourself.** The `..` and absolute-path
-  checks `MCPServer` runs by default live in `mcp.shared.path_security`.
+  checks `MCPServer` runs by default live in `darpy_sdk.shared.path_security`.
   `read_manual_safely` calls them before touching `MANUALS`. If a
   parameter isn't a filesystem path (an ISBN, a search query), skip the
   checks for that value: you control the policy per handler rather than
@@ -266,4 +266,4 @@ Three things are happening in the highlighted lines:
   `resource_security=`.
 * For filesystem access, `safe_join` is the containment boundary.
 * On the low-level `Server`, parse with `UriTemplate.parse()`, match
-  with `.match()`, and apply `mcp.shared.path_security` yourself.
+  with `.match()`, and apply `darpy_sdk.shared.path_security` yourself.

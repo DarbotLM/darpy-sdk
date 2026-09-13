@@ -10,7 +10,7 @@ v2 里同时发生了两件事。一是 **SDK 重建了**：客户端和服务�
 本页把这两半都带你过一遍，每个要点一节，每节末尾指向专门讲该主题的页面。它不是移植手册。移植手册是 **[迁移指南](migration.md)**：每一项破坏性变更，附改动前后的代码。
 
 !!! note "v2 是稳定版本"
-    `pip install mcp` 安装的是 2.x，**[安装](get-started/installation.md)** 里有可以直接复制粘贴的安装命令。如果 v2 里有什么东西坏了、让你意外或者拖慢了你，请[告诉我们](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)。
+    `pip install darpy-sdk` 安装的是 2.x，**[安装](get-started/installation.md)** 里有可以直接复制粘贴的安装命令。如果 v2 里有什么东西坏了、让你意外或者拖慢了你，请[告诉我们](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)。
 
 ## SDK：从 v1 到 v2 {#the-sdk-v1-to-v2}
 
@@ -19,12 +19,12 @@ v2 里同时发生了两件事。一是 **SDK 重建了**：客户端和服务�
 高层服务器类改了名，它所在的模块也一起改了。这是每个 v1 服务器碰到的第一件事，因为旧的 import 路径是直接没了，而不是标记为已弃用：
 
 ```python
-from mcp.server import MCPServer  # v1: from mcp.server.fastmcp import FastMCP
+from darpy_sdk.server import MCPServer  # v1: from darpy_sdk.server.fastmcp import FastMCP
 
 mcp = MCPServer("Demo")  # v1: FastMCP("Demo")
 ```
 
-对用装饰器构建的服务器来说，这也就是移植工作的大头。`@mcp.tool()`、`@mcp.resource()` 和 `@mcp.prompt()` 接受的东西和 v1 一样（`@mcp.resource()` 多了一个可选的 `security=` 关键字参数），输入模式仍然来自你的类型提示。边边角角的地方：`mcp.server.fastmcp.*` 下的所有内容现在都在 `mcp.server.mcpserver.*` 下，`ctx.fastmcp` 变成了 `ctx.mcp_server`，`get_context()` 没有了（改为声明一个 `ctx: Context` 参数），异常基类 `FastMCPError` 变成了 `MCPServerError`。import 对照表见 **[迁移指南](migration.md#fastmcp-renamed-to-mcpserver)**。
+对用装饰器构建的服务器来说，这也就是移植工作的大头。`@mcp.tool()`、`@mcp.resource()` 和 `@mcp.prompt()` 接受的东西和 v1 一样（`@mcp.resource()` 多了一个可选的 `security=` 关键字参数），输入模式仍然来自你的类型提示。边边角角的地方：`darpy_sdk.server.fastmcp.*` 下的所有内容现在都在 `darpy_sdk.server.mcpserver.*` 下，`ctx.fastmcp` 变成了 `ctx.mcp_server`，`get_context()` 没有了（改为声明一个 `ctx: Context` 参数），异常基类 `FastMCPError` 变成了 `MCPServerError`。import 对照表见 **[迁移指南](migration.md#fastmcp-renamed-to-mcpserver)**。
 
 ### `Resolve`：向用户索要输入的新方式 {#resolve-the-new-way-to-ask-the-user-for-input}
 
@@ -56,8 +56,8 @@ mcp==1.28.1 install. If you edit it, re-validate it against 1.x. -->
 ```python title="v1"
 from typing import Any
 
-import mcp.types as types
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.lowlevel import Server
 
 server = Server("Bookshop")
 
@@ -112,9 +112,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.ContentB
 
 详见 **[底层 Server](advanced/low-level-server.md)**；**[迁移指南](migration.md#lowlevel-server-decorator-based-handlers-replaced-with-constructor-on_-params)** 逐一讲解每个被移除的钩子。如果你从没下探到 `MCPServer` 以下，这些都不影响你。
 
-### 线路类型搬到了 `mcp-types`，每个字段都是 snake_case {#the-wire-types-moved-to-mcp-types-and-every-field-is-snake_case}
+### 线路类型搬到了 `darpy-sdk-types`，每个字段都是 snake_case {#the-wire-types-moved-to-darpy-sdk-types-and-every-field-is-snake_case}
 
-协议类型现在有了自己的发行包 `mcp-types`。它除了 pydantic 和 typing-extensions 之外什么都不依赖，所以网关、代理或代码生成器不用安装 HTTP 栈就能使用 MCP 的线路结构：这样的项目安装 `mcp-types`，然后 import `mcp_types`。`mcp` 本身以精确版本依赖那个包并把它重新暴露出来，所以依赖 SDK 的代码继续写 `import mcp.types as types` 和 `from mcp.types import Tool`（永久别名，每个名字都是同一个对象），并且只声明它唯一真正的依赖 `mcp`。经验法则：通过你实际依赖的那个包来 import。
+协议类型现在有了自己的发行包 `darpy-sdk-types`。它除了 pydantic 和 typing-extensions 之外什么都不依赖，所以网关、代理或代码生成器不用安装 HTTP 栈就能使用 MCP 的线路结构：这样的项目安装 `darpy-sdk-types`，然后 import `darpy_sdk_types`。`mcp` 本身以精确版本依赖那个包并把它重新暴露出来，所以依赖 SDK 的代码继续写 `import darpy_sdk.types as types` 和 `from darpy_sdk.types import Tool`（永久别名，每个名字都是同一个对象），并且只声明它唯一真正的依赖 `mcp`。经验法则：通过你实际依赖的那个包来 import。
 
 在这些类型上，每个 Python 属性现在都是 snake_case：`result.is_error`、`tool.input_schema`、`listing.next_cursor`。线路上的 JSON 仍然是 camelCase，和以前完全一样；变的只是属性的拼写。同时附带两个更严格的默认行为：未知字段会被忽略而不是原样往返（额外的东西放进 `_meta`），并且两端都会按协商好的协议版本校验流量。重命名对照表见 **[迁移指南](migration.md#field-names-changed-from-camelcase-to-snake_case)**。
 
@@ -134,16 +134,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.ContentB
 * **你的客户端会校验收到的东西。** `list_tools()` 和 `call_tool()` 会按协商好的协议版本检查服务器的答复，所以 v1 宽松解析能容忍的不太合规的服务器，现在会抛 `pydantic.ValidationError`。如果你连接的是自己不控制的服务器，要做好由你来发现它们的准备；细节见 **[迁移指南](migration.md#client-validates-inbound-traffic-against-the-protocol-schema)**。
 * **URI 模板现在是真正的 RFC 6570。** `{+path}`、`{?query}` 之类都能用，匹配是精确的而不是正则式的宽松匹配，提取出的值里的路径穿越默认会被拒绝。更严格的模板在装饰时就失败，而不是等到第一个请求。**[URI 模板](servers/uri-templates.md)**。
 * **Streamable HTTP 的生命周期只运行一次**，在启动时运行，它的状态由所有会话和请求共享。在 v1 里它每个会话运行一次，`stateless_http=True` 下则是每个请求一次。在生命周期里建的连接池和缓存会便宜得多；以前在那里获取每连接资源的做法，现在应该放进处理函数体里。**[生命周期](handlers/lifespan.md)**。
-* **`mcp dev` 和 `mcp install` 会把它们启动的环境固定** 到你已安装的 SDK 版本。这两个命令在一个全新的 `uv run --with ...` 环境里运行你的服务器，以前这个环境会把 `mcp` 解析成最新的稳定版，而不是你开发所针对的版本。**[迁移指南](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**。
+* **`darpy-sdk dev` 和 `darpy-sdk install` 会把它们启动的环境固定** 到你已安装的 SDK 版本。这两个命令在一个全新的 `uv run --with ...` 环境里运行你的服务器，以前这个环境会把 `mcp` 解析成最新的稳定版，而不是你开发所针对的版本。**[迁移指南](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**。
 * **HTTP 客户端现在是 `httpx2`，不是 `httpx`。** 这次依赖替换改变了你的代码要捕获和传递的东西（`httpx2.AsyncClient`、`httpx2.ConnectError`），也改变了 TLS 证书的校验方式：`httpx2` 通过 `truststore` 按操作系统的信任库校验，而不是 certifi 自带的 CA 列表。大多数环境根本察觉不到；没有系统 CA 库的极简容器，或者只有 certifi 的证书包才认识的私有 CA，会开始在 TLS 握手时失败。设置 `SSL_CERT_FILE`/`SSL_CERT_DIR`，或者给客户端传 `verify=ssl_context`。**[迁移指南](migration.md#httpx-and-httpx-sse-replaced-by-httpx2)**。
 
 ### 彻底移除的内容 {#removed-outright}
 
 下面每一项在 **[迁移指南](migration.md)** 里都有一节：
 
-* **WebSocket 传输**，两端都是，以及 `mcp[ws]` extra。它从来不是 MCP 规范的一部分。
+* **WebSocket 传输**，两端都是，以及 `darpy-sdk[ws]` extra。它从来不是 MCP 规范的一部分。
 * **实验性的 Tasks** API（`mcp.*.experimental`）。2026-07-28 把任务从核心协议里移出去，放进了一个官方扩展（[SEP-2663](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2663)），本 SDK 尚未实现它。
-* 作为 import 路径的 `mcp.shared.version`、`mcp.shared.progress` 和 `mcp.shared.session`（连同 v1 `message_handler` 注解会 import 的 `RequestResponder` 桩）。（`mcp.types` **没有** 被移除：它作为独立 `mcp_types` 包的永久别名保留。）
+* 作为 import 路径的 `darpy_sdk.shared.version`、`darpy_sdk.shared.progress` 和 `darpy_sdk.shared.session`（连同 v1 `message_handler` 注解会 import 的 `RequestResponder` 桩）。（`darpy_sdk.types` **没有** 被移除：它作为独立 `darpy_sdk_types` 包的永久别名保留。）
 * 已弃用的 `streamablehttp_client` 拼写，以及 `streamable_http_client` 的 `get_session_id` 回调（它现在恰好产出两个流）。
 * `McpError`，改名为 **`MCPError`**，带一个直接的 `(code, message, data)` 构造函数。
 * `MCPServer.get_context()`、`mount_path=`，以及底层 `Server` 的装饰器方法、ContextVar 和处理函数字典。
@@ -207,4 +207,4 @@ v2 实现了 2026-07-28 修订版，并且同时服务 **两个** 修订版：�
 
 * **[迁移指南](migration.md)** 是完整、精确的改动清单；本页讲的是为什么。
 * **v1.x 不会消失。** 它转入维护状态，继续获得关键修复和安全补丁，2026-07-28 规范的发布不会破坏它的任何东西；它的文档在 [/v1/](https://py.sdk.modelcontextprotocol.io/v1/)。如果你发布了一个依赖 `mcp` 的库而且还没准备好迁移，保留一个版本上限（比如 `mcp>=1.28,<2`），这样未固定版本的解析就会停留在 1.x。
-* 有什么粗糙、让人困惑或者坏掉的地方？**[提交 v2 反馈](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)**；每一条都会有人读。
+* 有什么粗糙、让人困惑或者坏掉的地方？**[提交 v2 反馈](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)**；每一条都会有人读。

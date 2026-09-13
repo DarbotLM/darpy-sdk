@@ -44,8 +44,8 @@ SDK의 `Client` 클래스는 URL에 연결하거나 서브프로세스를 띄울
 ```python title="test_server.py"
 import pytest
 from inline_snapshot import snapshot
-from mcp import Client
-from mcp.types import CallToolResult, TextContent
+from darpy_sdk import Client
+from darpy_sdk.types import CallToolResult, TextContent
 
 from server import mcp
 

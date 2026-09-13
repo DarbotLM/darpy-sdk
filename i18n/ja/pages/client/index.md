@@ -18,7 +18,7 @@ translation:
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 これでサーバーは `http://localhost:8000/mcp` で提供されます。クライアントは別のプログラムです。`client.py` として保存し、2 つ目のターミナルで `python client.py` を実行してください。
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 読み取り専用のプロパティが 4 つあり、ブロックに入った瞬間に値が入ります。
 
-* `client.server_info`：サーバーの識別情報。報告しない 2026 年世代のサーバーでは `None` です（python-sdk のサーバーはデフォルトで報告します）。ここでは `server_info.name` が `"Bookshop"` で、`server_info.version` はサーバーが報告する値です。
+* `client.server_info`：サーバーの識別情報。報告しない 2026 年世代のサーバーでは `None` です（Darbot Python SDK のサーバーはデフォルトで報告します）。ここでは `server_info.name` が `"Bookshop"` で、`server_info.version` はサーバーが報告する値です。
 * `client.server_capabilities`：サーバーができること（`tools`、`resources`、`prompts`、`completions`、...）。サーバーが持たないケイパビリティは `None` です。
 * `client.protocol_version`：両者が合意したプロトコルバージョン。ここでは `"2026-07-28"` です。
 * `client.instructions`：サーバーの `instructions=` 文字列。設定されていなければ `None` です。
@@ -89,7 +89,7 @@ tool.description   # 'Search the catalog by title or author.'
 2 つ目のツール `lookup_book` は `title=` なしで登録されているので、その `tool.title` は `None` です。
 
 !!! tip
-    `title` は省略可能なので、人間にツールを見せる UI はどちらかを選ぶ必要があります。`title` があればそれを、なければ `name` を使います。`from mcp.shared.metadata_utils import get_display_name` がまさにそれを行い、ツール、リソース、リソーステンプレート、プロンプトに対応しています。
+    `title` は省略可能なので、人間にツールを見せる UI はどちらかを選ぶ必要があります。`title` があればそれを、なければ `name` を使います。`from darpy_sdk.shared.metadata_utils import get_display_name` がまさにそれを行い、ツール、リソース、リソーステンプレート、プロンプトに対応しています。
 
 ## ツールの呼び出し {#calling-a-tool}
 

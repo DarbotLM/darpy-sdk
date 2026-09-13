@@ -79,12 +79,12 @@ Kapsama da otomatik olarak uyulur: `"private"` girdiler önbelleğin *bölümün
 ### Yapılandırma: `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: girdilerin yaşadığı yer. Varsayılan, istemci başına yeni bir bellek içi depodur; bir önbelleği istemciler ya da süreçler arasında paylaşmak için kendi `ResponseCacheStore` gerçekleştiriminizi (örneğin Redis destekli) geçirin. Sözleşme türleri (`ResponseCacheStore`, `CacheKey`, `CacheEntry` ve varsayılan `InMemoryResponseCacheStore`) `mcp.client`'tan içe aktarılabilir. Bir arama depoya art arda en fazla iki `get` gönderebilir (önce private kol, sonra public olan); uzak bir deponun gecikme beklentilerini buna göre belirleyin. Özel bir depo açık bir `partition` **gerektirir**.
+* `store`: girdilerin yaşadığı yer. Varsayılan, istemci başına yeni bir bellek içi depodur; bir önbelleği istemciler ya da süreçler arasında paylaşmak için kendi `ResponseCacheStore` gerçekleştiriminizi (örneğin Redis destekli) geçirin. Sözleşme türleri (`ResponseCacheStore`, `CacheKey`, `CacheEntry` ve varsayılan `InMemoryResponseCacheStore`) `darpy_sdk.client`'tan içe aktarılabilir. Bir arama depoya art arda en fazla iki `get` gönderebilir (önce private kol, sonra public olan); uzak bir deponun gecikme beklentilerini buna göre belirleyin. Özel bir depo açık bir `partition` **gerektirir**.
 * `partition`: paylaşımlı bir depo içinde bir principal'ın `"private"` girdilerinin başka birine sunulmasını engelleyen yetkilendirme bağlamı etiketi.
 * `target_id`: özel aktarımlar ve süreç içi sunucular için açık sunucu kimliği (aşağıda).
 * `default_ttl_ms`: `ttlMs` ipucu taşımayan sonuçlara uygulanan TTL. Varsayılan `0`, ipucu taşımayan sonuçları önbelleğe almadan bırakır.
@@ -112,7 +112,7 @@ client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=
 * **stale-if-error yok.** Süresi dolmuş bir girdi, yeniden getirme başarısız oldu diye asla sunulmaz; hata yayılır.
 * **Erken yeniden getirme yok.** Saklanan bir girdi TTL'si dolana kadar sunulur ve ondan sonraki ilk çağrı turun bedelini öder; arka planda hiçbir şey yenilenmez.
 * **Birleştirme yok.** Eşzamanlı iki özdeş çağrı iki getirme demektir.
-* **24 saati aşan TTL yok.** Daha büyük bir `ttlMs`, ister sunucudan gelsin ister yapılandırılmış olsun, saklanırken kırpılır (`mcp.client.caching.MAX_TTL_MS`); bu da ipucu ne kadar cömert olursa olsun herhangi bir girdinin ne kadar süre sunulabileceğini sınırlar.
+* **24 saati aşan TTL yok.** Daha büyük bir `ttlMs`, ister sunucudan gelsin ister yapılandırılmış olsun, saklanırken kırpılır (`darpy_sdk.client.caching.MAX_TTL_MS`); bu da ipucu ne kadar cömert olursa olsun herhangi bir girdinin ne kadar süre sunulabileceğini sınırlar.
 * **Paylaşımlı bir depoda** istemciler birbirleriyle yarışır. Her istemci, bir çıkarma yoldaki getirmeyi geçtiğinde kendi yazmasını düşürür; ancak *komşu kiracı* bir istemci, hiç görmediği bir çıkarmanın kaldırdığı bir girdiyi yine de geri yazabilir. Bu yarış takibinin kendisi de sınırlıdır: izlenen 4096 anahtarı geçince önce en eski anahtarın koruması düşürülür. Her iki pencere de kabul edilmiştir ve yukarıdaki TTL üst sınırıyla kapatılır.
 * **Protokol nesilleri arasında sunum yok.** Girdiler anlaşılan protokol sürümüyle kapsamlanır: paylaşımlı kalıcı bir depoda bir oturum, farklı bir anlaşılan sürüm altında yazılmış bir girdiyi asla sunmaz (aynı liste nesle göre gerçekten farklıdır, çünkü SDK eski oturumlar için 2026 alanlarını çıkarır). Çıkarma da aynı şekilde yalnızca geçerli neslin girdilerine dokunur; başka bir neslin girdileri TTL ile kendiliğinden eskiyip gider.
 

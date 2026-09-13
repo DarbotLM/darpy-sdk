@@ -14,7 +14,7 @@ Você quase nunca precisa se preocupar com isso, porque o `Client` negocia por v
 Cada trecho de código desta página é um `client.py` que conversa com o `server.py` da Bookshop de **[O cliente](client/index.md)**. Inicie esse servidor em um terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Depois execute cada trecho em um segundo terminal com `python client.py`.

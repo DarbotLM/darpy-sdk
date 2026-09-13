@@ -9,8 +9,7 @@ server lives in `test_client.py`.
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_REQUEST,
     CallToolResult,
     ElicitRequest,
@@ -23,10 +22,11 @@ from mcp_types import (
     InputResponses,
     TextContent,
 )
+from inline_snapshot import snapshot
 from trio.testing import MockClock
 
-from mcp import MCPError
-from mcp.client._input_required import (
+from darpy_sdk import MCPError
+from darpy_sdk.client._input_required import (
     _STATE_ONLY_BACKOFF_CAP_SECONDS,
     _STATE_ONLY_BACKOFF_INITIAL_SECONDS,
     DEFAULT_INPUT_REQUIRED_MAX_ROUNDS,

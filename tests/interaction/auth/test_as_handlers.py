@@ -17,9 +17,9 @@ import httpx2
 import pytest
 from inline_snapshot import snapshot
 
-from mcp.server import Server
-from mcp.server.auth.provider import ProviderTokenVerifier
-from mcp.shared.auth import OAuthClientInformationFull
+from darpy_sdk.server import Server
+from darpy_sdk.server.auth.provider import ProviderTokenVerifier
+from darpy_sdk.shared.auth import OAuthClientInformationFull
 from tests.interaction._connect import mounted_app
 from tests.interaction._requirements import requirement
 from tests.interaction.auth._harness import REDIRECT_URI, auth_settings, oauth_client_metadata

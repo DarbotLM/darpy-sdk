@@ -18,7 +18,7 @@ assumptions about which side produced what.
 from dataclasses import dataclass
 
 import httpx2
-from mcp_types import JSONRPCMessage, jsonrpc_message_adapter
+from darpy_sdk_types import JSONRPCMessage, jsonrpc_message_adapter
 
 #: Substrings that must not appear anywhere in a request body or JSON-RPC frame on a legacy
 #: exchange. Matching is by raw substring against the by-alias JSON serialisation, so a leaked

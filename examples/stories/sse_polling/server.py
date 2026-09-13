@@ -2,7 +2,7 @@
 
 from starlette.applications import Starlette
 
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 from stories.sse_polling.event_store import InMemoryEventStore
 

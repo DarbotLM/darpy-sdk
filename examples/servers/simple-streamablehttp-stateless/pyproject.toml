@@ -1,5 +1,5 @@
 [project]
-name = "mcp-simple-streamablehttp-stateless"
+name = "darpy-sdk-simple-streamablehttp-stateless"
 version = "0.1.0"
 description = "A simple MCP server exposing a StreamableHttp transport in stateless mode"
 readme = "README.md"
@@ -7,20 +7,20 @@ requires-python = ">=3.10"
 authors = [{ name = "Model Context Protocol a Series of LF Projects, LLC." }]
 keywords = ["mcp", "llm", "automation", "web", "fetch", "http", "streamable", "stateless"]
 license = { text = "MIT" }
-dependencies = ["anyio>=4.5", "click>=8.2.0", "httpx2>=2.5.0", "mcp", "starlette", "uvicorn"]
+dependencies = ["anyio>=4.5", "click>=8.2.0", "httpx2>=2.5.0", "darpy-sdk", "starlette", "uvicorn"]
 
 [project.scripts]
-mcp-simple-streamablehttp-stateless = "mcp_simple_streamablehttp_stateless.server:main"
+darpy-sdk-simple-streamablehttp-stateless = "darpy_sdk_simple_streamablehttp_stateless.server:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["mcp_simple_streamablehttp_stateless"]
+packages = ["darpy_sdk_simple_streamablehttp_stateless"]
 
 [tool.pyright]
-include = ["mcp_simple_streamablehttp_stateless"]
+include = ["darpy_sdk_simple_streamablehttp_stateless"]
 venvPath = "."
 venv = ".venv"
 

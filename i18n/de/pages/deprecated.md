@@ -114,7 +114,7 @@ Ein Server, den du pflegst und der tatsächlich Clients von vor 2026 bedient, ha
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -123,14 +123,14 @@ Das ist die ganze API. Es gibt keinen Schalter pro Methode, und du willst auch k
 
 !!! check
     Dreh den Filter um, und du bekommst einen Regressionstest geschenkt. Füge
-    `"error::mcp.MCPDeprecationWarning"` zur Einstellung `filterwarnings` in deiner
+    `"error::darpy_sdk.MCPDeprecationWarning"` zur Einstellung `filterwarnings` in deiner
     pytest-Konfiguration hinzu, und der veraltete Aufruf **wirft eine Exception**, statt zu
     warnen. Ein Tool namens `old_log`, das noch `ctx.info()` aufruft, besteht nicht mehr: Der
     Aufruf kommt mit `is_error=True` und `Error executing tool old_log` zurück, und das
     mitgeschnittene Server-Log nennt den Schuldigen:
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     Eine Zeile pytest-Konfiguration, und ein veralteter Aufruf kann sich nie wieder in deine
@@ -152,7 +152,7 @@ Das sind keine Spec-Änderungen, sondern nur Verwendungsweisen des SDK mit einem
 * Die Ersatzspalte weist dir den Weg: **[Multi-Roundtrip-Requests](handlers/multi-round-trip.md)** für Sampling und Roots, **[Logging](handlers/logging.md)** für Logging, **[Progress](handlers/progress.md)** für Progress. `ping` braucht gar nichts.
 * Veraltet ist ein Hinweis: keine Änderungen auf der Leitung, alles funktioniert weiterhin gegen Sessions von vor 2026, und du bekommst eine sichtbare `MCPDeprecationWarning` (eine `UserWarning`, also standardmäßig aktiv).
 * Sampling und Roots brauchen zusätzlich einen Rückkanal, den eine 2026-07-28-Session nicht hat. Auf einer modernen Verbindung warnen sie und werfen dann eine Exception.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` bringt die ganze Kategorie zum Schweigen; `"error::mcp.MCPDeprecationWarning"` in pytest macht daraus einen fehlschlagenden Test.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` bringt die ganze Kategorie zum Schweigen; `"error::darpy_sdk.MCPDeprecationWarning"` in pytest macht daraus einen fehlschlagenden Test.
 * Für die [veralteten SDK-Helfer](#deprecated-sdk-helpers) gilt dieselbe Regel: Sie warnen jetzt, und 3.0 entfernt die alte Form.
 * Neuer Code sollte auf nichts davon aufbauen.
 

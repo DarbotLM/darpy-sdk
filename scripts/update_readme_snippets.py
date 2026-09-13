@@ -24,7 +24,7 @@ def get_github_url(file_path: str) -> str:
     Returns:
         GitHub URL
     """
-    base_url = "https://github.com/modelcontextprotocol/python-sdk/blob/main"
+    base_url = "https://github.com/DarbotLM/darpy-sdk/blob/main"
     return f"{base_url}/{file_path}"
 
 

@@ -13,16 +13,16 @@ from dataclasses import dataclass, field
 from typing import Any, cast
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 
-from mcp.server import NotificationOptions, Server, ServerRequestContext
-from mcp.server.connection import Connection
-from mcp.server.runner import serve_one
-from mcp.shared.dispatcher import CallOptions
-from mcp.shared.message import MessageMetadata
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.server import NotificationOptions, Server, ServerRequestContext
+from darpy_sdk.server.connection import Connection
+from darpy_sdk.server.runner import serve_one
+from darpy_sdk.shared.dispatcher import CallOptions
+from darpy_sdk.shared.message import MessageMetadata
+from darpy_sdk.shared.transport_context import TransportContext
 
 
 # `Server._handle_discover` reads only `ctx.protocol_version` (capabilities are

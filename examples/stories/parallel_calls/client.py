@@ -2,8 +2,8 @@
 
 import anyio
 
-from mcp.client import Client
-from mcp.types import TextContent
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
 from stories._harness import TargetFactory, run_client
 
 

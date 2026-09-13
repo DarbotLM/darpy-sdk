@@ -62,7 +62,7 @@ MCP에는 프로토콜 수준의 **로깅 기능**이 있습니다. 서버가 `C
 MCP Inspector로 서버를 실행하세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** 탭에서 `search_books`를 호출하세요. Inspector가 보여주는 결과는 반환값뿐입니다. 다음 줄은

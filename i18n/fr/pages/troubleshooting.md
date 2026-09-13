@@ -16,7 +16,7 @@ Plusieurs entrées s’appuient sur ce même serveur. Un outil (tool) et une res
 Ces entrées le joignent à l’adresse `http://localhost:8000/mcp`, laissez-le donc tourner en HTTP :
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Les erreurs citées sur cette page sont réelles : la suite de tests du SDK reproduit chacune d’entre elles.
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -138,7 +138,7 @@ Deux enregistrements ont utilisé le même nom d’outil. Le **premier** l’emp
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` signale un seul `forecast`, et c’est `forecast_today`. Renommez l’un des deux. `MCPServer(..., warn_on_duplicate_tools=False)` fait taire l’avertissement sans changer le résultat, laissez-le donc activé. Les ressources et les prompts suivent la même règle et produisent la même ligne de journal (`Resource already exists:`, `Prompt already exists:`).
@@ -173,13 +173,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 Les mots que le serveur a réellement envoyés, `421` et `Invalid Host header`, ne vous parviennent jamais : le corps du 421 n’a pas de `Content-Type: application/json`, donc le client ne peut pas l’analyser. Ils sont dans le **journal du serveur**, et c’est là qu’il faut regarder ensuite :
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 Le correctif est `transport_security=`. Mettez en liste d’autorisation le nom d’hôte que vous servez réellement :
@@ -311,7 +311,7 @@ async def main() -> None:
 !!! info
     `-32021` est `MISSING_REQUIRED_CLIENT_CAPABILITY`, l’un des trois codes d’erreur que la
     spécification 2026-07-28 ajoute. Aucun n’est une classe d’exception : ils arrivent tous sous
-    forme de `MCPError`, et c’est `e.error.code` qu’il faut regarder. `mcp.types` exporte les
+    forme de `MCPError`, et c’est `e.error.code` qu’il faut regarder. `darpy_sdk.types` exporte les
     constantes. Les deux autres sont `-32020` `HEADER_MISMATCH` (un en-tête HTTP est en désaccord
     avec le corps de requête qu’il accompagne) et `-32022` `UNSUPPORTED_PROTOCOL_VERSION` (la
     requête nommait une version que ce serveur ne parle pas). Un client SDK conforme ne peut
@@ -341,7 +341,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **Une connexion historique sur un serveur `stateless_http=True`.** L’absence d’état signifie que chaque requête est un monde à part : pas de session, pas de flux serveur-vers-client, et donc nulle part où envoyer un `elicitation/create` (ou un `sampling/createMessage`, ou un `roots/list`) même pour la génération qui les possède :
@@ -383,13 +383,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 Le message est délibérément figé : la liaison ne révèle jamais quelle vérification a échoué. La raison va dans le **journal du serveur**, et le lire est tout le diagnostic :
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 Les raisons que vous verrez réellement :
@@ -420,8 +420,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## Toujours bloqué ? {#still-stuck}
 
 * Si un message produit par le SDK n’est pas sur cette page, c’est un bogue de documentation qui mérite d’être signalé en tant que tel.
-* Cherchez dans le [suivi des tickets](https://github.com/modelcontextprotocol/python-sdk/issues) ; la plupart des messages d’erreur qui y apparaissent ont déjà été expliqués par quelqu’un.
-* Rien trouvé ? [Ouvrez un ticket](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml) avec le traceback complet, ou posez la question dans [#python-sdk-dev sur le Discord MCP Contributors](https://discord.gg/6CSzBmMkjX).
+* Cherchez dans le [suivi des tickets](https://github.com/DarbotLM/darpy-sdk/issues) ; la plupart des messages d’erreur qui y apparaissent ont déjà été expliqués par quelqu’un.
+* Rien trouvé ? [Ouvrez un ticket](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml) avec le traceback complet, ou posez la question dans [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues).
 
 ## Récapitulatif {#recap}
 

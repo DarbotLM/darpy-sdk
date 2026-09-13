@@ -33,7 +33,7 @@ Yani eski nesil istemci, *ona göre* bir şey inşa ettiğiniz bir hedef değil.
 Onu HTTP üzerinden sunun. İşte onu çağıran her iki nesilden istemci:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -132,7 +132,7 @@ Onunla ilgili iki şey, ne yaptığından daha önemli.
     dönmez. İsteğin tamamı, üst düzey bir protokol hatası olarak başarısız olur:
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` sizi kurtarmadı. `2025-11-25` bağlantısında `elicitation/create` göndermek

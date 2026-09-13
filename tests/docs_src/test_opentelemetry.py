@@ -3,11 +3,11 @@
 import pytest
 from logfire.testing import CaptureLogfire
 
+from darpy_sdk import Client
 from docs_src.opentelemetry import tutorial001
-from mcp import Client
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_a_plain_server_is_traced_with_no_extra_code(capfire: CaptureLogfire) -> None:

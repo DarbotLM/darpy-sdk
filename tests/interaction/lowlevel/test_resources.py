@@ -3,10 +3,9 @@
 import base64
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     METHOD_NOT_FOUND,
     Annotations,
     BlobResourceContents,
@@ -24,10 +23,11 @@ from mcp_types import (
     TextContent,
     TextResourceContents,
 )
+from inline_snapshot import snapshot
 
-from mcp import MCPError
-from mcp.client import IncomingMessage
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
@@ -204,7 +204,7 @@ async def test_list_resource_templates_returns_registered_templates(connect: Con
     )
 
 
-@pytest.mark.filterwarnings("ignore::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("ignore::darpy_sdk.MCPDeprecationWarning")
 @requirement("resources:subscribe")
 async def test_subscribe_resource_delivers_uri_to_handler(connect: Connect) -> None:
     """Subscribing to a resource delivers the URI to the server's subscribe handler and returns an empty result."""
@@ -221,7 +221,7 @@ async def test_subscribe_resource_delivers_uri_to_handler(connect: Connect) -> N
     assert result == snapshot(EmptyResult())
 
 
-@pytest.mark.filterwarnings("ignore::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("ignore::darpy_sdk.MCPDeprecationWarning")
 @requirement("resources:subscribe:capability-required")
 async def test_subscribe_without_a_subscribe_handler_is_method_not_found(connect: Connect) -> None:
     """Subscribing to a server that registered no subscribe handler is rejected with METHOD_NOT_FOUND.
@@ -247,7 +247,7 @@ async def test_subscribe_without_a_subscribe_handler_is_method_not_found(connect
     )
 
 
-@pytest.mark.filterwarnings("ignore::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("ignore::darpy_sdk.MCPDeprecationWarning")
 @requirement("resources:unsubscribe")
 async def test_unsubscribe_resource_delivers_uri_to_handler(connect: Connect) -> None:
     """Unsubscribing from a resource delivers the URI to the server's unsubscribe handler."""

@@ -1,10 +1,10 @@
 [project]
-name = "mcp-example-stories"
+name = "darpy-sdk-example-stories"
 version = "0.0.0"
-description = "Self-verifying example suite for the MCP Python SDK (dev-only, not published)"
+description = "Self-verifying example suite for the Darbot Python SDK (dev-only, not published)"
 requires-python = ">=3.10"
 dependencies = [
-    "mcp",
+    "darpy-sdk",
     "tomli>=2.0; python_version < '3.11'",
 ]
 

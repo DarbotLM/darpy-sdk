@@ -129,7 +129,7 @@ Par défaut, le secret voyage en authentification HTTP Basic sur la requête de 
     Lisez `client_secret` depuis l’environnement ou un gestionnaire de secrets, jamais depuis le contrôle de version.
 
 !!! info
-    Un fournisseur de plus se trouve dans `mcp.client.auth.extensions.client_credentials` :
+    Un fournisseur de plus se trouve dans `darpy_sdk.client.auth.extensions.client_credentials` :
     **`PrivateKeyJWTOAuthProvider`**, pour les clients qui s’authentifient avec un JWT plutôt qu’avec un
     secret partagé (`private_key_jwt`, la variante à paire de clés et identité de charge de travail). Il suit
     le même schéma : construisez-en un (il accepte le même `issuer` optionnel), placez-le sur `auth=`. Le même module fournit
@@ -139,7 +139,7 @@ Il existe une autre situation sans humain : le client appartient à une entrepri
 
 ## En cas d’échec {#when-it-fails}
 
-Quand le flux OAuth tourne mal, le fournisseur lève une `OAuthFlowError` depuis `mcp.client.auth`. Elle a deux sous-classes. `OAuthRegistrationError` signifie que l’enregistrement n’a pas produit un client utilisable : le serveur d’autorisation a refusé de vous enregistrer, ou il vous a bien enregistré mais avec des identifiants que ce flux ne peut pas utiliser (par exemple une méthode d’authentification qu’il n’implémente pas). `OAuthTokenError` signifie qu’un jeton n’a pas pu être obtenu : le point de terminaison de jeton a dit non, ou une fiche client stockée porte une méthode d’authentification que ce client ne peut pas appliquer, ce qui est signalé pendant la construction de la requête de jeton plutôt qu’envoyé. Un seul `except OAuthFlowError:` couvre la découverte, l’enregistrement, l’autorisation et l’échange.
+Quand le flux OAuth tourne mal, le fournisseur lève une `OAuthFlowError` depuis `darpy_sdk.client.auth`. Elle a deux sous-classes. `OAuthRegistrationError` signifie que l’enregistrement n’a pas produit un client utilisable : le serveur d’autorisation a refusé de vous enregistrer, ou il vous a bien enregistré mais avec des identifiants que ce flux ne peut pas utiliser (par exemple une méthode d’authentification qu’il n’implémente pas). `OAuthTokenError` signifie qu’un jeton n’a pas pu être obtenu : le point de terminaison de jeton a dit non, ou une fiche client stockée porte une méthode d’authentification que ce client ne peut pas appliquer, ce qui est signalé pendant la construction de la requête de jeton plutôt qu’envoyé. Un seul `except OAuthFlowError:` couvre la découverte, l’enregistrement, l’autorisation et l’échange.
 
 Tout n’est pas une erreur de flux. Le réseau peut toujours échouer ; ce sont des exceptions `httpx2` ordinaires et elles passent sans être modifiées.
 

@@ -52,7 +52,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 Запустіть сервер у MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Відкрийте URL, який він виведе, і перейдіть на вкладку **Resources**. `config://app` є в списку разом з описом. Клацніть його — Inspector його прочитає: ось ваші два рядки конфігурації.
@@ -128,7 +128,7 @@ result.contents  # [TextResourceContents(uri="users://42/profile", text="User 42
 !!! tip
     `@mcp.resource()` також приймає `name=`, `title=` і `description=`, коли їх не хочеться
     виводити з функції. А коли функцію взагалі писати не треба,
-    у `mcp.server.mcpserver.resources` є готові класи `Resource` (`TextResource`,
+    у `darpy_sdk.server.mcpserver.resources` є готові класи `Resource` (`TextResource`,
     `BinaryResource`, `FileResource`, `HttpResource`, `DirectoryResource`), які реєструють
     через `mcp.add_resource(...)`.
 

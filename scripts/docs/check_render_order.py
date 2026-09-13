@@ -23,8 +23,8 @@ asymmetry, each from a fresh handler with an empty collection:
 - its package index alone, so the page with the most re-exports is itself
   the first collect over an empty collection.
 
-Only the package's own pages are rendered: resolving `mcp` re-exports
-without ever rendering an `mcp_types` page is exactly the property under
+Only the package's own pages are rendered: resolving `darpy_sdk` re-exports
+without ever rendering a `darpy_sdk_types` page is exactly the property under
 test.
 
 Usage:

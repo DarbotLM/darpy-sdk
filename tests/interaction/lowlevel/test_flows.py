@@ -9,10 +9,9 @@ individual features are pinned by their own tests; these prove they compose.
 from collections.abc import Awaitable, Callable
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     URL_ELICITATION_REQUIRED,
     CallToolResult,
     ElicitCompleteNotification,
@@ -27,11 +26,12 @@ from mcp_types import (
     TextResourceContents,
     Tool,
 )
+from inline_snapshot import snapshot
 
-from mcp import MCPError, UrlElicitationRequiredError
-from mcp.client import ClientRequestContext, IncomingMessage
-from mcp.server import Server, ServerRequestContext
-from mcp.server.session import ServerSession
+from darpy_sdk import MCPError, UrlElicitationRequiredError
+from darpy_sdk.client import ClientRequestContext, IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.session import ServerSession
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

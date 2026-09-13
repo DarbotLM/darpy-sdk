@@ -27,8 +27,8 @@ import pytest
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server import Server
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.server import Server
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
 
 SERVER_NAME = "test_race_condition_server"
 

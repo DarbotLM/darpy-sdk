@@ -140,7 +140,7 @@ result.structured_content  # {'result': ['elicitation']}
 
 `logging_callback`은 서버가 보내는 `notifications/message`를 `LoggingMessageNotificationParams`(`level`, `logger`, `data`)로 받습니다. 프로토콜 로깅 자체가 2026-07-28 사양에서 지원 중단 예정이므로(대신 무엇을 해야 하는지는 **[로깅](../handlers/logging.md)**에서 다룹니다), 이 콜백은 여전히 로그를 내보내는 서버를 위해 존재합니다. 2026년 세대 연결에서는 콜백만으로는 아무것도 받지 못합니다. 2026 서버는 옵트인한 요청에만 로그 메시지를 보내기 때문입니다. `Client(...)`에 `log_level="info"`(또는 다른 레벨)를 전달하면 모든 요청에 이 옵트인이 찍혀 해당 레벨 이상을 받습니다. 2026 이전 서버는 이를 무시하고 기존 `logging/setLevel` 동작을 유지합니다.
 
-`message_handler`는 모든 것을 받는 콜백입니다. 세션이 드러내는 모든 서버 알림이 (각각의 전용 콜백과 더불어) 여기에 도달하며, 스트림 기반 트랜스포트에서는 트랜스포트 수준의 모든 `Exception`도 마찬가지입니다. 절대 도달하지 않는 것이 두 가지 있습니다. `notifications/cancelled`는 드러나는 대신 SDK가 직접 적용하고, 살아 있는 `listen()` 스트림에 대한 구독 확인 응답은 그 스트림이 소비합니다. 매개변수에는 `IncomingMessage`(`ServerNotification | Exception`, `mcp.client`에서 내보냄)로 타입을 표기하세요. 알아 둘 만한 패턴은 `if isinstance(message, Exception): raise message` 하나로, 끊어진 연결이 조용히 사라지는 대신 확실하게 실패하도록 합니다.
+`message_handler`는 모든 것을 받는 콜백입니다. 세션이 드러내는 모든 서버 알림이 (각각의 전용 콜백과 더불어) 여기에 도달하며, 스트림 기반 트랜스포트에서는 트랜스포트 수준의 모든 `Exception`도 마찬가지입니다. 절대 도달하지 않는 것이 두 가지 있습니다. `notifications/cancelled`는 드러나는 대신 SDK가 직접 적용하고, 살아 있는 `listen()` 스트림에 대한 구독 확인 응답은 그 스트림이 소비합니다. 매개변수에는 `IncomingMessage`(`ServerNotification | Exception`, `darpy_sdk.client`에서 내보냄)로 타입을 표기하세요. 알아 둘 만한 패턴은 `if isinstance(message, Exception): raise message` 하나로, 끊어진 연결이 조용히 사라지는 대신 확실하게 실패하도록 합니다.
 
 ## 요약 {#recap}
 

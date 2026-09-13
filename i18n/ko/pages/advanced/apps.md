@@ -52,7 +52,7 @@ HTML 자체는 호스트의 `postMessage`를 수신하고 결과를 표시합니
 `server.py`를 HTTP로 제공한 다음, 두 번째 터미널에서 클라이언트를 실행하세요.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

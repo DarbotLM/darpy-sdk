@@ -113,7 +113,7 @@ Pero un servidor que mantienes y que de verdad atiende a clientes anteriores a 2
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -122,14 +122,14 @@ Esa es toda la API. No hay un interruptor por método, y tampoco lo quieres: la 
 
 !!! check
     Aplica el filtro al revés y obtienes una prueba de regresión gratis. Añade
-    `"error::mcp.MCPDeprecationWarning"` al ajuste `filterwarnings` de tu configuración de
+    `"error::darpy_sdk.MCPDeprecationWarning"` al ajuste `filterwarnings` de tu configuración de
     pytest y la llamada obsoleta **lanza una excepción** en lugar de avisar. Una herramienta
     llamada `old_log` que todavía llama a `ctx.info()` deja de pasar: la llamada vuelve con
     `is_error=True` y `Error executing tool old_log`, y el log capturado del servidor señala
     al culpable:
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     Una línea de configuración de pytest, y una llamada obsoleta nunca podrá volver a colarse
@@ -151,7 +151,7 @@ No son cambios de la especificación, solo usos del SDK que tienen un reemplazo 
 * La columna de reemplazos te indica el camino: **[Solicitudes de varias idas y vueltas](handlers/multi-round-trip.md)** para el muestreo y los roots, **[Registro de logs](handlers/logging.md)** para los logs, **[Progreso](handlers/progress.md)** para el progreso. `ping` no necesita nada en absoluto.
 * Obsoleto es solo un aviso: no hay cambios en lo que se transmite, todo sigue funcionando contra sesiones anteriores a 2026 y recibes un `MCPDeprecationWarning` visible (un `UserWarning`, así que está activo por defecto).
 * El muestreo y los roots necesitan además un canal de retorno que una sesión 2026-07-28 no tiene. En una conexión moderna avisan y después lanzan una excepción.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` silencia toda la categoría; `"error::mcp.MCPDeprecationWarning"` en pytest la convierte en un fallo de prueba.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` silencia toda la categoría; `"error::darpy_sdk.MCPDeprecationWarning"` en pytest la convierte en un fallo de prueba.
 * Las [partes del SDK obsoletas](#deprecated-sdk-helpers) siguen la misma regla: avisan ahora, y 3.0 elimina la forma antigua.
 * El código nuevo no debería construirse sobre nada de esto.
 

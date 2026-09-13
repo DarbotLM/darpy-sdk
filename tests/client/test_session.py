@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator, Mapping
 from contextlib import AsyncExitStack, asynccontextmanager
-from typing import Any, cast
+from typing import Any, Literal, cast
 
 import anyio
 import anyio.abc
 import anyio.streams.memory
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CONNECTION_CLOSED,
     INTERNAL_ERROR,
     INVALID_PARAMS,
@@ -34,20 +34,21 @@ from mcp_types import (
     client_notification_adapter,
     client_request_adapter,
 )
-from mcp_types.version import HANDSHAKE_PROTOCOL_VERSIONS, LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import HANDSHAKE_PROTOCOL_VERSIONS, LATEST_HANDSHAKE_VERSION
+from inline_snapshot import snapshot
 from pydantic import FileUrl, ValidationError
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext, IncomingMessage
-from mcp.client.client import Client
-from mcp.client.session import DEFAULT_CLIENT_INFO, ClientSession
-from mcp.client.subscriptions import ToolsListChanged, listen
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.direct_dispatcher import create_direct_dispatcher_pair
-from mcp.shared.dispatcher import CallOptions, DispatchContext, OnNotify, OnNotifyIntercept, OnRequest
-from mcp.shared.message import SessionMessage
-from mcp.shared.subscriptions import SUBSCRIPTION_ID_META_KEY
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext, IncomingMessage
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.session import DEFAULT_CLIENT_INFO, ClientSession
+from darpy_sdk.client.subscriptions import ToolsListChanged, listen
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.direct_dispatcher import create_direct_dispatcher_pair
+from darpy_sdk.shared.dispatcher import CallOptions, DispatchContext, OnNotify, OnNotifyIntercept, OnRequest
+from darpy_sdk.shared.message import SessionMessage
+from darpy_sdk.shared.subscriptions import SUBSCRIPTION_ID_META_KEY
+from darpy_sdk.shared.transport_context import TransportContext
 
 _SendToClient = anyio.streams.memory.MemoryObjectSendStream[SessionMessage | Exception]
 _RecvFromClient = anyio.streams.memory.MemoryObjectReceiveStream[SessionMessage]
@@ -2061,3 +2062,41 @@ def test_intercept_consumes_acks_for_live_routes_and_leaves_malformed_ones():
     # Events deliver but are never consumed - they still tee to message_handler.
     assert intercept("notifications/tools/list_changed", meta) is False
     assert list(route._pending) == [ToolsListChanged()]  # pyright: ignore[reportPrivateUsage]
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize("mode", ["auto", "legacy"])
+async def test_client_requests_preserve_null_metadata_and_omit_optional_protocol_fields(
+    mode: Literal["auto", "legacy"],
+) -> None:
+    """SDK-defined: opaque metadata survives both modes while known optional fields retain omission semantics."""
+    opaque: RequestParamsMeta = {
+        "progress_token": 0,
+        "nullable": None,
+        "nested": {"nullable": None, "values": [None, False, 0, "🙂"]},
+    }
+
+    async def list_tools(
+        ctx: ServerRequestContext, params: types.PaginatedRequestParams | None
+    ) -> types.ListToolsResult:
+        assert ctx.method == "tools/list"
+        return types.ListToolsResult(tools=[types.Tool(name="metadata", input_schema={"type": "object"})])
+
+    async def call_tool(ctx: ServerRequestContext, params: types.CallToolRequestParams) -> CallToolResult:
+        assert params.name == "metadata"
+        assert ctx.params is not None
+        return CallToolResult(
+            content=[],
+            structured_content={"meta": ctx.meta, "wire_meta": ctx.params["_meta"], "fields": sorted(ctx.params)},
+        )
+
+    server = Server("metadata", on_list_tools=list_tools, on_call_tool=call_tool)
+    async with Client(server, mode=mode) as client:
+        result = await client.call_tool("metadata", meta=opaque)
+    assert result.structured_content is not None
+    metadata = result.structured_content["meta"]
+    wire_metadata = result.structured_content["wire_meta"]
+    assert {key: metadata[key] for key in opaque} == opaque
+    assert wire_metadata["progressToken"] == opaque["progress_token"]
+    assert "progress_token" not in wire_metadata
+    assert result.structured_content["fields"] == snapshot(["_meta", "name"])

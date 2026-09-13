@@ -27,4 +27,4 @@ API リファレンスは翻訳されません。翻訳版のサイトからは�
 
 ## 翻訳の問題を報告する {#reporting-a-translation-problem}
 
-誤った用語、ぎこちない文、英語版にない内容が書かれた翻訳を見つけた場合は、言語、ページ、該当箇所を添えて [issue を作成](https://github.com/modelcontextprotocol/python-sdk/issues)してください。ネイティブスピーカーからの報告は特に貴重です。修正方法がわかっている場合は、[`i18n/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/i18n) 配下にあるその言語のスタイルガイド（`instructions.md`）または用語集（`glossary.json`）へのプルリクエストとして直接提案してください。次に翻訳を再生成したときに、影響を受けるすべてのページに修正が反映されます。英語のテキスト自体の問題は、ほかのドキュメントの変更と同様に、`docs/` 配下のページで修正します。
+誤った用語、ぎこちない文、英語版にない内容が書かれた翻訳を見つけた場合は、言語、ページ、該当箇所を添えて [issue を作成](https://github.com/DarbotLM/darpy-sdk/issues)してください。ネイティブスピーカーからの報告は特に貴重です。修正方法がわかっている場合は、[`i18n/`](https://github.com/DarbotLM/darpy-sdk/tree/main/i18n) 配下にあるその言語のスタイルガイド（`instructions.md`）または用語集（`glossary.json`）へのプルリクエストとして直接提案してください。次に翻訳を再生成したときに、影響を受けるすべてのページに修正が反映されます。英語のテキスト自体の問題は、ほかのドキュメントの変更と同様に、`docs/` 配下のページで修正します。

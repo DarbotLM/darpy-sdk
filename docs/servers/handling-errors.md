@@ -14,7 +14,7 @@ Take a tool that looks something up, and let the lookup miss:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`ToolError`, from `mcp.server.mcpserver.exceptions`, is how a tool tells the model that something went wrong.
+`ToolError`, from `darpy_sdk.server.mcpserver.exceptions`, is how a tool tells the model that something went wrong.
 
 Call it with a title that isn't in the catalog and look at the result:
 
@@ -58,13 +58,13 @@ Now swap `ToolError` for `MCPError`.
 
 * There is **no result**. No `content`, no `is_error`: nothing for the model to read.
 * The **host** application gets the error instead, the same way it would if the tool didn't exist at all.
-* `code`, `message`, and `data` arrive intact. `INVALID_PARAMS` is `-32602`; `mcp.types` exports it and the other JSON-RPC error codes (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) as constants so you never type a magic number.
+* `code`, `message`, and `data` arrive intact. `INVALID_PARAMS` is `-32602`; `darpy_sdk.types` exports it and the other JSON-RPC error codes (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) as constants so you never type a magic number.
 
 !!! check
     Same lookup, same miss, but now the call *raises* on the client side instead of returning:
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     The first version handed the model a sentence it could react to. This one hands it nothing.
@@ -82,7 +82,7 @@ One question decides it: **could a smarter model have avoided this?** Yes -> `To
 By that test, the second version of `get_author` made the wrong choice: a better title fixes it, so the model deserved to see the message. It's there to show you the mechanism, not to recommend it.
 
 !!! info
-    `MCPError` lives at `from mcp import MCPError` and takes `code`, `message`, and an optional
+    `MCPError` lives at `from darpy_sdk import MCPError` and takes `code`, `message`, and an optional
     `data` payload. Whatever you put in them is what the client receives: the SDK forwards a raised
     `MCPError` verbatim instead of sanitising it.
 
@@ -150,7 +150,7 @@ It means a whole class of `raise` statements you don't write: don't re-validate 
 * Any **other exception** is a crash -> `is_error=True` with only `Error executing tool <name>` for the model, and an `ERROR` record with the traceback for you.
 * `ResourceNotFoundError` from a resource handler -> the protocol's `-32602`, with the URI in `data`.
 * Bad arguments are rejected against the schema before your function runs; you don't `raise` for those.
-* Imports: `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, and the error-code constants from `mcp.types`.
+* Imports: `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, and the error-code constants from `darpy_sdk.types`.
 
 Errors handled. That is everything a server *exposes*. What every handler can read, and do back to the client while it runs, is the next section: **[Inside your handler](../handlers/index.md)**.
 

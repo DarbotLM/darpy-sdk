@@ -19,7 +19,7 @@ translation:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`mcp.server.mcpserver.exceptions`에 있는 `ToolError`는 도구가 무언가 잘못되었다고 모델에게 알리는 수단입니다.
+`darpy_sdk.server.mcpserver.exceptions`에 있는 `ToolError`는 도구가 무언가 잘못되었다고 모델에게 알리는 수단입니다.
 
 카탈로그에 없는 제목으로 호출하고 결과를 살펴보세요.
 
@@ -63,13 +63,13 @@ result.structured_content  # None
 
 * **결과가 없습니다**. `content`도, `is_error`도 없으므로 모델이 읽을 것이 아무것도 없습니다.
 * 대신 **호스트** 애플리케이션이 오류를 받습니다. 도구가 아예 존재하지 않을 때와 같은 방식입니다.
-* `code`, `message`, `data`는 그대로 도착합니다. `INVALID_PARAMS`는 `-32602`입니다. `mcp.types`는 이 코드와 나머지 JSON-RPC 오류 코드(`INVALID_REQUEST`, `INTERNAL_ERROR`, ...)를 상수로 내보내므로 매직 넘버를 직접 입력할 일이 없습니다.
+* `code`, `message`, `data`는 그대로 도착합니다. `INVALID_PARAMS`는 `-32602`입니다. `darpy_sdk.types`는 이 코드와 나머지 JSON-RPC 오류 코드(`INVALID_REQUEST`, `INTERNAL_ERROR`, ...)를 상수로 내보내므로 매직 넘버를 직접 입력할 일이 없습니다.
 
 !!! check
     같은 조회, 같은 실패지만, 이번에는 클라이언트 쪽에서 호출이 반환되는 대신 예외를 **발생시킵니다**.
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     첫 번째 버전은 모델에게 반응할 수 있는 문장을 건넸습니다. 이 버전은 아무것도 건네지 않습니다.
@@ -87,7 +87,7 @@ result.structured_content  # None
 이 기준으로 보면 `get_author`의 두 번째 버전은 잘못된 선택을 했습니다. 더 나은 제목이면 해결되므로, 모델이 메시지를 볼 자격이 있었습니다. 그 버전은 메커니즘을 보여 주기 위한 것이지, 권장하기 위한 것이 아닙니다.
 
 !!! info
-    `MCPError`는 `from mcp import MCPError`로 가져오며 `code`, `message`, 그리고 선택적인
+    `MCPError`는 `from darpy_sdk import MCPError`로 가져오며 `code`, `message`, 그리고 선택적인
     `data` 페이로드를 받습니다. 여기에 넣은 내용이 그대로 클라이언트가 받는 내용입니다. SDK는 발생한
     `MCPError`를 정제하지 않고 그대로 전달합니다.
 
@@ -155,7 +155,7 @@ result.content   # [TextContent(text="Error executing tool get_author")]
 * 그 밖의 **모든 예외**는 크래시입니다 -> 모델에게는 `Error executing tool <name>`만 담긴 `is_error=True`가 가고, 로그에는 트레이스백이 담긴 `ERROR` 레코드가 남습니다.
 * 리소스 핸들러에서 `ResourceNotFoundError`를 발생시키면 -> 프로토콜의 `-32602`가 되며, URI가 `data`에 담깁니다.
 * 잘못된 인자는 함수가 실행되기 전에 스키마와 대조해 거부되므로, 이를 위해 `raise`를 쓰지 않습니다.
-* 임포트: `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, 그리고 오류 코드 상수는 `mcp.types`에서 가져옵니다.
+* 임포트: `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, 그리고 오류 코드 상수는 `darpy_sdk.types`에서 가져옵니다.
 
 오류 처리까지 마쳤습니다. 이것으로 서버가 **노출하는** 모든 것을 다뤘습니다. 모든 핸들러가 실행 중에 무엇을 읽을 수 있고 클라이언트에게 무엇을 되돌려 할 수 있는지는 다음 절인 **[핸들러 내부](../handlers/index.md)**에서 다룹니다.
 

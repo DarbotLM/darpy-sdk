@@ -128,7 +128,7 @@ result.structured_content  # {'result': ['elicitation']}
 
 `logging_callback` 接收服务器发送的 `notifications/message`，形式是 `LoggingMessageNotificationParams`（`level`、`logger`、`data`）。协议日志本身已被 2026-07-28 规范弃用（替代做法见 **[日志](../handlers/logging.md)**），所以这个回调是为仍在发出这类消息的服务器准备的。在 2026 年代的连接上，单有回调什么也收不到，因为 2026 服务器只向主动选择接收的请求发送日志消息：给 `Client(...)` 传入 `log_level="info"`（或其他级别），就会在每个请求上打上这个选择标记，并收到该级别及以上的消息。2026 之前的服务器会忽略它，保持原有的 `logging/setLevel` 行为。
 
-`message_handler` 是兜底的：会话浮现出来的每一个服务器通知都会到达它（同时也到达各自专门的回调），在基于流的传输上，每一个传输层的 `Exception` 也是如此。有两种永远不会到达：`notifications/cancelled` 由 SDK 直接应用而不浮现出来；针对活动 `listen()` 流的订阅确认则由该流自己消费。给这个参数标注 `IncomingMessage` 类型（`ServerNotification | Exception`，从 `mcp.client` 导出）。唯一值得记住的写法是 `if isinstance(message, Exception): raise message`，这样断开的连接会大声报错，而不是悄悄消失。
+`message_handler` 是兜底的：会话浮现出来的每一个服务器通知都会到达它（同时也到达各自专门的回调），在基于流的传输上，每一个传输层的 `Exception` 也是如此。有两种永远不会到达：`notifications/cancelled` 由 SDK 直接应用而不浮现出来；针对活动 `listen()` 流的订阅确认则由该流自己消费。给这个参数标注 `IncomingMessage` 类型（`ServerNotification | Exception`，从 `darpy_sdk.client` 导出）。唯一值得记住的写法是 `if isinstance(message, Exception): raise message`，这样断开的连接会大声报错，而不是悄悄消失。
 
 ## 回顾 {#recap}
 

@@ -2,11 +2,11 @@
 
 from typing import Any
 
-import mcp.types as types
-from mcp.client import Client
-from mcp.shared.inbound import MCP_METHOD_HEADER, MCP_PROTOCOL_VERSION_HEADER, InboundLadderRejection
-from mcp.types import CLIENT_CAPABILITIES_META_KEY, CLIENT_INFO_META_KEY, PROTOCOL_VERSION_META_KEY
-from mcp.types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+import darpy_sdk.types as types
+from darpy_sdk.client import Client
+from darpy_sdk.shared.inbound import MCP_METHOD_HEADER, MCP_PROTOCOL_VERSION_HEADER, InboundLadderRejection
+from darpy_sdk.types import CLIENT_CAPABILITIES_META_KEY, CLIENT_INFO_META_KEY, PROTOCOL_VERSION_META_KEY
+from darpy_sdk.types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
 from stories._harness import TargetFactory, run_client
 
 from .server import classify_era

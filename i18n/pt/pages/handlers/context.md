@@ -49,7 +49,7 @@ Uma única propriedade. `ctx` não é um argumento: ele nunca aparece no schema,
 Execute o servidor com o MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 O formulário de `search_books` tem um único campo, `query`. Chame-a com `dune`:

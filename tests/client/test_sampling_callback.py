@@ -1,5 +1,5 @@
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_REQUEST,
     CreateMessageRequestParams,
     CreateMessageResult,
@@ -9,10 +9,10 @@ from mcp_types import (
     ToolUseContent,
 )
 
-from mcp import Client
-from mcp.client import ClientRequestContext
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.exceptions import MCPError
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.exceptions import MCPError
 
 
 @pytest.mark.anyio

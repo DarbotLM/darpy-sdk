@@ -41,12 +41,12 @@ jobs:
           uv sync --group codegen --frozen
           uv run --frozen --group codegen python scripts/gen_surface_types.py --check
 
-      # Resolves only mcp-types' declared dependencies into an empty environment,
+      # Resolves only darpy-sdk-types' declared dependencies into an empty environment,
       # so an import of the SDK or anything from its stack fails here.
-      - name: mcp-types installs and imports standalone
+      - name: darpy-sdk-types installs and imports standalone
         run: |
-          uv run --isolated --no-project --with ./src/mcp-types python -c \
-            "import mcp_types, mcp_types.jsonrpc, mcp_types.methods, mcp_types.version, mcp_types._v2025_11_25, mcp_types._v2026_07_28"
+          uv run --frozen --isolated --no-project --with ./src/darpy-sdk-types python -c \
+            "import darpy_sdk_types, darpy_sdk_types.jsonrpc, darpy_sdk_types.methods, darpy_sdk_types.version, darpy_sdk_types._v2025_11_25, darpy_sdk_types._v2026_07_28"
 
   test:
     name: test (${{ matrix.python-version }}, ${{ matrix.dep-resolution.name }}, ${{ matrix.os }})
@@ -82,7 +82,7 @@ jobs:
         env:
           # tests/examples/test_stories_smoke.py is gated on this var; it spawns real
           # stdio + uvicorn subprocesses, so run it on exactly one matrix cell.
-          MCP_EXAMPLES_SMOKE: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' && matrix.dep-resolution.name == 'locked' && '1' || '' }}
+          DARPY_SDK_EXAMPLES_SMOKE: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' && matrix.dep-resolution.name == 'locked' && '1' || '' }}
           # PEP 597: text I/O without encoding= raises EncodingWarning, which pytest's "error"
           # filter makes fatal on every cell. An env var (not -X) so pytest-xdist workers inherit it.
           PYTHONWARNDEFAULTENCODING: "1"

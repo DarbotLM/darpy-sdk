@@ -52,7 +52,7 @@ translation:
 Запустите `server.py` по HTTP, затем во втором терминале запустите клиент:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

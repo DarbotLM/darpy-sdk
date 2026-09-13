@@ -124,13 +124,13 @@ URL 必須是 HTTPS 且路徑不能是根路徑；否則在建構時就會引發
     `client_secret` 要從環境變數或祕密管理工具讀取，絕對不要放進版本控制。
 
 !!! info
-    `mcp.client.auth.extensions.client_credentials` 裡還有一個 provider：**`PrivateKeyJWTOAuthProvider`**，給用 JWT 而非共用 secret 來驗證的用戶端使用（`private_key_jwt`，也就是金鑰對與工作負載身分那一類）。它遵循同樣的模式：建構一個（它接受同樣選用的 `issuer`），放到 `auth=` 上。同一個模組還附了 `SignedJWTParameters` 和 `static_assertion_provider`，兩個用來建出其 assertion 的輔助工具。
+    `darpy_sdk.client.auth.extensions.client_credentials` 裡還有一個 provider：**`PrivateKeyJWTOAuthProvider`**，給用 JWT 而非共用 secret 來驗證的用戶端使用（`private_key_jwt`，也就是金鑰對與工作負載身分那一類）。它遵循同樣的模式：建構一個（它接受同樣選用的 `issuer`），放到 `auth=` 上。同一個模組還附了 `SignedJWTParameters` 和 `static_assertion_provider`，兩個用來建出其 assertion 的輔助工具。
 
 還有一種無人介入的情境：用戶端屬於某個企業，由企業的身分提供者（而非使用者）決定它可以連到哪些 MCP 伺服器。那是另一種授權類型，有自己的信任模型，也有自己的頁面：**[身分斷言](identity-assertion.md)**。
 
 ## 失敗的時候 {#when-it-fails}
 
-OAuth 流程出錯時，provider 會引發來自 `mcp.client.auth` 的 `OAuthFlowError`。它有兩個子類別。`OAuthRegistrationError` 表示註冊沒有產生可用的用戶端：授權伺服器拒絕替你註冊，或者有註冊，但給的憑證是這個流程用不了的（例如它沒有實作的驗證方法）。`OAuthTokenError` 表示無法取得權杖：權杖端點拒絕了，或者已儲存的用戶端紀錄帶著這個用戶端無法套用的驗證方法——這會在組裝權杖請求時就回報，而不是送出之後。一個 `except OAuthFlowError:` 就能涵蓋探索、註冊、授權與交換。
+OAuth 流程出錯時，provider 會引發來自 `darpy_sdk.client.auth` 的 `OAuthFlowError`。它有兩個子類別。`OAuthRegistrationError` 表示註冊沒有產生可用的用戶端：授權伺服器拒絕替你註冊，或者有註冊，但給的憑證是這個流程用不了的（例如它沒有實作的驗證方法）。`OAuthTokenError` 表示無法取得權杖：權杖端點拒絕了，或者已儲存的用戶端紀錄帶著這個用戶端無法套用的驗證方法——這會在組裝權杖請求時就回報，而不是送出之後。一個 `except OAuthFlowError:` 就能涵蓋探索、註冊、授權與交換。
 
 不是所有問題都是流程錯誤。網路還是可能出錯；那些是一般的 `httpx2` 例外，會原封不動地往外傳遞。
 

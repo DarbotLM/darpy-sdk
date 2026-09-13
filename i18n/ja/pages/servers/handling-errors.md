@@ -19,7 +19,7 @@ translation:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`mcp.server.mcpserver.exceptions` にある `ToolError` は、何かがうまくいかなかったことをツールがモデルに伝える手段です。
+`darpy_sdk.server.mcpserver.exceptions` にある `ToolError` は、何かがうまくいかなかったことをツールがモデルに伝える手段です。
 
 カタログにないタイトルで呼び出して、結果を見てみましょう。
 
@@ -61,13 +61,13 @@ result.structured_content  # None
 
 * **結果がありません**。`content` も `is_error` もなく、モデルが読めるものは何もありません。
 * 代わりに**ホスト**アプリケーションがエラーを受け取ります。ツールがそもそも存在しなかった場合と同じ扱いです。
-* `code`、`message`、`data` はそのまま届きます。`INVALID_PARAMS` は `-32602` です。`mcp.types` はこれを含む JSON-RPC のエラーコード（`INVALID_REQUEST`、`INTERNAL_ERROR` など）を定数としてエクスポートしているので、マジックナンバーを手で打つ必要はありません。
+* `code`、`message`、`data` はそのまま届きます。`INVALID_PARAMS` は `-32602` です。`darpy_sdk.types` はこれを含む JSON-RPC のエラーコード（`INVALID_REQUEST`、`INTERNAL_ERROR` など）を定数としてエクスポートしているので、マジックナンバーを手で打つ必要はありません。
 
 !!! check
     同じ検索、同じ空振りですが、今度はクライアント側で呼び出しが結果を返す代わりに「送出」します。
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     最初のバージョンは、モデルが反応できる一文を渡しました。こちらは何も渡しません。`get_author` にとってこれは明らかに改悪であり、それが次のセクションの要点です。
@@ -84,7 +84,7 @@ result.structured_content  # None
 この基準で見ると、`get_author` の 2 番目のバージョンは選択を誤っています。より良いタイトルで直るのですから、モデルはメッセージを見るべきでした。あれは仕組みを見せるためのもので、推奨するためのものではありません。
 
 !!! info
-    `MCPError` は `from mcp import MCPError` でインポートでき、`code`、`message`、省略可能な `data` ペイロードを受け取ります。そこに入れた内容がそのままクライアントに届きます。SDK は送出された `MCPError` をサニタイズせず、そのまま転送します。
+    `MCPError` は `from darpy_sdk import MCPError` でインポートでき、`code`、`message`、省略可能な `data` ペイロードを受け取ります。そこに入れた内容がそのままクライアントに届きます。SDK は送出された `MCPError` をサニタイズせず、そのまま転送します。
 
 ## その他の例外 {#any-other-exception}
 
@@ -146,7 +146,7 @@ result.content   # [TextContent(text="Error executing tool get_author")]
 * **その他の例外**はクラッシュ → モデルには `Error executing tool <name>` とだけ書かれた `is_error=True`、サーバー側にはトレースバック付きの `ERROR` レコードが残ります。
 * リソースのハンドラーから `ResourceNotFoundError` を送出する → プロトコルの `-32602` になり、URI が `data` に入ります。
 * 不正な引数は関数が実行される前にスキーマと照合して拒否されます。そのために `raise` する必要はありません。
-* インポート：`from mcp import MCPError`、`from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`、そしてエラーコードの定数は `mcp.types` から取得します。
+* インポート：`from darpy_sdk import MCPError`、`from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`、そしてエラーコードの定数は `darpy_sdk.types` から取得します。
 
 エラーの処理はここまでです。サーバーが「公開する」ものはこれですべてです。すべてのハンドラーが実行中に読み取れるもの、そして実行中にクライアントに対して行えることは、次のセクション **[ハンドラーの中で](../handlers/index.md)** で扱います。
 

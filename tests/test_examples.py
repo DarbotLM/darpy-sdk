@@ -8,11 +8,11 @@
 from pathlib import Path
 
 import pytest
+from darpy_sdk_types import SERVER_INFO_META_KEY, CallToolResult, TextContent, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import SERVER_INFO_META_KEY, CallToolResult, TextContent, TextResourceContents
 from pytest_examples import CodeExample, EvalExample, find_examples
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 def strip_server_info(result: CallToolResult, server_name: str) -> CallToolResult:

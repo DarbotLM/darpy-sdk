@@ -2,14 +2,14 @@
 
 import asyncio
 
-from mcp.client.session import ClientSession
-from mcp.client.stdio import StdioServerParameters, stdio_client
-from mcp.types import PaginatedRequestParams, Resource
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.types import PaginatedRequestParams, Resource
 
 
 async def list_all_resources() -> None:
     """Fetch all resources using pagination."""
-    async with stdio_client(StdioServerParameters(command="uv", args=["run", "mcp-simple-pagination"])) as (
+    async with stdio_client(StdioServerParameters(command="uv", args=["run", "darpy-sdk-simple-pagination"])) as (
         read,
         write,
     ):

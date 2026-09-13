@@ -5,20 +5,20 @@ translation:
 ---
 # インストール {#installation}
 
-Python SDK は PyPI 上で [`mcp`](https://pypi.org/project/mcp/) として公開されています。**Python 3.10 以上**が必要です。
+Python SDK は PyPI 上で [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) として公開されています。**Python 3.10 以上**が必要です。
 
 このドキュメントは、現在の安定版リリースラインである **v2** について説明しています。
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 !!! note "v1 から移行する場合"
@@ -28,9 +28,9 @@ Python SDK は PyPI 上で [`mcp`](https://pypi.org/project/mcp/) として公�
 
 SDK を使うだけなら、以下の内容を知っている必要はありません。それぞれの依存関係が何のためにあるのか気になる場合のために、まとめておきます。
 
-* `mcp-types`：すべてのプロトコル型（リクエスト、結果、コンテンツブロック）を独立したパッケージにしたもので、SDK と足並みをそろえてバージョン管理されます。`mcp` に依存するコードは、`mcp.types` というエイリアス経由でこれをインポートします（このドキュメントに出てくる `from mcp.types import ...` はすべてそうです）。`mcp_types` を直接インポートするのは、SDK なしで `mcp-types` をインストールするプロジェクトだけにしてください。
+* `darpy-sdk-types`：すべてのプロトコル型（リクエスト、結果、コンテンツブロック）を独立したパッケージにしたもので、SDK と足並みをそろえてバージョン管理されます。`mcp` に依存するコードは、`darpy_sdk.types` というエイリアス経由でこれをインポートします（このドキュメントに出てくる `from darpy_sdk.types import ...` はすべてそうです）。`darpy_sdk_types` を直接インポートするのは、SDK なしで `darpy-sdk-types` をインストールするプロジェクトだけにしてください。
 * [`anyio`](https://anyio.readthedocs.io/)：非同期ランタイムです。SDK 全体が anyio を前提に書かれているので、`asyncio` でも `trio` でも動きます。
-* [`pydantic`](https://docs.pydantic.dev/)：`mcp.types` のあらゆるモデルの土台であり、スキーマの生成と検証もすべて担っています。
+* [`pydantic`](https://docs.pydantic.dev/)：`darpy_sdk.types` のあらゆるモデルの土台であり、スキーマの生成と検証もすべて担っています。
 * [`httpx2`](https://pypi.org/project/httpx2/)：Streamable HTTP と SSE のクライアント側トランスポートを支える HTTP クライアントで、Server-Sent Events のサポートを内蔵しています。
 * [`starlette`](https://www.starlette.io/)、[`uvicorn`](https://www.uvicorn.org/)、[`sse-starlette`](https://pypi.org/project/sse-starlette/)、[`python-multipart`](https://pypi.org/project/python-multipart/)：HTTP のサーバー側トランスポートです。
 * [`jsonschema`](https://pypi.org/project/jsonschema/)：ツールの構造化出力を、宣言された出力スキーマに照らして検証します。
@@ -41,5 +41,5 @@ SDK を使うだけなら、以下の内容を知っている必要はありま�
 
 ## オプションの extras {#optional-extras}
 
-* `mcp[cli]` は、`mcp` コマンドラインツール（`mcp dev`、`mcp run`、`mcp install`）のために [`typer`](https://typer.tiangolo.com/) と [`python-dotenv`](https://pypi.org/project/python-dotenv/) を追加します。開発中は入れておきたいところですが、デプロイしたサーバーでは必要ないかもしれません。
-* `mcp[rich]` は、サーバーのログを見やすくするために [`rich`](https://rich.readthedocs.io/) を追加します。
+* `darpy-sdk[cli]` は、`mcp` コマンドラインツール（`darpy-sdk dev`、`darpy-sdk run`、`darpy-sdk install`）のために [`typer`](https://typer.tiangolo.com/) と [`python-dotenv`](https://pypi.org/project/python-dotenv/) を追加します。開発中は入れておきたいところですが、デプロイしたサーバーでは必要ないかもしれません。
+* `darpy-sdk[rich]` は、サーバーのログを見やすくするために [`rich`](https://rich.readthedocs.io/) を追加します。

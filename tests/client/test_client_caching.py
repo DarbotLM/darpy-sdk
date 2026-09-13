@@ -12,11 +12,10 @@ from typing import Any, Literal
 
 import anyio
 import anyio.lowlevel
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_PARAMS,
     CallToolResult,
@@ -40,23 +39,24 @@ from mcp_types import (
     Tool,
     ToolListChangedNotification,
 )
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 
-from mcp.client import Client, IncomingMessage
-from mcp.client._transport import TransportStreams
-from mcp.client.caching import (
+from darpy_sdk.client import Client, IncomingMessage
+from darpy_sdk.client._transport import TransportStreams
+from darpy_sdk.client.caching import (
     CacheConfig,
     CacheEntry,
     CacheKey,
     ClientResponseCache,
     InMemoryResponseCacheStore,
 )
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.caching import CacheHint
-from mcp.shared.exceptions import MCPError
-from mcp.shared.memory import MessageStream, create_client_server_memory_streams
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.caching import CacheHint
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.memory import MessageStream, create_client_server_memory_streams
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction._connect import BASE_URL, mounted_app
 
 pytestmark = pytest.mark.anyio

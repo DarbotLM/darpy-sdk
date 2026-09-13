@@ -65,10 +65,10 @@ uv add opentelemetry-sdk opentelemetry-exporter-otlp
 Трассировка — это middleware, первый в списке вашего сервера. Если действительно нужен сервер, который не порождает спанов, уберите его:
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

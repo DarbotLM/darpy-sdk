@@ -79,12 +79,12 @@ scope का पालन भी अपने आप होता है: `"priv
 ### इसे configure करना: `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: entries कहाँ रहती हैं। default हर client के लिए नया in-memory store है; clients या processes के बीच cache share करना हो तो अपना `ResponseCacheStore` implementation (जैसे Redis-backed) pass करें। contract types (`ResponseCacheStore`, `CacheKey`, `CacheEntry`, और default `InMemoryResponseCacheStore`) `mcp.client` से import किए जा सकते हैं। एक lookup एक के बाद एक ज़्यादा से ज़्यादा दो store `get` जारी कर सकता है (पहले private arm, फिर public), इसलिए remote store की latency की उम्मीदें उसी हिसाब से तय करें। custom store के लिए explicit `partition` **ज़रूरी** है।
+* `store`: entries कहाँ रहती हैं। default हर client के लिए नया in-memory store है; clients या processes के बीच cache share करना हो तो अपना `ResponseCacheStore` implementation (जैसे Redis-backed) pass करें। contract types (`ResponseCacheStore`, `CacheKey`, `CacheEntry`, और default `InMemoryResponseCacheStore`) `darpy_sdk.client` से import किए जा सकते हैं। एक lookup एक के बाद एक ज़्यादा से ज़्यादा दो store `get` जारी कर सकता है (पहले private arm, फिर public), इसलिए remote store की latency की उम्मीदें उसी हिसाब से तय करें। custom store के लिए explicit `partition` **ज़रूरी** है।
 * `partition`: authorization-context label, जो shared store के भीतर एक principal की `"private"` entries को किसी दूसरे को serve होने से रोकता है।
 * `target_id`: explicit server identity, custom transports और in-process servers के लिए (नीचे देखें)।
 * `default_ttl_ms`: उन results पर लागू TTL जिनमें `ttlMs` hint नहीं है। default `0` बिना hint वाले results को uncached छोड़ देता है।
@@ -112,7 +112,7 @@ cache keys में **server की identity** भी होती है: व�
 * **कोई stale-if-error नहीं।** expired entry कभी इसलिए serve नहीं होती कि refetch fail हो गया; error आगे propagate होता है।
 * **कोई early re-fetch नहीं।** store की गई entry तब तक serve होती है जब तक उसका TTL expire न हो जाए, और उसके बाद का अगला call round trip की कीमत चुकाता है; background में कुछ refresh नहीं होता।
 * **कोई coalescing नहीं।** दो concurrent एक जैसे calls दो fetches हैं।
-* **24 घंटे से ज़्यादा का TTL नहीं।** इससे बड़ा `ttlMs`, चाहे server ने भेजा हो या configure किया गया हो, store करते समय घटा दिया जाता है (`mcp.client.caching.MAX_TTL_MS`), जिससे यह सीमित रहता है कि कोई भी entry, hint चाहे कितना भी उदार हो, कितनी देर serve हो सकती है।
+* **24 घंटे से ज़्यादा का TTL नहीं।** इससे बड़ा `ttlMs`, चाहे server ने भेजा हो या configure किया गया हो, store करते समय घटा दिया जाता है (`darpy_sdk.client.caching.MAX_TTL_MS`), जिससे यह सीमित रहता है कि कोई भी entry, hint चाहे कितना भी उदार हो, कितनी देर serve हो सकती है।
 * **shared store** पर clients आपस में race करते हैं। जब किसी eviction ने चल रहे fetch को पीछे छोड़ दिया हो तो हर client अपना write छोड़ देता है, लेकिन कोई *co-tenant* client अब भी ऐसी entry वापस लिख सकता है जिसे किसी ऐसे eviction ने हटा दिया था जो उसने कभी देखा ही नहीं; और race का यह हिसाब-किताब भी खुद सीमित है: 4096 tracked keys के बाद सबसे पुरानी key का guard सबसे पहले हटता है। दोनों windows स्वीकार्य हैं, और ऊपर बताई गई TTL cap उन्हें बंद कर देती है।
 * **protocol की अलग-अलग पीढ़ियों के बीच serve नहीं किया जाता।** entries negotiated protocol version तक सीमित हैं: shared persistent store पर कोई session कभी ऐसी entry serve नहीं करता जो किसी दूसरे negotiated version के तहत लिखी गई हो (वही listing पीढ़ी के हिसाब से सच में अलग होती है, क्योंकि SDK पुराने sessions के लिए 2026 वाले fields हटा देता है)। eviction भी इसी तरह सिर्फ़ मौजूदा पीढ़ी की entries को छूता है; दूसरी पीढ़ी की entries बस TTL से अपने आप पुरानी होकर हट जाती हैं।
 

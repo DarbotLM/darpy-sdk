@@ -115,7 +115,7 @@ server = Server("Bookshop", on_roots_list_changed=roots_changed)
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -124,14 +124,14 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 
 !!! check
     Разверните фильтр в обратную сторону — и получите бесплатный регрессионный тест.
-    Добавьте `"error::mcp.MCPDeprecationWarning"` в параметр `filterwarnings` конфигурации
+    Добавьте `"error::darpy_sdk.MCPDeprecationWarning"` в параметр `filterwarnings` конфигурации
     pytest, и устаревший вызов будет **выбрасывать исключение**, а не предупреждать.
     Инструмент с именем `old_log`, который всё ещё вызывает `ctx.info()`, перестаёт проходить
     тест: вызов возвращается с `is_error=True` и текстом `Error executing tool old_log`, а
     перехваченный лог сервера называет виновника:
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     Одна строка в конфигурации pytest — и устаревший вызов уже не сможет незаметно
@@ -153,7 +153,7 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 * Столбец с заменами указывает, куда идти дальше: **[Многораундовые запросы](handlers/multi-round-trip.md)** — для сэмплирования и корневых каталогов, **[Логирование](handlers/logging.md)** — для логирования, **[Прогресс](handlers/progress.md)** — для прогресса. `ping` не требует вообще ничего.
 * Устаревание носит рекомендательный характер: в передаваемых данных ничего не меняется, всё продолжает работать в сессиях до 2026 года, и появляется заметное предупреждение `MCPDeprecationWarning` (это `UserWarning`, поэтому оно включено по умолчанию).
 * Сэмплированию и корневым каталогам дополнительно нужен обратный канал, которого в сессии 2026-07-28 нет. На современном подключении они выдают предупреждение, а затем выбрасывают исключение.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` заглушает всю категорию; `"error::mcp.MCPDeprecationWarning"` в pytest превращает её в провал теста.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` заглушает всю категорию; `"error::darpy_sdk.MCPDeprecationWarning"` в pytest превращает её в провал теста.
 * [Устаревания на уровне SDK](#deprecated-sdk-helpers) подчиняются тому же правилу: сейчас они предупреждают, а в версии 3.0 прежняя форма будет удалена.
 * Новый код не следует строить ни на одной из этих возможностей.
 

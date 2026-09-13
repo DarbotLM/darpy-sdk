@@ -49,7 +49,7 @@ translation:
 Запустите сервер с MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 В форме для `reserve_book` одно поле — `title`. Поля `stock` в ней нет нигде. Вызовите инструмент с `Dune`:

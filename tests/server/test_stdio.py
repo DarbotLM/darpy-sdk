@@ -10,7 +10,7 @@ from io import TextIOWrapper
 import anyio
 import anyio.to_thread
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     PROTOCOL_VERSION_META_KEY,
@@ -22,9 +22,9 @@ from mcp_types import (
 )
 from typing_extensions import Buffer
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.stdio import stdio_server
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.stdio import stdio_server
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio
@@ -235,7 +235,7 @@ async def test_stdio_server_reads_stdin_in_place_when_descriptor_isolation_fails
             def failing_dup_above_std(fd: int) -> int:
                 raise OSError("injected descriptor failure")
 
-            monkeypatch.setattr("mcp.server.stdio._dup_above_std", failing_dup_above_std)
+            monkeypatch.setattr("darpy_sdk.server.stdio._dup_above_std", failing_dup_above_std)
         else:
             # Fires once at the divert, then passes through: pytest's capture
             # machinery also calls os.dup2 at phase transitions. The destroying
@@ -274,7 +274,7 @@ async def test_stdio_server_exits_cleanly_when_the_stdin_restore_fails(
     still-diverted fd must refuse later transports rather than serve them the diversion.
     """
     request = JSONRPCRequest(jsonrpc="2.0", id=1, method="ping")
-    monkeypatch.setattr("mcp.server.stdio._claims", {})  # this test leaves fd 0 claimed
+    monkeypatch.setattr("darpy_sdk.server.stdio._claims", {})  # this test leaves fd 0 claimed
     with _pipe_planted_on_fd0(monkeypatch) as (_, in_w):
         os.write(in_w, _frame(request))
         os.close(in_w)
@@ -500,7 +500,7 @@ async def test_stdio_server_serves_in_place_when_the_diversion_cannot_be_opened(
         def failing_diversion() -> int:
             raise OSError("injected diversion failure")
 
-        monkeypatch.setattr("mcp.server.stdio._open_stdin_diversion", failing_diversion)
+        monkeypatch.setattr("darpy_sdk.server.stdio._open_stdin_diversion", failing_diversion)
 
         with anyio.fail_after(5):
             async with stdio_server() as (read_stream, write_stream):  # pragma: no branch
@@ -528,7 +528,7 @@ async def test_a_degraded_session_does_not_close_the_sys_stream_it_served(
         def failing_dup_above_std(fd: int) -> int:
             raise OSError("forced degrade")
 
-        monkeypatch.setattr("mcp.server.stdio._dup_above_std", failing_dup_above_std)
+        monkeypatch.setattr("darpy_sdk.server.stdio._dup_above_std", failing_dup_above_std)
 
         with anyio.fail_after(5):
             async with stdio_server() as (read_stream, write_stream):

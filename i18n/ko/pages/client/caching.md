@@ -79,12 +79,12 @@ uvicorn server:app --port 8000
 ### `CacheConfig`로 설정하기 {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: 항목이 저장되는 곳입니다. 기본값은 클라이언트마다 새로 만드는 인메모리 스토어입니다. 클라이언트나 프로세스 간에 캐시를 공유하려면 직접 만든 `ResponseCacheStore` 구현(예: Redis 기반)을 전달하세요. 계약 타입(`ResponseCacheStore`, `CacheKey`, `CacheEntry`, 기본 `InMemoryResponseCacheStore`)은 `mcp.client`에서 가져올 수 있습니다. 조회 한 번에 스토어 `get`을 순차적으로 최대 두 번(private 쪽, 그다음 public 쪽) 호출할 수 있으므로 원격 스토어의 지연 기대치를 그에 맞게 잡으세요. 사용자 정의 스토어에는 명시적인 `partition`이 **필수**입니다.
+* `store`: 항목이 저장되는 곳입니다. 기본값은 클라이언트마다 새로 만드는 인메모리 스토어입니다. 클라이언트나 프로세스 간에 캐시를 공유하려면 직접 만든 `ResponseCacheStore` 구현(예: Redis 기반)을 전달하세요. 계약 타입(`ResponseCacheStore`, `CacheKey`, `CacheEntry`, 기본 `InMemoryResponseCacheStore`)은 `darpy_sdk.client`에서 가져올 수 있습니다. 조회 한 번에 스토어 `get`을 순차적으로 최대 두 번(private 쪽, 그다음 public 쪽) 호출할 수 있으므로 원격 스토어의 지연 기대치를 그에 맞게 잡으세요. 사용자 정의 스토어에는 명시적인 `partition`이 **필수**입니다.
 * `partition`: 공유 스토어 안에서 한 주체의 `"private"` 항목이 다른 주체에게 제공되지 않도록 하는 인가 컨텍스트 라벨입니다.
 * `target_id`: 명시적인 서버 식별자로, 사용자 정의 트랜스포트와 인프로세스 서버용입니다(아래 참고).
 * `default_ttl_ms`: `ttlMs` 힌트가 없는 결과에 적용되는 TTL입니다. 기본값 `0`은 힌트 없는 결과를 캐시하지 않습니다.
@@ -112,7 +112,7 @@ client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=
 * **stale-if-error는 없습니다.** 다시 가져오기가 실패했다고 해서 만료된 항목이 제공되는 일은 없습니다. 오류가 전파됩니다.
 * **조기 재요청은 없습니다.** 저장된 항목은 TTL이 만료될 때까지 제공되고, 그다음 첫 호출이 왕복 비용을 냅니다. 백그라운드에서 갱신되는 것은 없습니다.
 * **병합은 없습니다.** 동시에 일어난 동일한 호출 두 개는 두 번 가져옵니다.
-* **24시간을 넘는 TTL은 없습니다.** 더 큰 `ttlMs`는 서버가 보냈든 설정했든 저장 시점에 잘립니다(`mcp.client.caching.MAX_TTL_MS`). 힌트가 아무리 넉넉해도 어떤 항목이든 제공될 수 있는 기간에 상한을 둡니다.
+* **24시간을 넘는 TTL은 없습니다.** 더 큰 `ttlMs`는 서버가 보냈든 설정했든 저장 시점에 잘립니다(`darpy_sdk.client.caching.MAX_TTL_MS`). 힌트가 아무리 넉넉해도 어떤 항목이든 제공될 수 있는 기간에 상한을 둡니다.
 * **공유 스토어**에서는 클라이언트끼리 경합합니다. 각 클라이언트는 진행 중인 가져오기를 축출이 추월했을 때 자기 쓰기를 버리지만, **공동 테넌트** 클라이언트는 자신이 보지 못한 축출이 제거한 항목을 여전히 다시 써넣을 수 있습니다. 그리고 그 경합 관리 자체에도 한계가 있습니다. 추적 키가 4096개를 넘으면 가장 오래된 키의 가드부터 버려집니다. 두 구간 모두 허용된 것이며, 위의 TTL 상한으로 닫힙니다.
 * **프로토콜 세대를 넘어 제공하지 않습니다.** 항목은 협상된 프로토콜 버전에 한정됩니다. 공유 영속 스토어에서 세션은 다른 협상 버전으로 기록된 항목을 제공하지 않습니다(SDK가 구버전 세션용으로 2026 필드를 제거하므로 같은 목록이라도 세대별로 실제로 다릅니다). 축출도 마찬가지로 현재 세대의 항목만 건드리며, 다른 세대의 항목은 TTL로 자연히 만료됩니다.
 

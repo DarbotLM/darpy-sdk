@@ -1,7 +1,7 @@
 """List prompts, autocomplete an argument, then render both prompts."""
 
-from mcp.client import Client
-from mcp.types import PromptReference, TextContent
+from darpy_sdk.client import Client
+from darpy_sdk.types import PromptReference, TextContent
 from stories._harness import Target, run_client
 
 

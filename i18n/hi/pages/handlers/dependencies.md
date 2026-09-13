@@ -49,7 +49,7 @@ parameter के type को `Annotated[...]` में लपेटें औ�
 server को MCP Inspector के साथ चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `reserve_book` के form में सिर्फ़ एक `title` field है। `stock` उस पर कहीं नहीं है। इसे `Dune` के साथ call करें:

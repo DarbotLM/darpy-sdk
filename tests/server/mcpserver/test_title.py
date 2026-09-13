@@ -1,12 +1,12 @@
 """Integration tests for title field functionality."""
 
 import pytest
-from mcp_types import Prompt, Resource, ResourceTemplate, Tool, ToolAnnotations
+from darpy_sdk_types import Prompt, Resource, ResourceTemplate, Tool, ToolAnnotations
 
-from mcp import Client
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.resources import FunctionResource
-from mcp.shared.metadata_utils import get_display_name
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.resources import FunctionResource
+from darpy_sdk.shared.metadata_utils import get_display_name
 
 
 @pytest.mark.anyio

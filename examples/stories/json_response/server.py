@@ -7,7 +7,7 @@ the same endpoint. Mid-call notifications are dropped.
 
 from starlette.applications import Starlette
 
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 
 

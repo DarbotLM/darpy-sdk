@@ -1,5 +1,5 @@
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.prompts import base
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.prompts import base
 
 mcp = MCPServer(name="Prompt Example")
 

@@ -2,10 +2,10 @@
 
 from typing import TypeVar
 
-from mcp_types import SERVER_INFO_META_KEY, Result
+from darpy_sdk_types import SERVER_INFO_META_KEY, Result
 
-from mcp.server import Server
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server import Server
+from darpy_sdk.server.mcpserver import MCPServer
 
 R = TypeVar("R", bound=Result)
 

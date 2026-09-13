@@ -4,11 +4,11 @@ from typing import Any
 
 from starlette.applications import Starlette
 
-import mcp.types as types
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.server.auth.provider import ProviderTokenVerifier
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.server.auth.provider import ProviderTokenVerifier
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 from stories._shared.auth import InMemoryAuthorizationServerProvider, auth_settings
 

@@ -4,9 +4,9 @@ from pathlib import Path
 import pytest
 from pydantic import AnyUrl
 
-from mcp.server.mcpserver import Context
-from mcp.server.mcpserver.exceptions import ResourceNotFoundError
-from mcp.server.mcpserver.resources import FileResource, FunctionResource, ResourceManager, ResourceTemplate
+from darpy_sdk.server.mcpserver import Context
+from darpy_sdk.server.mcpserver.exceptions import ResourceNotFoundError
+from darpy_sdk.server.mcpserver.resources import FileResource, FunctionResource, ResourceManager, ResourceTemplate
 
 
 @pytest.fixture()

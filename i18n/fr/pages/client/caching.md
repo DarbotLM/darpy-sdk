@@ -79,12 +79,12 @@ Une réserve sur `resources/updated` : l’éviction ne porte que sur l’URI ex
 ### Configurer le cache : `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store` : l’endroit où vivent les entrées. Par défaut, un nouveau magasin en mémoire par client ; passez votre propre implémentation de `ResponseCacheStore` (adossée à Redis, par exemple) pour partager un cache entre clients ou processus. Les types du contrat (`ResponseCacheStore`, `CacheKey`, `CacheEntry` et le `InMemoryResponseCacheStore` par défaut) sont importables depuis `mcp.client`. Une recherche peut émettre jusqu’à deux `get` séquentiels sur le magasin (la branche privée, puis la publique) ; dimensionnez donc en conséquence vos attentes de latence pour un magasin distant. Un magasin personnalisé **exige** une `partition` explicite.
+* `store` : l’endroit où vivent les entrées. Par défaut, un nouveau magasin en mémoire par client ; passez votre propre implémentation de `ResponseCacheStore` (adossée à Redis, par exemple) pour partager un cache entre clients ou processus. Les types du contrat (`ResponseCacheStore`, `CacheKey`, `CacheEntry` et le `InMemoryResponseCacheStore` par défaut) sont importables depuis `darpy_sdk.client`. Une recherche peut émettre jusqu’à deux `get` séquentiels sur le magasin (la branche privée, puis la publique) ; dimensionnez donc en conséquence vos attentes de latence pour un magasin distant. Un magasin personnalisé **exige** une `partition` explicite.
 * `partition` : l’étiquette de contexte d’autorisation qui empêche les entrées `"private"` d’un principal d’être servies à un autre au sein d’un magasin partagé.
 * `target_id` : identité explicite du serveur, pour les transports personnalisés et les serveurs en processus (ci-dessous).
 * `default_ttl_ms` : TTL appliqué aux résultats qui ne portent aucune indication `ttlMs`. La valeur par défaut `0` laisse les résultats sans indication hors du cache.
@@ -112,7 +112,7 @@ Les clés du cache portent aussi **l’identité du serveur** : la chaîne d’U
 * **Pas de stale-if-error.** Une entrée expirée n’est jamais servie parce que la nouvelle récupération a échoué ; l’erreur se propage.
 * **Pas de récupération anticipée.** Une entrée stockée est servie jusqu’à expiration de son TTL, et l’appel suivant paie l’aller-retour ; rien ne se rafraîchit en arrière-plan.
 * **Pas de regroupement.** Deux appels identiques concurrents font deux récupérations.
-* **Pas de TTL au-delà de 24 heures.** Un `ttlMs` supérieur, qu’il vienne du serveur ou de la configuration, est ramené à ce plafond au stockage (`mcp.client.caching.MAX_TTL_MS`), ce qui borne la durée pendant laquelle une entrée, si généreuse soit son indication, peut être servie.
+* **Pas de TTL au-delà de 24 heures.** Un `ttlMs` supérieur, qu’il vienne du serveur ou de la configuration, est ramené à ce plafond au stockage (`darpy_sdk.client.caching.MAX_TTL_MS`), ce qui borne la durée pendant laquelle une entrée, si généreuse soit son indication, peut être servie.
 * Sur un **magasin partagé**, les clients sont en concurrence. Chaque client abandonne sa propre écriture lorsqu’une éviction a doublé la récupération en cours, mais un client *colocataire* peut toujours réécrire une entrée qu’une éviction qu’il n’a jamais vue avait supprimée ; et ce suivi des concurrences est lui-même borné : au-delà de 4 096 clés suivies, la garde de la clé la plus ancienne est abandonnée en premier. Les deux fenêtres sont acceptées, et refermées par le plafond de TTL ci-dessus.
 * **Pas de service d’une génération de protocole à l’autre.** Les entrées sont rattachées à la version de protocole négociée : sur un magasin persistant partagé, une session ne sert jamais une entrée écrite sous une autre version négociée (la même liste diffère réellement selon la génération, puisque le SDK retire les champs 2026 pour les sessions plus anciennes). L’éviction, de même, ne touche que les entrées de la génération courante ; les entrées d’une autre génération expirent simplement avec leur TTL.
 

@@ -1,19 +1,19 @@
 """`docs/index.md`: the landing-page server does exactly what the page says it does."""
 
 import pytest
+from darpy_sdk_types import CallToolResult, TextContent, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, TextContent, TextResourceContents
 
+from darpy_sdk import Client
 from docs_src.index.tutorial001 import mcp
-from mcp import Client
 from tests.docs_src._helpers import strip_server_info
 
-# `pyproject.toml` globally downgrades `mcp.MCPDeprecationWarning` to *ignore* because the
+# `pyproject.toml` globally downgrades `darpy_sdk.MCPDeprecationWarning` to *ignore* because the
 # SDK still calls those methods internally. A documentation example must never lean on
 # that allowance, so every test that runs one re-arms the warning as an error. This is a
 # per-module mark, not a conftest hook, because `pytest_collection_modifyitems` receives
 # every item in the session. A hook here would break unrelated tests across the repo.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_add_tool() -> None:

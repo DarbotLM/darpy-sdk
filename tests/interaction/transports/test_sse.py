@@ -12,12 +12,12 @@ from uuid import UUID, uuid4
 import anyio
 import httpx2
 import pytest
+from darpy_sdk_types import EmptyResult
 from inline_snapshot import snapshot
-from mcp_types import EmptyResult
 
-from mcp.client.client import Client
-from mcp.client.sse import sse_client
-from mcp.server import Server
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.sse import sse_client
+from darpy_sdk.server import Server
 from tests.interaction._connect import BASE_URL, build_sse_app
 from tests.interaction._requirements import requirement
 from tests.interaction.transports._bridge import StreamingASGITransport

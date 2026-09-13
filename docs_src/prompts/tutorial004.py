@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Message, UserMessage
-from mcp.types import EmbeddedResource, TextResourceContents
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Message, UserMessage
+from darpy_sdk.types import EmbeddedResource, TextResourceContents
 
 mcp = MCPServer("Code Helper")
 

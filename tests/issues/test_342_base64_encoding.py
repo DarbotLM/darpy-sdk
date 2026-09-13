@@ -7,10 +7,10 @@ This test verifies that binary resource data is encoded with standard base64
 import base64
 
 import pytest
-from mcp_types import BlobResourceContents
+from darpy_sdk_types import BlobResourceContents
 
-from mcp import Client
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import MCPServer
 
 pytestmark = pytest.mark.anyio
 

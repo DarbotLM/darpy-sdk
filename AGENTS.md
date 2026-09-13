@@ -9,29 +9,25 @@ assigned to their author are closed automatically.
 
 ## Branching Model
 
-- `main` is the current stable line (v2); releases are cut from it (see
-  `RELEASE.md`).
-- v2 is released; its public API is a compatibility contract for the 2.x
-  line. Removals, renames, or any change to an existing API's signature or
-  observable behaviour (including ones softened by a `@deprecated` shim) is a
-  design decision a maintainer makes explicitly, and should generally be
-  avoided.
-- `docs/migration.md` is the v1 → v2 record and is closed to new entries.
-  Correcting errors or improving clarity in what's there is fine.
-- `v1.x` is the maintenance branch for the previous major. Backport PRs
-  target it and use a `[v1.x]` title prefix; only critical bug fixes and
-  security fixes land there.
-- `README.md` documents v2. The v1 README lives on the `v1.x` branch.
+- `main` is the Darbot Python SDK development line. The initial Darbot release
+  version is `0.1.0`; it is independent of the inherited MCP SDK 2.x version.
+- `darpy-sdk` and `darpy-sdk-types` have explicit static versions and release in
+  lockstep. Preserve the exact types dependency when changing either version.
+- Public API changes remain deliberate maintainer decisions. The initial fork
+  namespace migration to `darpy_sdk` and `darpy_sdk_types` is explicitly authorized;
+  preserve the inherited protocol behavior and engineering gates while doing it.
+- `docs/migration.md` retains historical upstream v1 to v2 API migration evidence.
+  Darbot namespace and release migration belongs in `docs/darbot-migration.md`.
+- This fork does not promise an upstream `v1.x` maintenance branch or upstream
+  release support. See `VERSIONING.md` and `RELEASE.md` for Darbot policy.
 
 ## Package Management
 
 - ONLY use uv, NEVER pip
-- Installation: `uv add <package>`. Exception: the root project's runtime
-  dependencies are dynamic (the published `mcp` wheel exact-pins `mcp-types`),
-  so `uv add` cannot edit them — add the requirement to
-  `[tool.hatch.metadata.hooks.uv-dynamic-versioning].dependencies` in
-  `pyproject.toml` by hand, then run `uv lock`. Dependency groups, extras, and
-  the example packages still take plain `uv add`.
+- Installation: `uv add <package>`. Runtime dependencies and extras are static
+  in `pyproject.toml`. Regenerate `uv.lock` after intentional metadata changes.
+  The root package exact-pins `darpy-sdk-types==0.1.0`; update both distributions
+  and that pin together for a release.
 - Running tools: `uv run --frozen <tool>`. Always pass `--frozen` so uv doesn't
   rewrite `uv.lock` as a side effect.
 - Cross-version testing: `uv run --frozen --python 3.10 pytest ...` to run
@@ -51,7 +47,7 @@ assigned to their author are closed automatically.
 - Public APIs must have docstrings. When a public API raises exceptions a
   caller would reasonably catch, document them in a `Raises:` section. Don't
   list exceptions from argument validation or programmer error.
-- `src/mcp/__init__.py` defines the public API surface via `__all__`. Adding a
+- `src/darpy_sdk/__init__.py` defines the public API surface via `__all__`. Adding a
   symbol there is a deliberate API decision, not a convenience re-export.
 - IMPORTANT: All imports go at the top of the file — inline imports hide
   dependencies and obscure circular-import bugs. Only exception: when a
@@ -78,7 +74,7 @@ assigned to their author are closed automatically.
   cleanest approach (see `tests/client/test_client.py` for the canonical
   pattern). For narrower changes, testing the function directly is fine. Use
   judgment.
-- Test files mirror the source tree: `src/mcp/client/stdio.py` →
+- Test files mirror the source tree: `src/darpy_sdk/client/stdio.py` →
   `tests/client/test_stdio.py`. Add tests to the existing file for that module.
 - Avoid `anyio.sleep()` with a fixed duration to wait for async operations. Instead:
   - Use `anyio.Event` — set it in the callback/handler, `await event.wait()` in the test
@@ -97,19 +93,19 @@ assigned to their author are closed automatically.
 
 ### Coverage
 
-CI requires 100% (`fail_under = 100`, `branch = true`).
+The retained CI gate requires 100% (`fail_under = 100`, `branch = true`).
 
-- Full check: `./scripts/test` (~23s). Runs coverage + `strict-no-cover` on the
+- Full check: `./scripts/test`. Runs coverage + `strict-no-cover` on the
   default Python. Not identical to CI: CI runs 3.10–3.14 × {ubuntu, windows}
   × {locked, lowest-direct}, and some branch-coverage quirks only surface on
   specific matrix entries.
-- Targeted check while iterating (~4s, deterministic):
+- Targeted check while iterating:
 
   ```bash
   uv run --frozen coverage erase
   uv run --frozen coverage run -m pytest tests/path/test_foo.py
   uv run --frozen coverage combine
-  uv run --frozen coverage report --include='src/mcp/path/foo.py' --fail-under=0
+  uv run --frozen coverage report --include='src/darpy_sdk/path/foo.py' --fail-under=0
   # UV_FROZEN=1 propagates --frozen to the uv subprocess strict-no-cover spawns
   UV_FROZEN=1 uv run --frozen strict-no-cover
   ```
@@ -125,7 +121,7 @@ In tests, use `assert isinstance(x, T)` to narrow types instead of
 good reasoning — it usually means a test is missing. Audit before pushing:
 
 ```bash
-git diff origin/main... | grep -E '^\+.*(pragma|type: ignore|noqa)'
+git diff origin/main... | rg '^\+.*(pragma|type: ignore|noqa)'
 ```
 
 What the existing pragmas mean:

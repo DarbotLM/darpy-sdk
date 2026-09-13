@@ -3,12 +3,12 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "Bu belgeler, mevcut kararlı sürüm hattı olan v2'yi anlatır"
     v2'ye yeni mi başladınız, yoksa v1'den mi geliyorsunuz? **[v2'deki yenilikler](whats-new.md)** nelerin değiştiğine beş dakikalık bir bakış sunar, **[Geçiş kılavuzu](migration.md)** ise uyumluluğu bozan her değişikliği ele alır.
     Hâlâ v1.x'te misiniz? Onun belgeleri [v1.x belgeleri](https://py.sdk.modelcontextprotocol.io/v1/) adresinde.
-    Pürüzlü ya da kafa karıştırıcı bir şey mi var? [Bize bildirin](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    Pürüzlü ya da kafa karıştırıcı bir şey mi var? [Bize bildirin](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 **Model Context Protocol (MCP)**, uygulamaların LLM'lere standart bir biçimde bağlam sağlamasına olanak tanır; bağlam *sağlama* işini LLM etkileşiminin kendisinden ayırır.
 
@@ -27,13 +27,13 @@ Python 3.10+.
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 `[cli]` eki size `mcp` komutunu kazandırır; geliştirme sırasında buna ihtiyacınız olacak.
@@ -56,13 +56,13 @@ Bir **araç** (`add`) ve bir şablonlu **kaynak** (`greeting://{name}`) sunar.
 ### Çalıştırın {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Bu komut sunucuyu başlatır ve onu kurcalamanız için etkileşimli bir arayüz olan [MCP Inspector](https://github.com/modelcontextprotocol/inspector)'ı açar. Yazdırdığı URL'yi açın.
 
 !!! note
-    Inspector bir Node.js uygulaması olduğundan `mcp dev`, `PATH`'inizde `npx` bulunmasını gerektirir.
+    Inspector bir Node.js uygulaması olduğundan `darpy-sdk dev`, `PATH`'inizde `npx` bulunmasını gerektirir.
 
 ### Deneyin {#try-it}
 
@@ -96,7 +96,7 @@ Tür ipuçları ve bir docstring içeren iki Python fonksiyonu yazdınız. Geris
 * Belirli bir hata mesajının peşinde misiniz? **[Sorun giderme](troubleshooting.md)** sayfası birebir metne göre düzenlenmiştir.
 * v2'de nelerin değiştiğini mi merak ediyorsunuz? **[v2'deki yenilikler](whats-new.md)** beş dakikalık bir tur.
 * v1'den mi geçiyorsunuz? **[Geçiş kılavuzu](migration.md)** ile başlayın.
-* Belirli bir imzanın peşinde misiniz? **[API referansı](api/mcp/index.md)** kaynak koddan üretilir.
+* Belirli bir imzanın peşinde misiniz? **[API referansı](api/darpy_sdk/index.md)** kaynak koddan üretilir.
 * Bir LLM ile mi okuyorsunuz? Bu belgeler [llms.txt](https://llmstxt.org/) biçiminde de yayımlanır:
   [llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) sayfaların bir dizinidir,
   [llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) ise tüm sayfaları tek bir dosyada içerir.

@@ -1,7 +1,7 @@
 """Supply a canned sampling_callback and assert its text round-trips through the tool."""
 
-from mcp.client import Client, ClientRequestContext
-from mcp.types import CreateMessageRequestParams, CreateMessageResult, TextContent
+from darpy_sdk.client import Client, ClientRequestContext
+from darpy_sdk.types import CreateMessageRequestParams, CreateMessageResult, TextContent
 from stories._harness import Target, run_client
 
 

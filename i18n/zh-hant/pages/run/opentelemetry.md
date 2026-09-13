@@ -65,10 +65,10 @@ uv add opentelemetry-sdk opentelemetry-exporter-otlp
 追蹤是一個中介軟體，排在伺服器清單的第一個。如果真的想要一個完全不發出 span 的伺服器，把它拿掉：
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.types import Icon
+from darpy_sdk.server import MCPServer
+from darpy_sdk.types import Icon
 
 LOGO = Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])
 PALETTE = Icon(src="https://example.com/palette.svg", mime_type="image/svg+xml", sizes=["any"])

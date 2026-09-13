@@ -2,13 +2,13 @@
 
 import pytest
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver.resources import TextResource
 from docs_src.pagination import tutorial001, tutorial002
-from mcp import Client, MCPError
-from mcp.server import MCPServer
-from mcp.server.mcpserver.resources import TextResource
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 mcp = MCPServer("Bookshop")
 for n in range(1, 101):

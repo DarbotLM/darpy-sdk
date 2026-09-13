@@ -1,10 +1,10 @@
 [project]
-name = "mcp-snippets"
+name = "darpy-sdk-snippets"
 version = "0.1.0"
-description = "MCP Example Snippets"
+description = "Darbot Python SDK Example Snippets"
 requires-python = ">=3.10"
 dependencies = [
-    "mcp",
+    "darpy-sdk",
 ]
 
 [build-system]
@@ -15,11 +15,11 @@ build-backend = "setuptools.build_meta"
 packages = ["servers", "clients"]
 
 [project.scripts]
-server = "servers:run_server"
-client = "clients.stdio_client:main"
-completion-client = "clients.completion_client:main"
-direct-execution-server = "servers.direct_execution:main"
-display-utilities-client = "clients.display_utilities:main"
-oauth-client = "clients.oauth_client:run"
-identity-assertion-client = "clients.identity_assertion_client:run"
-elicitation-client = "clients.url_elicitation_client:run"
+darpy-sdk-server = "servers:run_server"
+darpy-sdk-client = "clients.stdio_client:main"
+darpy-sdk-completion-client = "clients.completion_client:main"
+darpy-sdk-direct-execution-server = "servers.direct_execution:main"
+darpy-sdk-display-utilities-client = "clients.display_utilities:main"
+darpy-sdk-oauth-client = "clients.oauth_client:run"
+darpy-sdk-identity-assertion-client = "clients.identity_assertion_client:run"
+darpy-sdk-elicitation-client = "clients.url_elicitation_client:run"

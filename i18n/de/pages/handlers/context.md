@@ -49,7 +49,7 @@ Eine Eigenschaft. `ctx` ist kein Argument: Es taucht nie im Schema auf, das Mode
 Starte den Server mit dem MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Das Formular für `search_books` hat ein einziges Feld `query`. Rufe es mit `dune` auf:

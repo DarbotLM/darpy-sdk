@@ -6,7 +6,7 @@ import string
 
 import pytest
 
-from mcp.shared.uri_template import DEFAULT_MAX_URI_LENGTH, InvalidUriTemplate, UriTemplate, Variable
+from darpy_sdk.shared.uri_template import DEFAULT_MAX_URI_LENGTH, InvalidUriTemplate, UriTemplate, Variable
 
 
 def test_parse_literal_only():

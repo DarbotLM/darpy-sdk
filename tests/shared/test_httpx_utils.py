@@ -6,7 +6,7 @@ from typing import Any
 import httpx2
 import pytest
 
-from mcp.shared._httpx_utils import (
+from darpy_sdk.shared._httpx_utils import (
     create_mcp_http_client,
     request_within_origin,
     sse_within_origin,

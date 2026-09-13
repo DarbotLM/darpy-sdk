@@ -14,7 +14,7 @@ MCP 有兩個世代。
 這一頁的每段程式碼都是一個 `client.py`，連線到 **[用戶端](client/index.md)** 那頁的 Bookshop `server.py`。先在一個終端機裡啟動那個伺服器：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 接著在第二個終端機裡用 `python client.py` 執行每一段程式碼。

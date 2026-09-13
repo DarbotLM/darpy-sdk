@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.server.mcpserver import ResourceSecurity
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import ResourceSecurity
 
 mcp = MCPServer("Bookshop")
 

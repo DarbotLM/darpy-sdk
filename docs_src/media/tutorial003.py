@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Image
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Image
 
 mcp = MCPServer("Brand kit")
 

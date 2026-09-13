@@ -11,7 +11,7 @@ from typing import Any
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_PARAMS,
     CallToolRequestParams,
@@ -26,11 +26,11 @@ from mcp_types import (
 )
 from opentelemetry.trace import SpanKind, StatusCode
 
-from mcp.server._otel import OpenTelemetryMiddleware
-from mcp.server.context import CallNext
-from mcp.server.lowlevel.server import Server
-from mcp.shared._otel import inject_trace_context, otel_span
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server.context import CallNext
+from darpy_sdk.server.lowlevel.server import Server
+from darpy_sdk.shared._otel import inject_trace_context, otel_span
+from darpy_sdk.shared.exceptions import MCPError
 
 from .conftest import SpanCapture
 from .test_runner import Ctx, SrvT, connected_runner

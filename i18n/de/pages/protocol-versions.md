@@ -14,7 +14,7 @@ Darum musst du dich fast nie kümmern, denn `Client` handelt das für dich aus. 
 Jedes Snippet auf dieser Seite ist eine `client.py`, die mit der Bookshop-`server.py` aus **[Der Client](client/index.md)** spricht. Starte diesen Server in einem Terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Führe dann jedes Snippet in einem zweiten Terminal mit `python client.py` aus.

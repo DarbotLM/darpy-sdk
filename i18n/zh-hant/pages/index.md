@@ -3,10 +3,10 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "這裡是 v2 的說明文件，也就是目前的穩定發行版本"
-    剛接觸 v2，或是從 v1 過來？**[v2 的新功能](whats-new.md)** 用五分鐘帶你看過有哪些改變，**[遷移指南](migration.md)** 則涵蓋每一項破壞性變更。還在用 v1.x？它的說明文件在 [v1.x 文件](https://py.sdk.modelcontextprotocol.io/v1/)。哪裡卡住或看不懂？[告訴我們](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)。
+    剛接觸 v2，或是從 v1 過來？**[v2 的新功能](whats-new.md)** 用五分鐘帶你看過有哪些改變，**[遷移指南](migration.md)** 則涵蓋每一項破壞性變更。還在用 v1.x？它的說明文件在 [v1.x 文件](https://py.sdk.modelcontextprotocol.io/v1/)。哪裡卡住或看不懂？[告訴我們](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)。
 
 **Model Context Protocol（MCP）** 讓應用程式能以標準化的方式為 LLM 提供上下文，把**提供**上下文這件事和與 LLM 的互動本身分開。
 
@@ -25,13 +25,13 @@ Python 3.10+。
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 `[cli]` extra 會提供 `mcp` 指令，開發時會用到。每個相依套件的用途請見[安裝](get-started/installation.md)。
@@ -53,13 +53,13 @@ Python 3.10+。
 ### 執行 {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 這會啟動伺服器並開啟 [MCP Inspector](https://github.com/modelcontextprotocol/inspector)，一個可以動手操作伺服器的互動式介面。打開它印出的 URL 即可。
 
 !!! note
-    Inspector 是 Node.js 應用程式，所以 `mcp dev` 需要 `PATH` 上找得到 `npx`。
+    Inspector 是 Node.js 應用程式，所以 `darpy-sdk dev` 需要 `PATH` 上找得到 `npx`。
 
 ### 試試看 {#try-it}
 
@@ -93,5 +93,5 @@ Hello, World!
 * 在找某個確切的錯誤訊息？**[疑難排解](troubleshooting.md)** 以原文字串為索引。
 * 想知道 v2 改了什麼？**[v2 的新功能](whats-new.md)** 是五分鐘導覽。
 * 從 v1 遷移？從 **[遷移指南](migration.md)** 開始。
-* 在找確切的函式簽章？**[API 參考](api/mcp/index.md)** 是從原始碼產生的。
+* 在找確切的函式簽章？**[API 參考](api/darpy_sdk/index.md)** 是從原始碼產生的。
 * 和 LLM 一起閱讀？這份說明文件也以 [llms.txt](https://llmstxt.org/) 格式發布：[llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) 是各頁面的索引，[llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) 則把每一頁放進單一檔案。

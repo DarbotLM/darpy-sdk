@@ -1,9 +1,9 @@
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import CallNext, HandlerResult, ServerRequestContext
-from mcp.server.extension import Extension
-from mcp.server.mcpserver import MCPServer, require_client_extension
+import darpy_sdk.types as types
+from darpy_sdk.server.context import CallNext, HandlerResult, ServerRequestContext
+from darpy_sdk.server.extension import Extension
+from darpy_sdk.server.mcpserver import MCPServer, require_client_extension
 
 EXTENSION_ID = "com.example/receipts"
 

@@ -6,10 +6,10 @@ from typing import Any, Literal
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.inbound import InboundLadderRejection, InboundModernRoute, classify_inbound_request
-from mcp.types import INVALID_PARAMS
-from mcp.types.version import MODERN_PROTOCOL_VERSIONS
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.inbound import InboundLadderRejection, InboundModernRoute, classify_inbound_request
+from darpy_sdk.types import INVALID_PARAMS
+from darpy_sdk.types.version import MODERN_PROTOCOL_VERSIONS
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 
 #: Response headers a browser-based MCP client must be able to read.

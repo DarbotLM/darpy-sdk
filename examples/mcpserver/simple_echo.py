@@ -1,6 +1,6 @@
 """MCPServer Echo Server"""
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create server
 mcp = MCPServer("Echo Server")

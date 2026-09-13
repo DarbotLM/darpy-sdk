@@ -49,7 +49,7 @@ tool के arguments model से आते हैं। बाकी सब �
 MCP Inspector के साथ server चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `search_books` के form में सिर्फ़ एक `query` field है। इसे `dune` के साथ call करें:

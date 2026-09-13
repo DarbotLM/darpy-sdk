@@ -52,15 +52,15 @@ translation:
 Всё остальное (имя, описание, схему аргументов) SDK считывает из самой функции: её имени, строки документации, аннотаций типов. Ничего из этого вы отдельно не объявляли.
 
 !!! tip
-    У двух половин SDK два пути импорта: `from mcp import Client` и
-    `from mcp.server import MCPServer`. Варианта `from mcp import MCPServer` нет.
+    У двух половин SDK два пути импорта: `from darpy_sdk import Client` и
+    `from darpy_sdk.server import MCPServer`. Варианта `from darpy_sdk import MCPServer` нет.
 
 ### Попробуйте сами {#try-it}
 
 Запустите сервер в MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Откройте URL, который он напечатает. В Inspector по одной вкладке на каждый примитив; пройдитесь по ним по порядку.
@@ -86,7 +86,7 @@ Inspector запустил ваш сервер через **stdio** — один
 Посмотрите сами. Оставьте `server.py` работать по HTTP в одном терминале:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 а из другого направьте на него клиент:
@@ -127,7 +127,7 @@ python client.py
 * JSON Schema. `a: int, b: int` — это *и есть* схема для `add`.
 * Обработчик запросов. `tools/list`, `resources/read`, `prompts/get` — всё это обслуживается за вас.
 * Объявление возможностей. `MCPServer` составил его за вас.
-* Ни строчки протокола. Согласование версии, обрамление JSON-RPC, обмен возможностями — всё это произошло внутри `mcp dev` и `client.py`, и вы этого не видели.
+* Ни строчки протокола. Согласование версии, обрамление JSON-RPC, обмен возможностями — всё это произошло внутри `darpy-sdk dev` и `client.py`, и вы этого не видели.
 
 В этом соотношении — весь смысл SDK.
 

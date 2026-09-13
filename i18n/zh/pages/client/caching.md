@@ -76,12 +76,12 @@ uvicorn server:app --port 8000
 ### 配置：`CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`：条目存放的位置。默认是每个客户端一个全新的内存存储；传入你自己的 `ResponseCacheStore` 实现（比如基于 Redis 的）即可在多个客户端或进程之间共享缓存。契约类型（`ResponseCacheStore`、`CacheKey`、`CacheEntry` 以及默认的 `InMemoryResponseCacheStore`）都可以从 `mcp.client` 导入。一次查找最多会对存储发出两次顺序的 `get`（先是 private 分支，然后是 public 分支），所以远程存储的延迟预期要据此估算。自定义存储**必须**显式指定 `partition`。
+* `store`：条目存放的位置。默认是每个客户端一个全新的内存存储；传入你自己的 `ResponseCacheStore` 实现（比如基于 Redis 的）即可在多个客户端或进程之间共享缓存。契约类型（`ResponseCacheStore`、`CacheKey`、`CacheEntry` 以及默认的 `InMemoryResponseCacheStore`）都可以从 `darpy_sdk.client` 导入。一次查找最多会对存储发出两次顺序的 `get`（先是 private 分支，然后是 public 分支），所以远程存储的延迟预期要据此估算。自定义存储**必须**显式指定 `partition`。
 * `partition`：授权上下文标签，防止在共享存储中把一个主体的 `"private"` 条目提供给另一个主体。
 * `target_id`：显式的服务器标识，用于自定义传输方式和进程内服务器（见下文）。
 * `default_ttl_ms`：应用于不带 `ttlMs` 提示的结果的 TTL。默认的 `0` 让无提示结果不被缓存。
@@ -109,7 +109,7 @@ client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=
 * **没有 stale-if-error。** 过期条目绝不会因为重新抓取失败而被提供；错误会向上传播。
 * **没有提前重新抓取。** 已存储的条目一直提供到 TTL 过期，之后的下一次调用承担往返开销；没有任何后台刷新。
 * **没有合并。** 两个并发的相同调用就是两次抓取。
-* **TTL 不超过 24 小时。** 更大的 `ttlMs`，无论是服务器发送的还是配置的，存储时都会被钳制（`mcp.client.caching.MAX_TTL_MS`），从而限制任何条目（无论提示多慷慨）能被提供多久。
+* **TTL 不超过 24 小时。** 更大的 `ttlMs`，无论是服务器发送的还是配置的，存储时都会被钳制（`darpy_sdk.client.caching.MAX_TTL_MS`），从而限制任何条目（无论提示多慷慨）能被提供多久。
 * 在**共享存储**上，客户端之间会相互竞态。当驱逐赶在进行中的抓取之前发生时，每个客户端会丢弃自己的写入，但**同租**的客户端仍可能把一个被它从未见过的驱逐移除的条目写回去；而这套竞态记账本身也有上限：跟踪的键超过 4096 个后，最旧的键的保护先被丢弃。这两个窗口都是可接受的，并由上面的 TTL 上限兜底关闭。
 * **不跨协议时代提供。** 条目按协商的协议版本划定范围：在共享的持久存储上，会话绝不会提供在另一个协商版本下写入的条目（同一份列表在不同时代确实不同，因为 SDK 会为旧会话剥离 2026 的字段）。驱逐同样只触及当前时代的条目；其他时代的条目只是随 TTL 自然过期。
 

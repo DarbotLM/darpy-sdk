@@ -8,8 +8,7 @@ from typing import Annotated, Any, Literal, TypeVar, cast
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     MISSING_REQUIRED_CLIENT_CAPABILITY,
     CallToolResult,
     CreateMessageRequest,
@@ -33,17 +32,18 @@ from mcp_types import (
     TextContent,
     ToolChoice,
 )
-from mcp_types import (
+from darpy_sdk_types import (
     Tool as SamplingTool,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel, Field, FileUrl, ValidationError, create_model
 from typing_extensions import TypeAliasType
 
-from mcp import Client, InputRequiredRoundsExceededError
-from mcp.client import ClientRequestContext
-from mcp.client._memory import InMemoryTransport
-from mcp.server.context import ServerRequestContext
-from mcp.server.mcpserver import (
+from darpy_sdk import Client, InputRequiredRoundsExceededError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.client._memory import InMemoryTransport
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.mcpserver import (
     AcceptedElicitation,
     AESGCMRequestStateCodec,
     CancelledElicitation,
@@ -58,8 +58,8 @@ from mcp.server.mcpserver import (
     Resolve,
     Sample,
 )
-from mcp.server.mcpserver.exceptions import InvalidSignature
-from mcp.server.mcpserver.resolve import (
+from darpy_sdk.server.mcpserver.exceptions import InvalidSignature
+from darpy_sdk.server.mcpserver.resolve import (
     _check_elicit_return,
     _decode_state,
     _encode_state,
@@ -73,9 +73,9 @@ from mcp.server.mcpserver.resolve import (
     find_resolved_parameters,
     returns_input_required,
 )
-from mcp.server.mcpserver.tools.base import Tool
-from mcp.shared.exceptions import MCPError
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server.mcpserver.tools.base import Tool
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.message import SessionMessage
 
 
 def _question_digest(elicit: Elicit[Any]) -> str:
@@ -1784,7 +1784,7 @@ async def test_tool_returning_input_required_dynamically_with_resolvers_is_an_er
         assert result.is_error
         assert isinstance(result.content[0], TextContent)
         assert result.content[0].text == "Error executing tool sneaky"
-    (record,) = [r for r in caplog.records if r.name == "mcp.server.mcpserver.server"]
+    (record,) = [r for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server"]
     assert (record.levelname, record.getMessage()) == ("ERROR", "Tool 'sneaky' raised an unexpected exception")
     assert record.exc_info is not None and record.exc_info[1] is not None
     assert "the multi-round flow is driven either by resolvers or by the tool body" in str(record.exc_info[1].__cause__)
@@ -2308,7 +2308,7 @@ def _sample_capital(ctx: Context) -> Sample:
 
 
 @pytest.mark.anyio
-@pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 @pytest.mark.parametrize("mode", ["legacy", "auto"])
 async def test_sample_resolver_injects_result(mode: Literal["legacy", "auto"]):
     # The marker form is the 2026-blessed carrier: no SEP-2577 deprecation warning on either mode.
@@ -2332,7 +2332,7 @@ async def test_sample_resolver_injects_result(mode: Literal["legacy", "auto"]):
 
 
 @pytest.mark.anyio
-@pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 @pytest.mark.parametrize("mode", ["legacy", "auto"])
 async def test_list_roots_resolver_injects_result(mode: Literal["legacy", "auto"]):
     mcp = MCPServer(name="Rooted", request_state_security=RequestStateSecurity.ephemeral())

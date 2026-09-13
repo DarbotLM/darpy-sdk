@@ -49,14 +49,14 @@ translation:
 其他一切（名稱、描述、引數 schema）SDK 都從函式本身讀取：函式名稱、docstring、型別提示。這些你從來沒有另外宣告過。
 
 !!! tip
-    SDK 的兩半各有自己的匯入路徑：`from mcp import Client` 和 `from mcp.server import MCPServer`。沒有 `from mcp import MCPServer` 這種寫法。
+    SDK 的兩半各有自己的匯入路徑：`from darpy_sdk import Client` 和 `from darpy_sdk.server import MCPServer`。沒有 `from darpy_sdk import MCPServer` 這種寫法。
 
 ### 試試看 {#try-it}
 
 用 MCP Inspector 執行它：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 開啟它印出的 URL。Inspector 每種基本元件各有一個分頁，依序走過一遍。
@@ -82,7 +82,7 @@ Inspector 透過 **stdio** 執行你的伺服器，這是 MCP 伺服器能使用
 自己看看吧。在一個終端機裡讓 `server.py` 透過 HTTP 持續執行：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 再從另一個終端機把用戶端指向它：
@@ -121,7 +121,7 @@ python client.py
 * JSON Schema。`a: int, b: int` **就是** `add` 的 schema。
 * 請求處理函式。`tools/list`、`resources/read`、`prompts/get`：全都替你處理好了。
 * 能力宣告。`MCPServer` 替你做了。
-* 任何一行協定。版本協商、JSON-RPC 訊框、能力交換：全都發生在 `mcp dev` 和 `client.py` 裡面，你完全沒看到。
+* 任何一行協定。版本協商、JSON-RPC 訊框、能力交換：全都發生在 `darpy-sdk dev` 和 `client.py` 裡面，你完全沒看到。
 
 這個比例正是 SDK 的意義所在。
 

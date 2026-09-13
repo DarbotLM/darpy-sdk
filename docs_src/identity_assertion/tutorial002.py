@@ -5,7 +5,7 @@ import jwt
 from pydantic import AnyHttpUrl
 from starlette.applications import Starlette
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
@@ -15,8 +15,8 @@ from mcp.server.auth.provider import (
     RefreshToken,
     TokenError,
 )
-from mcp.server.auth.routes import create_auth_routes
-from mcp.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
+from darpy_sdk.server.auth.routes import create_auth_routes
+from darpy_sdk.shared.auth import JWT_BEARER_GRANT_TYPE, OAuthClientInformationFull, OAuthToken
 
 ISSUER = "https://auth.example.com/"
 MCP_SERVER = "http://localhost:8001/mcp"

@@ -3,12 +3,12 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "현재 안정 릴리스 계열인 v2를 다루는 문서"
     v2를 처음 접하거나 v1에서 넘어왔다면 **[v2에서 달라진 점](whats-new.md)**에서 바뀐 내용을 5분 만에 둘러볼 수 있고, **[마이그레이션 가이드](migration.md)**에서 호환성을 깨는 변경 사항을 빠짐없이 확인할 수 있습니다.
     아직 v1.x를 사용 중이라면 해당 버전의 문서는 [v1.x 문서](https://py.sdk.modelcontextprotocol.io/v1/)에서 볼 수 있습니다.
-    매끄럽지 않거나 헷갈리는 부분이 있다면 [알려 주세요](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    매끄럽지 않거나 헷갈리는 부분이 있다면 [알려 주세요](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 **Model Context Protocol(MCP)**은 애플리케이션이 표준화된 방식으로 LLM에 컨텍스트를 제공할 수 있게 해 주며, 컨텍스트를 **제공하는** 일을 LLM과의 상호작용 자체와 분리합니다.
 
@@ -27,13 +27,13 @@ Python 3.10 이상이 필요합니다.
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 `[cli]` extra는 `mcp` 명령을 제공하며, 개발할 때 이 명령을 쓰게 됩니다.
@@ -56,13 +56,13 @@ Python 3.10 이상이 필요합니다.
 ### 실행하기 {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 이 명령은 서버를 시작하고, 서버를 이것저것 눌러 볼 수 있는 대화형 UI인 [MCP Inspector](https://github.com/modelcontextprotocol/inspector)를 엽니다. 출력되는 URL을 여세요.
 
 !!! note
-    Inspector는 Node.js 앱이므로 `mcp dev`를 쓰려면 `PATH`에 `npx`가 있어야 합니다.
+    Inspector는 Node.js 앱이므로 `darpy-sdk dev`를 쓰려면 `PATH`에 `npx`가 있어야 합니다.
 
 ### 직접 해 보기 {#try-it}
 
@@ -96,7 +96,7 @@ Hello, World!
 * 특정 오류 메시지를 추적하고 있다면 **[문제 해결](troubleshooting.md)**을 보세요. 오류 메시지 원문을 기준으로 정리되어 있습니다.
 * v2에서 무엇이 바뀌었는지 궁금하다면 **[v2에서 달라진 점](whats-new.md)**에서 5분 만에 둘러볼 수 있습니다.
 * v1에서 마이그레이션한다면 **[마이그레이션 가이드](migration.md)**부터 시작하세요.
-* 정확한 시그니처를 찾고 있다면 소스 코드에서 생성된 **[API 레퍼런스](api/mcp/index.md)**를 보세요.
+* 정확한 시그니처를 찾고 있다면 소스 코드에서 생성된 **[API 레퍼런스](api/darpy_sdk/index.md)**를 보세요.
 * LLM으로 이 문서를 읽고 있다면 [llms.txt](https://llmstxt.org/) 형식으로도 게시되어 있으니 참고하세요.
   [llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) 파일은 페이지 색인이고,
   [llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) 파일은 모든 페이지를 한 파일에 담고 있습니다.

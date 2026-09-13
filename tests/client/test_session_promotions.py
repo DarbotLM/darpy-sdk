@@ -1,8 +1,8 @@
 """`dispatch_input_request` and `validate_tool_result` are public `ClientSession` API."""
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     ErrorData,
     ListRootsResult,
@@ -11,10 +11,10 @@ from mcp_types import (
     Tool,
 )
 
-from mcp.client.client import Client
-from mcp.client.session import ClientRequestContext, ClientSession
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.direct_dispatcher import create_direct_dispatcher_pair
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.session import ClientRequestContext, ClientSession
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.direct_dispatcher import create_direct_dispatcher_pair
 
 
 @pytest.mark.anyio

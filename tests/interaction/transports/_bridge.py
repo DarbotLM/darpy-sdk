@@ -35,7 +35,7 @@ import httpx2
 from anyio.streams.memory import MemoryObjectReceiveStream
 from starlette.types import ASGIApp, Message, Scope
 
-from mcp.shared._compat import resync_tracer
+from darpy_sdk.shared._compat import resync_tracer
 
 
 class _StreamingResponseBody(httpx2.AsyncByteStream):

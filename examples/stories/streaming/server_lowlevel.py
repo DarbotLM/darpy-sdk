@@ -4,9 +4,9 @@ from typing import Any
 
 import anyio
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
 from stories._hosting import run_server_from_args
 
 COUNTDOWN_INPUT_SCHEMA: dict[str, Any] = {

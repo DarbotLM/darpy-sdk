@@ -5,13 +5,13 @@ validated by running it verbatim against a real `mcp==1.28.1` install.
 """
 
 import pytest
-from mcp_types import INTERNAL_ERROR, INVALID_PARAMS, TextContent
+from darpy_sdk_types import INTERNAL_ERROR, INVALID_PARAMS, TextContent
 
+from darpy_sdk import Client, MCPError
 from docs_src.whats_new import tutorial001
-from mcp import Client, MCPError
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_advertised_schema_is_the_literal_dict() -> None:

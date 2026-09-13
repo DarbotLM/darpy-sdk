@@ -57,7 +57,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -79,13 +85,18 @@
       "source": "sampling",
       "target": "샘플링",
       "note": "MCP feature where the server asks the client's model for a completion; not the statistics sense (표본 추출). Provisional pending native review.",
-      "avoid": ["표본 추출", "표집"]
+      "avoid": [
+        "표본 추출",
+        "표집"
+      ]
     },
     {
       "source": "roots",
       "target": "루트",
       "note": "Filesystem locations the client exposes. No plural marker (write 루트, not 루트들); the `roots/list` identifier stays Latin. Target provisional pending native review; 뿌리 (the botanical root) is never correct here.",
-      "avoid": ["뿌리"]
+      "avoid": [
+        "뿌리"
+      ]
     },
     {
       "source": "elicitation",
@@ -101,7 +112,10 @@
       "source": "transport",
       "target": "트랜스포트",
       "note": "The countable, named connection mechanism (stdio 트랜스포트, 인메모리 트랜스포트) and the `Transport` protocol name in code. Prose describing the generic idea of how messages are carried may say 전송 방식 without implying a separate term. Provisional pending native review; 운송/수송 (freight transport) are never correct.",
-      "avoid": ["운송", "수송"]
+      "avoid": [
+        "운송",
+        "수송"
+      ]
     },
     {
       "source": "session",
@@ -122,7 +136,9 @@
       "source": "client",
       "target": "클라이언트",
       "note": "The protocol role. The `Client` and `ClientSession` class names stay Latin in code font (see keep list). Provisional pending native review; 고객 means a customer and is never correct here.",
-      "avoid": ["고객"]
+      "avoid": [
+        "고객"
+      ]
     },
     {
       "source": "server",
@@ -133,7 +149,9 @@
       "source": "host",
       "target": "호스트",
       "note": "\"MCP host\" is the application that embeds a client (a desktop assistant, an editor); the corpus also says \"ASGI host\" for the app that serves an ASGI app — 호스트 covers both. Provisional pending native review.",
-      "avoid": ["주최자"]
+      "avoid": [
+        "주최자"
+      ]
     },
     {
       "source": "request",
@@ -159,7 +177,9 @@
       "source": "resolver",
       "target": "리졸버",
       "note": "The SDK's `Resolve(...)`-annotated parameter resolvers. Provisional pending native review; 해석기 (parser/interpreter) and 해결자 are avoided.",
-      "avoid": ["해결자"]
+      "avoid": [
+        "해결자"
+      ]
     },
     {
       "source": "authorization",

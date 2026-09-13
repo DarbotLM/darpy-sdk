@@ -2,7 +2,7 @@
 uv run examples/snippets/servers/streamable_config.py
 """
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 mcp = MCPServer("StatelessServer")
 

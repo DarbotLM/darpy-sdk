@@ -24,7 +24,7 @@ translation:
 
 ## 클라이언트 {#the-client}
 
-**`IdentityAssertionOAuthProvider`**는 `mcp.client.auth.extensions.identity_assertion`에 있습니다. **[OAuth 클라이언트](oauth-clients.md)**의 모든 공급자와 마찬가지로 `httpx2.Auth`입니다. 하나를 생성해 `auth=`에 넣고, `httpx2.AsyncClient`를 트랜스포트에 넘기면 됩니다.
+**`IdentityAssertionOAuthProvider`**는 `darpy_sdk.client.auth.extensions.identity_assertion`에 있습니다. **[OAuth 클라이언트](oauth-clients.md)**의 모든 공급자와 마찬가지로 `httpx2.Auth`입니다. 하나를 생성해 `auth=`에 넣고, `httpx2.AsyncClient`를 트랜스포트에 넘기면 됩니다.
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

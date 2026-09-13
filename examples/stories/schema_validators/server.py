@@ -9,7 +9,7 @@ from pydantic import BaseModel
 # when a TypedDict is used as a field/parameter type.
 from typing_extensions import TypedDict
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 from stories._hosting import run_server_from_args
 
 

@@ -1,8 +1,8 @@
 """Prove the two error channels: is_error results return; MCPError raises."""
 
-from mcp import MCPError
-from mcp.client import Client
-from mcp.types import INVALID_PARAMS, TextContent
+from darpy_sdk import MCPError
+from darpy_sdk.client import Client
+from darpy_sdk.types import INVALID_PARAMS, TextContent
 from stories._harness import Target, run_client
 
 

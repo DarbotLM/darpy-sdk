@@ -8,8 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import anyio
 import httpx2
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_PARAMS,
     INVALID_REQUEST,
@@ -44,26 +43,27 @@ from mcp_types import (
     TextContent,
     TextResourceContents,
 )
+from inline_snapshot import snapshot
 from pydantic import AfterValidator, BaseModel, ValidationError
 from starlette.applications import Starlette
 from starlette.routing import Mount, Route
 from typing_extensions import NotRequired, TypedDict
 
-from mcp.client import Client
-from mcp.server.context import ServerRequestContext
-from mcp.server.mcpserver import Context, MCPServer, RequestStateSecurity, Resolve, ResourceSecurity
-from mcp.server.mcpserver.exceptions import (
+from darpy_sdk.client import Client
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.mcpserver import Context, MCPServer, RequestStateSecurity, Resolve, ResourceSecurity
+from darpy_sdk.server.mcpserver.exceptions import (
     ResourceError,
     ResourceNotFoundError,
     ToolError,
     UnexpectedResourceError,
     UnexpectedToolError,
 )
-from mcp.server.mcpserver.prompts.base import Message, UserMessage
-from mcp.server.mcpserver.resources import FileResource, FunctionResource
-from mcp.server.mcpserver.resources import Resource as MCPServerResource
-from mcp.server.mcpserver.utilities.types import Audio, Image
-from mcp.server.subscriptions import (
+from darpy_sdk.server.mcpserver.prompts.base import Message, UserMessage
+from darpy_sdk.server.mcpserver.resources import FileResource, FunctionResource
+from darpy_sdk.server.mcpserver.resources import Resource as MCPServerResource
+from darpy_sdk.server.mcpserver.utilities.types import Audio, Image
+from darpy_sdk.server.subscriptions import (
     InMemorySubscriptionBus,
     PromptsListChanged,
     ResourcesListChanged,
@@ -71,9 +71,9 @@ from mcp.server.subscriptions import (
     ServerEvent,
     ToolsListChanged,
 )
-from mcp.server.transport_security import TransportSecuritySettings
-from mcp.shared.exceptions import MCPError
-from mcp.shared.uri_template import InvalidUriTemplate
+from darpy_sdk.server.transport_security import TransportSecuritySettings
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.uri_template import InvalidUriTemplate
 
 pytestmark = pytest.mark.anyio
 
@@ -88,7 +88,7 @@ class TestServer:
             version="1.0",
             icons=[Icon(src="https://example.com/icon.png", mime_type="image/png", sizes=["48x48", "96x96"])],
         )
-        assert mcp.name == "mcp-server"
+        assert mcp.name == "darpy-sdk-server"
         assert mcp.title == "MCPServer Server"
         assert mcp.description == "Server description"
         assert mcp.instructions == "Server instructions"
@@ -1022,7 +1022,7 @@ class TestServerResourceTemplates:
             result = await client.read_resource("resource://bob/csv")
             assert result == snapshot(
                 ReadResourceResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     contents=[TextResourceContents(uri="resource://bob/csv", mime_type="text/csv", text="csv for bob")],
                 )
             )
@@ -1090,12 +1090,12 @@ class TestServerResourceMetadata:
             result = await client.read_resource("resource://data")
             assert result == snapshot(
                 ReadResourceResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     contents=[
                         TextResourceContents(
                             uri="resource://data",
                             mime_type="text/plain",
-                            meta={"version": "1.0", "category": "config"},  # type: ignore[reportUnknownMemberType]
+                            _meta={"version": "1.0", "category": "config"},
                             text="test data",
                         )
                     ],
@@ -1163,7 +1163,7 @@ class TestContextInjection:
 
         mcp.add_tool(logging_tool)
 
-        with patch("mcp.server.session.ServerSession.send_log_message") as mock_log:
+        with patch("darpy_sdk.server.session.ServerSession.send_log_message") as mock_log:
             async with Client(mcp, mode="legacy") as client:
                 result = await client.call_tool("logging_tool", {"msg": "test"})
                 assert len(result.content) == 1
@@ -1260,7 +1260,7 @@ class TestContextInjection:
             result = await client.read_resource("resource://nocontext/test")
             assert result == snapshot(
                 ReadResourceResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     contents=[
                         TextResourceContents(
                             uri="resource://nocontext/test", mime_type="text/plain", text="Resource test works"
@@ -1289,7 +1289,7 @@ class TestContextInjection:
             result = await client.read_resource("resource://custom/123")
             assert result == snapshot(
                 ReadResourceResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     contents=[
                         TextResourceContents(
                             uri="resource://custom/123", mime_type="text/plain", text="Resource 123 with context"
@@ -1422,7 +1422,7 @@ class TestServerPrompts:
             result = await client.list_prompts()
             assert result == snapshot(
                 ListPromptsResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     prompts=[
                         Prompt(
                             name="fn",
@@ -1448,7 +1448,7 @@ class TestServerPrompts:
             result = await client.get_prompt("fn", {"name": "World"})
             assert result == snapshot(
                 GetPromptResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     description="",
                     messages=[PromptMessage(role="user", content=TextContent(text="Hello, World!"))],
                 )
@@ -1479,7 +1479,7 @@ class TestServerPrompts:
             result = await client.get_prompt("fn", {"name": "World"})
             assert result == snapshot(
                 GetPromptResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     description="This is the function docstring.",
                     messages=[PromptMessage(role="user", content=TextContent(text="Hello, World!"))],
                 )
@@ -1502,7 +1502,7 @@ class TestServerPrompts:
             result = await client.get_prompt("fn")
             assert result == snapshot(
                 GetPromptResult(
-                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "mcp-server", "version": ""}},
+                    _meta={"io.modelcontextprotocol/serverInfo": {"name": "darpy-sdk-server", "version": ""}},
                     description="",
                     messages=[
                         PromptMessage(
@@ -2405,13 +2405,13 @@ def _server_records(caplog: pytest.LogCaptureFixture) -> list[tuple[str, str, bo
     return [
         (r.levelname, r.getMessage(), r.exc_info is not None)
         for r in caplog.records
-        if r.name == "mcp.server.mcpserver.server"
+        if r.name == "darpy_sdk.server.mcpserver.server"
     ]
 
 
 def _logged_exception(caplog: pytest.LogCaptureFixture) -> BaseException:
     """The exception attached to the one MCPServer record that carries a traceback."""
-    (exc_info,) = [r.exc_info for r in caplog.records if r.name == "mcp.server.mcpserver.server" and r.exc_info]
+    (exc_info,) = [r.exc_info for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server" and r.exc_info]
     assert exc_info[1] is not None
     return exc_info[1]
 

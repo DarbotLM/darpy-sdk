@@ -97,7 +97,7 @@ translation:
 デフォルトのキーはプロセスとともに生まれて消えます。単一プロセスを超えてデプロイする前に、これだけは知っておく必要があります。
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

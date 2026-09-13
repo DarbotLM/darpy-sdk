@@ -8,7 +8,7 @@ from inline_snapshot import snapshot
 from pydantic import AnyHttpUrl
 from starlette.applications import Starlette
 
-from mcp.server.auth.routes import build_resource_metadata_url, create_protected_resource_routes
+from darpy_sdk.server.auth.routes import build_resource_metadata_url, create_protected_resource_routes
 
 
 @pytest.fixture

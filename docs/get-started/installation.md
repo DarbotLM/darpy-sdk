@@ -1,33 +1,41 @@
 # Installation
 
-The Python SDK is on PyPI as [`mcp`](https://pypi.org/project/mcp/). It requires **Python 3.10+**.
+Darbot Python SDK has two distributions: `darpy-sdk` and `darpy-sdk-types`,
+both version **0.1.0** in this development line. The core requires Python 3.10+.
+This is a separate package identity from the upstream MCP SDK.
 
-These docs describe **v2**, the current stable release line:
+## Use the checkout
 
-=== "uv"
+Until DarbotLabs publishes a package release, use the workspace so both local
+packages resolve together:
 
-    ```bash
-    uv add "mcp[cli]"
-    ```
+```bash
+git clone https://github.com/DarbotLM/darpy-sdk.git
+cd darpy-sdk
+uv sync --frozen --all-extras
+uv run --frozen darpy-sdk version
+uv run --frozen darpy-sdk doctor
+```
 
-=== "pip"
+The source lockfile pins the development resolution. For an application that
+uses built artifacts, build both wheels with `uv build --package darpy-sdk`
+and `uv build --package darpy-sdk-types`, then supply both to its dependency
+resolver. The SDK exact-pins its matching types package; distributing only the
+SDK wheel before the types package is available is insufficient.
 
-    ```bash
-    pip install "mcp[cli]"
-    ```
-
-!!! note "Coming from v1?"
-    v2 is a major version with breaking changes; the **[Migration Guide](../migration.md)**
-    covers every one. If your *package* depends on `mcp` and isn't ready to migrate, keep a
-    `<2` upper bound (for example `mcp>=1.28,<2`) so an unpinned resolve stays on the 1.x line.
+After a verified package release is published, a normal project can use
+`uv add "darpy-sdk[cli]"`. Do not assume that a README, local wheel, or release
+workflow means that name is already published. See [Darbot migration](../darbot-migration.md)
+for the complete package/import/CLI mapping. The historical upstream
+[v1 to v2 guide](../migration.md) is relevant only when porting old MCP API code.
 
 ## What gets installed
 
 You don't need to know any of this to use the SDK, but if you're wondering what each dependency is for:
 
-* `mcp-types`: every protocol type (requests, results, content blocks) as its own package, versioned in lockstep with the SDK. Code that depends on `mcp` imports it through the `mcp.types` alias (every `from mcp.types import ...` in these docs); import `mcp_types` directly only in a project that installs `mcp-types` without the SDK.
+* `darpy-sdk-types`: every protocol type (requests, results, content blocks) as its own package, versioned in lockstep with the SDK. Code that depends on `darpy-sdk` imports it through the `darpy_sdk.types` alias (every `from darpy_sdk.types import ...` in these docs); import `darpy_sdk_types` directly only in a project that installs `darpy-sdk-types` without the SDK.
 * [`anyio`](https://anyio.readthedocs.io/): the async runtime. The whole SDK is written against anyio, so it runs on either `asyncio` or `trio`.
-* [`pydantic`](https://docs.pydantic.dev/): what every `mcp.types` model is built on, plus all schema generation and validation.
+* [`pydantic`](https://docs.pydantic.dev/): what every `darpy_sdk.types` model is built on, plus all schema generation and validation.
 * [`httpx2`](https://pypi.org/project/httpx2/): the HTTP client behind the Streamable HTTP and SSE *client* transports, with server-sent events support built in.
 * [`starlette`](https://www.starlette.io/), [`uvicorn`](https://www.uvicorn.org/), [`sse-starlette`](https://pypi.org/project/sse-starlette/), and [`python-multipart`](https://pypi.org/project/python-multipart/): the HTTP *server* transports.
 * [`jsonschema`](https://pypi.org/project/jsonschema/): validates a tool's structured output against its declared output schema.
@@ -38,5 +46,15 @@ You don't need to know any of this to use the SDK, but if you're wondering what 
 
 ## Optional extras
 
-* `mcp[cli]` adds [`typer`](https://typer.tiangolo.com/) and [`python-dotenv`](https://pypi.org/project/python-dotenv/) for the `mcp` command-line tool (`mcp dev`, `mcp run`, `mcp install`). You'll want this during development; you may not need it in a deployed server.
-* `mcp[rich]` adds [`rich`](https://rich.readthedocs.io/) for nicer server logs.
+* `darpy-sdk[cli]` adds [`typer`](https://typer.tiangolo.com/) and [`python-dotenv`](https://pypi.org/project/python-dotenv/) for the `darpy-sdk` command-line tool (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`). You'll want this during development; you may not need it in a deployed server.
+* `darpy-sdk[rich]` adds [`rich`](https://rich.readthedocs.io/) for nicer server logs.
+
+* `darpy-sdk[acp]` adds `agent-client-protocol` for Agent Client Protocol.
+* `darpy-sdk[activity]` adds `microsoft-agents-activity` for typed Activity integration.
+* `darpy-sdk[hosting]` adds the Activity and hosting-core packages for hosted turn handling.
+* `darpy-sdk[protocols]` selects the protocol integration dependencies together.
+
+These optional packages can impose additional Python requirements. Their tested
+baselines and supported runtime behavior are documented in
+[Protocol integrations](../protocols.md). The MCP implementation is part of the
+root SDK; it does not require an external `mcp` installation.

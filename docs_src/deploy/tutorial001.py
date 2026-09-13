@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.server.transport_security import TransportSecuritySettings
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.transport_security import TransportSecuritySettings
 
 mcp = MCPServer("Notes")
 

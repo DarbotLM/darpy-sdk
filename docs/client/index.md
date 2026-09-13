@@ -13,7 +13,7 @@ A client needs a server to talk to. This Bookshop is the one every snippet on th
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 That serves it at `http://localhost:8000/mcp`. The client is its own program. Save it as `client.py` and run `python client.py` in a second terminal:
@@ -41,7 +41,7 @@ Everything else on this page is identical across all four. Headers, subprocesses
 
 Four read-only properties, populated the moment you enter the block:
 
-* `client.server_info`: the server's identity, or `None` for a 2026-era server that does not report one (python-sdk servers do by default). `server_info.name` here is `"Bookshop"`, `server_info.version` is whatever the server reports.
+* `client.server_info`: the server's identity, or `None` for a 2026-era server that does not report one (Darbot Python SDK servers do by default). `server_info.name` here is `"Bookshop"`, `server_info.version` is whatever the server reports.
 * `client.server_capabilities`: what the server can do (`tools`, `resources`, `prompts`, `completions`, ...). A capability the server doesn't have is `None`.
 * `client.protocol_version`: the protocol version the two sides agreed on. Here it is `"2026-07-28"`.
 * `client.instructions`: the server's `instructions=` string, or `None` if it didn't set one.
@@ -86,7 +86,7 @@ The second tool, `lookup_book`, was registered without a `title=`, so its `tool.
 
 !!! tip
     `title` is optional, so a UI showing tools to a human has to pick: the `title` if there is one,
-    the `name` if not. `from mcp.shared.metadata_utils import get_display_name` does exactly that,
+    the `name` if not. `from darpy_sdk.shared.metadata_utils import get_display_name` does exactly that,
     for tools, resources, resource templates and prompts.
 
 ## Calling a tool

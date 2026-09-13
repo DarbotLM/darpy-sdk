@@ -12,13 +12,13 @@ import logging
 import warnings
 
 import pytest
-from mcp_types import CreateMessageRequestParams, CreateMessageResult, SamplingMessage, TextContent
+from darpy_sdk_types import CreateMessageRequestParams, CreateMessageResult, SamplingMessage, TextContent
 
-from mcp import Client, MCPDeprecationWarning, MCPError
-from mcp.client import ClientRequestContext
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
-from mcp.shared.exceptions import NoBackChannelError
+from darpy_sdk import Client, MCPDeprecationWarning, MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
+from darpy_sdk.shared.exceptions import NoBackChannelError
 
 pytestmark = pytest.mark.anyio
 
@@ -117,23 +117,23 @@ def test_mcp_deprecation_warning_is_a_user_warning() -> None:
     assert not issubclass(MCPDeprecationWarning, DeprecationWarning)
 
 
-@pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 async def test_error_filter_turns_the_deprecated_call_into_the_documented_tool_error(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """The `!!! check`: `"error::mcp.MCPDeprecationWarning"` makes `old_log` fail.
+    """The `!!! check`: `"error::darpy_sdk.MCPDeprecationWarning"` makes `old_log` fail.
 
     Under the error filter the warning becomes the raised exception, the tool wrapper treats it as a
     crash, and the result plus the logged warning are exactly what the page quotes.
     """
-    caplog.set_level(logging.ERROR, logger="mcp.server.mcpserver.server")
+    caplog.set_level(logging.ERROR, logger="darpy_sdk.server.mcpserver.server")
     async with Client(mcp) as client:
         result = await client.call_tool("old_log", {})
     assert result.is_error
     [content] = result.content
     assert isinstance(content, TextContent)
     assert content.text == "Error executing tool old_log"
-    (record,) = [r for r in caplog.records if r.name == "mcp.server.mcpserver.server"]
+    (record,) = [r for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server"]
     assert record.exc_info is not None and isinstance(record.exc_info[1], BaseException)
     assert str(record.exc_info[1].__cause__) == "The logging capability is deprecated as of 2026-07-28 (SEP-2577)."
     assert type(record.exc_info[1].__cause__).__name__ == "MCPDeprecationWarning"

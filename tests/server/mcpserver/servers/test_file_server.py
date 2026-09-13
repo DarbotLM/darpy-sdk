@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 import pytest
-from mcp_types import InputRequiredResult
+from darpy_sdk_types import InputRequiredResult
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 
 @pytest.fixture()

@@ -1,8 +1,8 @@
 """Negotiate MCP Apps, discover a tool's `ui://` UI, fetch it, and call the tool."""
 
-from mcp.client import Client, advertise
-from mcp.server.apps import APP_MIME_TYPE, EXTENSION_ID
-from mcp.types import TextContent, TextResourceContents
+from darpy_sdk.client import Client, advertise
+from darpy_sdk.server.apps import APP_MIME_TYPE, EXTENSION_ID
+from darpy_sdk.types import TextContent, TextResourceContents
 from stories._harness import Target, run_client
 
 

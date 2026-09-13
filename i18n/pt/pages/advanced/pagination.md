@@ -31,7 +31,7 @@ O `@mcp.resource()` não tem nenhum gancho para isso. Para paginar, você mesmo 
 
 ### Experimente {#try-it}
 
-O `mcp run` só aceita um `MCPServer`, então este aqui você mesmo serve. A última linha de `server.py` monta um app ASGI comum a partir do `Server`, e o uvicorn executa esse app:
+O `darpy-sdk run` só aceita um `MCPServer`, então este aqui você mesmo serve. A última linha de `server.py` monta um app ASGI comum a partir do `Server`, e o uvicorn executa esse app:
 
 ```console
 uvicorn server:app --port 8000

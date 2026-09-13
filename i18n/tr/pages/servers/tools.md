@@ -63,7 +63,7 @@ result.structured_content  # {'result': "Found 3 books matching 'dune' (showing 
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Yazdırdığı URL'yi açın, **Tools** sekmesine gidin ve `search_books`'u çağırın.

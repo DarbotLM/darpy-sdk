@@ -36,7 +36,7 @@ Trois choses ont changé, et elles constituent toute l’API de bas niveau :
 
 ### Essayer {#try-it}
 
-`mcp dev` et `mcp run` n’acceptent qu’un `MCPServer`, vous servez donc celui-ci vous-même. La dernière ligne de `server.py` construit à partir de lui une application ASGI ordinaire, et uvicorn l’exécute :
+`darpy-sdk dev` et `darpy-sdk run` n’acceptent qu’un `MCPServer`, vous servez donc celui-ci vous-même. La dernière ligne de `server.py` construit à partir de lui une application ASGI ordinaire, et uvicorn l’exécute :
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ Pointez l’Inspector, ou n’importe quel client, vers `http://localhost:8000/m
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -206,7 +206,7 @@ La poignée de main (handshake) appartient à l’exécuteur (runner). Vous ête
 
 Chacun d’eux correspond à une idée pour laquelle vous avez désormais le vocabulaire ; chacun a sa propre page.
 
-* `on_call_tool`, `on_get_prompt` et `on_read_resource` peuvent renvoyer un `InputRequiredResult` au lieu de leur résultat normal pour mettre l’appel en pause et demander une saisie au client ; voir **[Requêtes à plusieurs allers-retours (multi-round-trip)](../handlers/multi-round-trip.md)**. Fidèle à ce niveau, rien n’est installé pour vous : là où `MCPServer` scelle `requestState` par défaut, ici le `request_state` que vous définissez traverse la liaison exactement tel qu’écrit, jusqu’à ce que vous optiez pour `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` : une seule ligne (les deux noms s’importent depuis `mcp.server.request_state`) pour un scellement et une vérification identiques à ceux qu’effectue `MCPServer` (**[Protéger `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
+* `on_call_tool`, `on_get_prompt` et `on_read_resource` peuvent renvoyer un `InputRequiredResult` au lieu de leur résultat normal pour mettre l’appel en pause et demander une saisie au client ; voir **[Requêtes à plusieurs allers-retours (multi-round-trip)](../handlers/multi-round-trip.md)**. Fidèle à ce niveau, rien n’est installé pour vous : là où `MCPServer` scelle `requestState` par défaut, ici le `request_state` que vous définissez traverse la liaison exactement tel qu’écrit, jusqu’à ce que vous optiez pour `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` : une seule ligne (les deux noms s’importent depuis `darpy_sdk.server.request_state`) pour un scellement et une vérification identiques à ceux qu’effectue `MCPServer` (**[Protéger `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
 * `on_list_resources`, `on_read_resource`, `on_list_prompts`, `on_get_prompt`, `on_completion` ont la même forme `(ctx, params) -> result` pour les autres primitives.
 * `on_subscriptions_listen` sert le flux `subscriptions/listen` de la version 2026-07-28. Passez un `ListenHandler` construit sur un `SubscriptionBus` et publiez des événements sur le bus depuis vos autres gestionnaires ; voir **[Abonnements](../handlers/subscriptions.md)** pour la composition complète.
 * `server.streamable_http_app()` renvoie la même application Starlette que celle de `MCPServer` ; déployez-la comme **[Exécuter votre serveur](../run/index.md)** déploie n’importe quelle autre application ASGI. Il n’y a pas de `server.run(transport=...)` à ce niveau : `server.run(read_stream, write_stream, server.create_initialization_options())` pilote une connexion sur une paire de flux, et cette seule ligne dit tout.

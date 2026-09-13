@@ -62,7 +62,7 @@ result.structured_content  # {'result': "Found 3 books matching 'dune' (showing 
 用 MCP Inspector 執行伺服器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 打開它印出的 URL，切到 **Tools** 分頁，呼叫 `search_books`。

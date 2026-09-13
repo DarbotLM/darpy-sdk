@@ -24,7 +24,7 @@ Aşağıdaki her şey ikinci istekle ilgilidir: onu gönderen istemci ve yanıtl
 
 ## İstemci {#the-client}
 
-**`IdentityAssertionOAuthProvider`**, `mcp.client.auth.extensions.identity_assertion` modülünde bulunur. **[OAuth istemcileri](oauth-clients.md)** sayfasındaki her sağlayıcı gibi o da bir `httpx2.Auth` nesnesidir: bir tane oluşturun, `auth=` parametresine verin, `httpx2.AsyncClient`'ı aktarıma teslim edin.
+**`IdentityAssertionOAuthProvider`**, `darpy_sdk.client.auth.extensions.identity_assertion` modülünde bulunur. **[OAuth istemcileri](oauth-clients.md)** sayfasındaki her sağlayıcı gibi o da bir `httpx2.Auth` nesnesidir: bir tane oluşturun, `auth=` parametresine verin, `httpx2.AsyncClient`'ı aktarıma teslim edin.
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

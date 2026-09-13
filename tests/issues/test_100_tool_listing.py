@@ -1,6 +1,6 @@
 import pytest
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 pytestmark = pytest.mark.anyio
 

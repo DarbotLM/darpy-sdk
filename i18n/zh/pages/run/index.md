@@ -28,7 +28,7 @@ translation:
 
 * `run()` 是同步的。服务器存活多久，它就阻塞多久。
 * 不带参数时，传输方式是 `stdio`。
-* 它放在 `if __name__ == "__main__":` 之下，因为所有加载服务器的东西（`mcp dev`、`mcp run`、`mcp install`、你的测试）都会**导入**这个文件。这个保护条件防止一次导入变成一个运行中的服务器。
+* 它放在 `if __name__ == "__main__":` 之下，因为所有加载服务器的东西（`darpy-sdk dev`、`darpy-sdk run`、`darpy-sdk install`、你的测试）都会**导入**这个文件。这个保护条件防止一次导入变成一个运行中的服务器。
 
 ### stdio {#stdio}
 
@@ -47,7 +47,7 @@ python server.py
 ### 试一试 {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector 做的事和真实宿主完全一样：它把 `server.py` 作为子进程启动，通过 stdio 连接它。
@@ -101,42 +101,42 @@ Inspector 做的事和真实宿主完全一样：它把 `server.py` 作为子进
 
 `[cli]` 附加依赖会安装一个把这些都包起来的小型命令行工具。
 
-`mcp dev` 在 **MCP Inspector** 下运行你的服务器：
+`darpy-sdk dev` 在 **MCP Inspector** 下运行你的服务器：
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with` 往它构建的环境里添加包；`--with-editable` 把你自己的包安装进去。它需要 `PATH` 上有 `npx`：Inspector 是一个 Node.js 应用。
 
-`mcp run` 导入文件，找到服务器对象（模块级的 `mcp`、`server` 或 `app`），然后对它调用 `run()`：
+`darpy-sdk run` 导入文件，找到服务器对象（模块级的 `mcp`、`server` 或 `app`），然后对它调用 `run()`：
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 当对象不叫 `mcp`、`server` 或 `app` 时，用 `:` 后缀指明它的名字。
 
-在这里，`if __name__ == "__main__":` 块永远不会执行：`mcp run` 自己调用 `run()`，它唯一转发的选项是 `--transport`。
+在这里，`if __name__ == "__main__":` 块永远不会执行：`darpy-sdk run` 自己调用 `run()`，它唯一转发的选项是 `--transport`。
 
-`mcp install` 把服务器注册到 **Claude Desktop**，让这个应用替你启动它：
+`darpy-sdk install` 把服务器注册到 **Claude Desktop**，让这个应用替你启动它：
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE` 和 `-f .env` 把环境变量记录在该条目里。Claude Desktop 在它自己的进程里启动你的服务器，你 shell 里的环境变量那里没有。
 
-Claude Desktop 是 `mcp install` 唯一认识的宿主。其他宿主（Claude Code、Cursor、VS Code）都在各自的配置文件里接受同样的启动命令，**[连接到真实的宿主](../get-started/real-host.md)** 逐一介绍了它们。
+Claude Desktop 是 `darpy-sdk install` 唯一认识的宿主。其他宿主（Claude Code、Cursor、VS Code）都在各自的配置文件里接受同样的启动命令，**[连接到真实的宿主](../get-started/real-host.md)** 逐一介绍了它们。
 
-`mcp version` 打印已安装的 SDK 版本。
+`darpy-sdk version` 打印已安装的 SDK 版本。
 
 !!! tip
-    `mcp dev` 和 `mcp run` 只认 `MCPServer`。如果用底层的 `Server` 构建，就要自己运行它。见 **[底层 Server](../advanced/low-level-server.md)**。
+    `darpy-sdk dev` 和 `darpy-sdk run` 只认 `MCPServer`。如果用底层的 `Server` 构建，就要自己运行它。见 **[底层 Server](../advanced/low-level-server.md)**。
 
 ## 回顾 {#recap}
 
@@ -145,7 +145,7 @@ Claude Desktop 是 `mcp install` 唯一认识的宿主。其他宿主（Claude C
 * 每个传输选项（`host`、`port`、`streamable_http_path`……）都是 `run()` 的参数，绝不是 `MCPServer(...)` 的。
 * 把 `run()` 放在 `if __name__ == "__main__":` 之下。所有加载服务器的东西都会先导入这个文件。
 * `log_level=` 和 `debug=` 是构造函数参数；它们落在 `mcp.settings` 上。
-* `mcp dev` 用于 Inspector，`mcp run` 执行文件，`mcp install` 用于 Claude Desktop，`mcp version` 查看版本。
+* `darpy-sdk dev` 用于 Inspector，`darpy-sdk run` 执行文件，`darpy-sdk install` 用于 Claude Desktop，`darpy-sdk version` 查看版本。
 * 传输方式永远不会改变服务器**是什么**：本页的三个文件暴露的是完全相同的工具。
 
 当 `run()` 本身成了限制（服务器要放进一个已经存在的应用里），看 **[添加到现有应用](asgi.md)**。需要真正的主机名和不止一个 worker，看 **[部署与扩展](deploy.md)**。如果有些客户端还停留在 2025-11-25 或更早的规范版本，**[为旧版客户端提供服务](legacy-clients.md)** 有好消息。

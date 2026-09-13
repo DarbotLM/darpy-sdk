@@ -1,5 +1,5 @@
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.types import SamplingMessage, TextContent
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.types import SamplingMessage, TextContent
 
 mcp = MCPServer(name="Sampling Example")
 

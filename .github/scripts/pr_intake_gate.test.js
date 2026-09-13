@@ -14,7 +14,7 @@ const gate = require('./pr_intake_gate.js');
 
 const LABEL = 'missing-issue-link';
 const BYPASS = 'bypass-issue-check';
-const REPO = { owner: 'modelcontextprotocol', repo: 'python-sdk' };
+const REPO = { owner: 'DarbotLM', repo: 'darpy-sdk' };
 
 // People. Only the capability flags matter to the gate.
 const PEOPLE = {
@@ -56,7 +56,7 @@ const scenarios = [
   },
   {
     name: 'outsider links a `help wanted` issue → stays open without assignment',
-    prs: [pr(3300, 'outsider', { body: 'Resolves modelcontextprotocol/python-sdk#10' })],
+    prs: [pr(3300, 'outsider', { body: 'Resolves DarbotLM/darpy-sdk#10' })],
     issues: [issue(10, { labels: ['help wanted'] })],
     event: opened(3300, 'outsider'),
     expect: { 3300: { state: 'open', labels: [], comment: null } },
