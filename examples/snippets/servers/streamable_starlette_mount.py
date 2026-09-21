@@ -7,7 +7,7 @@ import contextlib
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create the Echo server
 echo_mcp = MCPServer(name="EchoServer")

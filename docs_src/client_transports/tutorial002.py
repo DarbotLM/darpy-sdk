@@ -1,4 +1,4 @@
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:

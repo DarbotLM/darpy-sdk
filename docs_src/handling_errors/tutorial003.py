@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.server.mcpserver.exceptions import ResourceNotFoundError
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ResourceNotFoundError
 
 mcp = MCPServer("Bookshop")
 

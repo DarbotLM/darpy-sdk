@@ -4,19 +4,19 @@ import inspect
 
 import httpx2
 import pytest
-from mcp_types import TextContent
+from darpy_sdk_types import TextContent
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 from starlette.routing import Mount, Route
 
+from darpy_sdk import Client
+from darpy_sdk.server import MCPServer, Server
 from docs_src.asgi import tutorial001, tutorial002, tutorial003, tutorial004, tutorial005, tutorial006
-from mcp import Client
-from mcp.server import MCPServer, Server
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_streamable_http_app_is_a_starlette_app_with_one_route() -> None:

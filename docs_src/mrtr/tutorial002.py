@@ -1,5 +1,12 @@
-from mcp import Client
-from mcp.types import CallToolResult, ElicitRequest, ElicitResult, InputRequest, InputRequiredResult, InputResponse
+from darpy_sdk import Client
+from darpy_sdk.types import (
+    CallToolResult,
+    ElicitRequest,
+    ElicitResult,
+    InputRequest,
+    InputRequiredResult,
+    InputResponse,
+)
 
 
 def fulfil(request: InputRequest) -> InputResponse:

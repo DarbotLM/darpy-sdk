@@ -4,7 +4,7 @@ This package contains simple examples of MCP server features.
 Each server demonstrates a single feature and can be run as a standalone server.
 
 To run a server, use the command:
-    uv run server basic_tool sse
+    uv run darpy-sdk-server basic_tool sse
 """
 
 import importlib

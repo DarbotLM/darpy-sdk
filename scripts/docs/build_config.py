@@ -39,7 +39,7 @@ LANGUAGES_FILE = "i18n/languages.yml"
 
 # A language site carries no API reference; its nav entry links the English
 # one (a sibling site one level up), which opens on the first package's index.
-API_REFERENCE_URL = "../api/mcp/"
+API_REFERENCE_URL = "../api/darpy_sdk/"
 
 # A nav value with a URL scheme (https:, mailto:, ...), a leading `/`, or a
 # leading `../` (out of this site) is a link, not a page under docs_dir.

@@ -4,12 +4,11 @@ import json
 import logging
 from collections.abc import Callable
 from datetime import datetime
-from typing import Annotated, Any, Literal, TypeVar, cast
+from typing import TYPE_CHECKING, Annotated, Any, Literal, cast
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     MISSING_REQUIRED_CLIENT_CAPABILITY,
     CallToolResult,
     CreateMessageRequest,
@@ -33,17 +32,17 @@ from mcp_types import (
     TextContent,
     ToolChoice,
 )
-from mcp_types import (
+from darpy_sdk_types import (
     Tool as SamplingTool,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel, Field, FileUrl, ValidationError, create_model
-from typing_extensions import TypeAliasType
 
-from mcp import Client, InputRequiredRoundsExceededError
-from mcp.client import ClientRequestContext
-from mcp.client._memory import InMemoryTransport
-from mcp.server.context import ServerRequestContext
-from mcp.server.mcpserver import (
+from darpy_sdk import Client, InputRequiredRoundsExceededError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.client._memory import InMemoryTransport
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.mcpserver import (
     AcceptedElicitation,
     AESGCMRequestStateCodec,
     CancelledElicitation,
@@ -58,8 +57,8 @@ from mcp.server.mcpserver import (
     Resolve,
     Sample,
 )
-from mcp.server.mcpserver.exceptions import InvalidSignature
-from mcp.server.mcpserver.resolve import (
+from darpy_sdk.server.mcpserver.exceptions import InvalidSignature
+from darpy_sdk.server.mcpserver.resolve import (
     _check_elicit_return,
     _decode_state,
     _encode_state,
@@ -73,9 +72,9 @@ from mcp.server.mcpserver.resolve import (
     find_resolved_parameters,
     returns_input_required,
 )
-from mcp.server.mcpserver.tools.base import Tool
-from mcp.shared.exceptions import MCPError
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server.mcpserver.tools.base import Tool
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.message import SessionMessage
 
 
 def _question_digest(elicit: Elicit[Any]) -> str:
@@ -97,18 +96,14 @@ class Restock(BaseModel):
 
 # The `type X = ...` spelling of an InputRequiredResult-bearing return annotation,
 # bare and generic (a subscripted alias forwards `__value__` to its origin).
-IRRAlias = TypeAliasType("IRRAlias", InputRequiredResult | str)
-T_alias = TypeVar("T_alias")
-IRRAliasGeneric = TypeAliasType("IRRAliasGeneric", InputRequiredResult | T_alias, type_params=(T_alias,))
+type IRRAlias = InputRequiredResult | str
+type IRRAliasGeneric[T_alias] = InputRequiredResult | T_alias
 
 
-class _UnevaluableAlias:
-    """Stand-in for `type X = GhostType | str` whose names exist only under
-    TYPE_CHECKING: accessing `__value__` evaluates the alias and raises."""
+if TYPE_CHECKING:
+    from decimal import Decimal
 
-    @property
-    def __value__(self) -> Any:
-        raise NameError("name 'GhostType' is not defined")
+type UnevaluableAlias = Decimal | str
 
 
 class Handle(BaseModel):
@@ -1751,7 +1746,7 @@ def test_unevaluable_alias_and_parameterized_generics_declare_no_arm():
     async def lazy(login: Annotated[Login, Resolve(lookup)]):
         raise NotImplementedError  # pragma: no cover
 
-    lazy.__annotations__["return"] = _UnevaluableAlias()
+    lazy.__annotations__["return"] = UnevaluableAlias
     assert not returns_input_required(lazy)
 
     @mcp.tool()
@@ -1784,7 +1779,7 @@ async def test_tool_returning_input_required_dynamically_with_resolvers_is_an_er
         assert result.is_error
         assert isinstance(result.content[0], TextContent)
         assert result.content[0].text == "Error executing tool sneaky"
-    (record,) = [r for r in caplog.records if r.name == "mcp.server.mcpserver.server"]
+    (record,) = [r for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server"]
     assert (record.levelname, record.getMessage()) == ("ERROR", "Tool 'sneaky' raised an unexpected exception")
     assert record.exc_info is not None and record.exc_info[1] is not None
     assert "the multi-round flow is driven either by resolvers or by the tool body" in str(record.exc_info[1].__cause__)
@@ -2308,7 +2303,7 @@ def _sample_capital(ctx: Context) -> Sample:
 
 
 @pytest.mark.anyio
-@pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 @pytest.mark.parametrize("mode", ["legacy", "auto"])
 async def test_sample_resolver_injects_result(mode: Literal["legacy", "auto"]):
     # The marker form is the 2026-blessed carrier: no SEP-2577 deprecation warning on either mode.
@@ -2332,7 +2327,7 @@ async def test_sample_resolver_injects_result(mode: Literal["legacy", "auto"]):
 
 
 @pytest.mark.anyio
-@pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")
+@pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")
 @pytest.mark.parametrize("mode", ["legacy", "auto"])
 async def test_list_roots_resolver_injects_result(mode: Literal["legacy", "auto"]):
     mcp = MCPServer(name="Rooted", request_state_security=RequestStateSecurity.ephemeral())
@@ -2613,7 +2608,7 @@ def test_mixed_marker_arms_raise_at_registration():
 
 
 def test_marker_union_with_generic_alias_member_registers():
-    # dict[str, Any] passes isinstance(c, type) on Python 3.10; the arm filter must not feed it to issubclass.
+    # A generic alias can accompany a request marker without itself becoming a marker.
     async def maybe_ask(ctx: Context) -> Sample | dict[str, Any]:
         raise NotImplementedError  # pragma: no cover
 

@@ -29,7 +29,7 @@ translation:
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` принимает параметры транспорта, а не объект сервера: `StdioServerParameters` (из `mcp`), чтобы запустить подпроцесс, или `StreamableHttpParameters` / `SseServerParameters` (из `mcp.client.session_group`) для сервера, который уже слушает по URL.
+* `connect_to_server` принимает параметры транспорта, а не объект сервера: `StdioServerParameters` (из `mcp`), чтобы запустить подпроцесс, или `StreamableHttpParameters` / `SseServerParameters` (из `darpy_sdk.client.session_group`) для сервера, который уже слушает по URL.
 * `group.tools` — это `dict[str, Tool]` с инструментами всех подключённых серверов. `group.resources` и `group.prompts` устроены так же.
 * `group.call_tool(name, arguments)` ищет имя, находит сессию, которой оно принадлежит, и перенаправляет вызов. Какой именно сервер — указывать не нужно.
 
@@ -37,7 +37,7 @@ translation:
     Положите `client.py` рядом с двумя серверами и запустите его. Второй вызов `connect_to_server` завершится отказом:
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     Это `MCPError`, выброшенное ещё до того, как что-либо от второго сервера было зарегистрировано. Имя должно

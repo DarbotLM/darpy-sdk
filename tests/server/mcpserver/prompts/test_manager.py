@@ -1,9 +1,9 @@
 import pytest
-from mcp_types import TextContent
+from darpy_sdk_types import TextContent
 
-from mcp.server.mcpserver import Context
-from mcp.server.mcpserver.prompts.base import Prompt, UserMessage
-from mcp.server.mcpserver.prompts.manager import PromptManager
+from darpy_sdk.server.mcpserver import Context
+from darpy_sdk.server.mcpserver.prompts.base import Prompt, UserMessage
+from darpy_sdk.server.mcpserver.prompts.manager import PromptManager
 
 
 class TestPromptManager:

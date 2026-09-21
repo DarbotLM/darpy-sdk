@@ -72,7 +72,7 @@ não conta. Aqui está a metade cliente da negociação:
 Sirva `server.py` por HTTP e depois execute o cliente em um segundo terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

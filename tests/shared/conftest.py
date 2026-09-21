@@ -10,11 +10,11 @@ from collections.abc import Callable
 import anyio
 import pytest
 
-from mcp.shared.direct_dispatcher import create_direct_dispatcher_pair
-from mcp.shared.dispatcher import Dispatcher
-from mcp.shared.jsonrpc_dispatcher import JSONRPCDispatcher
-from mcp.shared.message import SessionMessage
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.shared.direct_dispatcher import create_direct_dispatcher_pair
+from darpy_sdk.shared.dispatcher import Dispatcher
+from darpy_sdk.shared.jsonrpc_dispatcher import JSONRPCDispatcher
+from darpy_sdk.shared.message import SessionMessage
+from darpy_sdk.shared.transport_context import TransportContext
 
 DispatcherTriple = tuple[Dispatcher[TransportContext], Dispatcher[TransportContext], Callable[[], None]]
 PairFactory = Callable[..., DispatcherTriple]

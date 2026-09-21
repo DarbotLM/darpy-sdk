@@ -14,7 +14,7 @@ MCP 有两个时代。
 本页的每段代码都是一个 `client.py`，连接的是 **[客户端](client/index.md)** 里那个 Bookshop 的 `server.py`。先在一个终端里启动那个服务器：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 然后在另一个终端里用 `python client.py` 运行每段代码。

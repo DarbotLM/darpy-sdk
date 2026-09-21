@@ -1,7 +1,7 @@
 """Tests for completion handler with context functionality."""
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CompleteRequestParams,
     CompleteResult,
     Completion,
@@ -9,8 +9,8 @@ from mcp_types import (
     ResourceTemplateReference,
 )
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
 
 
 @pytest.mark.anyio

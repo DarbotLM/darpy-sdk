@@ -2,8 +2,8 @@
 
 from typing import Literal
 
-import mcp.types as types
-from mcp.client import Client
+import darpy_sdk.types as types
+from darpy_sdk.client import Client
 from stories._harness import Target, run_client
 
 

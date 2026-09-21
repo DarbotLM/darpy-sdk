@@ -99,7 +99,7 @@ translation:
 기본 키는 프로세스와 생사를 함께합니다. 단일 프로세스를 넘어 배포하기 전에 반드시 알아야 할 한 가지가 바로 이것입니다.
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

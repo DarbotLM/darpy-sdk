@@ -7,17 +7,17 @@ Verifies that Unicode text is correctly transmitted and received in both directi
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
-from mcp_types import TextContent, Tool
+from darpy_sdk_types import TextContent, Tool
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.client.session import ClientSession
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
 from tests.interaction.transports import StreamingASGITransport
 
 # The in-process app is mounted at this origin purely so URLs are well-formed; nothing listens here.

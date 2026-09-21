@@ -145,7 +145,7 @@ translation:
 
 ### 模板 {#templates}
 
-`MCPServer` 使用的模板引擎位于 `mcp.shared.uri_template`，可以独立使用。解析和匹配完全一样；路由和安全策略由你自己接上。
+`MCPServer` 使用的模板引擎位于 `darpy_sdk.shared.uri_template`，可以独立使用。解析和匹配完全一样；路由和安全策略由你自己接上。
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
 --8<-- "docs_src/uri_templates/tutorial005.py"
@@ -154,7 +154,7 @@ translation:
 高亮的几行里发生了三件事：
 
 * **解析一次，每个请求匹配一次。** `UriTemplate.parse()` 构建模板；`template.match(uri)` 以 `dict` 形式返回提取出的变量，URI 不符合时返回 `None`。URL 解码在 `match()` 内部完成；解码后的值原样返回，不做路径安全校验。值都是字符串：自己转换（`int(matched["id"])`、`Path(matched["path"])`）。
-* **自己应用安全检查。** `MCPServer` 默认运行的 `..` 和绝对路径检查位于 `mcp.shared.path_security`。`read_manual_safely` 在碰 `MANUALS` 之前调用它们。如果某个参数不是文件系统路径（ISBN、搜索查询），就跳过对该值的检查：策略由你按处理函数逐个控制，而不是通过配置对象。
+* **自己应用安全检查。** `MCPServer` 默认运行的 `..` 和绝对路径检查位于 `darpy_sdk.shared.path_security`。`read_manual_safely` 在碰 `MANUALS` 之前调用它们。如果某个参数不是文件系统路径（ISBN、搜索查询），就跳过对该值的检查：策略由你按处理函数逐个控制，而不是通过配置对象。
 * **从同一来源列出模板。** 客户端通过 `resources/templates/list` 发现模板。`str(template)` 返回原始模板字符串，所以列表和匹配器共用同一份事实来源。
 
 ## 回顾 {#recap}
@@ -164,4 +164,4 @@ translation:
 * 给参数加上类型注解（`order_id: int`），SDK 就会转换。
 * 默认安全策略在处理函数运行之前拒绝 `..`、绝对路径和空字节；用 `security=ResourceSecurity(...)` 按资源覆盖，或用 `resource_security=` 在整个服务器范围内覆盖。
 * 访问文件系统时，`safe_join` 是隔离边界。
-* 在底层 `Server` 上，用 `UriTemplate.parse()` 解析，用 `.match()` 匹配，并自己应用 `mcp.shared.path_security`。
+* 在底层 `Server` 上，用 `UriTemplate.parse()` 解析，用 `.match()` 匹配，并自己应用 `darpy_sdk.shared.path_security`。

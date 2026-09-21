@@ -18,7 +18,7 @@ Un client a besoin d’un serveur avec qui dialoguer. Ce serveur Bookshop est ce
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Cela le sert à l’adresse `http://localhost:8000/mcp`. Le client est un programme à part. Enregistrez-le sous le nom `client.py` et lancez `python client.py` dans un second terminal :
@@ -46,7 +46,7 @@ Tout le reste de cette page est identique pour les quatre. Les en-têtes, les so
 
 Quatre propriétés en lecture seule, renseignées dès que vous entrez dans le bloc :
 
-* `client.server_info` : l’identité du serveur, ou `None` pour un serveur de génération 2026 qui n’en déclare pas (les serveurs python-sdk le font par défaut). Ici, `server_info.name` vaut `"Bookshop"` et `server_info.version` est ce que le serveur déclare.
+* `client.server_info` : l’identité du serveur, ou `None` pour un serveur de génération 2026 qui n’en déclare pas (les serveurs Darbot Python SDK le font par défaut). Ici, `server_info.name` vaut `"Bookshop"` et `server_info.version` est ce que le serveur déclare.
 * `client.server_capabilities` : ce que le serveur sait faire (`tools`, `resources`, `prompts`, `completions`, ...). Une capacité que le serveur n’a pas vaut `None`.
 * `client.protocol_version` : la version du protocole sur laquelle les deux côtés se sont mis d’accord. Ici, c’est `"2026-07-28"`.
 * `client.instructions` : la chaîne `instructions=` du serveur, ou `None` s’il n’en a pas défini.
@@ -91,7 +91,7 @@ Le second outil, `lookup_book`, a été enregistré sans `title=`, donc son `too
 
 !!! tip
     `title` est facultatif, donc une interface qui présente des outils à un humain doit choisir : le `title` s’il existe,
-    le `name` sinon. `from mcp.shared.metadata_utils import get_display_name` fait exactement cela,
+    le `name` sinon. `from darpy_sdk.shared.metadata_utils import get_display_name` fait exactement cela,
     pour les outils, les ressources, les modèles de ressource et les prompts.
 
 ## Appeler un outil {#calling-a-tool}

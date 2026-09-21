@@ -3,7 +3,12 @@
 import pytest
 from pydantic import AnyUrl, ValidationError
 
-from mcp.shared.auth import InvalidRedirectUriError, OAuthClientInformationFull, OAuthClientMetadata, OAuthMetadata
+from darpy_sdk.shared.auth import (
+    InvalidRedirectUriError,
+    OAuthClientInformationFull,
+    OAuthClientMetadata,
+    OAuthMetadata,
+)
 
 
 def test_oauth():

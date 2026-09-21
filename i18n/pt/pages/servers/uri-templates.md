@@ -244,7 +244,7 @@ outra coisa.
 ### Templates {#templates}
 
 O motor de templates que o `MCPServer` usa fica em
-`mcp.shared.uri_template` e funciona sozinho. Você ganha o mesmo parse e
+`darpy_sdk.shared.uri_template` e funciona sozinho. Você ganha o mesmo parse e
 o mesmo casamento; o roteamento e a política de segurança, você monta por
 conta própria.
 
@@ -263,7 +263,7 @@ Três coisas acontecem nas linhas destacadas:
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Aplique você mesmo as verificações de segurança.** As verificações de
   `..` e de caminho absoluto que o `MCPServer` executa por padrão ficam em
-  `mcp.shared.path_security`. `read_manual_safely` as chama antes de
+  `darpy_sdk.shared.path_security`. `read_manual_safely` as chama antes de
   tocar em `MANUALS`. Se um parâmetro não é um caminho do sistema de
   arquivos (um ISBN, uma consulta de busca), pule as verificações para
   esse valor: você controla a política por handler, e não por meio de um
@@ -289,4 +289,4 @@ Três coisas acontecem nas linhas destacadas:
 * Para acesso ao sistema de arquivos, `safe_join` é a fronteira de
   contenção.
 * No `Server` de baixo nível, faça o parse com `UriTemplate.parse()`,
-  case com `.match()` e aplique `mcp.shared.path_security` você mesmo.
+  case com `.match()` e aplique `darpy_sdk.shared.path_security` você mesmo.

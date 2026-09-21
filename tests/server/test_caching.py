@@ -1,11 +1,10 @@
-"""`mcp.server.caching`: `CacheHint` validation, per-field fills, and the
+"""`darpy_sdk.server.caching`: `CacheHint` validation, per-field fills, and the
 `cache_hints` constructor map reaching the wire on both server tiers."""
 
 from typing import Any, cast
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     InputRequiredResult,
     ListResourcesResult,
     ListToolsResult,
@@ -14,10 +13,11 @@ from mcp_types import (
     Resource,
     Tool,
 )
+from inline_snapshot import snapshot
 
-from mcp import Client
-from mcp.server import CacheHint, MCPServer, Server, ServerRequestContext
-from mcp.server.caching import apply_cache_hint
+from darpy_sdk import Client
+from darpy_sdk.server import CacheHint, MCPServer, Server, ServerRequestContext
+from darpy_sdk.server.caching import apply_cache_hint
 
 pytestmark = pytest.mark.anyio
 

@@ -5,20 +5,20 @@ translation:
 ---
 # Installation {#installation}
 
-Le SDK Python est disponible sur PyPI sous le nom [`mcp`](https://pypi.org/project/mcp/). Il nécessite **Python 3.10+**.
+Le SDK Python est disponible sur PyPI sous le nom [`darpy-sdk`](https://pypi.org/project/darpy-sdk/). Il nécessite **Python 3.14+**.
 
 Cette documentation décrit la **v2**, la ligne de versions stable actuelle :
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 !!! note "Vous venez de la v1 ?"
@@ -30,18 +30,18 @@ Cette documentation décrit la **v2**, la ligne de versions stable actuelle :
 
 Vous n’avez pas besoin de connaître tout cela pour utiliser le SDK, mais si vous vous demandez à quoi sert chaque dépendance :
 
-* `mcp-types` : tous les types du protocole (requêtes, résultats, blocs de contenu) dans un paquet à part, versionné au même rythme que le SDK. Le code qui dépend de `mcp` l’importe via l’alias `mcp.types` (tous les `from mcp.types import ...` de cette documentation) ; n’importez `mcp_types` directement que dans un projet qui installe `mcp-types` sans le SDK.
+* `darpy-sdk-types` : tous les types du protocole (requêtes, résultats, blocs de contenu) dans un paquet à part, versionné au même rythme que le SDK. Le code qui dépend de `mcp` l’importe via l’alias `darpy_sdk.types` (tous les `from darpy_sdk.types import ...` de cette documentation) ; n’importez `darpy_sdk_types` directement que dans un projet qui installe `darpy-sdk-types` sans le SDK.
 * [`anyio`](https://anyio.readthedocs.io/) : le runtime asynchrone. Tout le SDK est écrit au-dessus d’anyio, il fonctionne donc aussi bien avec `asyncio` qu’avec `trio`.
-* [`pydantic`](https://docs.pydantic.dev/) : la base de tous les modèles `mcp.types`, ainsi que toute la génération et la validation de schémas.
+* [`pydantic`](https://docs.pydantic.dev/) : la base de tous les modèles `darpy_sdk.types`, ainsi que toute la génération et la validation de schémas.
 * [`httpx2`](https://pypi.org/project/httpx2/) : le client HTTP derrière les transports *client* Streamable HTTP et SSE, avec prise en charge intégrée des server-sent events.
 * [`starlette`](https://www.starlette.io/), [`uvicorn`](https://www.uvicorn.org/), [`sse-starlette`](https://pypi.org/project/sse-starlette/) et [`python-multipart`](https://pypi.org/project/python-multipart/) : les transports HTTP *serveur*.
 * [`jsonschema`](https://pypi.org/project/jsonschema/) : valide la sortie structurée d’un outil par rapport au schéma de sortie qu’il déclare.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/) : gestion des jetons OAuth pour l’autorisation.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/) : l’API légère uniquement, de sorte que le middleware de traçage du SDK ne coûte rien tant que vous n’installez pas vous-même un SDK OpenTelemetry et un exporteur.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) et [`typing-inspection`](https://pypi.org/project/typing-inspection/) : les fonctionnalités de typage modernes sous Python 3.10.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) et [`typing-inspection`](https://pypi.org/project/typing-inspection/) : les fonctionnalités de typage modernes sous Python 3.14.
 * [`pywin32`](https://pypi.org/project/pywin32/) : Windows uniquement, utilisé pour la gestion des sous-processus `stdio`.
 
 ## Extras optionnels {#optional-extras}
 
-* `mcp[cli]` ajoute [`typer`](https://typer.tiangolo.com/) et [`python-dotenv`](https://pypi.org/project/python-dotenv/) pour l’outil en ligne de commande `mcp` (`mcp dev`, `mcp run`, `mcp install`). Vous en aurez besoin pendant le développement ; vous pouvez vous en passer sur un serveur déployé.
-* `mcp[rich]` ajoute [`rich`](https://rich.readthedocs.io/) pour des journaux de serveur plus lisibles.
+* `darpy-sdk[cli]` ajoute [`typer`](https://typer.tiangolo.com/) et [`python-dotenv`](https://pypi.org/project/python-dotenv/) pour l’outil en ligne de commande `mcp` (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`). Vous en aurez besoin pendant le développement ; vous pouvez vous en passer sur un serveur déployé.
+* `darpy-sdk[rich]` ajoute [`rich`](https://rich.readthedocs.io/) pour des journaux de serveur plus lisibles.

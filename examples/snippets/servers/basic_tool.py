@@ -1,4 +1,4 @@
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 mcp = MCPServer(name="Tool Example")
 

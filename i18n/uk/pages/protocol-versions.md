@@ -14,7 +14,7 @@ translation:
 Кожен фрагмент на цій сторінці — це `client.py`, що розмовляє з `server.py` книгарні Bookshop зі сторінки **[Клієнт](client/index.md)**. Запустіть цей сервер в одному терміналі:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Потім запускайте кожен фрагмент у другому терміналі командою `python client.py`.

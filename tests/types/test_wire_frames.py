@@ -2,8 +2,7 @@
 
 from typing import Any
 
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     METHOD_NOT_FOUND,
     CallToolRequest,
     CallToolRequestParams,
@@ -22,6 +21,7 @@ from mcp_types import (
     TextContent,
     Tool,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel
 
 

@@ -24,7 +24,7 @@ Tudo abaixo é a segunda requisição: o cliente que a envia e o servidor de aut
 
 ## O cliente {#the-client}
 
-**`IdentityAssertionOAuthProvider`** fica em `mcp.client.auth.extensions.identity_assertion`. Como todo provider em **[Clientes OAuth](oauth-clients.md)**, ele é um `httpx2.Auth`: construa um, passe em `auth=`, entregue o `httpx2.AsyncClient` ao transporte.
+**`IdentityAssertionOAuthProvider`** fica em `darpy_sdk.client.auth.extensions.identity_assertion`. Como todo provider em **[Clientes OAuth](oauth-clients.md)**, ele é um `httpx2.Auth`: construa um, passe em `auth=`, entregue o `httpx2.AsyncClient` ao transporte.
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

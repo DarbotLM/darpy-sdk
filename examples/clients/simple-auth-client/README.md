@@ -1,6 +1,6 @@
 # Simple Auth Client Example
 
-A demonstration of how to use the MCP Python SDK with OAuth authentication over streamable HTTP or SSE transport.
+A demonstration of how to use the Darbot Python SDK with OAuth authentication over streamable HTTP or SSE transport.
 
 ## Features
 
@@ -28,11 +28,11 @@ Separate Authorization Server and Resource Server:
 ```bash
 # Terminal 1: Start Authorization Server on port 9000
 cd examples/servers/simple-auth
-uv run mcp-simple-auth-as --port=9000
+uv run darpy-sdk-simple-auth-as --port=9000
 
 # Terminal 2: Start Resource Server on port 8001
 cd examples/servers/simple-auth
-uv run mcp-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http
+uv run darpy-sdk-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --transport=streamable-http
 ```
 
 #### Option B: Legacy Server (Backwards Compatibility)
@@ -40,20 +40,20 @@ uv run mcp-simple-auth-rs --port=8001 --auth-server=http://localhost:9000 --tran
 ```bash
 # Single server that acts as both AS and RS (port 8000)
 cd examples/servers/simple-auth
-uv run mcp-simple-auth-legacy --port=8000 --transport=streamable-http
+uv run darpy-sdk-simple-auth-legacy --port=8000 --transport=streamable-http
 ```
 
 ### 2. Run the client
 
 ```bash
 # Connect to Resource Server (new architecture, default port 8001)
-MCP_SERVER_PORT=8001 uv run mcp-simple-auth-client
+MCP_SERVER_PORT=8001 uv run darpy-sdk-simple-auth-client
 
 # Connect to Legacy Server (port 8000)
-uv run mcp-simple-auth-client
+uv run darpy-sdk-simple-auth-client
 
 # Use SSE transport
-MCP_SERVER_PORT=8001 MCP_TRANSPORT_TYPE=sse uv run mcp-simple-auth-client
+MCP_SERVER_PORT=8001 MCP_TRANSPORT_TYPE=sse uv run darpy-sdk-simple-auth-client
 ```
 
 ### 3. Complete OAuth flow

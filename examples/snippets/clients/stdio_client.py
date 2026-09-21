@@ -1,19 +1,19 @@
 """cd to the `examples/snippets/clients` directory and run:
-uv run client
+uv run darpy-sdk-client
 """
 
 import asyncio
 import os
 
-import mcp.types as types
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.context import ClientRequestContext
-from mcp.client.stdio import stdio_client
+import darpy_sdk.types as types
+from darpy_sdk import ClientSession, StdioServerParameters
+from darpy_sdk.client.context import ClientRequestContext
+from darpy_sdk.client.stdio import stdio_client
 
 # Create server parameters for stdio connection
 server_params = StdioServerParameters(
     command="uv",  # Using uv to run the server
-    args=["run", "server", "mcpserver_quickstart", "stdio"],  # We're already in snippets dir
+    args=["run", "darpy-sdk-server", "mcpserver_quickstart", "stdio"],  # We're already in snippets dir
     env={"UV_INDEX": os.environ.get("UV_INDEX", "")},
 )
 

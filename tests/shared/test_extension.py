@@ -1,17 +1,20 @@
-"""The extension-identifier grammar in `mcp.shared.extension`, shared by server and client."""
+"""The extension-identifier grammar in `darpy_sdk.shared.extension`, shared by server and client."""
 
 from typing import Any
 
 import pytest
 
-import mcp.server.extension
-import mcp.shared.extension
-from mcp.shared.extension import validate_extension_identifier
+import darpy_sdk.server.extension
+import darpy_sdk.shared.extension
+from darpy_sdk.shared.extension import validate_extension_identifier
 
 
 def test_server_extension_module_reexports_shared_validator() -> None:
-    """SDK-defined: `mcp.server.extension` re-exports the shared validator as the same function object."""
-    assert mcp.server.extension.validate_extension_identifier is mcp.shared.extension.validate_extension_identifier
+    """SDK-defined: the server extension module re-exports the same shared validator object."""
+    assert (
+        darpy_sdk.server.extension.validate_extension_identifier
+        is darpy_sdk.shared.extension.validate_extension_identifier
+    )
 
 
 @pytest.mark.parametrize(

@@ -7,14 +7,14 @@ from itertools import count
 from typing import Any
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import SubscriptionFilter
+from darpy_sdk_types import SubscriptionFilter
 
-import mcp.client.subscriptions as subscriptions_module
-from mcp import Client, MCPError
-from mcp.client.session import ClientSession
-from mcp.client.subscriptions import (
+import darpy_sdk.client.subscriptions as subscriptions_module
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.subscriptions import (
     ListenNotSupportedError,
     ListenRoute,
     PromptsListChanged,
@@ -26,14 +26,14 @@ from mcp.client.subscriptions import (
     ToolsListChanged,
     listen,
 )
-from mcp.server import Server, ServerRequestContext
-from mcp.server.subscriptions import (
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.subscriptions import (
     SUBSCRIPTION_ID_META_KEY,
     InMemorySubscriptionBus,
     ListenHandler,
 )
-from mcp.shared.direct_dispatcher import create_direct_dispatcher_pair
-from mcp.shared.dispatcher import CallOptions
+from darpy_sdk.shared.direct_dispatcher import create_direct_dispatcher_pair
+from darpy_sdk.shared.dispatcher import CallOptions
 
 pytestmark = pytest.mark.anyio
 

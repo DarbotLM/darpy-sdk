@@ -2,8 +2,8 @@
 
 import httpx2
 
-from mcp.client import Client
-from mcp.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
+from darpy_sdk.client import Client
+from darpy_sdk.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
 from stories._harness import Target, run_client
 from stories._shared.auth import MCP_URL, InMemoryTokenStorage
 

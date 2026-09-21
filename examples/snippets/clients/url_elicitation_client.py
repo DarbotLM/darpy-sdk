@@ -13,11 +13,11 @@ Features demonstrated:
 
 Run with:
     cd examples/snippets
-    uv run elicitation-client
+    uv run darpy-sdk-elicitation-client
 
 Requires a server with URL elicitation tools running. Start the elicitation
 server first:
-    uv run server elicitation sse
+    uv run darpy-sdk-server elicitation sse
 """
 
 from __future__ import annotations
@@ -28,12 +28,12 @@ import webbrowser
 from typing import Any
 from urllib.parse import urlparse
 
-import mcp.types as types
-from mcp import ClientSession
-from mcp.client.context import ClientRequestContext
-from mcp.client.sse import sse_client
-from mcp.shared.exceptions import MCPError, UrlElicitationRequiredError
-from mcp.types import URL_ELICITATION_REQUIRED
+import darpy_sdk.types as types
+from darpy_sdk import ClientSession
+from darpy_sdk.client.context import ClientRequestContext
+from darpy_sdk.client.sse import sse_client
+from darpy_sdk.shared.exceptions import MCPError, UrlElicitationRequiredError
+from darpy_sdk.types import URL_ELICITATION_REQUIRED
 
 
 async def handle_elicitation(
@@ -286,7 +286,7 @@ async def main() -> None:
     print("URL Elicitation Client Example")
     print("=" * 60)
     print(f"\nConnecting to: {server_url}")
-    print("(Start server with: cd examples/snippets && uv run server elicitation sse)")
+    print("(Start server with: cd examples/snippets && uv run darpy-sdk-server elicitation sse)")
 
     try:
         async with sse_client(server_url) as (read, write):
@@ -302,7 +302,7 @@ async def main() -> None:
     except ConnectionRefusedError:
         print(f"\nError: Could not connect to {server_url}")
         print("Make sure the elicitation server is running:")
-        print("  cd examples/snippets && uv run server elicitation sse")
+        print("  cd examples/snippets && uv run darpy-sdk-server elicitation sse")
     except Exception as e:
         print(f"\nError: {e}")
         raise

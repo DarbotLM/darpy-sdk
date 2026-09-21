@@ -17,18 +17,18 @@ Todos os blocos de código podem ser copiados e usados diretamente: são arquivo
 Para acompanhar, cole um bloco em um `server.py` e abra-o no MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 É **ALTAMENTE recomendado** que você escreva (ou copie) o código, edite-o e execute-o localmente. Usá-lo no seu próprio editor é o que mostra de verdade qual é a ideia: o pouco que você escreve, o autocompletar, a checagem de tipos pegando erros antes de executar qualquer coisa.
 
 ## Você não vai precisar adivinhar {#you-will-not-be-guessing}
 
-Cada exemplo nesta documentação é um arquivo completo em [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) no próprio repositório do SDK, e a suíte de testes do SDK exercita cada um deles por meio de um **cliente em memória**:
+Cada exemplo nesta documentação é um arquivo completo em [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) no próprio repositório do SDK, e a suíte de testes do SDK exercita cada um deles por meio de um **cliente em memória**:
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

@@ -18,7 +18,7 @@ translation:
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 这样它就在 `http://localhost:8000/mcp` 上提供服务。客户端是一个独立的程序。把它保存为 `client.py`，在另一个终端里运行 `python client.py`：
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 四个只读属性，进入代码块的那一刻就已填好：
 
-* `client.server_info`：服务器的身份信息；对于不报告身份的 2026 时代服务器则为 `None`（python-sdk 服务器默认会报告）。这里 `server_info.name` 是 `"Bookshop"`，`server_info.version` 是服务器报告的版本。
+* `client.server_info`：服务器的身份信息；对于不报告身份的 2026 时代服务器则为 `None`（Darbot Python SDK 服务器默认会报告）。这里 `server_info.name` 是 `"Bookshop"`，`server_info.version` 是服务器报告的版本。
 * `client.server_capabilities`：服务器能做什么（`tools`、`resources`、`prompts`、`completions`……）。服务器没有的能力是 `None`。
 * `client.protocol_version`：双方商定的协议版本。这里是 `"2026-07-28"`。
 * `client.instructions`：服务器的 `instructions=` 字符串，没设置则为 `None`。
@@ -89,7 +89,7 @@ UI 渲染参数表单所需的一切，以及模型生成合法参数所需的�
 第二个工具 `lookup_book` 注册时没有传 `title=`，所以它的 `tool.title` 是 `None`。
 
 !!! tip
-    `title` 是可选的，所以把工具展示给人看的 UI 必须做选择：有 `title` 就用它，没有就用 `name`。`from mcp.shared.metadata_utils import get_display_name` 做的正是这件事，适用于工具、资源、资源模板和提示词。
+    `title` 是可选的，所以把工具展示给人看的 UI 必须做选择：有 `title` 就用它，没有就用 `name`。`from darpy_sdk.shared.metadata_utils import get_display_name` 做的正是这件事，适用于工具、资源、资源模板和提示词。
 
 ## 调用工具 {#calling-a-tool}
 

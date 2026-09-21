@@ -7,10 +7,9 @@ from typing import Any, Literal
 
 import anyio
 import anyio.abc
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     Implementation,
     ListToolsResult,
@@ -19,11 +18,12 @@ from mcp_types import (
     TextContent,
     Tool,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 
-from mcp.client.session import ClientSession
-from mcp.shared.dispatcher import CallOptions, OnNotify, OnNotifyIntercept, OnRequest
-from mcp.shared.inbound import MCP_NAME_HEADER, MCP_PROTOCOL_VERSION_HEADER, encode_header_value
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.shared.dispatcher import CallOptions, OnNotify, OnNotifyIntercept, OnRequest
+from darpy_sdk.shared.inbound import MCP_NAME_HEADER, MCP_PROTOCOL_VERSION_HEADER, encode_header_value
 
 
 class _RecordingDispatcher:

@@ -36,7 +36,7 @@ Cambiaron tres cosas, y son toda la API de bajo nivel:
 
 ### Pruébalo {#try-it}
 
-`mcp dev` y `mcp run` solo aceptan un `MCPServer`, así que este lo sirves por tu cuenta. La última línea de `server.py` construye una app ASGI común a partir de él, y uvicorn la ejecuta:
+`darpy-sdk dev` y `darpy-sdk run` solo aceptan un `MCPServer`, así que este lo sirves por tu cuenta. La última línea de `server.py` construye una app ASGI común a partir de él, y uvicorn la ejecuta:
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ Apunta el Inspector, o cualquier cliente, a `http://localhost:8000/mcp`:
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -206,7 +206,7 @@ El handshake pertenece al runner. `server/discover`, `ping` y todos los demás m
 
 Cada uno de estos es una idea para la que ya tienes el vocabulario; cada uno tiene su propia página.
 
-* `on_call_tool`, `on_get_prompt` y `on_read_resource` pueden devolver un `InputRequiredResult` en lugar de su resultado normal para pausar la llamada y pedir datos al cliente; consulta **[Solicitudes de varias idas y vueltas (multi-round-trip)](../handlers/multi-round-trip.md)**. Fiel a este nivel, nada se instala por ti: donde `MCPServer` sella `requestState` por defecto, aquí el `request_state` que estableces se transmite exactamente como lo escribiste hasta que optas por `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))`: una línea (ambos nombres se importan de `mcp.server.request_state`) para el mismo sellado y verificación que realiza `MCPServer` (**[Proteger `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
+* `on_call_tool`, `on_get_prompt` y `on_read_resource` pueden devolver un `InputRequiredResult` en lugar de su resultado normal para pausar la llamada y pedir datos al cliente; consulta **[Solicitudes de varias idas y vueltas (multi-round-trip)](../handlers/multi-round-trip.md)**. Fiel a este nivel, nada se instala por ti: donde `MCPServer` sella `requestState` por defecto, aquí el `request_state` que estableces se transmite exactamente como lo escribiste hasta que optas por `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))`: una línea (ambos nombres se importan de `darpy_sdk.server.request_state`) para el mismo sellado y verificación que realiza `MCPServer` (**[Proteger `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
 * `on_list_resources`, `on_read_resource`, `on_list_prompts`, `on_get_prompt` y `on_completion` tienen la misma forma `(ctx, params) -> result` para las demás primitivas.
 * `on_subscriptions_listen` sirve el stream `subscriptions/listen` de 2026-07-28. Pasa un `ListenHandler` construido sobre un `SubscriptionBus` y publica eventos en el bus desde tus otros handlers; consulta **[Suscripciones](../handlers/subscriptions.md)** para la composición completa.
 * `server.streamable_http_app()` devuelve la misma app de Starlette que la de `MCPServer`; despliégala como **[Ejecutar tu servidor](../run/index.md)** despliega cualquier otra app ASGI. Aquí abajo no hay `server.run(transport=...)`: `server.run(read_stream, write_stream, server.create_initialization_options())` conduce una conexión sobre un par de streams, y esa única línea es todo lo que hay.

@@ -52,15 +52,15 @@ Bir sunucu tam olarak üç tür şey sunar. Onları birbirinden ayıran, **kulla
 Geri kalan her şeyi (adı, açıklamayı, argüman şemasını) SDK fonksiyonun kendisinden okur: adından, docstring'inden, tür ipuçlarından. Hiçbirini ayrıca bildirmediniz.
 
 !!! tip
-    SDK'nın iki yarısının iki ayrı import yolu vardır: `from mcp import Client` ve
-    `from mcp.server import MCPServer`. `from mcp import MCPServer` diye bir şey yoktur.
+    SDK'nın iki yarısının iki ayrı import yolu vardır: `from darpy_sdk import Client` ve
+    `from darpy_sdk.server import MCPServer`. `from darpy_sdk import MCPServer` diye bir şey yoktur.
 
 ### Deneyin {#try-it}
 
 MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Yazdırdığı URL'yi açın. Inspector'da her temel öğe için bir sekme var; sırayla üzerinden geçin.
@@ -86,7 +86,7 @@ Bir istemci bağlandığında sunucu **yeteneklerini** beyan eder: hangi istek a
 Kendiniz bakın. Bir terminalde `server.py` dosyasını HTTP üzerinden çalışır halde bırakın:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ve başka bir terminalden bir istemciyi ona yöneltin:
@@ -127,7 +127,7 @@ Bu sayfaya dönüp bir bakın. Üç küçük Python fonksiyonu yazdınız. Şunl
 * Bir JSON Schema. `a: int, b: int`, `add` şemasının *ta kendisidir*.
 * Bir istek işleyici. `tools/list`, `resources/read`, `prompts/get`: hepsi sizin yerinize sunulur.
 * Bir yetenek beyanı. `MCPServer` onu sizin yerinize yaptı.
-* Tek satır protokol. Sürüm anlaşması, JSON-RPC çerçevelemesi, yetenek değiş tokuşu: hepsi `mcp dev` ve `client.py` içinde oldu ve siz hiçbirini görmediniz.
+* Tek satır protokol. Sürüm anlaşması, JSON-RPC çerçevelemesi, yetenek değiş tokuşu: hepsi `darpy-sdk dev` ve `client.py` içinde oldu ve siz hiçbirini görmediniz.
 
 SDK'nın bütün meselesi bu oran.
 

@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -68,7 +74,9 @@
       "source": "resource",
       "target": "リソース",
       "note": "MCP protocol noun, and also the general noun (a pool acquired in a lifespan is still リソース). Standard rendering. Never 資源, which is the natural-resources sense; `resources/read` stays Latin.",
-      "avoid": ["資源"]
+      "avoid": [
+        "資源"
+      ]
     },
     {
       "source": "prompt",
@@ -79,13 +87,17 @@
       "source": "sampling",
       "target": "サンプリング",
       "note": "The (deprecated) client feature that lets a server borrow the client's model. Standard rendering. Never 標本抽出, which is statistical sampling and the wrong sense; the `sampling` capability key and `sampling/createMessage` stay Latin.",
-      "avoid": ["標本抽出"]
+      "avoid": [
+        "標本抽出"
+      ]
     },
     {
       "source": "roots",
       "target": "ルート",
       "note": "The (deprecated) client feature listing workspace folders. Provisional pending native review: ルート also spells \"route\" and \"root path\", so gloss the English on first use per page — ルート（roots）. Never ルーツ (ancestry/origins). A `Root` object in code font stays Latin.",
-      "avoid": ["ルーツ"]
+      "avoid": [
+        "ルーツ"
+      ]
     },
     {
       "source": "elicitation",
@@ -101,13 +113,17 @@
       "source": "transport",
       "target": "トランスポート",
       "note": "The connection mechanism (\"every standard transport\" → 標準のトランスポート). Standard rendering; never 輸送 (freight transport) or 輸送手段. The transport names stdio, Streamable HTTP and SSE stay in English.",
-      "avoid": ["輸送"]
+      "avoid": [
+        "輸送"
+      ]
     },
     {
       "source": "session",
       "target": "セッション",
       "note": "An MCP session (the negotiated connection state). Standard rendering; never the coinage 会期. `session` objects in code font stay Latin.",
-      "avoid": ["会期"]
+      "avoid": [
+        "会期"
+      ]
     },
     {
       "source": "handler",
@@ -123,7 +139,9 @@
       "source": "client",
       "target": "クライアント",
       "note": "An MCP client, and the client side of a connection. Standard rendering; never 顧客 (a customer). The `Client` class name stays Latin in code font.",
-      "avoid": ["顧客"]
+      "avoid": [
+        "顧客"
+      ]
     },
     {
       "source": "server",
@@ -134,7 +152,9 @@
       "source": "host",
       "target": "ホスト",
       "note": "The MCP host: the application that embeds the client and drives the model, and also a network host. Standard rendering in both senses; never 宿主 (a biological host).",
-      "avoid": ["宿主"]
+      "avoid": [
+        "宿主"
+      ]
     },
     {
       "source": "context",
@@ -145,7 +165,9 @@
       "source": "resolver",
       "target": "リゾルバー",
       "note": "The function attached to a parameter with `Resolve(...)` that computes or asks for its value. Provisional pending native review: the loanword リゾルバー, not 解決器. The `Resolve` class stays Latin.",
-      "avoid": ["解決器"]
+      "avoid": [
+        "解決器"
+      ]
     },
     {
       "source": "lifespan",
@@ -166,7 +188,9 @@
       "source": "wire",
       "target": "通信路",
       "note": "The corpus's light metaphor for the byte stream between client and server (\"stdout is the wire\" → stdout が通信路そのものです; \"invisible on the wire\" → 通信上には現れません; \"the JSON on the wire\" → 実際に送受信される JSON). Provisional pending native review. Never a literal 電線 or ワイヤー.",
-      "avoid": ["電線"]
+      "avoid": [
+        "電線"
+      ]
     },
     {
       "source": "era",
@@ -187,7 +211,9 @@
       "source": "handshake",
       "target": "ハンドシェイク",
       "note": "The initialization handshake (\"the classic handshake\" → 従来のハンドシェイク). The established loanword; never the literal 握手. Provisional pending native review.",
-      "avoid": ["握手"]
+      "avoid": [
+        "握手"
+      ]
     },
     {
       "source": "request",

@@ -60,7 +60,7 @@ A menor extensão útil é uma ferramenta e um mapa de configurações:
 Sirva-a por HTTP, e um cliente é a prova:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ Tire a extensão e nada disso existe: a barreira do servidor recusa um cliente q
 Para anunciar um identificador **sem** nenhum comportamento do lado do cliente (o servidor faz a barreira pela capacidade, o cliente não faz nada, como no cliente de busca acima), use `advertise()`:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ Duas regras discretas. As claims ficam ativas apenas em conexões 2026-07-28, e 
 
 ### Verbos de extensão {#extension-verbs}
 
-Os métodos de requisição próprios de uma extensão não precisam de registro no lado do cliente. Um tipo de requisição de fornecedor herda de `mcp.types.Request` e passa por `client.session.send_request`, como em [Servindo seus próprios métodos](#serving-your-own-methods). Considere um servidor cuja extensão serve um único verbo sobre um job nomeado:
+Os métodos de requisição próprios de uma extensão não precisam de registro no lado do cliente. Um tipo de requisição de fornecedor herda de `darpy_sdk.types.Request` e passa por `client.session.send_request`, como em [Servindo seus próprios métodos](#serving-your-own-methods). Considere um servidor cuja extensão serve um único verbo sobre um job nomeado:
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

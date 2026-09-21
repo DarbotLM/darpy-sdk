@@ -97,7 +97,7 @@ translation:
 預設金鑰與處理程序同生共死，這是部署到超過單一處理程序之前唯一必須知道的事：
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

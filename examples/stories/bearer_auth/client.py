@@ -4,7 +4,7 @@ from collections.abc import Generator
 
 import httpx2
 
-from mcp.client import Client
+from darpy_sdk.client import Client
 from stories._harness import Target, run_client
 
 from .server import DEMO_TOKEN, REQUIRED_SCOPE
@@ -16,7 +16,7 @@ class StaticBearerAuth(httpx2.Auth):
     def __init__(self, token: str) -> None:
         self.token = token
 
-    def auth_flow(self, request: httpx2.Request) -> Generator[httpx2.Request, httpx2.Response, None]:
+    def auth_flow(self, request: httpx2.Request) -> Generator[httpx2.Request, httpx2.Response]:
         request.headers["Authorization"] = f"Bearer {self.token}"
         yield request
 

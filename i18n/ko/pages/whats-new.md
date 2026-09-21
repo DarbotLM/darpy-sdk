@@ -10,9 +10,9 @@ v2에서는 두 가지 일이 동시에 일어났습니다. **SDK가 새로 만�
 이 페이지는 두 부분을 둘러보는 안내입니다. 주요 변경 사항마다 한 섹션씩 다루고, 각 섹션은 해당 주제를 담당하는 페이지로 안내하며 끝납니다. 포팅 매뉴얼은 아닙니다. 포팅 매뉴얼은 **[마이그레이션 가이드](migration.md)**이며, 호환성이 깨지는 모든 변경 사항을 변경 전후 코드와 함께 담고 있습니다.
 
 !!! note "v2가 안정 릴리스 라인입니다"
-    `pip install mcp`는 2.x를 설치하며, 복사해 붙여 넣을 수 있는 설치 명령은
+    `pip install darpy-sdk`는 2.x를 설치하며, 복사해 붙여 넣을 수 있는 설치 명령은
     **[설치](get-started/installation.md)**에 있습니다. v2에서 무언가가 깨지거나, 뜻밖으로 동작하거나, 작업을 더디게 만든다면
-    [알려 주세요](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    [알려 주세요](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 ## SDK: v1에서 v2로 {#the-sdk-v1-to-v2}
 
@@ -21,12 +21,12 @@ v2에서는 두 가지 일이 동시에 일어났습니다. **SDK가 새로 만�
 고수준 서버 클래스의 이름이 바뀌었고, 모듈도 함께 바뀌었습니다. 이전 import 경로가 지원 중단 예정(deprecated)이 아니라 아예 사라졌기 때문에, 모든 v1 서버가 가장 먼저 부딪히는 변경입니다.
 
 ```python
-from mcp.server import MCPServer  # v1: from mcp.server.fastmcp import FastMCP
+from darpy_sdk.server import MCPServer  # v1: from darpy_sdk.server.fastmcp import FastMCP
 
 mcp = MCPServer("Demo")  # v1: FastMCP("Demo")
 ```
 
-데코레이터로 만든 서버라면 포팅 작업의 대부분도 이것으로 끝납니다. `@mcp.tool()`, `@mcp.resource()`, `@mcp.prompt()`는 v1에서 받던 것을 그대로 받고(`@mcp.resource()`에는 선택적 `security=` 키워드가 하나 추가되었습니다), 입력 스키마는 여전히 타입 힌트에서 만들어집니다. 주변부의 변경은 다음과 같습니다. `mcp.server.fastmcp.*` 아래에 있던 모든 것은 이제 `mcp.server.mcpserver.*` 아래에 있고, `ctx.fastmcp`는 `ctx.mcp_server`가 되었으며, `get_context()`는 사라졌고(대신 `ctx: Context` 매개변수를 선언하세요), 예외 기반 클래스 `FastMCPError`는 `MCPServerError`가 되었습니다. import 대응표는 **[마이그레이션 가이드](migration.md#fastmcp-renamed-to-mcpserver)**에 있습니다.
+데코레이터로 만든 서버라면 포팅 작업의 대부분도 이것으로 끝납니다. `@mcp.tool()`, `@mcp.resource()`, `@mcp.prompt()`는 v1에서 받던 것을 그대로 받고(`@mcp.resource()`에는 선택적 `security=` 키워드가 하나 추가되었습니다), 입력 스키마는 여전히 타입 힌트에서 만들어집니다. 주변부의 변경은 다음과 같습니다. `darpy_sdk.server.fastmcp.*` 아래에 있던 모든 것은 이제 `darpy_sdk.server.mcpserver.*` 아래에 있고, `ctx.fastmcp`는 `ctx.mcp_server`가 되었으며, `get_context()`는 사라졌고(대신 `ctx: Context` 매개변수를 선언하세요), 예외 기반 클래스 `FastMCPError`는 `MCPServerError`가 되었습니다. import 대응표는 **[마이그레이션 가이드](migration.md#fastmcp-renamed-to-mcpserver)**에 있습니다.
 
 ### `Resolve`: 사용자에게 입력을 요청하는 새로운 방법 {#resolve-the-new-way-to-ask-the-user-for-input}
 
@@ -61,8 +61,8 @@ mcp==1.28.1 install. If you edit it, re-validate it against 1.x. -->
 ```python title="v1"
 from typing import Any
 
-import mcp.types as types
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.lowlevel import Server
 
 server = Server("Bookshop")
 
@@ -117,9 +117,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.ContentB
 
 자세한 내용은 **[저수준 Server](advanced/low-level-server.md)**에서 확인하세요. **[마이그레이션 가이드](migration.md#lowlevel-server-decorator-based-handlers-replaced-with-constructor-on_-params)**는 제거된 훅을 하나하나 짚어 줍니다. `MCPServer` 아래로 내려간 적이 없다면 이 내용은 전혀 해당하지 않습니다.
 
-### `mcp-types`로 옮겨 간 와이어 타입과 snake_case가 된 모든 필드 {#the-wire-types-moved-to-mcp-types-and-every-field-is-snake_case}
+### `darpy-sdk-types`로 옮겨 간 와이어 타입과 snake_case가 된 모든 필드 {#the-wire-types-moved-to-darpy-sdk-types-and-every-field-is-snake_case}
 
-프로토콜 타입은 이제 별도의 배포 패키지 `mcp-types`에 있습니다. 이 패키지는 pydantic과 typing-extensions 외에는 아무것에도 의존하지 않으므로, 게이트웨이나 프록시, 코드 생성기가 HTTP 스택을 설치하지 않고도 MCP의 와이어 형태를 사용할 수 있습니다. 그런 프로젝트는 `mcp-types`를 설치하고 `mcp_types`를 import합니다. `mcp` 자체는 그 패키지의 정확한 버전에 의존하며 이를 다시 노출하므로, SDK에 의존하는 코드는 계속 `import mcp.types as types`와 `from mcp.types import Tool`을 쓰고(영구적인 별칭이며, 모든 이름이 같은 객체입니다) 실제 의존성인 `mcp` 하나만 선언하면 됩니다. 경험칙은 이렇습니다. 실제로 의존하는 패키지를 통해 import하세요.
+프로토콜 타입은 이제 별도의 배포 패키지 `darpy-sdk-types`에 있습니다. 이 패키지는 pydantic과 typing-extensions 외에는 아무것에도 의존하지 않으므로, 게이트웨이나 프록시, 코드 생성기가 HTTP 스택을 설치하지 않고도 MCP의 와이어 형태를 사용할 수 있습니다. 그런 프로젝트는 `darpy-sdk-types`를 설치하고 `darpy_sdk_types`를 import합니다. `mcp` 자체는 그 패키지의 정확한 버전에 의존하며 이를 다시 노출하므로, SDK에 의존하는 코드는 계속 `import darpy_sdk.types as types`와 `from darpy_sdk.types import Tool`을 쓰고(영구적인 별칭이며, 모든 이름이 같은 객체입니다) 실제 의존성인 `mcp` 하나만 선언하면 됩니다. 경험칙은 이렇습니다. 실제로 의존하는 패키지를 통해 import하세요.
 
 이 타입에서 모든 Python 속성은 이제 snake_case입니다. `result.is_error`, `tool.input_schema`, `listing.next_cursor`처럼 씁니다. 와이어 위의 JSON은 전과 똑같이 camelCase이며, 바뀐 것은 속성 표기뿐입니다. 더 엄격해진 기본값 두 가지도 함께 따라옵니다. 알 수 없는 필드는 왕복 보존되는 대신 무시되고(추가 데이터는 `_meta`에 넣으세요), 양쪽 모두 협상한 프로토콜 버전에 맞춰 트래픽을 검증합니다. 이름 변경 표는 **[마이그레이션 가이드](migration.md#field-names-changed-from-camelcase-to-snake_case)**를 참고하세요.
 
@@ -139,16 +139,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.ContentB
 * **클라이언트는 받은 것을 검증합니다.** `list_tools()`와 `call_tool()`은 서버의 응답을 협상한 프로토콜 버전에 맞춰 검사하므로, v1의 관대한 파싱이 눈감아 주던 완전히 유효하지는 않은 서버는 이제 `pydantic.ValidationError`를 발생시킵니다. 직접 제어하지 않는 서버에 연결한다면 그런 서버를 가장 먼저 발견하는 쪽이 될 것을 예상하세요. 자세한 내용은 **[마이그레이션 가이드](migration.md#client-validates-inbound-traffic-against-the-protocol-schema)**에 있습니다.
 * **URI 템플릿은 이제 진짜 RFC 6570입니다.** `{+path}`, `{?query}` 등이 동작하고, 매칭은 정규식처럼 느슨한 것이 아니라 정확하며, 추출된 값의 경로 탐색(path traversal)은 기본적으로 거부됩니다. 더 엄격해진 템플릿은 첫 요청 때가 아니라 데코레이터를 적용하는 시점에 실패합니다. **[URI 템플릿](servers/uri-templates.md)**을 참고하세요.
 * **Streamable HTTP의 lifespan은 한 번만 실행됩니다.** 시작 시에 실행되며, 그 상태는 모든 세션과 요청이 공유합니다. v1에서는 세션마다 한 번, `stateless_http=True`에서는 요청마다 한 번 실행되었습니다. lifespan에서 만드는 풀과 캐시는 훨씬 저렴해지고, 거기서 연결별 리소스를 획득하던 코드는 이제 핸들러 본문에 있어야 합니다. **[Lifespan](handlers/lifespan.md)**을 참고하세요.
-* **`mcp dev`와 `mcp install`은 생성하는 환경을** 설치된 SDK 버전에 고정합니다. 두 명령 모두 새로운 `uv run --with ...` 환경에서 서버를 실행하는데, 예전에는 이 환경이 `mcp`를 개발 중인 버전이 아니라 최신 안정 릴리스로 해석했습니다. **[마이그레이션 가이드](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**를 참고하세요.
+* **`darpy-sdk dev`와 `darpy-sdk install`은 생성하는 환경을** 설치된 SDK 버전에 고정합니다. 두 명령 모두 새로운 `uv run --with ...` 환경에서 서버를 실행하는데, 예전에는 이 환경이 `mcp`를 개발 중인 버전이 아니라 최신 안정 릴리스로 해석했습니다. **[마이그레이션 가이드](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**를 참고하세요.
 * **HTTP 클라이언트는 이제 `httpx`가 아니라 `httpx2`입니다.** 의존성이 바뀌면서 코드가 잡고 전달하는 대상이 달라지고(`httpx2.AsyncClient`, `httpx2.ConnectError`), TLS 인증서를 검증하는 방식도 달라집니다. `httpx2`는 certifi에 번들된 CA 목록 대신 `truststore`를 통해 운영 체제의 신뢰 저장소에 맞춰 검증합니다. 대부분의 환경에서는 전혀 알아채지 못합니다. 시스템 CA 저장소가 없는 최소 구성 컨테이너나, certifi 번들만 알고 있던 사설 CA는 TLS 핸드셰이크에 실패하기 시작합니다. `SSL_CERT_FILE`/`SSL_CERT_DIR` 환경 변수를 설정하거나 클라이언트에 `verify=ssl_context`를 전달하세요. **[마이그레이션 가이드](migration.md#httpx-and-httpx-sse-replaced-by-httpx2)**를 참고하세요.
 
 ### 완전히 제거된 것 {#removed-outright}
 
 다음 각 항목은 **[마이그레이션 가이드](migration.md)**에 섹션으로 정리되어 있습니다.
 
-* **WebSocket 트랜스포트**(양쪽 모두)와 `mcp[ws]` extra. MCP 사양의 일부였던 적이 없습니다.
+* **WebSocket 트랜스포트**(양쪽 모두)와 `darpy-sdk[ws]` extra. MCP 사양의 일부였던 적이 없습니다.
 * **실험적 Tasks** API(`mcp.*.experimental`). 2026-07-28은 태스크를 핵심 프로토콜에서 빼내 공식 확장([SEP-2663](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2663))으로 옮겼으며, 이 SDK는 아직 이를 구현하지 않습니다.
-* import 경로로서의 `mcp.shared.version`, `mcp.shared.progress`, `mcp.shared.session`(v1 `message_handler` 어노테이션이 import하던 `RequestResponder` 스텁 포함). (`mcp.types`는 제거되지 **않았습니다**. 독립 패키지 `mcp_types`의 영구 별칭으로 남아 있습니다.)
+* import 경로로서의 `darpy_sdk.shared.version`, `darpy_sdk.shared.progress`, `darpy_sdk.shared.session`(v1 `message_handler` 어노테이션이 import하던 `RequestResponder` 스텁 포함). (`darpy_sdk.types`는 제거되지 **않았습니다**. 독립 패키지 `darpy_sdk_types`의 영구 별칭으로 남아 있습니다.)
 * 지원 중단 예정이던 `streamablehttp_client` 표기, 그리고 `streamable_http_client`의 `get_session_id` 콜백(이 함수는 이제 정확히 스트림 두 개를 내놓습니다).
 * `McpError`. `(code, message, data)`를 직접 받는 생성자를 갖춘 **`MCPError`**로 이름이 바뀌었습니다.
 * `MCPServer.get_context()`, `mount_path=`, 그리고 저수준 `Server`의 데코레이터 메서드, ContextVar, 핸들러 딕셔너리.
@@ -215,4 +215,4 @@ Streamable HTTP에서는 2026 경로에 `Mcp-Session-Id`가 없으며, 운영 �
 
 * 무엇을 바꿔야 하는지 완전하고 정확하게 정리한 목록은 **[마이그레이션 가이드](migration.md)**입니다. 이 페이지는 그 이유를 설명한 것입니다.
 * **v1.x는 사라지지 않습니다.** 유지 보수 단계로 전환되어 중요한 수정과 보안 패치를 계속 받으며, 2026-07-28 사양 릴리스의 어떤 것도 v1.x를 깨뜨리지 않습니다. 문서는 [/v1/](https://py.sdk.modelcontextprotocol.io/v1/)에 있습니다. `mcp`에 의존하는 라이브러리를 배포하고 있고 아직 마이그레이션할 준비가 되지 않았다면, 버전을 고정하지 않은 의존성 해석이 1.x에 머물도록 상한을 두세요(예: `mcp>=1.28,<2`).
-* 거칠거나, 헷갈리거나, 망가진 부분이 있다면 **[v2 피드백을 남겨 주세요](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)**. 빠짐없이 읽습니다.
+* 거칠거나, 헷갈리거나, 망가진 부분이 있다면 **[v2 피드백을 남겨 주세요](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)**. 빠짐없이 읽습니다.

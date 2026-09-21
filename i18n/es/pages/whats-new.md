@@ -10,9 +10,9 @@ En la v2 pasaron dos cosas a la vez. Se **reconstruyó el SDK**: un motor nuevo 
 Esta página es el recorrido por ambas mitades, una sección por titular, cada una terminando en la página que se ocupa del tema. No es el manual de portado. Ese es la **[Guía de migración](migration.md)**: cada cambio incompatible, con el código de antes y después.
 
 !!! note "La v2 es la línea estable"
-    `pip install mcp` instala la 2.x, e **[Instalación](get-started/installation.md)** tiene la
+    `pip install darpy-sdk` instala la 2.x, e **[Instalación](get-started/installation.md)** tiene la
     línea de instalación para copiar y pegar. Si algo en la v2 se rompe, te sorprende o te frena,
-    [cuéntanoslo](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    [cuéntanoslo](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 ## El SDK: de la v1 a la v2 {#the-sdk-v1-to-v2}
 
@@ -21,12 +21,12 @@ Esta página es el recorrido por ambas mitades, una sección por titular, cada u
 La clase de servidor de alto nivel cambió de nombre, y su módulo con ella. Es lo primero con lo que se topa todo servidor v1, porque la ruta de import antigua desapareció en lugar de quedar obsoleta:
 
 ```python
-from mcp.server import MCPServer  # v1: from mcp.server.fastmcp import FastMCP
+from darpy_sdk.server import MCPServer  # v1: from darpy_sdk.server.fastmcp import FastMCP
 
 mcp = MCPServer("Demo")  # v1: FastMCP("Demo")
 ```
 
-Para un servidor construido con decoradores, eso es además casi todo el portado. `@mcp.tool()`, `@mcp.resource()` y `@mcp.prompt()` aceptan lo mismo que aceptaban en la v1 (`@mcp.resource()` añade un argumento nombrado opcional `security=`), y el esquema de entrada sigue saliendo de tus anotaciones de tipo. En los bordes: todo lo que estaba bajo `mcp.server.fastmcp.*` vive ahora bajo `mcp.server.mcpserver.*`, `ctx.fastmcp` es `ctx.mcp_server`, `get_context()` desapareció (declara un parámetro `ctx: Context` en su lugar) y la excepción base `FastMCPError` es `MCPServerError`. La **[Guía de migración](migration.md#fastmcp-renamed-to-mcpserver)** tiene la tabla de imports.
+Para un servidor construido con decoradores, eso es además casi todo el portado. `@mcp.tool()`, `@mcp.resource()` y `@mcp.prompt()` aceptan lo mismo que aceptaban en la v1 (`@mcp.resource()` añade un argumento nombrado opcional `security=`), y el esquema de entrada sigue saliendo de tus anotaciones de tipo. En los bordes: todo lo que estaba bajo `darpy_sdk.server.fastmcp.*` vive ahora bajo `darpy_sdk.server.mcpserver.*`, `ctx.fastmcp` es `ctx.mcp_server`, `get_context()` desapareció (declara un parámetro `ctx: Context` en su lugar) y la excepción base `FastMCPError` es `MCPServerError`. La **[Guía de migración](migration.md#fastmcp-renamed-to-mcpserver)** tiene la tabla de imports.
 
 ### `Resolve`: la nueva forma de pedir datos al usuario {#resolve-the-new-way-to-ask-the-user-for-input}
 
@@ -62,8 +62,8 @@ mcp==1.28.1 install. If you edit it, re-validate it against 1.x. -->
 ```python title="v1"
 from typing import Any
 
-import mcp.types as types
-from mcp.server.lowlevel import Server
+import darpy_sdk.types as types
+from darpy_sdk.server.lowlevel import Server
 
 server = Server("Bookshop")
 
@@ -118,9 +118,9 @@ Por debajo, el bucle de recepción `BaseSession` de la v1 se reemplazó por un m
 
 **[El Server de bajo nivel](advanced/low-level-server.md)** es la página; la **[Guía de migración](migration.md#lowlevel-server-decorator-based-handlers-replaced-with-constructor-on_-params)** recorre cada gancho eliminado. Si nunca bajaste por debajo de `MCPServer`, nada de esto te afecta.
 
-### Los tipos del protocolo se movieron a `mcp-types`, y todos los campos son snake_case {#the-wire-types-moved-to-mcp-types-and-every-field-is-snake_case}
+### Los tipos del protocolo se movieron a `darpy-sdk-types`, y todos los campos son snake_case {#the-wire-types-moved-to-darpy-sdk-types-and-every-field-is-snake_case}
 
-Los tipos del protocolo viven ahora en su propia distribución, `mcp-types`. No depende de nada más que pydantic y typing-extensions, así que una pasarela, un proxy o un generador de código pueden consumir las formas que MCP transmite sin instalar una pila HTTP: un proyecto así instala `mcp-types` e importa `mcp_types`. El propio `mcp` depende de ese paquete en una versión exacta y lo reexpone, así que el código que depende del SDK sigue escribiendo `import mcp.types as types` y `from mcp.types import Tool` (un alias permanente, cada nombre es el mismo objeto) y declara solo su única dependencia real, `mcp`. La regla práctica: importa a través del paquete del que realmente dependas.
+Los tipos del protocolo viven ahora en su propia distribución, `darpy-sdk-types`. No depende de nada más que pydantic y typing-extensions, así que una pasarela, un proxy o un generador de código pueden consumir las formas que MCP transmite sin instalar una pila HTTP: un proyecto así instala `darpy-sdk-types` e importa `darpy_sdk_types`. El propio `mcp` depende de ese paquete en una versión exacta y lo reexpone, así que el código que depende del SDK sigue escribiendo `import darpy_sdk.types as types` y `from darpy_sdk.types import Tool` (un alias permanente, cada nombre es el mismo objeto) y declara solo su única dependencia real, `mcp`. La regla práctica: importa a través del paquete del que realmente dependas.
 
 En esos tipos, cada atributo de Python es ahora snake_case: `result.is_error`, `tool.input_schema`, `listing.next_cursor`. El JSON que realmente se transmite es camelCase, exactamente como antes; solo cambió la grafía de los atributos. Dos valores por defecto más estrictos lo acompañan: los campos desconocidos se ignoran en lugar de reenviarse de vuelta (pon los extras en `_meta`), y ambos lados validan el tráfico contra la versión del protocolo que negociaron. Consulta la **[Guía de migración](migration.md#field-names-changed-from-camelcase-to-snake_case)** para ver la tabla de renombramientos.
 
@@ -140,16 +140,16 @@ Los renombramientos se anuncian solos. Estos no:
 * **Tu cliente valida lo que recibe.** `list_tools()` y `call_tool()` comprueban la respuesta del servidor contra la versión del protocolo negociada, así que un servidor no del todo válido que el análisis permisivo de la v1 toleraba ahora lanza `pydantic.ValidationError`. Si te conectas a servidores que no controlas, cuenta con ser tú quien los descubra; la **[Guía de migración](migration.md#client-validates-inbound-traffic-against-the-protocol-schema)** tiene los detalles.
 * **Las plantillas de URI son ahora RFC 6570 de verdad.** `{+path}`, `{?query}` y compañía funcionan, la coincidencia es exacta en lugar de laxa por regex, y el path traversal en los valores extraídos se rechaza por defecto. Las plantillas más estrictas fallan al decorar, no en la primera solicitud. **[Plantillas de URI](servers/uri-templates.md)**.
 * **El lifespan de Streamable HTTP se ejecuta una vez**, al arrancar, y su estado lo comparten todas las sesiones y solicitudes. En la v1 se ejecutaba una vez por sesión, y una vez por solicitud con `stateless_http=True`. Los pools y cachés construidos en un lifespan se vuelven drásticamente más baratos; cualquier cosa que adquiriera ahí un recurso por conexión pertenece ahora al cuerpo del handler. **[Lifespan](handlers/lifespan.md)**.
-* **`mcp dev` y `mcp install` fijan el entorno que lanzan** a la versión del SDK que tienes instalada. Ambos comandos ejecutan tu servidor en un entorno nuevo `uv run --with ...`, que antes resolvía `mcp` a la versión estable más reciente en lugar de la versión contra la que estás desarrollando. **[Guía de migración](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**.
+* **`darpy-sdk dev` y `darpy-sdk install` fijan el entorno que lanzan** a la versión del SDK que tienes instalada. Ambos comandos ejecutan tu servidor en un entorno nuevo `uv run --with ...`, que antes resolvía `mcp` a la versión estable más reciente en lugar de la versión contra la que estás desarrollando. **[Guía de migración](migration.md#mcp-dev-and-mcp-install-pin-the-spawned-environment-to-your-sdk-version)**.
 * **El cliente HTTP es ahora `httpx2`, no `httpx`.** El cambio de dependencia altera lo que tu código captura y pasa (`httpx2.AsyncClient`, `httpx2.ConnectError`), y cambia cómo se verifican los certificados TLS: `httpx2` valida mediante `truststore` contra el almacén de confianza del sistema operativo en lugar de la lista de CA incluida en certifi. La mayoría de los entornos ni se enteran; un contenedor mínimo sin almacén de CA del sistema, o una CA privada que solo conocía el paquete de certifi, empieza a fallar en el handshake TLS. Define `SSL_CERT_FILE`/`SSL_CERT_DIR` o pasa `verify=ssl_context` a tu cliente. **[Guía de migración](migration.md#httpx-and-httpx-sse-replaced-by-httpx2)**.
 
 ### Eliminado sin más {#removed-outright}
 
 Cada uno de estos es una sección de la **[Guía de migración](migration.md)**:
 
-* El **transporte WebSocket**, en ambos lados, y el extra `mcp[ws]`. Nunca formó parte de la especificación de MCP.
+* El **transporte WebSocket**, en ambos lados, y el extra `darpy-sdk[ws]`. Nunca formó parte de la especificación de MCP.
 * La API **experimental Tasks** (`mcp.*.experimental`). 2026-07-28 saca las tareas del protocolo principal y las lleva a una extensión oficial ([SEP-2663](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2663)), que este SDK todavía no implementa.
-* `mcp.shared.version`, `mcp.shared.progress` y `mcp.shared.session` (con el stub `RequestResponder` que importaban las anotaciones de `message_handler` de la v1) como rutas de import. (`mcp.types` *no* se elimina: permanece como alias permanente del paquete independiente `mcp_types`.)
+* `darpy_sdk.shared.version`, `darpy_sdk.shared.progress` y `darpy_sdk.shared.session` (con el stub `RequestResponder` que importaban las anotaciones de `message_handler` de la v1) como rutas de import. (`darpy_sdk.types` *no* se elimina: permanece como alias permanente del paquete independiente `darpy_sdk_types`.)
 * La grafía obsoleta `streamablehttp_client`, y el callback `get_session_id` de `streamable_http_client` (que ahora produce exactamente dos flujos).
 * `McpError`, renombrado **`MCPError`** con un constructor directo `(code, message, data)`.
 * `MCPServer.get_context()`, `mount_path=` y, en el `Server` de bajo nivel, los métodos decoradores, la ContextVar y los diccionarios de handlers.
@@ -217,4 +217,4 @@ En 2026-07-28 el flujo HTTP GET independiente y `resources/subscribe` se sustitu
 
 * La **[Guía de migración](migration.md)** es la lista completa y exacta de lo que hay que cambiar; esta página era el porqué.
 * **La v1.x no se va a ningún lado.** Pasa a mantenimiento, sigue recibiendo correcciones críticas y parches de seguridad, y nada de la publicación de la especificación 2026-07-28 la rompe; su documentación vive en [/v1/](https://py.sdk.modelcontextprotocol.io/v1/). Si publicas una biblioteca que depende de `mcp` y no estás listo para migrar, mantén un límite superior (por ejemplo `mcp>=1.28,<2`) para que una resolución sin fijar se quede en la 1.x.
-* ¿Algo tosco, confuso o roto? **[Envía comentarios sobre la v2](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)**; se lee todo.
+* ¿Algo tosco, confuso o roto? **[Envía comentarios sobre la v2](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)**; se lee todo.

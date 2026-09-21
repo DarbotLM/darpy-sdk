@@ -3,14 +3,13 @@ adopts only, claimed-result routing, the version-aware capability ad, and the
 `allow_claimed` escape hatch."""
 
 from collections.abc import Mapping
-from typing import Any, Literal
+from typing import Any, Literal, assert_type
 
 import anyio
 import anyio.abc
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CallToolResult,
     Implementation,
@@ -21,14 +20,14 @@ from mcp_types import (
     TextContent,
     Tool,
 )
-from mcp_types.methods import validate_server_result
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from darpy_sdk_types.methods import validate_server_result
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 from pydantic import ValidationError
-from typing_extensions import assert_type
 
-from mcp.client.extension import ClaimContext, ResultClaim, UnexpectedClaimedResult
-from mcp.client.session import ClientSession, _CallToolResultAdapter
-from mcp.shared.dispatcher import CallOptions, OnNotify, OnNotifyIntercept, OnRequest
+from darpy_sdk.client.extension import ClaimContext, ResultClaim, UnexpectedClaimedResult
+from darpy_sdk.client.session import ClientSession, _CallToolResultAdapter
+from darpy_sdk.shared.dispatcher import CallOptions, OnNotify, OnNotifyIntercept, OnRequest
 
 _TASKS_EXT = "com.example/tasks"
 _AD_ONLY_EXT = "com.example/flags"
@@ -464,5 +463,5 @@ async def test_call_tool_overload_matrix_narrows_statically() -> None:
 
 def test_claimed_raw_passes_v2026_tools_call_surface_validation() -> None:
     """Pins the claim path's dependency: an unknown resultType passes `validate_server_result`
-    at 2026-07-28; this failing is the signal that mcp-types tightened the surface."""
+    at 2026-07-28; this failing is the signal that darpy-sdk-types tightened the surface."""
     validate_server_result("tools/call", LATEST_MODERN_VERSION, {"resultType": "task", "taskId": "t-1"})

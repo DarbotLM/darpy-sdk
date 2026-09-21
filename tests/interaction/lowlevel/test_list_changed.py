@@ -15,19 +15,19 @@ alongside the fix that introduces capability gating.
 """
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     PromptListChangedNotification,
     ResourceListChangedNotification,
     TextContent,
     ToolListChangedNotification,
 )
+from inline_snapshot import snapshot
 
-from mcp.client import IncomingMessage
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

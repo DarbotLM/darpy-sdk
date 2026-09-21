@@ -1,8 +1,8 @@
 """Drive the deploy tool both ways: the Client auto-loop, and a manual session-level loop."""
 
-import mcp.types as types
-from mcp import MCPError
-from mcp.client import Client, ClientRequestContext
+import darpy_sdk.types as types
+from darpy_sdk import MCPError
+from darpy_sdk.client import Client, ClientRequestContext
 from stories._harness import Target, run_client
 
 

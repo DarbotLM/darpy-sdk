@@ -31,7 +31,7 @@ Bir **`Context`** parametresi alın ve `report_progress`'i çağırın:
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -65,7 +65,7 @@ Callback, sunucunun bildirdiklerini olduğu gibi alan `async` bir fonksiyondur: 
 `server.py` dosyasını HTTP üzerinden sunun, ardından istemciyi ikinci bir terminalden çalıştırın:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

@@ -34,7 +34,7 @@ Dikkat edilecek iki nokta:
 * `structured_content` değeri `None`. Bir `Image`, uygulamanın ayrıştıracağı veri değil, modelin bakacağı içeriktir: çıktı şeması yoktur. (Dönüş tür ipucunun şemanın *ta kendisi* olduğu **[Yapılandırılmış çıktı](structured-output.md)** sayfasıyla karşılaştırın.)
 
 !!! info
-    `ImageContent` ve `AudioContent`, `mcp.types` modülünde, düz bir `str` sonucunun dönüştüğü
+    `ImageContent` ve `AudioContent`, `darpy_sdk.types` modülünde, düz bir `str` sonucunun dönüştüğü
     `TextContent`'in hemen yanında yer alır (**[Araçlar](tools.md)**). Bir araç sonucu, içerik bloklarından oluşan bir listedir; `Image` ve `Audio`
     iki ikili türü üretmenin en kısa yoludur.
 
@@ -43,7 +43,7 @@ Dikkat edilecek iki nokta:
 `server.py` dosyasının yanına herhangi bir PNG koyun, adını `logo.png` yapın ve çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** sekmesini açın ve `logo` aracını çağırın. Sonuç bir dize değil: bir `image` içerik bloğu ve Inspector resminizi görüntülüyor. Diskteki dosya ile ekrandaki pikseller arasındaki her şeyi SDK yaptı.
@@ -95,7 +95,7 @@ Bir araç bir belge de döndürebilir: bulunduğu URI ve bir MIME türüyle birl
 ```
 
 * `brand://guidelines` sıradan bir kaynaktır (bunları **[Kaynaklar](resources.md)** sayfası anlatır). Araç, istek üzerine aynı belgeyi modele verir ve `guidelines()`'ı doğrudan çağırmak tek bir doğruluk kaynağını korur.
-* `EmbeddedResource` ve `TextResourceContents`, `mcp.types` modülünden gelir. Görsellerdeki gibi bir yardımcı yoktur: oluşturduğunuz blok sonuca olduğu gibi girer ve `structured_content` yoktur.
+* `EmbeddedResource` ve `TextResourceContents`, `darpy_sdk.types` modülünden gelir. Görsellerdeki gibi bir yardımcı yoktur: oluşturduğunuz blok sonuca olduğu gibi girer ve `structured_content` yoktur.
 * Kaynağın kaydedildiği URI'yi kullanın; böylece istemci ekin ve `brand://guidelines` kaynağının aynı belge olduğunu anlayabilir. Kayıtlı olsun olmasın her URI geçerlidir.
 
 ```python
@@ -123,7 +123,7 @@ Aynı `icons=[...]` anahtar sözcüğünü `MCPServer(...)`, `@mcp.tool()`, `@mc
 Simgeler, süsledikleri şeyle birlikte yolculuk eder. Sunucununkiler istemci bağlandığında `client.server_info` üzerinde gelir (2026 neslinden bağlantılarda isteğe bağlıdır, bu yüzden önce türünü daraltın):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

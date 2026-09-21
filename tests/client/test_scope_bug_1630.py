@@ -10,8 +10,8 @@ import httpx2
 import pytest
 from pydantic import AnyUrl
 
-from mcp.client.auth import OAuthClientProvider
-from mcp.shared.auth import (
+from darpy_sdk.client.auth import OAuthClientProvider
+from darpy_sdk.shared.auth import (
     AuthorizationCodeResult,
     OAuthClientInformationFull,
     OAuthClientMetadata,

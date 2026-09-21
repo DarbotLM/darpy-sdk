@@ -2,10 +2,10 @@
 
 import anyio
 import pytest
-from mcp_types import JSONRPCMessage, JSONRPCResponse
+from darpy_sdk_types import JSONRPCMessage, JSONRPCResponse
 from starlette.types import Message, Scope
 
-from mcp.server.streamable_http import (
+from darpy_sdk.server.streamable_http import (
     REQUEST_STREAM_BUFFER_SIZE,
     EventCallback,
     EventId,
@@ -14,7 +14,7 @@ from mcp.server.streamable_http import (
     StreamableHTTPServerTransport,
     StreamId,
 )
-from mcp.shared.message import SessionMessage
+from darpy_sdk.shared.message import SessionMessage
 
 
 class _PrimingFailingStore(EventStore):

@@ -31,7 +31,7 @@ Pagination उस server के लिए है जिसकी resource list �
 
 ### इसे आज़माएँ {#try-it}
 
-`mcp run` सिर्फ़ `MCPServer` स्वीकार करता है, इसलिए इसे आप ख़ुद serve करते हैं। `server.py` की आख़िरी line `Server` से एक साधारण ASGI app बनाती है, और uvicorn उसी को चलाता है:
+`darpy-sdk run` सिर्फ़ `MCPServer` स्वीकार करता है, इसलिए इसे आप ख़ुद serve करते हैं। `server.py` की आख़िरी line `Server` से एक साधारण ASGI app बनाती है, और uvicorn उसी को चलाता है:
 
 ```console
 uvicorn server:app --port 8000

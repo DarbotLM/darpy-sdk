@@ -1,7 +1,7 @@
 """Tests for the protocol-version registry and comparison helpers."""
 
 import pytest
-from mcp_types.version import (
+from darpy_sdk_types.version import (
     HANDSHAKE_PROTOCOL_VERSIONS,
     KNOWN_PROTOCOL_VERSIONS,
     MODERN_PROTOCOL_VERSIONS,

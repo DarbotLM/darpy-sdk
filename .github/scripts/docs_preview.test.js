@@ -11,8 +11,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { authorize, comment } = require('./docs_preview.js');
 
-const REPO = { owner: 'modelcontextprotocol', repo: 'python-sdk' };
-const BASE_REPO = { id: 1, full_name: 'modelcontextprotocol/python-sdk' };
+const REPO = { owner: 'DarbotLM', repo: 'darpy-sdk' };
+const BASE_REPO = { id: 1, full_name: 'DarbotLM/darpy-sdk' };
 const HEAD = 'e4dfda7baa127ab00ebcd1d5324560cbe3cdfe42';
 const MARKER = '<!-- docs-preview -->';
 
@@ -42,7 +42,7 @@ const authorizeScenarios = [
     // actions/checkout refuses a fork's head under pull_request_target, so
     // the run stops here instead of failing in `build`; /preview-docs still works.
     name: 'admin pushes to or reopens a fork PR → no automatic preview',
-    event: pushed(7, 'admin', { fork: 'someone/python-sdk' }),
+    event: pushed(7, 'admin', { fork: 'someone/darpy-sdk' }),
     expect: { authorized: 'false', pr_number: '7', head_sha: HEAD, slash_attempt: 'false' },
     permissionLookups: 0,
   },
@@ -54,7 +54,7 @@ const authorizeScenarios = [
   },
   {
     name: 'maintainer comments /preview-docs on a fork PR → previewed like any other',
-    pr: { fork: 'someone/python-sdk' },
+    pr: { fork: 'someone/darpy-sdk' },
     event: slash(7, 'maintainer'),
     expect: { authorized: 'true', pr_number: '7', head_sha: HEAD, slash_attempt: 'true' },
   },
@@ -108,9 +108,9 @@ const DEPLOYED = {
   PR_NUMBER: '7',
   HEAD_SHA: HEAD,
   DEPLOY_RESULT: 'success',
-  DEPLOYMENT_URL: 'https://1a2b3c.mcp-python-sdk-docs.pages.dev',
-  ALIAS_URL: 'https://pr-7.mcp-python-sdk-docs.pages.dev',
-  RUN_URL: 'https://github.com/modelcontextprotocol/python-sdk/actions/runs/1',
+  DEPLOYMENT_URL: 'https://1a2b3c.darpy-sdk-docs.pages.dev',
+  ALIAS_URL: 'https://pr-7.darpy-sdk-docs.pages.dev',
+  RUN_URL: 'https://github.com/DarbotLM/darpy-sdk/actions/runs/1',
 };
 
 test('comment: a refused /preview-docs gets a plain reply to the commenter, not a preview comment', async () => {
@@ -127,8 +127,8 @@ test('comment: first successful deploy posts one preview comment linking the ali
   assert.equal(world.comments.length, 1);
   const body = world.comments[0].body;
   assert.ok(body.startsWith(`${MARKER}\n### 📚 Documentation preview`));
-  assert.match(body, /\| \*\*Preview\*\* \| https:\/\/pr-7\.mcp-python-sdk-docs\.pages\.dev \|/);
-  assert.match(body, /\| \*\*Deployment\*\* \| https:\/\/1a2b3c\.mcp-python-sdk-docs\.pages\.dev \|/);
+  assert.match(body, /\| \*\*Preview\*\* \| https:\/\/pr-7\.darpy-sdk-docs\.pages\.dev \|/);
+  assert.match(body, /\| \*\*Deployment\*\* \| https:\/\/1a2b3c\.darpy-sdk-docs\.pages\.dev \|/);
   assert.match(body, /\| \*\*Commit\*\* \| `e4dfda7` \|/);
   assert.match(body, /\| \*\*Triggered by\*\* \| @admin \|/);
   assert.deepEqual(world.writes, ['comment on #7']);
@@ -153,7 +153,7 @@ test("comment: someone else's comment that happens to contain the marker is left
 test('comment: with no alias URL the preview link falls back to the deployment URL', async () => {
   const world = makeWorld({ pr: { number: 7 } });
   await runComment(world, { ...DEPLOYED, ALIAS_URL: '' }, 'admin');
-  assert.match(world.comments[0].body, /\| \*\*Preview\*\* \| https:\/\/1a2b3c\.mcp-python-sdk-docs\.pages\.dev \|/);
+  assert.match(world.comments[0].body, /\| \*\*Preview\*\* \| https:\/\/1a2b3c\.darpy-sdk-docs\.pages\.dev \|/);
 });
 
 test('comment: a build or deploy that did not succeed is reported with the short SHA and a link to the run', async () => {

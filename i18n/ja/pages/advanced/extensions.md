@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 HTTP で配信すれば、クライアントがその証明になります。
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ uv run mcp run server.py --transport streamable-http
 クライアント側の振る舞いを**一切持たない**識別子をアドバタイズするには（サーバーがケイパビリティでゲートし、クライアントは何もしない、上の検索クライアントのような場合）、`advertise()` を使います。
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### 拡張機能の動詞 {#extension-verbs}
 
-拡張機能独自のリクエストメソッドには、クライアント側の登録は不要です。ベンダーリクエスト型は `mcp.types.Request` をサブクラス化し、[独自メソッドの提供](#serving-your-own-methods)と同様に `client.session.send_request` を通ります。名前付きのジョブに関する動詞を 1 つ、拡張機能が配信するサーバーを例に取りましょう。
+拡張機能独自のリクエストメソッドには、クライアント側の登録は不要です。ベンダーリクエスト型は `darpy_sdk.types.Request` をサブクラス化し、[独自メソッドの提供](#serving-your-own-methods)と同様に `client.session.send_request` を通ります。名前付きのジョブに関する動詞を 1 つ、拡張機能が配信するサーバーを例に取りましょう。
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

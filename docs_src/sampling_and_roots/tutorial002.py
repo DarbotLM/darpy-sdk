@@ -1,8 +1,8 @@
 from typing import Annotated
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import ListRoots, Resolve
-from mcp.types import ListRootsResult
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import ListRoots, Resolve
+from darpy_sdk.types import ListRootsResult
 
 mcp = MCPServer("Bookshop")
 

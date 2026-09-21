@@ -108,13 +108,13 @@ translation:
 
 ## SSE {#sse}
 
-`mcp.client.sse` 裡的 `sse_client(url)` 是被 Streamable HTTP 取代的那個 HTTP 傳輸。要和還在講它的伺服器溝通，用同樣的方式包起來即可：`Client(sse_client("http://localhost:8000/sse"))`，但不要在它上面蓋任何新東西。
+`darpy_sdk.client.sse` 裡的 `sse_client(url)` 是被 Streamable HTTP 取代的那個 HTTP 傳輸。要和還在講它的伺服器溝通，用同樣的方式包起來即可：`Client(sse_client("http://localhost:8000/sse"))`，但不要在它上面蓋任何新東西。
 
 ## `Transport` 協定 {#the-transport-protocol}
 
 對 `Client` 來說，上面這些全都是同一種東西。
 
-**傳輸**是任何會產出一對 `(read, write)` 訊息串流的非同步 context manager：正式地說，就是 `mcp.client` 裡的 `Transport` 協定。`Client` 依型別解析它的引數：`str` 會變成 `streamable_http_client(url)`，`StdioServerParameters` 會變成 `stdio_client(params)`，伺服器物件就在處理程序內連線，其他任何東西則直接當成傳輸進入。最後這條規則就是為什麼 `stdio_client(...)`、`streamable_http_client(...)` 和 `sse_client(...)` 都能放進同一個位置，也是為什麼你可以自己寫一個。
+**傳輸**是任何會產出一對 `(read, write)` 訊息串流的非同步 context manager：正式地說，就是 `darpy_sdk.client` 裡的 `Transport` 協定。`Client` 依型別解析它的引數：`str` 會變成 `streamable_http_client(url)`，`StdioServerParameters` 會變成 `stdio_client(params)`，伺服器物件就在處理程序內連線，其他任何東西則直接當成傳輸進入。最後這條規則就是為什麼 `stdio_client(...)`、`streamable_http_client(...)` 和 `sse_client(...)` 都能放進同一個位置，也是為什麼你可以自己寫一個。
 
 ## 重點回顧 {#recap}
 

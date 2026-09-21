@@ -1,7 +1,7 @@
 import anyio
 
-from mcp import Client
-from mcp.client.subscriptions import SubscriptionLost
+from darpy_sdk import Client
+from darpy_sdk.client.subscriptions import SubscriptionLost
 
 from .tutorial003 import read_board
 

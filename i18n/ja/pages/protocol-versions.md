@@ -14,7 +14,7 @@ MCP には 2 つの世代があります。
 このページのスニペットはどれも、**[クライアント](client/index.md)** に出てくる Bookshop の `server.py` と通信する `client.py` です。まず 1 つ目のターミナルでそのサーバーを起動してください。
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 次に、2 つ目のターミナルで各スニペットを `python client.py` で実行します。

@@ -2,9 +2,9 @@
 
 import asyncio
 
-import mcp.types as types
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+import darpy_sdk.types as types
+from darpy_sdk import ClientSession, StdioServerParameters
+from darpy_sdk.client.stdio import stdio_client
 
 
 async def parse_tool_results():

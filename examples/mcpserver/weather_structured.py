@@ -13,8 +13,8 @@ from typing import TypedDict
 
 from pydantic import BaseModel, Field
 
-from mcp.client import Client
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.client import Client
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create server
 mcp = MCPServer("Weather Service")

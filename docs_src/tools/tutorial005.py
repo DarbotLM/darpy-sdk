@@ -1,5 +1,5 @@
-from mcp.server import MCPServer
-from mcp.types import ToolAnnotations
+from darpy_sdk.server import MCPServer
+from darpy_sdk.types import ToolAnnotations
 
 mcp = MCPServer("Bookshop")
 

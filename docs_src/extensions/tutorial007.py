@@ -1,10 +1,10 @@
 from collections.abc import Sequence
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.extension import Extension, MethodBinding
-from mcp.server.mcpserver import MCPServer
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.extension import Extension, MethodBinding
+from darpy_sdk.server.mcpserver import MCPServer
 
 EXTENSION_ID = "com.example/jobs"
 

@@ -124,7 +124,7 @@ By default the secret travels as HTTP Basic auth on the token request (`client_s
     Read `client_secret` from the environment or a secret manager, never from source control.
 
 !!! info
-    One more provider lives in `mcp.client.auth.extensions.client_credentials`:
+    One more provider lives in `darpy_sdk.client.auth.extensions.client_credentials`:
     **`PrivateKeyJWTOAuthProvider`**, for clients that authenticate with a JWT instead of a
     shared secret (`private_key_jwt`, the key-pair and workload-identity flavour). It follows
     the same pattern: construct one (it takes the same optional `issuer`), put it on `auth=`. The same module ships
@@ -134,7 +134,7 @@ There is one more no-human situation: the client belongs to an enterprise whose 
 
 ## When it fails
 
-When the OAuth flow goes wrong, the provider raises an `OAuthFlowError` from `mcp.client.auth`. It has two subclasses. `OAuthRegistrationError` means registration did not yield a client you can use: the authorization server refused to register you, or it did register you but with credentials this flow cannot use (for instance an authentication method it does not implement). `OAuthTokenError` means a token could not be obtained: the token endpoint said no, or a stored client record carries an authentication method this client cannot apply, which is reported while building the token request rather than sent. One `except OAuthFlowError:` covers discovery, registration, authorization, and exchange.
+When the OAuth flow goes wrong, the provider raises an `OAuthFlowError` from `darpy_sdk.client.auth`. It has two subclasses. `OAuthRegistrationError` means registration did not yield a client you can use: the authorization server refused to register you, or it did register you but with credentials this flow cannot use (for instance an authentication method it does not implement). `OAuthTokenError` means a token could not be obtained: the token endpoint said no, or a stored client record carries an authentication method this client cannot apply, which is reported while building the token request rather than sent. One `except OAuthFlowError:` covers discovery, registration, authorization, and exchange.
 
 Not everything is a flow error. The network can still fail; those are ordinary `httpx2` exceptions and pass through untouched.
 

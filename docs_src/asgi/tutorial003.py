@@ -4,7 +4,7 @@ from contextlib import AsyncExitStack, asynccontextmanager
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 notes = MCPServer("Notes")
 tasks = MCPServer("Tasks")

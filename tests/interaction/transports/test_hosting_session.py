@@ -11,10 +11,10 @@ import re
 import anyio
 import httpx2
 import pytest
+from darpy_sdk_types import JSONRPCResponse, ListToolsResult, PaginatedRequestParams, Tool
 from inline_snapshot import snapshot
-from mcp_types import JSONRPCResponse, ListToolsResult, PaginatedRequestParams, Tool
 
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import (
     base_headers,
     client_via_http,

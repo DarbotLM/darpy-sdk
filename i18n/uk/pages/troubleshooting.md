@@ -16,7 +16,7 @@ translation:
 Ці пункти звертаються до нього за адресою `http://localhost:8000/mcp`, тож залиште його працювати через HTTP:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Помилки, які цитує ця сторінка, справжні: власний набір тестів SDK відтворює кожну з них.
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -138,7 +138,7 @@ TypeError: The @tool decorator was used incorrectly. Did you forget to call it? 
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` повідомляє про один `forecast`, і це `forecast_today`. Перейменуйте один із них. `MCPServer(..., warn_on_duplicate_tools=False)` глушить попередження, не змінюючи результату, тож залишайте його ввімкненим. Для ресурсів і промптів діє те саме правило й той самий рядок у лозі (`Resource already exists:`, `Prompt already exists:`).
@@ -173,13 +173,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 Слова, які сервер насправді надіслав, — `421` і `Invalid Host header` — до вас не доходять: тіло відповіді 421 не має `Content-Type: application/json`, тому клієнт не може його розібрати. Вони є в **лозі сервера**, і саме туди варто дивитися далі:
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 Виправлення — `transport_security=`. Додайте до списку дозволених ім'я хоста, яке ви справді обслуговуєте:
@@ -311,7 +311,7 @@ async def main() -> None:
 !!! info
     `-32021` — це `MISSING_REQUIRED_CLIENT_CAPABILITY`, один із трьох кодів помилок, які додає
     специфікація 2026-07-28. Жоден із них не є класом винятку: усі приходять як `MCPError`, а
-    дивитися треба в `e.error.code`. Константи експортує `mcp.types`. Інші два —
+    дивитися треба в `e.error.code`. Константи експортує `darpy_sdk.types`. Інші два —
     `-32020` `HEADER_MISMATCH` (HTTP-заголовок суперечить тілу запиту, який він супроводжує)
     і `-32022` `UNSUPPORTED_PROTOCOL_VERSION` (запит назвав версію, якою цей сервер не
     говорить). Клієнт SDK, що відповідає специфікації, не може видати жодного з них, тож якщо ви
@@ -340,7 +340,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **З'єднання старого покоління на сервері зі `stateless_http=True`.** Відсутність стану означає, що кожен запит — окремий світ: ні сесії, ні потоку від сервера до клієнта, а отже, нікуди надсилати `elicitation/create` (чи `sampling/createMessage`, чи `roots/list`) навіть для покоління, яке їх має:
@@ -381,13 +381,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 Повідомлення навмисно незмінне: передані дані ніколи не розкривають, яка саме перевірка не пройшла. Причина йде в **лог сервера**, і прочитати його — оце й уся діагностика:
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 Причини, які ви справді побачите:
@@ -418,8 +418,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## Досі не виходить? {#still-stuck}
 
 * Якщо повідомлення, яке видав SDK, немає на цій сторінці, це помилка в документації, про яку варто повідомити окремо.
-* Пошукайте в [трекері задач](https://github.com/modelcontextprotocol/python-sdk/issues); більшість рядків помилок, що там трапляються, хтось уже описав.
-* Нічого не знайшли? [Відкрийте issue](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml) з повним трасуванням або запитайте в [#python-sdk-dev на Discord-сервері MCP Contributors](https://discord.gg/6CSzBmMkjX).
+* Пошукайте в [трекері задач](https://github.com/DarbotLM/darpy-sdk/issues); більшість рядків помилок, що там трапляються, хтось уже описав.
+* Нічого не знайшли? [Відкрийте issue](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml) з повним трасуванням або запитайте в [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues).
 
 ## Підсумки {#recap}
 

@@ -1,6 +1,6 @@
 """Prove the middleware wrapped both `tools/list` and the in-flight `tools/call`."""
 
-from mcp.client import Client
+from darpy_sdk.client import Client
 from stories._harness import Target, run_client
 
 

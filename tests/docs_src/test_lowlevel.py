@@ -1,8 +1,7 @@
 """`docs/advanced/low-level-server.md`: every claim the page makes, proved against the real SDK."""
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     SERVER_INFO_META_KEY,
     CallToolRequestParams,
@@ -11,14 +10,15 @@ from mcp_types import (
     RequestParams,
     TextContent,
 )
+from inline_snapshot import snapshot
 from starlette.routing import Route
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.server import Server, ServerRequestContext
 from docs_src.lowlevel import tutorial001, tutorial002, tutorial003, tutorial004, tutorial005, tutorial006
-from mcp import Client, MCPError
-from mcp.server import Server, ServerRequestContext
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_input_schema_on_the_wire_is_the_dict_you_wrote() -> None:

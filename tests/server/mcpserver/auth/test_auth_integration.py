@@ -13,7 +13,7 @@ import pytest
 from pydantic import AnyHttpUrl, AnyUrl
 from starlette.applications import Starlette
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
@@ -21,9 +21,9 @@ from mcp.server.auth.provider import (
     RefreshToken,
     construct_redirect_uri,
 )
-from mcp.server.auth.routes import create_auth_routes
-from mcp.server.auth.settings import ClientRegistrationOptions, RevocationOptions
-from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
+from darpy_sdk.server.auth.routes import create_auth_routes
+from darpy_sdk.server.auth.settings import ClientRegistrationOptions, RevocationOptions
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthToken
 
 
 # Mock OAuth provider for testing

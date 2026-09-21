@@ -28,7 +28,7 @@ translation:
 
 * `run()` 是同步的。伺服器活著多久，它就阻塞多久。
 * 不帶引數時，傳輸方式是 `stdio`。
-* 它放在 `if __name__ == "__main__":` 底下，因為所有會載入伺服器的東西（`mcp dev`、`mcp run`、`mcp install`、你的測試）都是 **import** 這個檔案。這道防護讓 import 不會變成一個正在執行的伺服器。
+* 它放在 `if __name__ == "__main__":` 底下，因為所有會載入伺服器的東西（`darpy-sdk dev`、`darpy-sdk run`、`darpy-sdk install`、你的測試）都是 **import** 這個檔案。這道防護讓 import 不會變成一個正在執行的伺服器。
 
 ### stdio {#stdio}
 
@@ -47,7 +47,7 @@ python server.py
 ### 試試看 {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector 做的事和真正的主機一模一樣：把 `server.py` 當成子處理程序啟動，透過 stdio 連上它。
@@ -101,42 +101,42 @@ Inspector 做的事和真正的主機一模一樣：把 `server.py` 當成子處
 
 `[cli]` extra 會安裝一個把這些包起來的小命令列工具。
 
-`mcp dev` 在 **MCP Inspector** 底下執行伺服器：
+`darpy-sdk dev` 在 **MCP Inspector** 底下執行伺服器：
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with` 把套件加進它建立的環境；`--with-editable` 把你自己的套件安裝進去。它需要 `PATH` 上有 `npx`：Inspector 是 Node.js 應用程式。
 
-`mcp run` 會匯入檔案、找出伺服器物件（模組層級的 `mcp`、`server` 或 `app`），然後對它呼叫 `run()`：
+`darpy-sdk run` 會匯入檔案、找出伺服器物件（模組層級的 `mcp`、`server` 或 `app`），然後對它呼叫 `run()`：
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 物件不叫 `mcp`、`server` 或 `app` 時，用 `:` 後綴指名它。
 
-你的 `if __name__ == "__main__":` 區塊在這裡永遠不會執行：`mcp run` 自己呼叫 `run()`，而它唯一轉交的選項是 `--transport`。
+你的 `if __name__ == "__main__":` 區塊在這裡永遠不會執行：`darpy-sdk run` 自己呼叫 `run()`，而它唯一轉交的選項是 `--transport`。
 
-`mcp install` 把伺服器註冊到 **Claude Desktop**，讓那個應用程式替你啟動它：
+`darpy-sdk install` 把伺服器註冊到 **Claude Desktop**，讓那個應用程式替你啟動它：
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE` 和 `-f .env` 會把環境變數記錄在那筆項目裡。Claude Desktop 在它自己的處理程序裡啟動伺服器。你的 shell 環境不在那裡。
 
-`mcp install` 只認得 Claude Desktop 這一個主機。其他每個主機（Claude Code、Cursor、VS Code）都在自己的設定檔裡接受同樣的啟動命令，**[連接真正的主機](../get-started/real-host.md)** 每一個都有。
+`darpy-sdk install` 只認得 Claude Desktop 這一個主機。其他每個主機（Claude Code、Cursor、VS Code）都在自己的設定檔裡接受同樣的啟動命令，**[連接真正的主機](../get-started/real-host.md)** 每一個都有。
 
-`mcp version` 印出已安裝的 SDK 版本。
+`darpy-sdk version` 印出已安裝的 SDK 版本。
 
 !!! tip
-    `mcp dev` 和 `mcp run` 只懂 `MCPServer`。如果用低階的 `Server` 來建，就要自己執行它。請見 **[低階 Server](../advanced/low-level-server.md)**。
+    `darpy-sdk dev` 和 `darpy-sdk run` 只懂 `MCPServer`。如果用低階的 `Server` 來建，就要自己執行它。請見 **[低階 Server](../advanced/low-level-server.md)**。
 
 ## 重點回顧 {#recap}
 
@@ -145,7 +145,7 @@ uv run mcp install server.py -v API_KEY=abc123 -f .env
 * 每個傳輸選項（`host`、`port`、`streamable_http_path`……）都是 `run()` 的引數，絕不是 `MCPServer(...)` 的。
 * 把 `run()` 放在 `if __name__ == "__main__":` 底下。所有載入伺服器的東西都會先 import 這個檔案。
 * `log_level=` 和 `debug=` 是建構子引數；它們落在 `mcp.settings` 上。
-* `mcp dev` 開 Inspector，`mcp run` 執行檔案，`mcp install` 給 Claude Desktop，`mcp version` 看版本。
+* `darpy-sdk dev` 開 Inspector，`darpy-sdk run` 執行檔案，`darpy-sdk install` 給 Claude Desktop，`darpy-sdk version` 看版本。
 * 傳輸方式永遠不會改變伺服器**是什麼**：這一頁的三個檔案公開的是一模一樣的工具。
 
 當 `run()` 本身成了限制（伺服器在一個已經存在的應用程式裡），就看 **[加入現有應用程式](asgi.md)**。真正的主機名稱和不只一個 worker，是 **[部署與擴展](deploy.md)**。如果有些用戶端還停在規格版本 2025-11-25 或更早，**[服務舊版用戶端](legacy-clients.md)** 有好消息。

@@ -66,7 +66,7 @@ settings में `text/html;profile=mcp-app` सूचीबद्ध कि�
 `server.py` को HTTP पर serve करें, फिर दूसरे terminal से client चलाएँ:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

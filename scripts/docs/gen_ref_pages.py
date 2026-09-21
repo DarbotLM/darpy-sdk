@@ -10,33 +10,30 @@ Run as a script it just (re)generates `docs/api/`; imported, `generate`
 also returns the nav so the config builder can consume it.
 """
 
-from __future__ import annotations
-
 import shutil
 from pathlib import Path
-from typing import TypeAlias
 
 import griffe
 
 # A MkDocs/Zensical nav is a list of entries, each either `{title: url}` for a
 # page or `{title: [children]}` for a section (a bare `url` string attaches
 # a section index page, courtesy of the `navigation.indexes` feature).
-NavItem: TypeAlias = "str | dict[str, str | list[NavItem]]"
+type NavItem = str | dict[str, str | list[NavItem]]
 
 ROOT = Path(__file__).parent.parent.parent
 API_DIR = ROOT / "docs" / "api"
 
-# `src/mcp-types` is a distribution directory, not an import package, so each
+# `src/darpy-sdk-types` is a distribution directory, not an import package, so each
 # package's dotted module path is taken relative to its own parent: deriving
-# it from `src/` would emit the unimportable `mcp-types.mcp_types.*`.
-PACKAGES = (ROOT / "src" / "mcp", ROOT / "src" / "mcp-types" / "mcp_types")
+# it from `src/` would emit the unimportable `darpy-sdk-types.darpy_sdk_types.*`.
+PACKAGES = (ROOT / "src" / "darpy_sdk", ROOT / "src" / "darpy-sdk-types" / "darpy_sdk_types")
 
 # Module paths that get no page, and neither does anything under them: alias
-# packages that mirror another package's namespaces (`mcp.types` mirrors
-# `mcp_types`), whose canonical rendering is the mirrored package's pages; and
-# removed v1 import paths (`mcp.server.fastmcp`) that only raise a pointer to
+# packages that mirror another package's namespaces (`darpy_sdk.types` mirrors
+# `darpy_sdk_types`), whose canonical rendering is the mirrored package's pages; and
+# removed v1 import paths (`darpy_sdk.server.fastmcp`) that only raise a pointer to
 # the migration guide and carry no API.
-EXCLUDED = frozenset({"mcp.types", "mcp.server.fastmcp"})
+EXCLUDED = frozenset({"darpy_sdk.types", "darpy_sdk.server.fastmcp"})
 
 _KIND_SECTIONS = {
     griffe.Kind.MODULE: "Modules",
@@ -73,12 +70,12 @@ def _compact_index(module: griffe.Module, documented: set[str]) -> str | None:
 
     mkdocstrings renders a re-export whose canonical documentation lives on
     another page as a full duplicate of it, whether the alias stays within
-    one top-level package (`mcp.client.auth` re-exporting from
-    `mcp.shared.auth`) or crosses packages (`from mcp_types import y` +
+    one top-level package (`darpy_sdk.client.auth` re-exporting from
+    `darpy_sdk.shared.auth`) or crosses packages (`from darpy_sdk_types import y` +
     `__all__` — `load_external_modules` in mkdocs.yml has the collector chase
     exported cross-package aliases when their package is first collected, so
     the target package is loaded regardless of page order). Modules whose
-    exports all live in their own subtree (`mcp_types` re-exporting its
+    exports all live in their own subtree (`darpy_sdk_types` re-exporting its
     private `._types` module, or a module whose `__all__` lists only its own
     definitions) are unaffected and keep the plain `::: module` stub (return
     `None`): their page is itself the canonical rendering.
@@ -188,7 +185,7 @@ def generate() -> list[NavItem]:
                 parts = parts[:-1]
                 doc_path = doc_path.with_name("index.md")
             # A private component anywhere makes the module private: checking
-            # only the leaf would publish pages for e.g. mcp._vendor.util.
+            # only the leaf would publish pages for e.g. darpy_sdk._vendor.util.
             if any(part.startswith("_") for part in parts):
                 continue
 

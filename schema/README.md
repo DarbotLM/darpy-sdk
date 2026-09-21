@@ -3,7 +3,7 @@
 JSON Schema files for each protocol version the SDK has a wire-shape surface
 package for, vendored from the [spec repository] at the commit recorded in
 `PINNED.json`. `scripts/gen_surface_types.py` reads these to regenerate
-`src/mcp-types/mcp_types/_v<version>/__init__.py` (underscore-private: internal
+`src/darpy-sdk-types/darpy_sdk_types/_v<version>/__init__.py` (underscore-private: internal
 validators, not public API); CI runs the generator with `--check`.
 
 To bump: drop the new `schema.json` here as `<protocol-version>.json`, update

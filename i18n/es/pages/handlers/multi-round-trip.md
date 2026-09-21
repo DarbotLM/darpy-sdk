@@ -99,7 +99,7 @@ Todo lo anterior trata `request_state` como un eco, y en lo que se transmite no 
 La clave por defecto vive y muere con el proceso, que es lo único que debes saber antes de desplegar más allá de un solo proceso:
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

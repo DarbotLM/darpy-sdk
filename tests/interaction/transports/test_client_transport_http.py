@@ -10,17 +10,17 @@ import json
 from collections.abc import AsyncIterator
 
 import anyio
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
+from darpy_sdk_types import INVALID_REQUEST, CallToolResult, ErrorData, ListToolsResult, TextContent, Tool
 from inline_snapshot import snapshot
-from mcp_types import INVALID_REQUEST, CallToolResult, ErrorData, ListToolsResult, TextContent, Tool
 from starlette.types import Receive, Scope, Send
 
-from mcp import MCPError
-from mcp.client.client import Client
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import BASE_URL, NO_DNS_REBINDING_PROTECTION, client_via_http, mounted_app
 from tests.interaction._requirements import requirement
 from tests.interaction.transports._bridge import StreamingASGITransport

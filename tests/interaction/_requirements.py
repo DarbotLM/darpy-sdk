@@ -38,7 +38,7 @@ from dataclasses import dataclass
 from typing import Any, Literal, TypeVar
 
 import pytest
-from mcp_types.version import KNOWN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import KNOWN_PROTOCOL_VERSIONS
 
 SpecVersion = Literal["2025-11-25", "2026-07-28"]
 """A protocol version the suite parametrizes over. Both values are typed even though only one is
@@ -2981,7 +2981,7 @@ REQUIREMENTS: dict[str, Requirement] = {
         divergence=Divergence(
             note=(
                 "RFC 6749 §5.2 assigns redirect_uri mismatch at the token endpoint to invalid_grant; "
-                "the SDK's TokenHandler returns invalid_request (src/mcp/server/auth/handlers/token.py:157). "
+                "the SDK's TokenHandler returns invalid_request (src/darpy_sdk/server/auth/handlers/token.py:157). "
                 "The rejection itself is the security-relevant property and is correct."
             ),
         ),

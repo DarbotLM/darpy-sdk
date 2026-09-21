@@ -2,13 +2,13 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
 
 
 class Database:
     @classmethod
-    async def connect(cls) -> "Database":
+    async def connect(cls) -> Database:
         return cls()
 
     async def disconnect(self) -> None: ...

@@ -59,7 +59,7 @@ That is the entire life of a prompt: listed by name, rendered on demand, dropped
     request itself fails with a JSON-RPC error (code `-32603`):
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     There is no tool-style error result to hand back to a model, because no model is in the loop:
@@ -70,7 +70,7 @@ That is the entire life of a prompt: listed by name, rendered on demand, dropped
 Run the server with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Open the **Prompts** tab and select `review_code`. The Inspector draws a form with one required `code` field. Fill it in, render it, and you get back exactly the user message above.
@@ -85,7 +85,7 @@ Return a list of messages instead of a `str`:
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` and `AssistantMessage` come from `mcp.server.mcpserver.prompts.base`. Hand them a `str` and they wrap it in `TextContent` for you. The role is the class name.
+* `UserMessage` and `AssistantMessage` come from `darpy_sdk.server.mcpserver.prompts.base`. Hand them a `str` and they wrap it in `TextContent` for you. The role is the class name.
 * `Message` is their common base. Use it as the return annotation.
 
 Rendering `debug_error` now produces three messages, in order:
@@ -149,7 +149,7 @@ The `prompts/list` entry now carries everything a client needs to draw a good fo
 ```
 
 * The style guide is a resource at `style://python` (**[Resources](resources.md)** covers those), read from a `style-guide.md` next to `server.py`. Put any Markdown file there.
-* `EmbeddedResource(resource=TextResourceContents(...))`, both from `mcp.types`, carries the file with its URI and MIME type as the first message; the request that refers to it follows as plain text.
+* `EmbeddedResource(resource=TextResourceContents(...))`, both from `darpy_sdk.types`, carries the file with its URI and MIME type as the first message; the request that refers to it follows as plain text.
 * Embedding, rather than pasting the guide into the f-string, lets the client show it as an attachment and reopen `style://python` later, and the model receives the file verbatim. For a binary file use `BlobResourceContents` with a base64 `blob`.
 
 Rendered, the first message's `content` is a `resource` block:

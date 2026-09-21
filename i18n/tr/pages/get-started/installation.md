@@ -5,20 +5,20 @@ translation:
 ---
 # Kurulum {#installation}
 
-Python SDK, PyPI'da [`mcp`](https://pypi.org/project/mcp/) adıyla yayımlanır. **Python 3.10+** gerektirir.
+Python SDK, PyPI'da [`darpy-sdk`](https://pypi.org/project/darpy-sdk/) adıyla yayımlanır. **Python 3.14+** gerektirir.
 
 Bu belgeler, güncel kararlı sürüm hattı olan **v2**'yi anlatır:
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 !!! note "v1'den mi geliyorsunuz?"
@@ -30,18 +30,18 @@ Bu belgeler, güncel kararlı sürüm hattı olan **v2**'yi anlatır:
 
 SDK'yı kullanmak için bunların hiçbirini bilmeniz gerekmez. Yine de her bağımlılığın ne işe yaradığını merak ediyorsanız:
 
-* `mcp-types`: tüm protokol türleri (istekler, sonuçlar, içerik blokları), SDK ile birebir aynı sürüm numarasıyla yayımlanan ayrı bir paket olarak gelir. `mcp`'ye bağımlı kod bunu `mcp.types` takma adı üzerinden içe aktarır (bu belgelerdeki her `from mcp.types import ...` satırı böyledir); `mcp_types`'ı doğrudan yalnızca `mcp-types`'ı SDK olmadan kuran bir projede içe aktarın.
+* `darpy-sdk-types`: tüm protokol türleri (istekler, sonuçlar, içerik blokları), SDK ile birebir aynı sürüm numarasıyla yayımlanan ayrı bir paket olarak gelir. `mcp`'ye bağımlı kod bunu `darpy_sdk.types` takma adı üzerinden içe aktarır (bu belgelerdeki her `from darpy_sdk.types import ...` satırı böyledir); `darpy_sdk_types`'ı doğrudan yalnızca `darpy-sdk-types`'ı SDK olmadan kuran bir projede içe aktarın.
 * [`anyio`](https://anyio.readthedocs.io/): asenkron çalışma zamanı. SDK'nın tamamı anyio üzerine yazıldığı için hem `asyncio` hem de `trio` üzerinde çalışır.
-* [`pydantic`](https://docs.pydantic.dev/): her `mcp.types` modelinin temeli; ayrıca tüm şema üretimi ve doğrulaması.
+* [`pydantic`](https://docs.pydantic.dev/): her `darpy_sdk.types` modelinin temeli; ayrıca tüm şema üretimi ve doğrulaması.
 * [`httpx2`](https://pypi.org/project/httpx2/): Streamable HTTP ve SSE *istemci* aktarımlarının arkasındaki HTTP istemcisi; server-sent events desteği yerleşik olarak gelir.
 * [`starlette`](https://www.starlette.io/), [`uvicorn`](https://www.uvicorn.org/), [`sse-starlette`](https://pypi.org/project/sse-starlette/) ve [`python-multipart`](https://pypi.org/project/python-multipart/): HTTP *sunucu* aktarımları.
 * [`jsonschema`](https://pypi.org/project/jsonschema/): bir aracın yapılandırılmış çıktısını, bildirdiği çıktı şemasına göre doğrular.
 * [`pyjwt[crypto]`](https://pyjwt.readthedocs.io/): yetkilendirme için OAuth token işleme.
 * [`opentelemetry-api`](https://opentelemetry-python.readthedocs.io/): yalnızca hafif API; bu sayede siz bir OpenTelemetry SDK'sı ve dışa aktarıcı kurmadıkça SDK'nın izleme middleware'inin hiçbir maliyeti olmaz.
-* [`typing-extensions`](https://typing-extensions.readthedocs.io/) ve [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.10'da modern tür özellikleri.
+* [`typing-extensions`](https://typing-extensions.readthedocs.io/) ve [`typing-inspection`](https://pypi.org/project/typing-inspection/): Python 3.14'da modern tür özellikleri.
 * [`pywin32`](https://pypi.org/project/pywin32/): yalnızca Windows'ta, `stdio` alt süreç yönetimi için kullanılır.
 
 ## İsteğe bağlı ekler {#optional-extras}
 
-* `mcp[cli]`, `mcp` komut satırı aracı (`mcp dev`, `mcp run`, `mcp install`) için [`typer`](https://typer.tiangolo.com/) ve [`python-dotenv`](https://pypi.org/project/python-dotenv/) paketlerini ekler. Geliştirme sırasında bunu istersiniz; dağıtılmış bir sunucuda gerekmeyebilir.
-* `mcp[rich]`, daha okunaklı sunucu log'ları için [`rich`](https://rich.readthedocs.io/) paketini ekler.
+* `darpy-sdk[cli]`, `mcp` komut satırı aracı (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`) için [`typer`](https://typer.tiangolo.com/) ve [`python-dotenv`](https://pypi.org/project/python-dotenv/) paketlerini ekler. Geliştirme sırasında bunu istersiniz; dağıtılmış bir sunucuda gerekmeyebilir.
+* `darpy-sdk[rich]`, daha okunaklı sunucu log'ları için [`rich`](https://rich.readthedocs.io/) paketini ekler.

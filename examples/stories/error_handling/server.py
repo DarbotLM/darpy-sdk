@@ -1,9 +1,9 @@
 """Two error channels: ToolError -> is_error result; MCPError -> JSON-RPC protocol error."""
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.exceptions import ToolError
-from mcp.shared.exceptions import MCPError
-from mcp.types import INVALID_PARAMS
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ToolError
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.types import INVALID_PARAMS
 from stories._hosting import run_server_from_args
 
 

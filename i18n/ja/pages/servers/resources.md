@@ -50,7 +50,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 MCP Inspector でサーバーを起動してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 表示された URL を開き、**Resources** タブに移動してください。一覧に `config://app` が説明付きで並んでいます。クリックすると Inspector がそれを読み込み、2 行の設定が表示されます。
@@ -122,7 +122,7 @@ JSON にシリアライズできるほかのもの、つまりリスト、Pydant
 `mime_type` は自分で宣言するもので、デフォルトは `text/plain` です。SDK が戻り値の中身を調べて推測することはありません。そのため、ラベルを付けていない `dict` のリソースは、相変わらずプレーンテキストとして案内されます。
 
 !!! tip
-    関数から導き出したくないときは、`@mcp.resource()` に `name=`、`title=`、`description=` も渡せます。また、書くべき関数がそもそもないときのために、`mcp.server.mcpserver.resources` には既製の `Resource` クラス（`TextResource`、`BinaryResource`、`FileResource`、`HttpResource`、`DirectoryResource`）が用意されており、`mcp.add_resource(...)` で登録します。
+    関数から導き出したくないときは、`@mcp.resource()` に `name=`、`title=`、`description=` も渡せます。また、書くべき関数がそもそもないときのために、`darpy_sdk.server.mcpserver.resources` には既製の `Resource` クラス（`TextResource`、`BinaryResource`、`FileResource`、`HttpResource`、`DirectoryResource`）が用意されており、`mcp.add_resource(...)` で登録します。
 
 クライアントはリソースを**購読**して、変更があったときに通知を受け取ることもできます。これはクライアント側の話なので、**[クライアント](../client/index.md)** で説明しています。
 

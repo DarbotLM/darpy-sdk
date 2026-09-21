@@ -2,7 +2,7 @@
 Unicode handling in tools and inspectors.
 """
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 mcp = MCPServer()
 

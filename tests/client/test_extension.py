@@ -1,16 +1,16 @@
-"""Construction-time tests for `mcp.client.extension`; no session is ever opened."""
+"""Construction-time tests for `darpy_sdk.client.extension`; no session is ever opened."""
 
 from dataclasses import FrozenInstanceError
-from typing import Any, Literal, cast
+from typing import Any, Literal, cast, get_args, get_type_hints
 
 import pytest
+from darpy_sdk_types import CallToolResult, InputRequiredResult, Result
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, InputRequiredResult, Result
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
 from pydantic import AliasChoices, AliasPath, BaseModel, Field
 from pydantic.fields import FieldInfo
 
-from mcp.client.extension import (
+from darpy_sdk.client.extension import (
     ClaimContext,
     ClientExtension,
     NotificationBinding,
@@ -51,6 +51,16 @@ async def _resolve(result: Result, ctx: ClaimContext) -> CallToolResult:
 
 def _claim(model: type[Result] = _TaskResult, **kwargs: Any) -> ResultClaim[Result]:
     return ResultClaim(result_type="task", model=model, resolve=_resolve, **kwargs)
+
+
+def test_generic_constructor_annotations_resolve_the_declared_type_parameters() -> None:
+    """SDK constructor annotations preserve each generic class's type parameters under Python 3.14 reflection."""
+    claim_type: type[ResultClaim[Result]] = ResultClaim
+    notification_type: type[NotificationBinding[BaseModel]] = NotificationBinding
+    claim_model = get_type_hints(claim_type.__init__)["model"]
+    notification_params = get_type_hints(notification_type.__init__)["params_type"]
+    assert get_args(claim_model)[0] is claim_type.__type_params__[0]
+    assert get_args(notification_params)[0] is notification_type.__type_params__[0]
 
 
 def test_claim_with_literal_discriminated_model_constructs() -> None:
@@ -136,7 +146,7 @@ def test_claim_rejects_model_not_subclassing_result() -> None:
     with pytest.raises(ValueError) as exc_info:
         ResultClaim(result_type="plain", model=cast("type[Result]", _NotAResult), resolve=_resolve)
 
-    assert str(exc_info.value) == snapshot("_NotAResult must subclass mcp_types.Result")
+    assert str(exc_info.value) == snapshot("_NotAResult must subclass darpy_sdk_types.Result")
 
 
 def test_claim_rejects_model_aliasing_core_surface_fields() -> None:

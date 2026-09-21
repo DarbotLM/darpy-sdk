@@ -29,7 +29,7 @@ SDK 按 `MCP-Protocol-Version` 头路由每个请求。声明 `2026-07-28` 的�
 通过 HTTP 提供服务，下面是两个时代的客户端分别调用它：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -115,7 +115,7 @@ mcp.run(transport="streamable-http", session_idle_timeout=None, max_sessions=50_
     旧版客户端的调用不会以模型能读到的 `is_error` 结果返回。整个请求失败了，是一个顶层协议错误：
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` 没能救你。在 `2025-11-25` 连接上它**必须**发送 `elicitation/create`，而它需要的通道正是 `stateless_http=True` 放弃掉的东西。跨时代可移植的代码不等于不需要反向通道（back-channel）的代码。

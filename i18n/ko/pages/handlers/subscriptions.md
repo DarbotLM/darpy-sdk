@@ -86,8 +86,8 @@ from collections.abc import Callable
 
 from redis.asyncio import Redis
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.subscriptions import ServerEvent  # SubscriptionBus is a Protocol: no base class
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.subscriptions import ServerEvent  # SubscriptionBus is a Protocol: no base class
 
 
 class RedisSubscriptionBus:
@@ -118,7 +118,7 @@ mcp = MCPServer("Sprint Board", subscriptions=RedisSubscriptionBus(redis))
 요청 바깥에서 게시하려면 참조를 보유할 수 있도록 버스를 직접 생성하세요. `MCPServer`는 아무것도 전달하지 않으면 내부적으로 하나를 만들며, 이를 노출하지 않습니다.
 
 ```python
-from mcp.server.subscriptions import InMemorySubscriptionBus, ToolsListChanged
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus, ToolsListChanged
 
 bus = InMemorySubscriptionBus()
 mcp = MCPServer("Sprint Board", subscriptions=bus)

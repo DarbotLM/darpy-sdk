@@ -14,9 +14,7 @@ import json
 import anyio
 import httpx2
 import pytest
-from httpx2 import EventSource, ServerSentEvent
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequest,
     CallToolRequestParams,
     CallToolResult,
@@ -27,12 +25,14 @@ from mcp_types import (
     TextContent,
     jsonrpc_message_adapter,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
+from httpx2 import EventSource, ServerSentEvent
+from inline_snapshot import snapshot
 
-from mcp.client.session import ClientSession
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.shared.message import ClientMessageMetadata
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.shared.message import ClientMessageMetadata
 from tests.interaction._connect import (
     BASE_URL,
     base_headers,
@@ -435,7 +435,7 @@ async def test_a_captured_resumption_token_replays_missed_messages_on_a_new_conn
                 tg.cancel_scope.cancel()
 
         with anyio.fail_after(5):  # pragma: no branch
-            release.set()  # pragma: lax no cover  — python/cpython#106749: 3.11 drops this line event
+            release.set()  # pragma: lax no cover  — cancellation-resume tracing edge after session shutdown
             # init priming + init response + call priming + "first" + "second" + result = 6 stored events.
             await store.wait_until_stored(6)
             async with (  # pragma: no branch

@@ -2,8 +2,8 @@ from typing import Annotated
 
 from pydantic import BaseModel
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import (
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import (
     AcceptedElicitation,
     CancelledElicitation,
     DeclinedElicitation,

@@ -2,9 +2,9 @@ from typing import Literal
 
 import anyio
 
-import mcp.types as types
-from mcp import Client
-from mcp.client import advertise
+import darpy_sdk.types as types
+from darpy_sdk import Client
+from darpy_sdk.client import advertise
 
 EXTENSION_ID = "com.example/jobs"
 

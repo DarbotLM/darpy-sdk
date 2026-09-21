@@ -3,13 +3,13 @@ import threading
 from typing import Any
 
 import pytest
-from mcp_types import Annotations, ElicitRequest, ElicitRequestFormParams, InputRequiredResult
+from darpy_sdk_types import Annotations, ElicitRequest, ElicitRequestFormParams, InputRequiredResult
 from pydantic import BaseModel
 
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.mcpserver.exceptions import ResourceError
-from mcp.server.mcpserver.resources import FunctionResource, ResourceTemplate
-from mcp.server.mcpserver.resources.templates import (
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ResourceError
+from darpy_sdk.server.mcpserver.resources import FunctionResource, ResourceTemplate
+from darpy_sdk.server.mcpserver.resources.templates import (
     DEFAULT_RESOURCE_SECURITY,
     ResourceSecurity,
     ResourceSecurityError,

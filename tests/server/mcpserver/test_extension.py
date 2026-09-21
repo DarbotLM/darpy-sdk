@@ -8,29 +8,29 @@ the highest-level public surface (in-memory `Client`).
 from dataclasses import replace
 from typing import Any, Literal
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     METHOD_NOT_FOUND,
     MISSING_REQUIRED_CLIENT_CAPABILITY,
     SERVER_INFO_META_KEY,
     CallToolResult,
     TextContent,
 )
+from inline_snapshot import snapshot
 
-from mcp.client import advertise
-from mcp.client.client import Client
-from mcp.server.context import CallNext, HandlerResult, ServerRequestContext
-from mcp.server.extension import (
+from darpy_sdk.client import advertise
+from darpy_sdk.client.client import Client
+from darpy_sdk.server.context import CallNext, HandlerResult, ServerRequestContext
+from darpy_sdk.server.extension import (
     Extension,
     MethodBinding,
     ResourceBinding,
     ToolBinding,
 )
-from mcp.server.mcpserver import Context, MCPServer, require_client_extension
-from mcp.server.mcpserver.resources import TextResource
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.server.mcpserver import Context, MCPServer, require_client_extension
+from darpy_sdk.server.mcpserver.resources import TextResource
+from darpy_sdk.shared.exceptions import MCPError
 
 pytestmark = pytest.mark.anyio
 

@@ -24,7 +24,7 @@ translation:
 
 ## クライアント {#the-client}
 
-**`IdentityAssertionOAuthProvider`** は `mcp.client.auth.extensions.identity_assertion` にあります。**[OAuth クライアント](oauth-clients.md)** のどのプロバイダーとも同じく `httpx2.Auth` です。インスタンスを作り、`auth=` に載せ、その `httpx2.AsyncClient` をトランスポートに渡します。
+**`IdentityAssertionOAuthProvider`** は `darpy_sdk.client.auth.extensions.identity_assertion` にあります。**[OAuth クライアント](oauth-clients.md)** のどのプロバイダーとも同じく `httpx2.Auth` です。インスタンスを作り、`auth=` に載せ、その `httpx2.AsyncClient` をトランスポートに渡します。
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

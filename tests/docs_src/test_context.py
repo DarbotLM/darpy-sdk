@@ -3,14 +3,14 @@
 import re
 
 import pytest
+from darpy_sdk_types import TextContent, TextResourceContents, ToolListChangedNotification
 from inline_snapshot import snapshot
-from mcp_types import TextContent, TextResourceContents, ToolListChangedNotification
 
+from darpy_sdk import Client
 from docs_src.context import tutorial001, tutorial002, tutorial003
-from mcp import Client
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_context_parameter_is_not_in_the_input_schema() -> None:

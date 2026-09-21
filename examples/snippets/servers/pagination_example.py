@@ -1,7 +1,7 @@
 """Example of implementing pagination with the low-level MCP server."""
 
-import mcp.types as types
-from mcp.server import Server, ServerRequestContext
+import darpy_sdk.types as types
+from darpy_sdk.server import Server, ServerRequestContext
 
 # Sample data to paginate
 ITEMS = [f"Item {i}" for i in range(1, 101)]  # 100 items

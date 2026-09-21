@@ -6,7 +6,7 @@ from tempfile import NamedTemporaryFile
 import pytest
 from pydantic import ValidationError
 
-from mcp.server.mcpserver.resources import FileResource
+from darpy_sdk.server.mcpserver.resources import FileResource
 
 
 @pytest.fixture

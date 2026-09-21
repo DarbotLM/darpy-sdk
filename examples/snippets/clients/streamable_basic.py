@@ -4,8 +4,8 @@ uv run examples/snippets/clients/streamable_basic.py
 
 import asyncio
 
-from mcp import ClientSession
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk import ClientSession
+from darpy_sdk.client.streamable_http import streamable_http_client
 
 
 async def main():

@@ -129,7 +129,7 @@ default रूप से secret token request पर HTTP Basic auth के र�
     `client_secret` को environment या किसी secret manager से पढ़ें, source control से कभी नहीं।
 
 !!! info
-    एक और provider `mcp.client.auth.extensions.client_credentials` में रहता है:
+    एक और provider `darpy_sdk.client.auth.extensions.client_credentials` में रहता है:
     **`PrivateKeyJWTOAuthProvider`**, उन clients के लिए जो shared secret के बजाय JWT से
     authenticate करते हैं (`private_key_jwt`, key-pair और workload-identity वाला रूप)। यह उसी
     pattern पर चलता है: एक बनाएँ (यह भी वही optional `issuer` लेता है), `auth=` पर लगाएँ। उसी module में
@@ -139,7 +139,7 @@ default रूप से secret token request पर HTTP Basic auth के र�
 
 ## जब यह fail होता है {#when-it-fails}
 
-जब OAuth flow में गड़बड़ होती है, provider `mcp.client.auth` से `OAuthFlowError` raise करता है। इसके दो subclasses हैं। `OAuthRegistrationError` का मतलब है कि registration से ऐसा client नहीं मिला जिसे आप इस्तेमाल कर सकें: authorization server ने आपको register करने से मना कर दिया, या register तो किया लेकिन ऐसे credentials के साथ जो यह flow इस्तेमाल नहीं कर सकता (उदाहरण के लिए कोई authentication method जिसे यह implement नहीं करता)। `OAuthTokenError` का मतलब है कि token नहीं मिल सका: token endpoint ने मना कर दिया, या किसी stored client record में ऐसा authentication method है जिसे यह client लागू नहीं कर सकता, जिसकी report token request बनाते समय होती है, भेजी नहीं जाती। एक `except OAuthFlowError:` discovery, registration, authorization और exchange, सबको cover करता है।
+जब OAuth flow में गड़बड़ होती है, provider `darpy_sdk.client.auth` से `OAuthFlowError` raise करता है। इसके दो subclasses हैं। `OAuthRegistrationError` का मतलब है कि registration से ऐसा client नहीं मिला जिसे आप इस्तेमाल कर सकें: authorization server ने आपको register करने से मना कर दिया, या register तो किया लेकिन ऐसे credentials के साथ जो यह flow इस्तेमाल नहीं कर सकता (उदाहरण के लिए कोई authentication method जिसे यह implement नहीं करता)। `OAuthTokenError` का मतलब है कि token नहीं मिल सका: token endpoint ने मना कर दिया, या किसी stored client record में ऐसा authentication method है जिसे यह client लागू नहीं कर सकता, जिसकी report token request बनाते समय होती है, भेजी नहीं जाती। एक `except OAuthFlowError:` discovery, registration, authorization और exchange, सबको cover करता है।
 
 हर चीज़ flow error नहीं होती। network अब भी fail हो सकता है; वे साधारण `httpx2` exceptions हैं और बिना छुए आगे निकल जाते हैं।
 

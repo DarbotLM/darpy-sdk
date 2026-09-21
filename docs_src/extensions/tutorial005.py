@@ -1,10 +1,10 @@
 import logging
 from typing import Any
 
-from mcp.server.context import CallNext, HandlerResult, ServerRequestContext
-from mcp.server.extension import Extension
-from mcp.server.mcpserver import MCPServer
-from mcp.types import CallToolRequestParams
+from darpy_sdk.server.context import CallNext, HandlerResult, ServerRequestContext
+from darpy_sdk.server.extension import Extension
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.types import CallToolRequestParams
 
 logger = logging.getLogger(__name__)
 

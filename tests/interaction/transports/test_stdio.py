@@ -12,8 +12,7 @@ from pathlib import Path
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     JSONRPCNotification,
     JSONRPCRequest,
@@ -21,13 +20,14 @@ from mcp_types import (
     LoggingMessageNotificationParams,
     TextContent,
 )
-from mcp_types.jsonrpc import jsonrpc_message_adapter
+from darpy_sdk_types.jsonrpc import jsonrpc_message_adapter
+from inline_snapshot import snapshot
 
-from mcp.client import stdio
-from mcp.client.client import Client
-from mcp.client.stdio import StdioServerParameters, stdio_client
-from mcp.server.stdio import stdio_server
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client import stdio
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.server.stdio import stdio_server
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction._connect import initialize_body
 from tests.interaction._requirements import requirement
 from tests.interaction.transports import _stdio_server

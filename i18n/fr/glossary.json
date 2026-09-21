@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "client",
-      "note": "An MCP client, and the client side of a connection: le client / les clients. The `Client` class and the `mcp.client` module are code and stay untouched."
+      "note": "An MCP client, and the client side of a connection: le client / les clients. The `Client` class and the `darpy_sdk.client` module are code and stay untouched."
     },
     {
       "source": "server",
@@ -183,7 +189,9 @@
       "source": "lifespan",
       "target": "cycle de vie",
       "note": "The server's startup/shutdown scope (the \"Lifespan\" page, as in the ASGI lifespan): le cycle de vie (du serveur). First mention on a page reads \"cycle de vie (lifespan)\" so the reader can connect it to the `lifespan=` parameter, which is code. Durée de vie is the neighbouring \"lifetime\" (\"for the lifetime of the app\" → pendant toute la durée de vie de l’application) and is not banned; espérance de vie is always wrong. Provisional pending native review.",
-      "avoid": ["espérance de vie"]
+      "avoid": [
+        "espérance de vie"
+      ]
     },
     {
       "source": "back-channel",
@@ -224,19 +232,25 @@
       "source": "library",
       "target": "bibliothèque",
       "note": "A software library: la bibliothèque / les bibliothèques. The false friend librairie means a bookshop and is never right here.",
-      "avoid": ["librairie"]
+      "avoid": [
+        "librairie"
+      ]
     },
     {
       "source": "framework",
       "target": "framework",
       "note": "Kept in English as French developers say it: le framework / les frameworks (\"the framework supplies it\" → le framework le fournit). The purist coinage cadriciel is never used.",
-      "avoid": ["cadriciel"]
+      "avoid": [
+        "cadriciel"
+      ]
     },
     {
       "source": "middleware",
       "target": "middleware",
       "note": "Kept in English as French developers say it, and matching `server.middleware`: le middleware / les middlewares (the \"Middleware\" page → Middleware). The purist coinage intergiciel is never used.",
-      "avoid": ["intergiciel"]
+      "avoid": [
+        "intergiciel"
+      ]
     },
     {
       "source": "token",

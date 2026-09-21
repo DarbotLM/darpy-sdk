@@ -52,7 +52,7 @@ Model `content`'i okur; iframe insanlar içindir. UI destekli bir host yine de m
 `server.py` dosyasını HTTP üzerinden sunun, ardından istemciyi ikinci bir terminalden çalıştırın:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

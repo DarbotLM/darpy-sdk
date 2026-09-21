@@ -96,7 +96,7 @@ Describe the process with `StdioServerParameters` and hand it to `Client`:
 
 Entering the block spawns the process. Leaving it shuts the subprocess down: close stdin, wait, kill if it lingers. You never clean it up yourself.
 
-The child's stderr goes to yours. To send it somewhere else, build the transport yourself with `stdio_client` (from `mcp`) and pass that instead: `Client(stdio_client(server, errlog=log_file))`.
+The child's stderr goes to yours. To send it somewhere else, build the transport yourself with `stdio_client` (from `darpy_sdk`) and pass that instead: `Client(stdio_client(server, errlog=log_file))`.
 
 !!! warning
     The child does **not** inherit your environment. It gets a minimal allow-list (`HOME`, `LOGNAME`,
@@ -120,13 +120,13 @@ The same form doubles as an embedding API: an application that constructs the se
 
 ## SSE
 
-`sse_client(url)`, from `mcp.client.sse`, is the HTTP transport that Streamable HTTP superseded. Wrap it the same way, `Client(sse_client("http://localhost:8000/sse"))`, to talk to a server that still speaks it, and don't build anything new on it.
+`sse_client(url)`, from `darpy_sdk.client.sse`, is the HTTP transport that Streamable HTTP superseded. Wrap it the same way, `Client(sse_client("http://localhost:8000/sse"))`, to talk to a server that still speaks it, and don't build anything new on it.
 
 ## The `Transport` protocol
 
 To `Client`, all of the above are the same thing.
 
-A **transport** is any async context manager that yields a `(read, write)` pair of message streams: formally, the `Transport` protocol in `mcp.client`. `Client` resolves its argument by type: a `str` becomes `streamable_http_client(url)`, a `StdioServerParameters` becomes `stdio_client(params)`, a server object connects in-process, and anything else is entered as a transport directly. That last rule is why `stdio_client(...)`, `streamable_http_client(...)` and `sse_client(...)` all drop into the same slot, and why you can write your own.
+A **transport** is any async context manager that yields a `(read, write)` pair of message streams: formally, the `Transport` protocol in `darpy_sdk.client`. `Client` resolves its argument by type: a `str` becomes `streamable_http_client(url)`, a `StdioServerParameters` becomes `stdio_client(params)`, a server object connects in-process, and anything else is entered as a transport directly. That last rule is why `stdio_client(...)`, `streamable_http_client(...)` and `sse_client(...)` all drop into the same slot, and why you can write your own.
 
 ## Recap
 

@@ -56,7 +56,7 @@ MCP にはプロトコルレベルの**ロギングのケイパビリティ**が
 MCP Inspector でサーバーを実行してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** タブから `search_books` を呼び出してください。Inspector に表示される結果は、戻り値だけです。次の行は、

@@ -1,8 +1,8 @@
 import anyio
 import pytest
 
-from mcp.server.lowlevel.server import Server
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server.lowlevel.server import Server
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio

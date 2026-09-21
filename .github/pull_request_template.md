@@ -28,7 +28,7 @@ Fixes #
 <!-- Go over all the following points, and put an `x` in all the boxes that apply. -->
 - [ ] I am assigned to the linked issue (or it is labeled `help wanted`, or I'm a maintainer)
 - [ ] I have disclosed any AI assistance and can explain the change in my own words
-- [ ] I have read the [MCP Documentation](https://modelcontextprotocol.io)
+- [ ] I have read the [Darbot Python SDK documentation](https://github.com/DarbotLM/darpy-sdk/tree/main/docs)
 - [ ] My code follows the repository's style guidelines
 - [ ] New and existing tests pass locally
 - [ ] I have added appropriate error handling

@@ -3,7 +3,7 @@
 import anyio
 import pytest
 
-from mcp.shared._context_streams import create_context_streams
+from darpy_sdk.shared._context_streams import create_context_streams
 
 pytestmark = pytest.mark.anyio
 

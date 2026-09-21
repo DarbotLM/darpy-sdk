@@ -113,7 +113,7 @@ server = Server("Bookshop", on_roots_list_changed=roots_changed)
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -122,13 +122,13 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 
 !!! check
     필터를 반대 방향으로 적용하면 회귀 테스트를 거저 얻습니다. pytest 설정의
-    `filterwarnings` 항목에 `"error::mcp.MCPDeprecationWarning"`을 추가하면 지원 중단 예정
+    `filterwarnings` 항목에 `"error::darpy_sdk.MCPDeprecationWarning"`을 추가하면 지원 중단 예정
     호출이 경고 대신 예외를 **발생시킵니다**. 여전히 `ctx.info()`를 호출하는 `old_log`라는
     도구는 더 이상 통과하지 못합니다. 호출은 `Error executing tool old_log`와 함께
     `is_error=True`로 돌아오고, 캡처된 서버 로그가 원인을 지목합니다.
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     pytest 설정 한 줄이면, 지원 중단 예정 호출이 테스트를 실패시키지 않고 코드베이스에
@@ -150,7 +150,7 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 * 대체 수단 열이 다음 단계를 안내합니다. 샘플링과 루트는 **[다중 왕복 요청](handlers/multi-round-trip.md)**, 로깅은 **[로깅](handlers/logging.md)**, 진행 상황은 **[진행 상황](handlers/progress.md)**을 보세요. `ping`은 아무것도 필요 없습니다.
 * 지원 중단 예정은 권고 사항입니다. 와이어 변경은 없고, 2026년 이전 세션에서는 모든 것이 계속 동작하며, 눈에 띄는 `MCPDeprecationWarning`이 나옵니다(`UserWarning`이므로 기본적으로 켜져 있습니다).
 * 샘플링과 루트는 추가로 2026-07-28 세션에는 없는 백채널이 필요합니다. 최신 연결에서는 경고를 낸 뒤 예외를 발생시킵니다.
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)`은 카테고리 전체를 끄고, pytest의 `"error::mcp.MCPDeprecationWarning"`은 이를 테스트 실패로 바꿉니다.
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)`은 카테고리 전체를 끄고, pytest의 `"error::darpy_sdk.MCPDeprecationWarning"`은 이를 테스트 실패로 바꿉니다.
 * [SDK 수준의 지원 중단 예정 항목](#deprecated-sdk-helpers)도 같은 규칙을 따릅니다. 지금은 경고를 내고, 3.0에서 기존 형태가 제거됩니다.
 * 새 코드는 이 기능 중 어느 것에도 기반해서는 안 됩니다.
 

@@ -1,5 +1,5 @@
-from mcp.server import Server, ServerRequestContext
-from mcp.types import (
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.types import (
     CallToolRequestParams,
     CallToolResult,
     ListToolsResult,

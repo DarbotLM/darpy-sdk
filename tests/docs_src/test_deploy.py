@@ -3,7 +3,7 @@
 import anyio
 import httpx2
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_PARAMS,
     CallToolResult,
     ElicitResult,
@@ -16,14 +16,14 @@ from mcp_types import (
     TextContent,
 )
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context, RequestStateSecurity
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus
 from docs_src.deploy import tutorial001, tutorial002, tutorial003, tutorial004
-from mcp import Client, MCPError
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context, RequestStateSecurity
-from mcp.server.subscriptions import InMemorySubscriptionBus
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 _KEY = "0123456789abcdef0123456789abcdef"  # 32 bytes: the smallest secret the SDK accepts.
 

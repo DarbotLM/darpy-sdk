@@ -27,4 +27,4 @@ API 参考不做翻译：翻译站点会链接到唯一的英文版。
 
 ## 报告翻译问题 {#reporting-a-translation-problem}
 
-发现了错误的术语、别扭的句子，或者译文说了英文原文没有的意思？请[提交 issue](https://github.com/modelcontextprotocol/python-sdk/issues)，写明语言、页面和具体段落；母语读者的报告尤其有价值。如果你知道怎么改，可以直接向 [`i18n/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/i18n) 下对应语言的风格指南（`instructions.md`）或术语表（`glossary.json`）提交 pull request——这样下次重新生成译文时，修正就会覆盖所有受影响的页面。英文原文本身的问题则和其他文档改动一样，在 `docs/` 下的页面中修复。
+发现了错误的术语、别扭的句子，或者译文说了英文原文没有的意思？请[提交 issue](https://github.com/DarbotLM/darpy-sdk/issues)，写明语言、页面和具体段落；母语读者的报告尤其有价值。如果你知道怎么改，可以直接向 [`i18n/`](https://github.com/DarbotLM/darpy-sdk/tree/main/i18n) 下对应语言的风格指南（`instructions.md`）或术语表（`glossary.json`）提交 pull request——这样下次重新生成译文时，修正就会覆盖所有受影响的页面。英文原文本身的问题则和其他文档改动一样，在 `docs/` 下的页面中修复。

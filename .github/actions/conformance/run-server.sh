@@ -16,8 +16,8 @@ if (: > "/dev/tcp/localhost/${PORT}") 2>/dev/null; then
     exit 1
 fi
 
-echo "Starting mcp-everything-server on port ${PORT}..."
-uv run --frozen mcp-everything-server --port "$PORT" &
+echo "Starting darpy-sdk-everything-server on port ${PORT}..."
+uv run --frozen darpy-sdk-everything-server --port "$PORT" &
 SERVER_PID=$!
 
 cleanup() {

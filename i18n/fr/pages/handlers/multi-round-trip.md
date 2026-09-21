@@ -99,7 +99,7 @@ Tout ce qui précède traite `request_state` comme un écho, et sur la liaison c
 La clé par défaut vit et meurt avec le processus ; c’est la seule chose que vous devez savoir avant de déployer au-delà d’un processus unique :
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

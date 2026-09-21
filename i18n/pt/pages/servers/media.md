@@ -34,7 +34,7 @@ Repare em duas coisas:
 * `structured_content` é `None`. Uma `Image` é conteúdo para o modelo olhar, não dados para a aplicação interpretar: não há schema de saída. (Compare com **[Saída estruturada](structured-output.md)**, onde a anotação de retorno *é* o schema.)
 
 !!! info
-    `ImageContent` e `AudioContent` ficam em `mcp.types`, bem ao lado do `TextContent`
+    `ImageContent` e `AudioContent` ficam em `darpy_sdk.types`, bem ao lado do `TextContent`
     em que um resultado `str` simples se transforma (**[Ferramentas](tools.md)**). O resultado de uma ferramenta é uma lista de blocos de conteúdo; `Image` e `Audio` são
     o caminho mais curto para produzir os dois tipos binários.
 
@@ -43,7 +43,7 @@ Repare em duas coisas:
 Coloque qualquer PNG ao lado de `server.py`, dê a ele o nome `logo.png` e execute:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Abra a aba **Tools** e chame `logo`. O resultado não é uma string: é um bloco de conteúdo `image`, e o Inspector renderiza sua imagem. Tudo o que aconteceu entre o arquivo no disco e os pixels na tela foi obra do SDK.
@@ -95,7 +95,7 @@ Uma ferramenta também pode retornar um documento: algum texto ou bytes junto co
 ```
 
 * `brand://guidelines` é um recurso comum (**[Recursos](resources.md)** trata deles). A ferramenta entrega o mesmo documento ao modelo quando pedido, e chamar `guidelines()` diretamente mantém uma única fonte da verdade.
-* `EmbeddedResource` e `TextResourceContents` vêm de `mcp.types`. Não há um helper como há para imagens: o bloco que você monta entra no resultado sem alteração, e não há `structured_content`.
+* `EmbeddedResource` e `TextResourceContents` vêm de `darpy_sdk.types`. Não há um helper como há para imagens: o bloco que você monta entra no resultado sem alteração, e não há `structured_content`.
 * Use a URI sob a qual o recurso está registrado, para que um cliente consiga perceber que o anexo e `brand://guidelines` são o mesmo documento. Qualquer URI é válida, registrada ou não.
 
 ```python
@@ -123,7 +123,7 @@ Um `Icon` é metadado, não conteúdo. Ele não carrega a imagem; aponta para um
 Os ícones viajam junto com aquilo que decoram. Os do servidor chegam quando o cliente se conecta, em `client.server_info` (opcional em conexões da era 2026, então restrinja o tipo primeiro):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

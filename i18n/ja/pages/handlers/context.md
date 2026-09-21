@@ -47,7 +47,7 @@ translation:
 MCP Inspector でサーバーを実行してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 `search_books` のフォームには `query` フィールドが 1 つだけあります。`dune` を指定して呼び出してください。

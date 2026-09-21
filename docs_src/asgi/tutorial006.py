@@ -1,7 +1,7 @@
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Notes")
 

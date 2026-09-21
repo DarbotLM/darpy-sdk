@@ -3,12 +3,12 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "Esta documentação cobre a v2, a linha de versões estável atual"
     Começando na v2 ou vindo da v1? **[Novidades da v2](whats-new.md)** é o tour de cinco minutos pelo que mudou, e o **[Guia de migração](migration.md)** cobre todas as mudanças incompatíveis.
     Ainda na v1.x? A documentação dela fica nos [docs da v1.x](https://py.sdk.modelcontextprotocol.io/v1/).
-    Encontrou algo mal-acabado ou confuso? [Conte para nós](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml).
+    Encontrou algo mal-acabado ou confuso? [Conte para nós](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml).
 
 O **Model Context Protocol (MCP)** permite que aplicações forneçam contexto a LLMs de forma padronizada, separando a responsabilidade de *fornecer* contexto da interação com o LLM em si.
 
@@ -20,20 +20,20 @@ Este é o SDK Python oficial do protocolo. Com ele, você pode:
 
 ## Requisitos {#requirements}
 
-Python 3.10+.
+Python 3.14+.
 
 ## Instalação {#installation}
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 O extra `[cli]` instala o comando `mcp`; você vai precisar dele durante o desenvolvimento.
@@ -56,13 +56,13 @@ Ele expõe uma **ferramenta**, `add`, e um **recurso** com template, `greeting:/
 ### Execute {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Isso inicia o seu servidor e abre o [MCP Inspector](https://github.com/modelcontextprotocol/inspector), uma interface interativa para explorá-lo. Abra a URL que ele imprime.
 
 !!! note
-    O Inspector é um app Node.js, então `mcp dev` precisa do `npx` no seu `PATH`.
+    O Inspector é um app Node.js, então `darpy-sdk dev` precisa do `npx` no seu `PATH`.
 
 ### Experimente {#try-it}
 
@@ -96,7 +96,7 @@ Você escreveu duas funções Python com anotações de tipo e uma docstring. O 
 * Atrás de uma mensagem de erro específica? **[Solução de problemas](troubleshooting.md)** é organizada pelo texto exato das mensagens.
 * Quer saber o que mudou na v2? **[Novidades da v2](whats-new.md)** é o tour de cinco minutos.
 * Migrando da v1? Comece pelo **[Guia de migração](migration.md)**.
-* Atrás de uma assinatura exata? A **[Referência da API](api/mcp/index.md)** é gerada a partir do código-fonte.
+* Atrás de uma assinatura exata? A **[Referência da API](api/darpy_sdk/index.md)** é gerada a partir do código-fonte.
 * Lendo com um LLM? Esta documentação também é publicada no formato [llms.txt](https://llmstxt.org/):
   [llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) é um índice das páginas, e
   [llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) contém todas as páginas em um único arquivo.

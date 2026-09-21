@@ -29,7 +29,7 @@ Crie um `ClientSessionGroup` e chame **`connect_to_server`** uma vez por servido
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` recebe parâmetros de transporte, não um objeto de servidor: `StdioServerParameters` (de `mcp`) para iniciar um subprocesso, ou `StreamableHttpParameters` / `SseServerParameters` (de `mcp.client.session_group`) para um servidor que já está escutando em uma URL.
+* `connect_to_server` recebe parâmetros de transporte, não um objeto de servidor: `StdioServerParameters` (de `mcp`) para iniciar um subprocesso, ou `StreamableHttpParameters` / `SseServerParameters` (de `darpy_sdk.client.session_group`) para um servidor que já está escutando em uma URL.
 * `group.tools` é um `dict[str, Tool]` com as ferramentas de todos os servidores conectados. `group.resources` e `group.prompts` têm o mesmo formato.
 * `group.call_tool(name, arguments)` procura o nome, encontra a sessão dona dele e encaminha a chamada. Você nunca diz qual servidor.
 
@@ -37,7 +37,7 @@ Crie um `ClientSessionGroup` e chame **`connect_to_server`** uma vez por servido
     Coloque `client.py` ao lado dos dois servidores e execute. O segundo `connect_to_server` recusa:
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     Isso é um `MCPError`, lançado antes que qualquer coisa do segundo servidor seja registrada. Um nome precisa

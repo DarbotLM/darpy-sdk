@@ -1,4 +1,4 @@
-from mcp import Client, StdioServerParameters
+from darpy_sdk import Client, StdioServerParameters
 
 server = StdioServerParameters(
     command="uv",

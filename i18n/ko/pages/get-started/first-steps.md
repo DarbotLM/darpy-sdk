@@ -51,15 +51,15 @@ translation:
 나머지(이름, 설명, 인자 스키마)는 모두 SDK가 함수 자체에서 읽어 냅니다. 함수 이름, 독스트링, 타입 힌트에서 가져오는 것입니다. 어느 것도 따로 선언하지 않았습니다.
 
 !!! tip
-    SDK의 두 부분은 임포트 경로도 둘입니다. `from mcp import Client`와
-    `from mcp.server import MCPServer`입니다. `from mcp import MCPServer`는 없습니다.
+    SDK의 두 부분은 임포트 경로도 둘입니다. `from darpy_sdk import Client`와
+    `from darpy_sdk.server import MCPServer`입니다. `from darpy_sdk import MCPServer`는 없습니다.
 
 ### 직접 해 보기 {#try-it}
 
 MCP Inspector로 실행하세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 출력되는 URL을 여세요. Inspector에는 프리미티브마다 탭이 하나씩 있습니다. 순서대로 살펴보세요.
@@ -85,7 +85,7 @@ Inspector에서 탭 세 개를 보았습니다. Inspector가 세 개라는 것�
 직접 확인해 보세요. 한쪽 터미널에서 `server.py`를 HTTP로 실행해 두세요.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 그리고 다른 터미널에서 클라이언트를 이 서버에 연결하세요.
@@ -126,7 +126,7 @@ python client.py
 * JSON Schema. `a: int, b: int`가 **곧** `add`의 스키마입니다.
 * 요청 핸들러. `tools/list`, `resources/read`, `prompts/get`은 모두 대신 처리됩니다.
 * 기능 선언. `MCPServer`가 대신 만들었습니다.
-* 프로토콜 코드 단 한 줄. 버전 협상, JSON-RPC 프레이밍, 기능 교환은 모두 `mcp dev`와 `client.py` 안에서 일어났고, 눈에 보이지도 않았습니다.
+* 프로토콜 코드 단 한 줄. 버전 협상, JSON-RPC 프레이밍, 기능 교환은 모두 `darpy-sdk dev`와 `client.py` 안에서 일어났고, 눈에 보이지도 않았습니다.
 
 이 비율이야말로 SDK가 존재하는 이유입니다.
 

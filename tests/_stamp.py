@@ -12,20 +12,18 @@ strip on modern cells and to a must-not-be-stamped assertion on
 handshake-era cells, so one comparison line enforces both eras.
 """
 
-from typing import Any, Protocol, TypeVar
+from typing import Any, Protocol
 
-from mcp_types import SERVER_INFO_META_KEY, Result
-
-R = TypeVar("R", bound=Result)
+from darpy_sdk_types import SERVER_INFO_META_KEY, Result
 
 
 class Unstamp(Protocol):
     """An era-appropriate stamp normalizer: strips or forbids the stamp."""
 
-    def __call__(self, result: R) -> R: ...
+    def __call__[R: Result](self, result: R) -> R: ...
 
 
-def unstamped(result: R) -> R:
+def unstamped[R: Result](result: R) -> R:
     """Assert the result carries a well-formed serverInfo stamp, then remove it.
 
     Returns the result for inline use in comparisons. Use only where a stamp

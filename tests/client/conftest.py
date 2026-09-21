@@ -4,11 +4,11 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
-from mcp_types import JSONRPCNotification, JSONRPCRequest
+from darpy_sdk_types import JSONRPCNotification, JSONRPCRequest
 
-import mcp.shared.memory
-from mcp.client._transport import WriteStream
-from mcp.shared.message import SessionMessage
+import darpy_sdk.shared.memory
+from darpy_sdk.client._transport import WriteStream
+from darpy_sdk.shared.message import SessionMessage
 
 
 class SpyMemoryObjectSendStream:
@@ -74,7 +74,7 @@ class StreamSpyCollection:
 
 
 @pytest.fixture
-def stream_spy() -> Generator[Callable[[], StreamSpyCollection], None, None]:
+def stream_spy() -> Generator[Callable[[], StreamSpyCollection]]:
     """Fixture that provides spies for both client and server write streams.
 
     Example:
@@ -105,7 +105,7 @@ def stream_spy() -> Generator[Callable[[], StreamSpyCollection], None, None]:
         server_spy = s_spy
 
     # Create patched version of stream creation
-    original_create_streams = mcp.shared.memory.create_client_server_memory_streams
+    original_create_streams = darpy_sdk.shared.memory.create_client_server_memory_streams
 
     @asynccontextmanager
     async def patched_create_streams():
@@ -124,8 +124,8 @@ def stream_spy() -> Generator[Callable[[], StreamSpyCollection], None, None]:
 
     # Apply the patch for the duration of the test
     # Patch both locations since InMemoryTransport imports it directly
-    with patch("mcp.shared.memory.create_client_server_memory_streams", patched_create_streams):
-        with patch("mcp.client._memory.create_client_server_memory_streams", patched_create_streams):
+    with patch("darpy_sdk.shared.memory.create_client_server_memory_streams", patched_create_streams):
+        with patch("darpy_sdk.client._memory.create_client_server_memory_streams", patched_create_streams):
             # Return a collection with helper methods
             def get_spy_collection() -> StreamSpyCollection:
                 assert client_spy is not None, "client_spy was not initialized"

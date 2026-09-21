@@ -1,7 +1,7 @@
 import anyio
 
-from mcp import Client
-from mcp.types import Tool
+from darpy_sdk import Client
+from darpy_sdk.types import Tool
 
 
 async def list_all_tools(client: Client) -> list[Tool]:

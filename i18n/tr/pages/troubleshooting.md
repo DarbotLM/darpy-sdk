@@ -16,7 +16,7 @@ Girdilerin birkaçı şu tek sunucuya karşı çalışır. Bir araç ve bir şab
 Bu girdiler ona `http://localhost:8000/mcp` adresinden ulaşır; bu yüzden onu HTTP üzerinden çalışır durumda bırakın:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Bu sayfanın alıntıladığı hatalar gerçektir: SDK'nın kendi test paketi her birini yeniden üretir.
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -138,7 +138,7 @@ Parantezleri ekleyin. `@mcp.resource(...)` ve `@mcp.prompt()` de aynı sürçme 
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` tek bir `forecast` bildirir ve o da `forecast_today`'dir. Birinin adını değiştirin. `MCPServer(..., warn_on_duplicate_tools=False)` sonucu değiştirmeden uyarıyı susturur; bu yüzden açık bırakın. Kaynaklar ve prompt'lar için de aynı kural ve aynı log satırı geçerlidir (`Resource already exists:`, `Prompt already exists:`).
@@ -173,13 +173,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 Sunucunun gerçekte gönderdiği sözcükler, `421` ve `Invalid Host header`, size asla ulaşmaz: 421 gövdesinde `Content-Type: application/json` yoktur, bu yüzden istemci onu ayrıştıramaz. Bunlar **sunucunun log'undadır**; bir sonraki bakılacak yer de orasıdır:
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 Çözüm `transport_security=`. Gerçekte hizmet verdiğiniz ana bilgisayar adını izin listesine ekleyin:
@@ -311,7 +311,7 @@ async def main() -> None:
 !!! info
     `-32021`, `MISSING_REQUIRED_CLIENT_CAPABILITY`'dir; 2026-07-28 spesifikasyonunun eklediği
     üç hata kodundan biridir. Hiçbiri bir istisna sınıfı değildir: hepsi `MCPError` olarak
-    gelir ve bakılacak yer `e.error.code`'dur. Sabitleri `mcp.types` dışa aktarır. Diğer ikisi
+    gelir ve bakılacak yer `e.error.code`'dur. Sabitleri `darpy_sdk.types` dışa aktarır. Diğer ikisi
     `-32020` `HEADER_MISMATCH` (bir HTTP başlığı eşlik ettiği istek gövdesiyle uyuşmuyor) ve
     `-32022` `UNSUPPORTED_PROTOCOL_VERSION`'dır (istek, bu sunucunun konuşmadığı bir sürümü
     belirtmiş). Uyumlu bir SDK istemcisi ikisini de üretemez; bu yüzden birini görürseniz,
@@ -340,7 +340,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **`stateless_http=True` bir sunucuda eski nesil bir bağlantı.** Durumsuzluk, her isteğin kendi dünyası olması demektir: oturum yok, sunucudan istemciye akış yok; dolayısıyla bunlara sahip olan nesil için bile bir `elicitation/create` (veya `sampling/createMessage` ya da `roots/list`) gönderecek hiçbir yer yok:
@@ -381,13 +381,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 Mesaj kasıtlı olarak sabittir: ağ üzerinden hangi denetimin başarısız olduğu asla açığa çıkmaz. Neden **sunucu log'una** gider ve onu okumak teşhisin tamamıdır:
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 Gerçekte göreceğiniz nedenler:
@@ -418,8 +418,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## Hâlâ takıldınız mı? {#still-stuck}
 
 * SDK'nın ürettiği bir mesaj bu sayfada yoksa, bu başlı başına bildirmeye değer bir dokümantasyon hatasıdır.
-* [Issue tracker](https://github.com/modelcontextprotocol/python-sdk/issues)'da arama yapın; orada görünen hata metinlerinin çoğunu birileri çoktan yazıya dökmüştür.
-* Hiçbir şey bulamadınız mı? Tam traceback ile [bir issue açın](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml) ya da [MCP Contributors Discord'undaki #python-sdk-dev kanalında](https://discord.gg/6CSzBmMkjX) sorun.
+* [Issue tracker](https://github.com/DarbotLM/darpy-sdk/issues)'da arama yapın; orada görünen hata metinlerinin çoğunu birileri çoktan yazıya dökmüştür.
+* Hiçbir şey bulamadınız mı? Tam traceback ile [bir issue açın](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml) ya da [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues) sorun.
 
 ## Özet {#recap}
 

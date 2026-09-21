@@ -9,7 +9,7 @@ import contextlib
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create MCP server
 mcp = MCPServer("My App")

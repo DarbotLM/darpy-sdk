@@ -61,7 +61,7 @@ Você também não precisa de um `try`/`except` em cada handler só para registr
 Execute o servidor com o MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Chame `search_books` na aba **Tools**. O Inspector mostra o resultado: apenas o valor de retorno. A linha

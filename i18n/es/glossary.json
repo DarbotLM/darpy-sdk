@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "cliente",
-      "note": "An MCP client and the client side of a connection, masculine: el cliente. The `Client` class and the `mcp.client` module are code and stay in English."
+      "note": "An MCP client and the client side of a connection, masculine: el cliente. The `Client` class and the `darpy_sdk.client` module are code and stay in English."
     },
     {
       "source": "server",
@@ -183,7 +189,9 @@
       "source": "lifespan",
       "target": "lifespan",
       "note": "The server's startup/shutdown scope and its `lifespan=` parameter; kept in English so the prose matches the parameter name, masculine: el lifespan. Provisional pending native review; may take the gloss \"lifespan (ciclo de vida del servidor)\" on first mention. Not vida útil; and esperanza de vida (life expectancy) is never the sense. The neighbouring word \"lifetime\" (\"for the lifetime of the app\") may render as durante toda la vida de la app.",
-      "avoid": ["esperanza de vida"]
+      "avoid": [
+        "esperanza de vida"
+      ]
     },
     {
       "source": "back-channel",
@@ -214,7 +222,9 @@
       "source": "wire",
       "target": "canal",
       "note": "The corpus's light metaphor for the byte stream between client and server. Render the meaning, not the picture: \"stdout is the wire\" → stdout es el canal; \"invisible on the wire\" → no aparece en lo que se transmite; \"the JSON on the wire\" → el JSON que realmente se transmite. Provisional pending native review. Never the literal alambre; cable only if a reviewer prefers it.",
-      "avoid": ["alambre"]
+      "avoid": [
+        "alambre"
+      ]
     },
     {
       "source": "token",
@@ -255,13 +265,17 @@
       "source": "file",
       "target": "archivo",
       "note": "Masculine: el archivo. fichero is Spain-only usage and this single global variant never uses it; archivo is understood everywhere, Spain included.",
-      "avoid": ["fichero"]
+      "avoid": [
+        "fichero"
+      ]
     },
     {
       "source": "computer",
       "target": "computadora",
       "note": "Rare in this corpus, which mostly says \"machine\" (→ la máquina: \"on your machine\" → en tu máquina) or can say el equipo. Where \"computer\" itself must be rendered, computadora is the pan-American form and is understood in Spain; ordenador is Spain-only and this global variant never uses it. Provisional pending native review.",
-      "avoid": ["ordenador"]
+      "avoid": [
+        "ordenador"
+      ]
     },
     {
       "source": "string",

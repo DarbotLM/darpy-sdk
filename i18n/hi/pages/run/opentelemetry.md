@@ -65,10 +65,10 @@ trace सबसे ज़्यादा काम का तब होता �
 tracing एक middleware है, आपके server की सूची में पहला। अगर आप सच में ऐसा server चाहते हैं जो कोई span emit न करे, तो इसे हटा दें:
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

@@ -1,18 +1,18 @@
 """cd to the `examples/snippets` directory and run:
-uv run display-utilities-client
+uv run darpy-sdk-display-utilities-client
 """
 
 import asyncio
 import os
 
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-from mcp.shared.metadata_utils import get_display_name
+from darpy_sdk import ClientSession, StdioServerParameters
+from darpy_sdk.client.stdio import stdio_client
+from darpy_sdk.shared.metadata_utils import get_display_name
 
 # Create server parameters for stdio connection
 server_params = StdioServerParameters(
     command="uv",  # Using uv to run the server
-    args=["run", "server", "mcpserver_quickstart", "stdio"],
+    args=["run", "darpy-sdk-server", "mcpserver_quickstart", "stdio"],
     env={"UV_INDEX": os.environ.get("UV_INDEX", "")},
 )
 

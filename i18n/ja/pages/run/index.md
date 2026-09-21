@@ -29,7 +29,7 @@ translation:
 
 * `run()` は同期的です。サーバーが動いている間ずっとブロックします。
 * 引数がなければ、トランスポートは `stdio` です。
-* `if __name__ == "__main__":` の下に置くのは、サーバーを読み込むものすべて（`mcp dev`、`mcp run`、`mcp install`、テスト）がこのファイルを **import** するからです。このガードにより、import しただけでサーバーが起動してしまうのを防ぎます。
+* `if __name__ == "__main__":` の下に置くのは、サーバーを読み込むものすべて（`darpy-sdk dev`、`darpy-sdk run`、`darpy-sdk install`、テスト）がこのファイルを **import** するからです。このガードにより、import しただけでサーバーが起動してしまうのを防ぎます。
 
 ### stdio {#stdio}
 
@@ -48,7 +48,7 @@ python server.py
 ### 試してみる {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector は本物のホストとまったく同じことをします。`server.py` をサブプロセスとして起動し、stdio で接続します。
@@ -102,42 +102,42 @@ Inspector は本物のホストとまったく同じことをします。`server
 
 `[cli]` エクストラをインストールすると、これらすべてを包む小さなコマンドラインツールが入ります。
 
-`mcp dev` はサーバーを **MCP Inspector** の下で実行します。
+`darpy-sdk dev` はサーバーを **MCP Inspector** の下で実行します。
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with` は組み立てる環境にパッケージを追加し、`--with-editable` は自分のパッケージをそこにインストールします。`PATH` に `npx` が必要です。Inspector は Node.js アプリだからです。
 
-`mcp run` はファイルを import し、サーバーオブジェクト（モジュールレベルの `mcp`、`server`、`app` のいずれか）を見つけて、その `run()` を呼び出します。
+`darpy-sdk run` はファイルを import し、サーバーオブジェクト（モジュールレベルの `mcp`、`server`、`app` のいずれか）を見つけて、その `run()` を呼び出します。
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 `:` の接尾辞は、オブジェクトが `mcp`、`server`、`app` 以外の名前のときにそのオブジェクトを指定します。
 
-ここでは `if __name__ == "__main__":` ブロックは決して実行されません。`mcp run` が自分で `run()` を呼び出し、転送するオプションは `--transport` だけです。
+ここでは `if __name__ == "__main__":` ブロックは決して実行されません。`darpy-sdk run` が自分で `run()` を呼び出し、転送するオプションは `--transport` だけです。
 
-`mcp install` はサーバーを **Claude Desktop** に登録し、アプリが代わりに起動してくれるようにします。
+`darpy-sdk install` はサーバーを **Claude Desktop** に登録し、アプリが代わりに起動してくれるようにします。
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE` と `-f .env` はそのエントリに環境変数を記録します。Claude Desktop はサーバーを独自のプロセスで起動します。シェルの環境はそこにはありません。
 
-`mcp install` が知っているホストは Claude Desktop だけです。他のホスト（Claude Code、Cursor、VS Code）はそれぞれの設定ファイルに同じ起動コマンドを書きます。それぞれについては **[本物のホストに接続する](../get-started/real-host.md)** に載っています。
+`darpy-sdk install` が知っているホストは Claude Desktop だけです。他のホスト（Claude Code、Cursor、VS Code）はそれぞれの設定ファイルに同じ起動コマンドを書きます。それぞれについては **[本物のホストに接続する](../get-started/real-host.md)** に載っています。
 
-`mcp version` はインストールされている SDK のバージョンを表示します。
+`darpy-sdk version` はインストールされている SDK のバージョンを表示します。
 
 !!! tip
-    `mcp dev` と `mcp run` が理解するのは `MCPServer` だけです。低レベルの `Server` で組み立てる場合は、自分で実行します。**[低レベルの Server](../advanced/low-level-server.md)** を参照してください。
+    `darpy-sdk dev` と `darpy-sdk run` が理解するのは `MCPServer` だけです。低レベルの `Server` で組み立てる場合は、自分で実行します。**[低レベルの Server](../advanced/low-level-server.md)** を参照してください。
 
 ## まとめ {#recap}
 
@@ -146,7 +146,7 @@ uv run mcp install server.py -v API_KEY=abc123 -f .env
 * トランスポートのオプション（`host`、`port`、`streamable_http_path` など）はすべて `run()` の引数であり、`MCPServer(...)` の引数ではありません。
 * `run()` は `if __name__ == "__main__":` の下に置いてください。サーバーを読み込むものはすべて、まずファイルを import します。
 * `log_level=` と `debug=` はコンストラクター引数で、`mcp.settings` に載ります。
-* Inspector には `mcp dev`、ファイルの実行には `mcp run`、Claude Desktop には `mcp install`、バージョンには `mcp version` です。
+* Inspector には `darpy-sdk dev`、ファイルの実行には `darpy-sdk run`、Claude Desktop には `darpy-sdk install`、バージョンには `darpy-sdk version` です。
 * トランスポートによってサーバーが「何であるか」が変わることはありません。このページの 3 つのファイルはすべて、まったく同じツールを公開しています。
 
 `run()` そのものが限界になるとき（すでに存在するアプリの中にサーバーを置く場合）は **[既存のアプリに追加する](asgi.md)** です。本物のホスト名と複数のワーカーは **[デプロイとスケール](deploy.md)** です。そして、一部のクライアントがまだ仕様バージョン 2025-11-25 以前にとどまっているなら、**[レガシークライアントへの対応](legacy-clients.md)** が朗報です。

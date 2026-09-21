@@ -4,9 +4,9 @@ uv run examples/snippets/servers/lowlevel/direct_call_tool_result.py
 
 import asyncio
 
-import mcp.server.stdio
-import mcp.types as types
-from mcp.server import Server, ServerRequestContext
+import darpy_sdk.server.stdio
+import darpy_sdk.types as types
+from darpy_sdk.server import Server, ServerRequestContext
 
 
 async def handle_list_tools(
@@ -50,7 +50,7 @@ server = Server(
 
 async def run():
     """Run the server."""
-    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+    async with darpy_sdk.server.stdio.stdio_server() as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,

@@ -20,15 +20,15 @@ from dataclasses import dataclass
 from urllib.parse import parse_qsl, quote, urlsplit
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import ListToolsResult, Tool
 from inline_snapshot import snapshot
-from mcp_types import ListToolsResult, Tool
 from pydantic import AnyHttpUrl, AnyUrl
 
-from mcp.client.auth import OAuthFlowError
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.auth import OAuthClientInformationFull, OAuthMetadata
+from darpy_sdk.client.auth import OAuthFlowError
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthMetadata
 from tests.interaction._connect import BASE_URL
 from tests.interaction._requirements import requirement
 from tests.interaction.auth._harness import (

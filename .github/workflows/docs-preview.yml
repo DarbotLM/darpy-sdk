@@ -3,7 +3,7 @@ name: Docs Preview
 # Builds the docs site for a PR and deploys it to Cloudflare Pages.
 #
 # Security: the build executes Python from the PR (mkdocstrings imports
-# src/mcp, `!!python/name:` config directives run, and heads may ship their
+# src/darpy_sdk, `!!python/name:` config directives run, and heads may ship their
 # own build scripts). The build is gated by `authorize` (admin sender on a
 # same-repo branch for auto-preview, admin/maintainer commenter for
 # /preview-docs) and isolated from Cloudflare secrets — `build` runs PR code
@@ -18,7 +18,7 @@ name: Docs Preview
 # Required configuration:
 #   - secrets.CLOUDFLARE_API_TOKEN   (scope: Account → Cloudflare Pages → Edit)
 #   - secrets.CLOUDFLARE_ACCOUNT_ID
-#   - vars.CLOUDFLARE_PAGES_PROJECT  (existing Pages project, e.g. mcp-python-sdk-docs)
+#   - vars.DARPY_SDK_CLOUDFLARE_PAGES_PROJECT (DarbotLabs Pages project, e.g. darpy-sdk-docs)
 
 on:
   pull_request_target: # zizmor: ignore[dangerous-triggers] build is permission-gated and secret-isolated; see header comment
@@ -26,9 +26,12 @@ on:
     paths:
       - docs/**
       - docs_src/**
+      - src/darpy_sdk/**
+      - src/darpy-sdk-types/**
       - i18n/**
       - mkdocs.yml
       - scripts/docs/**
+      - scripts/build-docs.sh
       - pyproject.toml
   issue_comment:
     types: [created]
@@ -51,8 +54,10 @@ concurrency:
 jobs:
   authorize:
     if: >-
-      github.event_name == 'pull_request_target' ||
-      (github.event.issue.pull_request && startsWith(github.event.comment.body, '/preview-docs'))
+      github.repository == 'DarbotLM/darpy-sdk' &&
+      vars.DARPY_SDK_CLOUDFLARE_PAGES_PROJECT != '' &&
+      (github.event_name == 'pull_request_target' ||
+      (github.event.issue.pull_request && startsWith(github.event.comment.body, '/preview-docs')))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -148,7 +153,7 @@ jobs:
           packageManager: npm
           command: >-
             pages deploy ./site
-            --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+            --project-name=${{ vars.DARPY_SDK_CLOUDFLARE_PAGES_PROJECT }}
             --branch=pr-${{ needs.authorize.outputs.pr_number }}
             --commit-hash=${{ needs.authorize.outputs.head_sha }}
             --commit-dirty=true

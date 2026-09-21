@@ -5,7 +5,27 @@ The English pages under `docs/` are the source. This directory holds what steers
 - `languages.yml` — the registry: one entry per translated site (served at `/<code>/`), the model id, and the nav pages that stay in English.
 - `general-prompt.md` — translation rules shared by every language. `notices.md` — English source of the three notes staged onto the pages of a translated site.
 - `<code>/instructions.md` (register, voice, typography, terminology) and `<code>/glossary.json` (`keep`: terms that stay in English; `terms`: required renderings, each with an optional `note` and banned `avoid` renderings, which are checked) — human-authored, sent with every request.
-- `<code>/pages/**` and `<code>/notices.md` — **generated**, never edited by hand: a correction goes into that language's `instructions.md` or `glossary.json` (or the English page), and the affected pages are re-run.
+- `<code>/pages/**` and `<code>/notices.md` — **generated**, never manually rewritten as translated prose: a correction goes into that language's `instructions.md` or `glossary.json` (or the English page), and the affected pages are re-run.
+
+## Darbot namespace migration
+
+The initial Darbot fork migration performs a deliberate mechanical update of
+owned package/import/CLI/product identifiers across the retained translation
+files. It does not call a translation service or claim to retranslate prose.
+Original English section hashes and tool-version-1 provenance remain intact.
+The translation tool now writes version-2 provenance, so version-1 outputs are
+unverified for this fork and the existing provenance check stages current
+English instead of stale upstream product/support claims.
+
+Regenerate a page deliberately with the version-2 tool after updating its English
+source, language instructions, and glossary. Only a newly generated page receives
+new section hashes; never rewrite hashes just to make an old translation appear
+current. The historical files remain available for review and future translation
+work, but are not presented as verified Darbot translations.
+
+Normal documentation builds are offline with respect to translation services.
+The explicit `translate` command makes external model calls and is a separate
+operation. No such calls are needed to build English fallback editions.
 
 ## The tool
 

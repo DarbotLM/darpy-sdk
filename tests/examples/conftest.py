@@ -2,7 +2,7 @@
 
 Reads ``examples/stories/manifest.toml`` and expands each story across
 (server_variant × transport × era). The story modules are imported as
-real packages (the ``mcp-example-stories`` workspace member installs ``stories``
+real packages (the ``darpy-sdk-example-stories`` workspace member installs ``stories``
 editable), so pyright sees them and a signature change red-lines every story.
 
 The HTTP-ASGI leg reuses the interaction suite's in-process bridge directly
@@ -13,7 +13,7 @@ move to ``stories._shared.bridge`` is a later batch.
 from __future__ import annotations
 
 import importlib
-import sys
+import tomllib
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,18 +22,13 @@ from typing import Any
 import httpx2
 import pytest
 import stories
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
 from starlette.applications import Starlette
 from stories._harness import AuthBuilder, TargetFactory
 from stories._hosting import asgi_from
 
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk.client.streamable_http import streamable_http_client
 from tests.interaction.transports._bridge import StreamingASGITransport
-
-if sys.version_info >= (3, 11):  # pragma: lax no cover
-    import tomllib
-else:  # pragma: lax no cover
-    import tomli as tomllib
 
 STORIES_DIR = Path(stories.__file__).parent
 BASE_URL = "http://127.0.0.1:8000"

@@ -7,16 +7,16 @@ asserts the response is a single ``application/json`` body with no session id.
 
 import httpx2
 
-from mcp.client import Client
-from mcp.types import TextContent
-from mcp.types.version import LATEST_MODERN_VERSION
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
+from darpy_sdk.types.version import LATEST_MODERN_VERSION
 from stories._harness import Target, run_client
 
 # The raw 2026-07-28 POST envelope: per-request `_meta` replaces the initialize handshake.
 # The key/header strings are spelled out on purpose — this is the raw-wire story. In code
-# use the named constants instead: `mcp.types.PROTOCOL_VERSION_META_KEY` /
+# use the named constants instead: `darpy_sdk.types.PROTOCOL_VERSION_META_KEY` /
 # `CLIENT_INFO_META_KEY` / `CLIENT_CAPABILITIES_META_KEY` and
-# `mcp.shared.inbound.MCP_PROTOCOL_VERSION_HEADER` (`legacy_routing/` shows that form).
+# `darpy_sdk.shared.inbound.MCP_PROTOCOL_VERSION_HEADER` (`legacy_routing/` shows that form).
 RAW_ENVELOPE_BODY: dict[str, object] = {
     "jsonrpc": "2.0",
     "id": 1,

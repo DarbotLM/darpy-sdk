@@ -14,7 +14,7 @@ with the story's assertions:
 ```python
 """One line: what this client proves."""
 
-from mcp.client import Client
+from darpy_sdk.client import Client
 from stories._harness import Target, run_client
 
 

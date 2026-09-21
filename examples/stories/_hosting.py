@@ -9,18 +9,18 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Callable
-from typing import Any, TypeAlias
+from typing import Any
 
 import anyio
 import uvicorn
 from starlette.applications import Starlette
 
-from mcp.server.lowlevel import Server
-from mcp.server.mcpserver import MCPServer
-from mcp.server.stdio import stdio_server
-from mcp.server.transport_security import TransportSecuritySettings
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.stdio import stdio_server
+from darpy_sdk.server.transport_security import TransportSecuritySettings
 
-AnyServer: TypeAlias = "MCPServer | Server[Any]"
+type AnyServer = MCPServer | Server[Any]
 ServerFactory = Callable[[], AnyServer]
 AppFactory = Callable[[], Starlette]
 

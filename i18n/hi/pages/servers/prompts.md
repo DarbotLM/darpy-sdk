@@ -64,7 +64,7 @@ Prompt का पूरा जीवन बस इतना ही है: न�
     request खुद JSON-RPC error (code `-32603`) के साथ fail हो जाती है:
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     Model को लौटाने के लिए tool जैसा कोई error result नहीं है, क्योंकि यहाँ कोई model शामिल ही नहीं है:
@@ -75,7 +75,7 @@ Prompt का पूरा जीवन बस इतना ही है: न�
 Server को MCP Inspector के साथ चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Prompts** tab खोलें और `review_code` चुनें। Inspector एक required `code` field वाला form बनाता है। इसे भरें, render करें, और आपको ठीक ऊपर वाला user message वापस मिलता है।
@@ -90,7 +90,7 @@ Code review एक message है। Debugging session एक बातचीत
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` और `AssistantMessage`, `mcp.server.mcpserver.prompts.base` से आते हैं। इन्हें `str` दें और ये उसे आपके लिए `TextContent` में wrap कर देते हैं। Role class का नाम है।
+* `UserMessage` और `AssistantMessage`, `darpy_sdk.server.mcpserver.prompts.base` से आते हैं। इन्हें `str` दें और ये उसे आपके लिए `TextContent` में wrap कर देते हैं। Role class का नाम है।
 * `Message` इनका साझा base है। इसे return annotation के रूप में इस्तेमाल करें।
 
 `debug_error` को render करने पर अब तीन messages इसी क्रम में बनते हैं:
@@ -154,7 +154,7 @@ Code review एक message है। Debugging session एक बातचीत
 ```
 
 * style guide `style://python` पर एक resource है (**[Resources](resources.md)** में इनकी बात है), जो `server.py` के बगल में रखी `style-guide.md` से पढ़ा जाता है। वहाँ कोई भी Markdown file रख दें।
-* `EmbeddedResource(resource=TextResourceContents(...))`, दोनों `mcp.types` से, file को उसके URI और MIME type के साथ पहले message के रूप में ले जाता है; उसका ज़िक्र करने वाली request उसके बाद plain text के रूप में आती है।
+* `EmbeddedResource(resource=TextResourceContents(...))`, दोनों `darpy_sdk.types` से, file को उसके URI और MIME type के साथ पहले message के रूप में ले जाता है; उसका ज़िक्र करने वाली request उसके बाद plain text के रूप में आती है।
 * guide को f-string में चिपकाने के बजाय embed करने से client उसे attachment की तरह दिखा सकता है और बाद में `style://python` फिर से खोल सकता है, और model को file ज्यों की त्यों मिलती है। binary file के लिए base64 `blob` के साथ `BlobResourceContents` इस्तेमाल करें।
 
 render होने पर पहले message का `content` एक `resource` block है:

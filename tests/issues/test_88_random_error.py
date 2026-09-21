@@ -3,11 +3,11 @@
 from pathlib import Path
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 from anyio.abc import TaskStatus
 from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
-from mcp_types import (
+from darpy_sdk_types import (
     REQUEST_TIMEOUT,
     CallToolRequestParams,
     CallToolResult,
@@ -16,10 +16,10 @@ from mcp_types import (
     TextContent,
 )
 
-from mcp.client.session import ClientSession
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.exceptions import MCPError
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio

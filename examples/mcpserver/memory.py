@@ -1,8 +1,9 @@
 # /// script
+# requires-python = ">=3.14"
 # dependencies = ["pydantic-ai-slim[openai]", "asyncpg", "numpy", "pgvector"]
 # ///
 
-# uv pip install 'pydantic-ai-slim[openai]' asyncpg numpy pgvector
+# Optional dependencies are declared above; see README.md before running.
 
 """Recursive memory system inspired by the human brain's clustering of memories.
 Uses OpenAI's 'text-embedding-3-small' model and pgvector for efficient
@@ -13,9 +14,9 @@ import asyncio
 import math
 import os
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Annotated, Self, TypeVar
+from typing import Annotated, Self
 
 import asyncpg
 import numpy as np
@@ -24,7 +25,7 @@ from pgvector.asyncpg import register_vector  # Import register_vector
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 MAX_DEPTH = 5
 SIMILARITY_THRESHOLD = 0.7
@@ -34,13 +35,10 @@ REINFORCEMENT_FACTOR = 1.1
 DEFAULT_LLM_MODEL = "openai:gpt-4o"
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
 
-T = TypeVar("T")
-
 mcp = MCPServer("memory")
 
 DB_DSN = "postgresql://postgres:postgres@localhost:54320/memory_db"
-# reset memory with rm ~/.mcp/{USER}/memory/*
-PROFILE_DIR = (Path.home() / ".mcp" / os.environ.get("USER", "anon") / "memory").resolve()
+PROFILE_DIR = (Path.home() / ".darpy-sdk" / os.environ.get("USER", "anon") / "memory").resolve()
 PROFILE_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -50,7 +48,7 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
     return np.dot(a_array, b_array) / (np.linalg.norm(a_array) * np.linalg.norm(b_array))
 
 
-async def do_ai(
+async def do_ai[T](
     user_prompt: str,
     system_prompt: str,
     result_type: type[T] | Annotated,
@@ -86,7 +84,7 @@ class MemoryNode(BaseModel):
     summary: str = ""
     importance: float = 1.0
     access_count: int = 0
-    timestamp: float = Field(default_factory=lambda: datetime.now(timezone.utc).timestamp())
+    timestamp: float = Field(default_factory=lambda: datetime.now(UTC).timestamp())
     embedding: list[float]
 
     @classmethod

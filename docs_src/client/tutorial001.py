@@ -1,8 +1,14 @@
 from pydantic import BaseModel
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver.exceptions import ToolError
-from mcp.types import Completion, CompletionArgument, CompletionContext, PromptReference, ResourceTemplateReference
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ToolError
+from darpy_sdk.types import (
+    Completion,
+    CompletionArgument,
+    CompletionContext,
+    PromptReference,
+    ResourceTemplateReference,
+)
 
 mcp = MCPServer("Bookshop", instructions="Search the catalog before recommending a book.")
 

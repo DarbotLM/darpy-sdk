@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, urlsplit
 import httpx2
 from pydantic import AnyHttpUrl
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
@@ -21,8 +21,8 @@ from mcp.server.auth.provider import (
     RefreshToken,
     construct_redirect_uri,
 )
-from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions
-from mcp.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthToken
+from darpy_sdk.server.auth.settings import AuthSettings, ClientRegistrationOptions
+from darpy_sdk.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthToken
 
 BASE_URL = "http://127.0.0.1:8000"
 MCP_URL = f"{BASE_URL}/mcp"

@@ -10,15 +10,15 @@ server's handler.
 """
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import CallToolResult, ProgressNotification, ProgressNotificationParams, ProgressToken, TextContent
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, ProgressNotification, ProgressNotificationParams, ProgressToken, TextContent
 
-from mcp.client import IncomingMessage
-from mcp.server import Server, ServerRequestContext
-from mcp.server.session import ServerSession
-from mcp.shared.dispatcher import ProgressFnT
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.session import ServerSession
+from darpy_sdk.shared.dispatcher import ProgressFnT
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

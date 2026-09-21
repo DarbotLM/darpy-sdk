@@ -19,7 +19,7 @@ translation:
 
 * 引数なしの `mcp.run()` は **stdio** サーバーを起動します。ブロックし、stdin でプロトコルメッセージを読み、stdout に書き出します。これが、このページのどのホストも話すトランスポートです。ホストはこのファイルを子プロセスとして起動し、その 2 本のパイプを所有します。だからこそ、接続は常に「これがコマンドです」と伝えるだけで済みます。ポートを選ぶことはなく、どこかのポートで待ち受けるものもありません。
 * `run()` は `if __name__ == "__main__":` の下にあります。以降のものはすべてこのファイルを実行するのではなく**インポート**するので、ガードのない `run()` だと、何かがモジュールを読み込んだ瞬間にサーバーが起動してしまいます。
-* サーバーオブジェクトは `mcp` という名前のモジュールレベルのグローバル変数です。これは `mcp run` が探す名前です（`server` と `app` でも動きます）。別の名前を付けた場合は、`mcp run server.py:bookshop` のように明示的に指定します。
+* サーバーオブジェクトは `mcp` という名前のモジュールレベルのグローバル変数です。これは `darpy-sdk run` が探す名前です（`server` と `app` でも動きます）。別の名前を付けた場合は、`darpy-sdk run server.py:bookshop` のように明示的に指定します。
 
 このページの Python はこれが最後の 1 行です。ここから下はすべてホストの設定です。
 
@@ -28,15 +28,15 @@ translation:
 以降のどのホストにも同じコマンドを渡します。
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 どのホストにも 1 つのコマンドで済むのは、`uv run --with` がその場で SDK を新しい環境へ解決してくれるからです。どのディレクトリからでも動き、プロジェクトも、有効化すべき仮想環境も要りません。このことがほかのどこよりもここで効いてくるのは、ホストがサーバーを起動するのがシェルからではなく、ほぼ空の環境でホスト自身の作業ディレクトリからだからです。
 
-このコマンドは、`mcp install` が Claude Desktop の設定に書き込んでくれるコマンドでもあります（後述）。そのため、手で入力するものとツールが生成するものは、ツールが付け加える正確なバージョン固定を除いて一致します。
+このコマンドは、`darpy-sdk install` が Claude Desktop の設定に書き込んでくれるコマンドでもあります（後述）。そのため、手で入力するものとツールが生成するものは、ツールが付け加える正確なバージョン固定を除いて一致します。
 
 !!! tip "ホストが `uv` を見つけられない場合"
-    ホストは最小限の `PATH` でサーバーを起動するため、そこに `uv` が入っていないことがあります。`uv` とだけ書いた部分を、`which uv`（macOS/Linux）または `where uv`（Windows）で得られる絶対パスに置き換えてください。`mcp install` が書き込むのもまさにこの形です。
+    ホストは最小限の `PATH` でサーバーを起動するため、そこに `uv` が入っていないことがあります。`uv` とだけ書いた部分を、`which uv`（macOS/Linux）または `where uv`（Windows）で得られる絶対パスに置き換えてください。`darpy-sdk install` が書き込むのもまさにこの形です。
 
 !!! note "このページはローカルの話"
     ここで扱うものはすべて、ホストと同じマシン上でサーバーを動かします。ホストがファイルを stdio 経由で起動する形です。個人用のツールや 1 台のマシンで使うツールなら、まさにこれが正解です。ファイルを持っていない人たちにサーバーを渡すには、コマンドではなく **URL** を配ります。つまり、同じ `mcp` オブジェクトを Streamable HTTP で提供します。**[サーバーの実行](../run/index.md)** はその判断を 1 つの表にまとめており、**[デプロイとスケール](../run/deploy.md)** はそこから実際のホスト名に至るまでの道のりです。
@@ -48,10 +48,10 @@ uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
 SDK が代わりに設定してくれる唯一のホストです。
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-これだけです。`mcp install` はファイルをインポートしてサーバーの名前を読み取り、Claude Desktop の設定ファイルを探し出し、そこに起動コマンドを書き込みます。その過程でパスを絶対パスに変換してくれるので、自分で変換する必要はありません。
+これだけです。`darpy-sdk install` はファイルをインポートしてサーバーの名前を読み取り、Claude Desktop の設定ファイルを探し出し、そこに起動コマンドを書き込みます。その過程でパスを絶対パスに変換してくれるので、自分で変換する必要はありません。
 
 謎めいたところは何もありません。書き込まれるエントリは次のとおりです。
 
@@ -64,8 +64,8 @@ uv run mcp install server.py
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -79,22 +79,22 @@ uv run mcp install server.py
 * **macOS**：`~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**：`%APPDATA%\Claude\claude_desktop_config.json`
 
-このファイルは手で書くこともできます。`mcp install` があるのは、手で書くときにありがちなミス（相対パス）を避けるためです。
+このファイルは手で書くこともできます。`darpy-sdk install` があるのは、手で書くときにありがちなミス（相対パス）を避けるためです。
 
 Claude Desktop を（ウィンドウだけでなく）完全に終了し、もう一度開いてください。
 
 !!! warning
-    Claude Desktop の設定「ディレクトリ」がまだ存在しない場合、`mcp install` は `Claude app not found` で失敗します。Claude Desktop をインストールして一度起動してください。ディレクトリはそのときに作られます。
+    Claude Desktop の設定「ディレクトリ」がまだ存在しない場合、`darpy-sdk install` は `Claude app not found` で失敗します。Claude Desktop をインストールして一度起動してください。ディレクトリはそのときに作られます。
 
 !!! tip
-    Claude Desktop はサーバーを自身のプロセスで起動するので、シェルの環境変数はそこにはありません。`uv run mcp install server.py -v API_KEY=abc123`（または `-f .env`）とすると、それらがエントリの `env` フィールドに記録されます。`--name` はエントリ名を上書きします。デフォルトはサーバーの `name` です。
+    Claude Desktop はサーバーを自身のプロセスで起動するので、シェルの環境変数はそこにはありません。`uv run darpy-sdk install server.py -v API_KEY=abc123`（または `-f .env`）とすると、それらがエントリの `env` フィールドに記録されます。`--name` はエントリ名を上書きします。デフォルトはサーバーの `name` です。
 
 ## Claude Code {#claude-code}
 
 編集するファイルはありません。`claude` CLI でサーバーを登録してください。`--` の後ろはすべて起動コマンドです。
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Claude Code のセッション内で `/mcp` を実行し、`bookshop` が接続されていてそのツールが一覧表示されることを確認してください。
@@ -108,7 +108,7 @@ Claude Code のセッション内で `/mcp` を実行し、`bookshop` が接続�
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -126,7 +126,7 @@ Claude Desktop が使うのと同じ `mcpServers` キーの下に、同じ `comm
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -142,7 +142,7 @@ Cursor のファイルとの違いは 2 つだけです。ラッパーのキー�
 ホストの設定に手を付ける前に、起動コマンドを自分で実行してみてください。
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 何も表示されず、コマンドも戻ってきません。この沈黙は正しい動作です。stdio サーバーは、ホストが先に stdin で話しかけてくるのを待っています（止めるには `Ctrl-C`）。本当のバグはトレースバックや即座の終了のほうで、こうして実行すれば、ホスト越しに推測する代わりにそれを直接読めます。
@@ -160,8 +160,8 @@ Claude Desktop はサーバーごとにログを残します。`mcp-server-<NAME
 ## まとめ {#recap}
 
 * **ホスト**（Claude Desktop や IDE）は MCP クライアントを動かし、そのクライアントがサーバーを子プロセスとして stdio 経由で起動します。接続とは、起動コマンドを 1 つ渡すことです。
-* そのコマンドは `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py` です。有効化する venv は不要で、どのディレクトリからでも動きます。
-* **Claude Desktop** は、`mcp install` が代わりに設定してくれる唯一のホストです。その同じコマンド（`uv` への絶対パス、`--frozen`、インストール済みバージョンへの正確な固定を加えたもの）を `claude_desktop_config.json` に書き込むので、自分で書く必要はありません。
+* そのコマンドは `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py` です。有効化する venv は不要で、どのディレクトリからでも動きます。
+* **Claude Desktop** は、`darpy-sdk install` が代わりに設定してくれる唯一のホストです。その同じコマンド（`uv` への絶対パス、`--frozen`、インストール済みバージョンへの正確な固定を加えたもの）を `claude_desktop_config.json` に書き込むので、自分で書く必要はありません。
 * **Claude Code** は `claude mcp add bookshop -- <launch command>` です。**Cursor** は `mcpServers` の下に書く `.cursor/mcp.json` です。**VS Code** は `servers` の下に書く `.vscode/mcp.json` で、各エントリに `type` を付けます。
 * どこでも絶対パスを使い、設定を編集したらホストを再起動し、SDK 以外のものには決して stdout に書き込ませないでください。
 

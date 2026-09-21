@@ -65,10 +65,10 @@ Gelen mesaj iz bağlamı taşımıyorsa, örneğin SDK olmayan bir istemciden ge
 İzleme bir middleware'dir (ara katman); sunucunuzun listesindeki ilk middleware. Hiç span üretmeyen bir sunucuyu gerçekten istiyorsanız onu listeden çıkarın:
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

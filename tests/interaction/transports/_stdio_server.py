@@ -5,7 +5,7 @@ import warnings
 
 import anyio
 import coverage
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequestParams,
     CallToolResult,
     EmptyResult,
@@ -16,9 +16,9 @@ from mcp_types import (
     Tool,
 )
 
-from mcp.server import Server, ServerRequestContext
-from mcp.server.stdio import stdio_server
-from mcp.shared.exceptions import MCPDeprecationWarning
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.stdio import stdio_server
+from darpy_sdk.shared.exceptions import MCPDeprecationWarning
 
 
 async def list_tools(ctx: ServerRequestContext, params: PaginatedRequestParams | None) -> ListToolsResult:

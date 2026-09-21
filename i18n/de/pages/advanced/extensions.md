@@ -60,7 +60,7 @@ Die kleinste nützliche Extension besteht aus einem Tool und einer Settings-Map:
 Stelle sie über HTTP bereit, und ein Client liefert den Beweis:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ Lass die Extension weg, und nichts davon existiert: Die Schranke des Servers wei
 Um einen Identifier **ohne** clientseitiges Verhalten anzukündigen (der Server prüft die Capability, der Client tut nichts, wie beim Search-Client oben), nimm `advertise()`:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ Zwei stille Regeln. Claims sind nur auf 2026-07-28-Verbindungen aktiv, und die C
 
 ### Extension-Verben {#extension-verbs}
 
-Die eigenen Request-Methoden einer Extension brauchen keine clientseitige Registrierung. Ein Vendor-Request-Typ leitet von `mcp.types.Request` ab und geht durch `client.session.send_request`, wie in [Eigene Methoden bedienen](#serving-your-own-methods). Nimm einen Server, dessen Extension ein einziges Verb zu einem benannten Job bedient:
+Die eigenen Request-Methoden einer Extension brauchen keine clientseitige Registrierung. Ein Vendor-Request-Typ leitet von `darpy_sdk.types.Request` ab und geht durch `client.session.send_request`, wie in [Eigene Methoden bedienen](#serving-your-own-methods). Nimm einen Server, dessen Extension ein einziges Verb zu einem benannten Job bedient:
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

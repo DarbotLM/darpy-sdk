@@ -14,8 +14,7 @@ from typing import Any, Literal
 import anyio
 import httpx2
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     HEADER_MISMATCH,
     INTERNAL_ERROR,
@@ -41,13 +40,14 @@ from mcp_types import (
     TextContent,
     Tool,
 )
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 
-from mcp import MCPError
-from mcp.client.client import Client
-from mcp.client.session import ClientSession
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import BASE_URL, base_headers, initialize_via_http, mounted_app
 from tests.interaction._requirements import requirement
 

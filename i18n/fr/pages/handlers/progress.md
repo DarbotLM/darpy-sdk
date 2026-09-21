@@ -31,7 +31,7 @@ Le client active la fonctionnalité **appel par appel**, en passant `progress_ca
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -61,7 +61,7 @@ La fonction de rappel (callback) est une fonction `async` qui prend exactement c
 Servez `server.py` en HTTP, puis lancez le client depuis un second terminal :
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

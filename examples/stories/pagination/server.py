@@ -1,6 +1,6 @@
 """Six static resources on MCPServer; its built-in registry serves them as one page."""
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 from stories._hosting import run_server_from_args
 
 WORDS = ("alpha", "beta", "gamma", "delta", "epsilon", "zeta")

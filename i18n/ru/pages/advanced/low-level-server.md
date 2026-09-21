@@ -36,7 +36,7 @@ translation:
 
 ### Попробуйте сами {#try-it}
 
-`mcp dev` и `mcp run` принимают только `MCPServer`, так что этот сервер вы запускаете сами. Последняя строка `server.py` строит из него обычное ASGI-приложение, а uvicorn его запускает:
+`darpy-sdk dev` и `darpy-sdk run` принимают только `MCPServer`, так что этот сервер вы запускаете сами. Последняя строка `server.py` строит из него обычное ASGI-приложение, а uvicorn его запускает:
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ uvicorn server:app --port 8000
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -206,7 +206,7 @@ use Server.middleware to observe or wrap initialization
 
 Каждый из них — одна идея, для которой у вас теперь есть словарь; у каждого своя страница.
 
-* `on_call_tool`, `on_get_prompt` и `on_read_resource` могут вернуть `InputRequiredResult` вместо обычного результата, чтобы приостановить вызов и запросить ввод у клиента; см. **[Многораундовые запросы](../handlers/multi-round-trip.md)**. Верные духу этого уровня, они ничего не устанавливают за вас: там, где `MCPServer` по умолчанию запечатывает `requestState`, здесь заданный вами `request_state` идёт по сети ровно в том виде, в каком написан, пока вы не включите защиту явно: `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` — одна строка (оба имени импортируются из `mcp.server.request_state`) для точно такого же запечатывания и проверки, какие выполняет `MCPServer` (**[Защита `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
+* `on_call_tool`, `on_get_prompt` и `on_read_resource` могут вернуть `InputRequiredResult` вместо обычного результата, чтобы приостановить вызов и запросить ввод у клиента; см. **[Многораундовые запросы](../handlers/multi-round-trip.md)**. Верные духу этого уровня, они ничего не устанавливают за вас: там, где `MCPServer` по умолчанию запечатывает `requestState`, здесь заданный вами `request_state` идёт по сети ровно в том виде, в каком написан, пока вы не включите защиту явно: `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` — одна строка (оба имени импортируются из `darpy_sdk.server.request_state`) для точно такого же запечатывания и проверки, какие выполняет `MCPServer` (**[Защита `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**).
 * `on_list_resources`, `on_read_resource`, `on_list_prompts`, `on_get_prompt`, `on_completion` — та же форма `(ctx, params) -> result` для остальных примитивов.
 * `on_subscriptions_listen` обслуживает поток `subscriptions/listen` версии 2026-07-28. Передайте `ListenHandler`, построенный поверх `SubscriptionBus`, и публикуйте события в шину из остальных обработчиков; полная схема компоновки — на странице **[Подписки](../handlers/subscriptions.md)**.
 * `server.streamable_http_app()` возвращает то же Starlette-приложение, что и у `MCPServer`; разворачивайте его так же, как страница **[Запуск сервера](../run/index.md)** разворачивает любое другое ASGI-приложение. `server.run(transport=...)` здесь нет: `server.run(read_stream, write_stream, server.create_initialization_options())` ведёт одно подключение по паре потоков, и этой одной строкой всё исчерпывается.

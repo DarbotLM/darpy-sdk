@@ -1,8 +1,8 @@
 import pytest
 from pydantic import AnyHttpUrl
 
-from mcp.server.auth.routes import build_metadata, validate_issuer_url
-from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
+from darpy_sdk.server.auth.routes import build_metadata, validate_issuer_url
+from darpy_sdk.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
 
 
 def test_validate_issuer_url_https_allowed():

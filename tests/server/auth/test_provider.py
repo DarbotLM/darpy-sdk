@@ -1,6 +1,6 @@
-"""Tests for mcp.server.auth.provider module."""
+"""Tests for darpy_sdk.server.auth.provider module."""
 
-from mcp.server.auth.provider import AccessToken, construct_redirect_uri, principal_components
+from darpy_sdk.server.auth.provider import AccessToken, construct_redirect_uri, principal_components
 
 
 def test_construct_redirect_uri_no_existing_params():

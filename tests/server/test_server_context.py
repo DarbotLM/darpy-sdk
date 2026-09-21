@@ -11,13 +11,13 @@ from typing import Any
 
 import anyio
 import pytest
-from mcp_types import LOG_LEVEL_META_KEY
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types import LOG_LEVEL_META_KEY
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
 
-from mcp.server.connection import Connection
-from mcp.server.context import Context
-from mcp.shared.dispatcher import DispatchContext
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.server.connection import Connection
+from darpy_sdk.server.context import Context
+from darpy_sdk.shared.dispatcher import DispatchContext
+from darpy_sdk.shared.transport_context import TransportContext
 
 from ..shared.conftest import direct_pair
 from ..shared.test_dispatcher import Recorder, echo_handlers, running_pair

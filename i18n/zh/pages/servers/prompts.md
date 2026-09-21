@@ -63,7 +63,7 @@ SDK 从中读取的三样东西和工具一样：
     `required` 的检查发生在你的函数运行之前。渲染 `review_code` 时不传 `code`，请求本身就会失败，并返回一个 JSON-RPC 错误（错误码 `-32603`）：
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     这里没有工具那种可以交回给模型的错误结果，因为整个环节里根本没有模型：调用会直接抛出异常。原因（`Missing required arguments: {'code'}`）会记在服务器的日志里。
@@ -73,7 +73,7 @@ SDK 从中读取的三样东西和工具一样：
 用 MCP Inspector 运行服务器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 打开 **Prompts** 标签页，选择 `review_code`。Inspector 会画出一个表单，带一个必填的 `code` 字段。填好、渲染，返回的正是上面那条用户消息。
@@ -88,7 +88,7 @@ uv run mcp dev server.py
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` 和 `AssistantMessage` 来自 `mcp.server.mcpserver.prompts.base`。给它们一个 `str`，它们会替你包装成 `TextContent`。角色由类名决定。
+* `UserMessage` 和 `AssistantMessage` 来自 `darpy_sdk.server.mcpserver.prompts.base`。给它们一个 `str`，它们会替你包装成 `TextContent`。角色由类名决定。
 * `Message` 是它们的公共基类。用它作返回值注解。
 
 现在渲染 `debug_error` 会按顺序产生三条消息：
@@ -150,7 +150,7 @@ uv run mcp dev server.py
 ```
 
 * 风格指南是位于 `style://python` 的资源（**[资源](resources.md)** 会介绍这类东西），从 `server.py` 旁边的 `style-guide.md` 读取。在那里放任意一个 Markdown 文件即可。
-* `EmbeddedResource(resource=TextResourceContents(...))` 两者都来自 `mcp.types`，它把文件连同 URI 和 MIME 类型一起作为第一条消息携带；引用它的请求以纯文本形式跟在后面。
+* `EmbeddedResource(resource=TextResourceContents(...))` 两者都来自 `darpy_sdk.types`，它把文件连同 URI 和 MIME 类型一起作为第一条消息携带；引用它的请求以纯文本形式跟在后面。
 * 用嵌入，而不是把指南直接贴进 f-string，客户端就能把它显示为附件，之后还能重新打开 `style://python`，模型收到的也是原封不动的文件。二进制文件用 `BlobResourceContents`，带一个 base64 的 `blob`。
 
 渲染后，第一条消息的 `content` 是一个 `resource` 块：

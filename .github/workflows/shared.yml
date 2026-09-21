@@ -24,7 +24,7 @@ jobs:
           version: 0.9.5
 
       - name: Install dependencies
-        run: uv sync --frozen --all-extras --python 3.10
+        run: uv sync --frozen --all-extras --python 3.14
 
       - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
         with:
@@ -41,12 +41,12 @@ jobs:
           uv sync --group codegen --frozen
           uv run --frozen --group codegen python scripts/gen_surface_types.py --check
 
-      # Resolves only mcp-types' declared dependencies into an empty environment,
+      # Resolves only darpy-sdk-types' declared dependencies into an empty environment,
       # so an import of the SDK or anything from its stack fails here.
-      - name: mcp-types installs and imports standalone
+      - name: darpy-sdk-types installs and imports standalone
         run: |
-          uv run --isolated --no-project --with ./src/mcp-types python -c \
-            "import mcp_types, mcp_types.jsonrpc, mcp_types.methods, mcp_types.version, mcp_types._v2025_11_25, mcp_types._v2026_07_28"
+          uv run --frozen --isolated --no-project --python 3.14 --with ./src/darpy-sdk-types python -c \
+            "import darpy_sdk_types, darpy_sdk_types.jsonrpc, darpy_sdk_types.methods, darpy_sdk_types.version, darpy_sdk_types._v2025_11_25, darpy_sdk_types._v2026_07_28"
 
   test:
     name: test (${{ matrix.python-version }}, ${{ matrix.dep-resolution.name }}, ${{ matrix.os }})
@@ -55,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.14"]
         dep-resolution:
           - name: lowest-direct
             install-flags: "--upgrade --resolution lowest-direct"
@@ -82,7 +82,7 @@ jobs:
         env:
           # tests/examples/test_stories_smoke.py is gated on this var; it spawns real
           # stdio + uvicorn subprocesses, so run it on exactly one matrix cell.
-          MCP_EXAMPLES_SMOKE: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12' && matrix.dep-resolution.name == 'locked' && '1' || '' }}
+          DARPY_SDK_EXAMPLES_SMOKE: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.14' && matrix.dep-resolution.name == 'locked' && '1' || '' }}
           # PEP 597: text I/O without encoding= raises EncodingWarning, which pytest's "error"
           # filter makes fatal on every cell. An env var (not -X) so pytest-xdist workers inherit it.
           PYTHONWARNDEFAULTENCODING: "1"
@@ -110,7 +110,7 @@ jobs:
           version: 0.9.5
 
       - name: Install dependencies
-        run: uv sync --frozen --all-extras --python 3.10
+        run: uv sync --frozen --all-extras --python 3.14
 
       - name: Check README snippets are up to date
         run: uv run --frozen scripts/update_readme_snippets.py --check

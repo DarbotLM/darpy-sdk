@@ -1,12 +1,12 @@
 from collections.abc import Callable
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import ListToolsResult
+from darpy_sdk_types import ListToolsResult
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.mcpserver import MCPServer
 
 from .conftest import StreamSpyCollection
 

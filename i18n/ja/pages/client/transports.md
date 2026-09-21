@@ -108,13 +108,13 @@ TLS について 1 点。`httpx2` は、同梱の CA リストではなく、オ
 
 ## SSE {#sse}
 
-`mcp.client.sse` の `sse_client(url)` は、Streamable HTTP に取って代わられた HTTP トランスポートです。まだこれを話すサーバーと対話するには、同じように `Client(sse_client("http://localhost:8000/sse"))` と包みます。そして、新しいものをこの上に作らないでください。
+`darpy_sdk.client.sse` の `sse_client(url)` は、Streamable HTTP に取って代わられた HTTP トランスポートです。まだこれを話すサーバーと対話するには、同じように `Client(sse_client("http://localhost:8000/sse"))` と包みます。そして、新しいものをこの上に作らないでください。
 
 ## `Transport` プロトコル {#the-transport-protocol}
 
 `Client` から見れば、上記はすべて同じものです。
 
-**トランスポート**とは、`(read, write)` というメッセージストリームのペアを yield する非同期コンテキストマネージャーのことです。正式には `mcp.client` の `Transport` プロトコルです。`Client` は引数を型で解決します。`str` なら `streamable_http_client(url)` になり、`StdioServerParameters` なら `stdio_client(params)` になり、サーバーオブジェクトならインプロセスで接続し、それ以外は直接トランスポートとして入ります。この最後の規則があるからこそ、`stdio_client(...)`、`streamable_http_client(...)`、`sse_client(...)` はすべて同じ場所に収まり、自分で独自のものを書くこともできます。
+**トランスポート**とは、`(read, write)` というメッセージストリームのペアを yield する非同期コンテキストマネージャーのことです。正式には `darpy_sdk.client` の `Transport` プロトコルです。`Client` は引数を型で解決します。`str` なら `streamable_http_client(url)` になり、`StdioServerParameters` なら `stdio_client(params)` になり、サーバーオブジェクトならインプロセスで接続し、それ以外は直接トランスポートとして入ります。この最後の規則があるからこそ、`stdio_client(...)`、`streamable_http_client(...)`、`sse_client(...)` はすべて同じ場所に収まり、自分で独自のものを書くこともできます。
 
 ## まとめ {#recap}
 

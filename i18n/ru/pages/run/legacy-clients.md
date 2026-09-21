@@ -32,7 +32,7 @@ SDK маршрутизирует каждый запрос по его заго�
 Запустите его по HTTP — и вот клиенты обоих поколений, которые его вызывают:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -140,7 +140,7 @@ mcp.run(transport="streamable-http", session_idle_timeout=None, max_sessions=50_
     могла бы прочитать. Падает весь запрос — ошибкой протокола верхнего уровня:
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` вас не спас. На подключении `2025-11-25` он *обязан* отправить `elicitation/create`,

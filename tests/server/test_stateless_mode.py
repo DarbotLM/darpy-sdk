@@ -10,14 +10,14 @@ See: https://github.com/modelcontextprotocol/python-sdk/issues/1097
 from collections.abc import Mapping
 from typing import Any
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import LATEST_PROTOCOL_VERSION, LOG_LEVEL_META_KEY
+from darpy_sdk_types import LATEST_PROTOCOL_VERSION, LOG_LEVEL_META_KEY
 
-from mcp.server.connection import Connection
-from mcp.server.session import ServerSession
-from mcp.shared.dispatcher import CallOptions
-from mcp.shared.exceptions import NoBackChannelError
+from darpy_sdk.server.connection import Connection
+from darpy_sdk.server.session import ServerSession
+from darpy_sdk.shared.dispatcher import CallOptions
+from darpy_sdk.shared.exceptions import NoBackChannelError
 
 
 class StubOutbound:

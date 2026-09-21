@@ -9,22 +9,26 @@ up a transport.
 from collections.abc import Mapping
 from typing import Any
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     LOG_LEVEL_META_KEY,
     ClientCapabilities,
     Implementation,
     SamplingCapability,
     SamplingToolsCapability,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from inline_snapshot import snapshot
 from pydantic import ValidationError
 
-from mcp.server.connection import Connection
-from mcp.server.session import ServerSession
-from mcp.shared.dispatcher import CallOptions
-from mcp.shared.message import ServerMessageMetadata
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.connection import Connection
+from darpy_sdk.server.session import ServerSession
+from darpy_sdk.shared.dispatcher import CallOptions
+from darpy_sdk.shared.message import ServerMessageMetadata
 
 
 class StubOutbound:
@@ -303,3 +307,54 @@ def test_protocol_version_proxies_connection():
     session = ServerSession(StubOutbound(), conn)
     assert session.protocol_version == _ARBITRARY_VERSION
     assert session.client_params is None
+
+
+@pytest.mark.anyio
+async def test_server_requests_preserve_opaque_null_metadata_through_client_callback() -> None:
+    """Legacy server-initiated requests preserve opaque metadata and progress-token aliases through public callbacks."""
+    opaque: types.RequestParamsMeta = {
+        "progress_token": "token",
+        "nullable": None,
+        "nested": {"nullable": None, "values": [None, False, 0]},
+    }
+    observed: list[types.RequestParamsMeta | None] = []
+
+    async def callback(
+        context: ClientRequestContext,
+        params: types.ElicitRequestParams,
+    ) -> types.ElicitResult:
+        assert isinstance(params, types.ElicitRequestFormParams)
+        assert params.message == "question"
+        observed.append(context.meta)
+        return types.ElicitResult(action="accept", content={"answer": "received"})
+
+    async def list_tools(
+        ctx: ServerRequestContext, params: types.PaginatedRequestParams | None
+    ) -> types.ListToolsResult:
+        assert ctx.method == "tools/list"
+        return types.ListToolsResult(tools=[types.Tool(name="ask", input_schema={"type": "object"})])
+
+    async def call_tool(ctx: ServerRequestContext, params: types.CallToolRequestParams) -> types.CallToolResult:
+        assert params.name == "ask"
+        response = await ctx.session.send_request(
+            types.ElicitRequest(
+                params=types.ElicitRequestFormParams(
+                    message="question",
+                    requested_schema=types.ElicitRequestedSchema(
+                        type="object", properties={"answer": {"type": "string"}}
+                    ),
+                    _meta=opaque,
+                )
+            ),
+            types.ElicitResult,
+            metadata=ServerMessageMetadata(related_request_id=ctx.request_id),
+        )
+        return types.CallToolResult(
+            content=[], structured_content={"action": response.action, "content": response.content}
+        )
+
+    server = Server("metadata", on_list_tools=list_tools, on_call_tool=call_tool)
+    async with Client(server, mode="legacy", elicitation_callback=callback) as client:
+        result = await client.call_tool("ask")
+    assert observed == [opaque]
+    assert result.structured_content == snapshot({"action": "accept", "content": {"answer": "received"}})

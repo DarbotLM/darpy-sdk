@@ -52,7 +52,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 MCP Inspector로 서버를 실행하세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 출력되는 URL을 열고 **Resources** 탭으로 이동하세요. `config://app`이 설명과 함께 목록에 있습니다. 클릭하면 Inspector가 읽어 들이며, 앞서 작성한 설정 두 줄이 보입니다.
@@ -128,7 +128,7 @@ JSON으로 직렬화할 수 있는 다른 모든 것(리스트, Pydantic 모델,
 !!! tip
     이름, 제목, 설명을 함수에서 끌어내고 싶지 않다면 `@mcp.resource()`는 `name=`, `title=`,
     `description=`도 받습니다. 그리고 작성할 함수가 아예 없는 경우에는
-    `mcp.server.mcpserver.resources`에 미리 만들어진 `Resource` 클래스(`TextResource`,
+    `darpy_sdk.server.mcpserver.resources`에 미리 만들어진 `Resource` 클래스(`TextResource`,
     `BinaryResource`, `FileResource`, `HttpResource`, `DirectoryResource`)가 있으며,
     `mcp.add_resource(...)`로 등록하면 됩니다.
 

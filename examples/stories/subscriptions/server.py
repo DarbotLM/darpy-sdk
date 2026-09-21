@@ -1,6 +1,6 @@
 """A notebook whose edits and tool changes reach `subscriptions/listen` streams."""
 
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from stories._hosting import run_server_from_args
 
 

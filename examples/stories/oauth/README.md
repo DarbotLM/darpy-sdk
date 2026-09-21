@@ -68,7 +68,7 @@ routed through it.
   `AuthContextMiddleware`, not per-session.
 - **`server_lowlevel.py`** — same wire shape, but `lowlevel.Server` takes
   `auth=`/`token_verifier=`/`auth_server_provider=` on `streamable_http_app()`
-  rather than the constructor. `mcp.server.auth.*` is a helper tier the lowlevel
+  rather than the constructor. `darpy_sdk.server.auth.*` is a helper tier the lowlevel
   API may import directly.
 
 ## Caveats
@@ -79,7 +79,7 @@ routed through it.
 - `HeadlessOAuth` only works because the demo AS auto-consents; a real
   `redirect_handler` would open a browser and a real `callback_handler` would
   run a loopback HTTP listener for the redirect.
-- The `mcp.server.auth.*` import paths are deep (no `mcp.server` re-export yet).
+- The `darpy_sdk.server.auth.*` import paths are deep (no `darpy_sdk.server` re-export yet).
 
 ## Spec
 

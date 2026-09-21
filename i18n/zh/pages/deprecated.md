@@ -107,7 +107,7 @@ server = Server("Bookshop", on_roots_list_changed=roots_changed)
 ```python
 import warnings
 
-from mcp import MCPDeprecationWarning
+from darpy_sdk import MCPDeprecationWarning
 
 warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 ```
@@ -115,10 +115,10 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 整个 API 就这些。没有按方法的开关，你也不需要：只用一个类别的意义就在于，一行代码让它静音，一行代码把它恢复。
 
 !!! check
-    反过来用这个过滤器，就白得一个回归测试。在 pytest 配置的 `filterwarnings` 设置里加上 `"error::mcp.MCPDeprecationWarning"`，已弃用的调用就会**抛出异常**而不是发出警告。一个名为 `old_log`、仍在调用 `ctx.info()` 的工具不再通过：调用返回 `is_error=True`，附带 `Error executing tool old_log`，而捕获到的服务器日志点出了元凶：
+    反过来用这个过滤器，就白得一个回归测试。在 pytest 配置的 `filterwarnings` 设置里加上 `"error::darpy_sdk.MCPDeprecationWarning"`，已弃用的调用就会**抛出异常**而不是发出警告。一个名为 `old_log`、仍在调用 `ctx.info()` 的工具不再通过：调用返回 `is_error=True`，附带 `Error executing tool old_log`，而捕获到的服务器日志点出了元凶：
 
     ```text
-    mcp.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
+    darpy_sdk.shared.exceptions.MCPDeprecationWarning: The logging capability is deprecated as of 2026-07-28 (SEP-2577).
     ```
 
     一行 pytest 配置，已弃用的调用就再也不可能悄悄溜回你的代码库而不让测试失败。
@@ -139,7 +139,7 @@ warnings.filterwarnings("ignore", category=MCPDeprecationWarning)
 * 替代做法那一列为你指明了去处：采样和根目录看 **[多轮往返请求](handlers/multi-round-trip.md)**，日志看 **[日志](handlers/logging.md)**，进度看 **[进度](handlers/progress.md)**。`ping` 什么都不需要。
 * 弃用只是建议性的：线路上没有变化，在 2026 之前的会话上一切照常工作，你会看到一条醒目的 `MCPDeprecationWarning`（它是 `UserWarning`，所以默认开启）。
 * 采样和根目录还需要一条反向通道，而 2026-07-28 会话没有。在现代连接上，它们先警告，然后抛出异常。
-* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` 让整个类别静音；pytest 中的 `"error::mcp.MCPDeprecationWarning"` 把它变成测试失败。
+* `warnings.filterwarnings("ignore", category=MCPDeprecationWarning)` 让整个类别静音；pytest 中的 `"error::darpy_sdk.MCPDeprecationWarning"` 把它变成测试失败。
 * [SDK 层面的弃用](#deprecated-sdk-helpers)遵循同样的规则：现在发出警告，3.0 移除旧形式。
 * 新代码不应建立在其中任何一项之上。
 

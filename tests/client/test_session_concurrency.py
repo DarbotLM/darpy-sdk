@@ -2,18 +2,18 @@
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolResult,
     CreateMessageRequestParams,
     CreateMessageResult,
     SamplingMessage,
     TextContent,
 )
+from inline_snapshot import snapshot
 
-from mcp import Client
-from mcp.client import ClientRequestContext
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 pytestmark = pytest.mark.anyio
 

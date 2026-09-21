@@ -1,4 +1,4 @@
-"""Unit tests for the connect-time auto-negotiation policy (`mcp.client._probe.negotiate_auto`).
+"""Unit tests for the connect-time auto-negotiation policy (`darpy_sdk.client._probe.negotiate_auto`).
 
 `negotiate_auto` is a small policy function that drives a `ClientSession` through the
 ``server/discover`` probe and decides between ``adopt()`` (modern), ``initialize()`` (legacy
@@ -16,10 +16,10 @@ from __future__ import annotations
 from typing import Any, cast
 
 import anyio
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_REQUEST,
     METHOD_NOT_FOUND,
@@ -29,15 +29,15 @@ from mcp_types import (
     UNSUPPORTED_PROTOCOL_VERSION,
     ServerCapabilities,
 )
-from mcp_types.version import (
+from darpy_sdk_types.version import (
     HANDSHAKE_PROTOCOL_VERSIONS,
     LATEST_MODERN_VERSION,
     MODERN_PROTOCOL_VERSIONS,
 )
 
-from mcp.client._probe import _parse_supported, negotiate_auto
-from mcp.client.session import ClientSession
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.client._probe import _parse_supported, negotiate_auto
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.shared.exceptions import MCPError
 
 pytestmark = pytest.mark.anyio
 

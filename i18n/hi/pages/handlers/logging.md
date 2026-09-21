@@ -61,7 +61,7 @@ default `"INFO"` है।
 server को MCP Inspector के साथ चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** tab से `search_books` को call करें। Inspector आपको result दिखाता है: सिर्फ़ return value। यह line

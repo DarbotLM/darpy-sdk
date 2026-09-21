@@ -1,8 +1,8 @@
 from contextlib import suppress
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
-from mcp.server.mcpserver.prompts import Prompt
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
+from darpy_sdk.server.mcpserver.prompts import Prompt
 
 mcp = MCPServer("Code Helper")
 

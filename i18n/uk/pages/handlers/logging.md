@@ -62,7 +62,7 @@ translation:
 Запустіть сервер з MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Викличте `search_books` на вкладці **Tools**. Inspector покаже результат: лише повернене значення. Рядок

@@ -1,11 +1,11 @@
 import asyncio
 
-from mcp import ClientSessionGroup, StdioServerParameters
+from darpy_sdk import ClientSessionGroup, StdioServerParameters
 
 
 async def main() -> None:
-    library = StdioServerParameters(command="uv", args=["run", "mcp", "run", "library_server.py"])
-    web = StdioServerParameters(command="uv", args=["run", "mcp", "run", "web_server.py"])
+    library = StdioServerParameters(command="uv", args=["run", "darpy-sdk", "run", "library_server.py"])
+    web = StdioServerParameters(command="uv", args=["run", "darpy-sdk", "run", "web_server.py"])
 
     async with ClientSessionGroup() as group:
         await group.connect_to_server(library)

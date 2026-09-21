@@ -230,7 +230,7 @@ plantillas (más abajo) si tienes alguna y luego lanza una excepción para cualq
 
 ### Plantillas {#templates}
 
-El motor de plantillas que usa `MCPServer` vive en `mcp.shared.uri_template`
+El motor de plantillas que usa `MCPServer` vive en `darpy_sdk.shared.uri_template`
 y funciona por sí solo. Obtienes el mismo análisis y la misma comparación; el
 enrutamiento y la política de seguridad los conectas tú mismo.
 
@@ -247,7 +247,7 @@ En las líneas resaltadas ocurren tres cosas:
   seguridad de rutas. Los valores salen como cadenas: conviértelos tú mismo
   (`int(matched["id"])`, `Path(matched["path"])`).
 * **Aplica tú mismo las comprobaciones de seguridad.** Las comprobaciones de `..` y de rutas
-  absolutas que `MCPServer` ejecuta por defecto viven en `mcp.shared.path_security`.
+  absolutas que `MCPServer` ejecuta por defecto viven en `darpy_sdk.shared.path_security`.
   `read_manual_safely` las llama antes de tocar `MANUALS`. Si un
   parámetro no es una ruta del sistema de archivos (un ISBN, una consulta de búsqueda), omite las
   comprobaciones para ese valor: controlas la política por handler en lugar de
@@ -271,4 +271,4 @@ En las líneas resaltadas ocurren tres cosas:
   `resource_security=`.
 * Para el acceso al sistema de archivos, `safe_join` es el límite de contención.
 * En el `Server` de bajo nivel, analiza con `UriTemplate.parse()`, compara
-  con `.match()` y aplica `mcp.shared.path_security` tú mismo.
+  con `.match()` y aplica `darpy_sdk.shared.path_security` tú mismo.

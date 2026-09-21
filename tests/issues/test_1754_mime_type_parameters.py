@@ -6,8 +6,8 @@ with parameters like 'text/html;profile=mcp-app' which are valid per RFC 2045.
 
 import pytest
 
-from mcp import Client
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk import Client
+from darpy_sdk.server.mcpserver import MCPServer
 
 pytestmark = pytest.mark.anyio
 

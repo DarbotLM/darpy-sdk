@@ -125,13 +125,13 @@ A mesma forma serve também como API de embutimento: uma aplicação que constr�
 
 ## SSE {#sse}
 
-`sse_client(url)`, de `mcp.client.sse`, é o transporte HTTP que o Streamable HTTP substituiu. Envolva-o da mesma forma, `Client(sse_client("http://localhost:8000/sse"))`, para conversar com um servidor que ainda o fala, e não construa nada novo em cima dele.
+`sse_client(url)`, de `darpy_sdk.client.sse`, é o transporte HTTP que o Streamable HTTP substituiu. Envolva-o da mesma forma, `Client(sse_client("http://localhost:8000/sse"))`, para conversar com um servidor que ainda o fala, e não construa nada novo em cima dele.
 
 ## O protocolo `Transport` {#the-transport-protocol}
 
 Para o `Client`, tudo acima é a mesma coisa.
 
-Um **transporte** é qualquer gerenciador de contexto assíncrono que produz um par `(read, write)` de streams de mensagens: formalmente, o protocolo `Transport` em `mcp.client`. `Client` resolve seu argumento pelo tipo: uma `str` vira `streamable_http_client(url)`, um `StdioServerParameters` vira `stdio_client(params)`, um objeto de servidor conecta no próprio processo e qualquer outra coisa é aberta diretamente como transporte. É por causa dessa última regra que `stdio_client(...)`, `streamable_http_client(...)` e `sse_client(...)` se encaixam todos no mesmo lugar, e que você pode escrever o seu próprio.
+Um **transporte** é qualquer gerenciador de contexto assíncrono que produz um par `(read, write)` de streams de mensagens: formalmente, o protocolo `Transport` em `darpy_sdk.client`. `Client` resolve seu argumento pelo tipo: uma `str` vira `streamable_http_client(url)`, um `StdioServerParameters` vira `stdio_client(params)`, um objeto de servidor conecta no próprio processo e qualquer outra coisa é aberta diretamente como transporte. É por causa dessa última regra que `stdio_client(...)`, `streamable_http_client(...)` e `sse_client(...)` se encaixam todos no mesmo lugar, e que você pode escrever o seu próprio.
 
 ## Recapitulando {#recap}
 

@@ -14,7 +14,7 @@ MCP에는 두 시대가 있습니다.
 이 페이지의 모든 코드 조각은 **[클라이언트](client/index.md)**에 나온 Bookshop `server.py`와 통신하는 `client.py`입니다. 한 터미널에서 그 서버를 시작하세요.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 그런 다음 두 번째 터미널에서 `python client.py`로 각 코드 조각을 실행하세요.

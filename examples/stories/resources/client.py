@@ -1,7 +1,7 @@
 """List resources and templates, then read both the static and templated URIs."""
 
-from mcp.client import Client
-from mcp.types import TextResourceContents
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextResourceContents
 from stories._harness import Target, run_client
 
 

@@ -9,15 +9,15 @@ level. Per-extension contribution wiring lives in `test_extension.py`; this file
 covers only the capability advertisement and negotiation.
 """
 
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
 from inline_snapshot import snapshot
 
-from mcp.client import advertise
-from mcp.client.client import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.extension import Extension
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.client import advertise
+from darpy_sdk.client.client import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.extension import Extension
+from darpy_sdk.server.mcpserver import MCPServer
 
 pytestmark = pytest.mark.anyio
 

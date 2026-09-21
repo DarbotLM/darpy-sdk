@@ -124,13 +124,13 @@ Aynı biçim bir gömme API'si olarak da iş görür: sunucuyu kendisi oluştura
 
 ## SSE {#sse}
 
-`mcp.client.sse` içindeki `sse_client(url)`, Streamable HTTP'nin yerini aldığı HTTP aktarımıdır. Hâlâ onu konuşan bir sunucuyla konuşmak için aynı şekilde sarın, `Client(sse_client("http://localhost:8000/sse"))`, ve üzerine yeni hiçbir şey kurmayın.
+`darpy_sdk.client.sse` içindeki `sse_client(url)`, Streamable HTTP'nin yerini aldığı HTTP aktarımıdır. Hâlâ onu konuşan bir sunucuyla konuşmak için aynı şekilde sarın, `Client(sse_client("http://localhost:8000/sse"))`, ve üzerine yeni hiçbir şey kurmayın.
 
 ## `Transport` protokolü {#the-transport-protocol}
 
 `Client` için yukarıdakilerin hepsi aynı şeydir.
 
-Bir **aktarım**, `(read, write)` mesaj akışı çifti veren herhangi bir asenkron bağlam yöneticisidir: resmi olarak `mcp.client` içindeki `Transport` protokolü. `Client`, argümanını türüne göre çözümler: bir `str` `streamable_http_client(url)` olur, bir `StdioServerParameters` `stdio_client(params)` olur, bir sunucu nesnesi süreç içinde bağlanır ve geri kalan her şeye doğrudan bir aktarım olarak girilir. `stdio_client(...)`, `streamable_http_client(...)` ve `sse_client(...)`'in hepsinin aynı yuvaya oturmasının ve kendinizinkini yazabilmenizin nedeni bu son kuraldır.
+Bir **aktarım**, `(read, write)` mesaj akışı çifti veren herhangi bir asenkron bağlam yöneticisidir: resmi olarak `darpy_sdk.client` içindeki `Transport` protokolü. `Client`, argümanını türüne göre çözümler: bir `str` `streamable_http_client(url)` olur, bir `StdioServerParameters` `stdio_client(params)` olur, bir sunucu nesnesi süreç içinde bağlanır ve geri kalan her şeye doğrudan bir aktarım olarak girilir. `stdio_client(...)`, `streamable_http_client(...)` ve `sse_client(...)`'in hepsinin aynı yuvaya oturmasının ve kendinizinkini yazabilmenizin nedeni bu son kuraldır.
 
 ## Özet {#recap}
 

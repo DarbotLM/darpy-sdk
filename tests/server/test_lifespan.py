@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequestParams,
     CallToolResult,
     ClientCapabilities,
@@ -19,11 +19,11 @@ from mcp_types import (
 )
 from pydantic import TypeAdapter
 
-from mcp.server import ServerRequestContext
-from mcp.server.lowlevel.server import NotificationOptions, Server
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.models import InitializationOptions
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server import ServerRequestContext
+from darpy_sdk.server.lowlevel.server import NotificationOptions, Server
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.models import InitializationOptions
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio

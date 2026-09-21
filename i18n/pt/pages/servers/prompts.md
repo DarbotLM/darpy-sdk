@@ -64,7 +64,7 @@ Essa é a vida inteira de um prompt: listado pelo nome, renderizado sob demanda,
     própria requisição falha com um erro JSON-RPC (código `-32603`):
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     Não há um resultado de erro no estilo das ferramentas para devolver a um modelo, porque não há
@@ -75,7 +75,7 @@ Essa é a vida inteira de um prompt: listado pelo nome, renderizado sob demanda,
 Execute o servidor com o MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Abra a aba **Prompts** e selecione `review_code`. O Inspector desenha um formulário com um único campo obrigatório, `code`. Preencha, renderize e você recebe de volta exatamente a mensagem de usuário acima.
@@ -90,7 +90,7 @@ Retorne uma lista de mensagens em vez de uma `str`:
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` e `AssistantMessage` vêm de `mcp.server.mcpserver.prompts.base`. Passe uma `str` para elas e elas a embrulham em `TextContent` para você. O papel (role) é o nome da classe.
+* `UserMessage` e `AssistantMessage` vêm de `darpy_sdk.server.mcpserver.prompts.base`. Passe uma `str` para elas e elas a embrulham em `TextContent` para você. O papel (role) é o nome da classe.
 * `Message` é a base comum delas. Use-a como anotação de retorno.
 
 Renderizar `debug_error` agora produz três mensagens, nesta ordem:
@@ -154,7 +154,7 @@ A entrada em `prompts/list` agora traz tudo de que um cliente precisa para desen
 ```
 
 * O guia de estilo é um recurso em `style://python` (**[Recursos](resources.md)** trata deles), lido de um `style-guide.md` ao lado de `server.py`. Coloque qualquer arquivo Markdown ali.
-* `EmbeddedResource(resource=TextResourceContents(...))`, ambos de `mcp.types`, carrega o arquivo com sua URI e seu tipo MIME como a primeira mensagem; a instrução que faz referência a ele vem em seguida, como texto simples.
+* `EmbeddedResource(resource=TextResourceContents(...))`, ambos de `darpy_sdk.types`, carrega o arquivo com sua URI e seu tipo MIME como a primeira mensagem; a instrução que faz referência a ele vem em seguida, como texto simples.
 * Incorporar, em vez de colar o guia na f-string, permite que o cliente o mostre como um anexo e reabra `style://python` depois, e o modelo recebe o arquivo na íntegra. Para um arquivo binário, use `BlobResourceContents` com um `blob` em base64.
 
 Renderizada, o `content` da primeira mensagem é um bloco `resource`:

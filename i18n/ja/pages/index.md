@@ -3,10 +3,10 @@ translation:
   sections: [154c4309937b9f85, 3ad8fc6caa76a9b0, a07f3f5b151ab746, bf6e476b712930c0, cf0b1f13978c6623]
   tool: 1
 ---
-# MCP Python SDK {#mcp-python-sdk}
+# Darbot Python SDK {#darpy-sdk}
 
 !!! info "このドキュメントの対象は v2（現行の安定版リリース系列）"
-    v2 が初めての場合や v1 から移行する場合は、**[v2 の新機能](whats-new.md)**で変更点を 5 分で確認できます。破壊的変更は**[移行ガイド](migration.md)**がすべて扱っています。まだ v1.x を使っている場合、そのドキュメントは [v1.x のドキュメント](https://py.sdk.modelcontextprotocol.io/v1/)にあります。わかりにくい点や使いにくい点があれば、[教えてください](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml)。
+    v2 が初めての場合や v1 から移行する場合は、**[v2 の新機能](whats-new.md)**で変更点を 5 分で確認できます。破壊的変更は**[移行ガイド](migration.md)**がすべて扱っています。まだ v1.x を使っている場合、そのドキュメントは [v1.x のドキュメント](https://py.sdk.modelcontextprotocol.io/v1/)にあります。わかりにくい点や使いにくい点があれば、[教えてください](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml)。
 
 **Model Context Protocol（MCP）**を使うと、アプリケーションは標準化された方法で LLM にコンテキストを提供できます。コンテキストを「提供する」という関心事を、LLM とのやり取りそのものから切り離せます。
 
@@ -18,20 +18,20 @@ translation:
 
 ## 要件 {#requirements}
 
-Python 3.10 以上が必要です。
+Python 3.14 以上が必要です。
 
 ## インストール {#installation}
 
 === "uv"
 
     ```bash
-    uv add "mcp[cli]"
+    uv add "darpy-sdk[cli]"
     ```
 
 === "pip"
 
     ```bash
-    pip install "mcp[cli]"
+    pip install "darpy-sdk[cli]"
     ```
 
 `[cli]` エクストラを付けると `mcp` コマンドが使えるようになります。開発には入れておくことをおすすめします。各依存関係の用途については[インストール](get-started/installation.md)を参照してください。
@@ -53,13 +53,13 @@ Python 3.10 以上が必要です。
 ### 実行する {#run-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 これでサーバーが起動し、[MCP Inspector](https://github.com/modelcontextprotocol/inspector) が開きます。サーバーをあれこれ触って試せる対話型の UI です。表示される URL を開いてください。
 
 !!! note
-    Inspector は Node.js アプリなので、`mcp dev` を使うには `PATH` 上に `npx` が必要です。
+    Inspector は Node.js アプリなので、`darpy-sdk dev` を使うには `PATH` 上に `npx` が必要です。
 
 ### 試してみる {#try-it}
 
@@ -93,5 +93,5 @@ Hello, World!
 * 特定のエラーメッセージを探しているなら、**[トラブルシューティング](troubleshooting.md)**がメッセージの文言そのままで引けるように整理されています。
 * v2 で何が変わったか気になるなら、**[v2 の新機能](whats-new.md)**が 5 分で読めるツアーです。
 * v1 から移行するなら、**[移行ガイド](migration.md)**から始めてください。
-* 正確なシグネチャを探しているなら、**[API リファレンス](api/mcp/index.md)**がソースから生成されています。
+* 正確なシグネチャを探しているなら、**[API リファレンス](api/darpy_sdk/index.md)**がソースから生成されています。
 * LLM と一緒に読んでいるなら、このドキュメントは [llms.txt](https://llmstxt.org/) 形式でも公開されています。[llms.txt](https://py.sdk.modelcontextprotocol.io/llms.txt) は各ページの索引で、[llms-full.txt](https://py.sdk.modelcontextprotocol.io/llms-full.txt) は全ページを 1 つのファイルに収めたものです。

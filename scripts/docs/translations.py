@@ -52,7 +52,7 @@ from zensical.config import ConfigurationError
 parse_mkdocs_config = cast("Callable[[str], dict[str, Any]]", getattr(zensical.config, "parse_mkdocs_config"))
 
 # Bumped only when the generated-file contract changes; older files then read as missing.
-TOOL_VERSION = 1
+TOOL_VERSION = 2
 # `max_tokens` per request: several times the longest page, leaving room for
 # any thinking the model does, while inside the ceiling streaming allows.
 OUTPUT_TOKEN_BUDGET = 64_000
@@ -297,7 +297,7 @@ def read_provenance(front_matter: str | None) -> tuple[str, ...] | None:
     try:
         record = yaml.safe_load(front_matter or "")["translation"]
         return tuple(str(value) for value in record["sections"]) if record["tool"] == TOOL_VERSION else None
-    except (yaml.YAMLError, TypeError, KeyError):
+    except yaml.YAMLError, TypeError, KeyError:
         return None
 
 
@@ -572,7 +572,7 @@ class Usage:
     cache_write_tokens: int = 0
     cache_read_tokens: int = 0
 
-    def add(self, other: "Usage") -> None:
+    def add(self, other: Usage) -> None:
         self.input_tokens += other.input_tokens
         self.output_tokens += other.output_tokens
         self.cache_write_tokens += other.cache_write_tokens

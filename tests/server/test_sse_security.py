@@ -7,20 +7,20 @@ import anyio
 import httpx2
 import pytest
 import sse_starlette.sse
-from mcp_types import JSONRPCRequest, JSONRPCResponse
+from darpy_sdk_types import JSONRPCRequest, JSONRPCResponse
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Mount, Route
 from starlette.types import Message, Receive, Scope, Send
 
-from mcp.server import Server
-from mcp.server.auth.middleware.bearer_auth import AuthenticatedUser
-from mcp.server.auth.provider import AccessToken
-from mcp.server.sse import SseServerTransport
-from mcp.server.transport_security import DEFAULT_MAX_REQUEST_BODY_SIZE, TransportSecuritySettings
-from mcp.shared._stream_protocols import WriteStream
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server import Server
+from darpy_sdk.server.auth.middleware.bearer_auth import AuthenticatedUser
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.sse import SseServerTransport
+from darpy_sdk.server.transport_security import DEFAULT_MAX_REQUEST_BODY_SIZE, TransportSecuritySettings
+from darpy_sdk.shared._stream_protocols import WriteStream
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction.transports import StreamingASGITransport
 
 logger = logging.getLogger(__name__)

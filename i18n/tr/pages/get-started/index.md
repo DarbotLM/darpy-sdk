@@ -17,18 +17,18 @@ Kod bloklarının tamamı doğrudan kopyalanıp kullanılabilir: hepsi eksiksiz,
 Takip etmek için bir bloğu `server.py` dosyasına yapıştırın ve MCP Inspector'da açın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Kodu yazmanız (ya da kopyalamanız), düzenlemeniz ve yerelde çalıştırmanız **ŞİDDETLE önerilir**. Asıl meseleyi kendi editörünüzde kullanırken görürsünüz: ne kadar az kod yazdığınızı, otomatik tamamlamayı, daha hiçbir şeyi çalıştırmadan hataları yakalayan tür denetimlerini.
 
 ## Tahmin yürütmeyeceksiniz {#you-will-not-be-guessing}
 
-Bu belgelerdeki her örnek, SDK'nın kendi deposunda [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) altında duran eksiksiz bir dosyadır ve her biri SDK'nın test paketi tarafından **bellek içi bir istemci** aracılığıyla çalıştırılır:
+Bu belgelerdeki her örnek, SDK'nın kendi deposunda [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) altında duran eksiksiz bir dosyadır ve her biri SDK'nın test paketi tarafından **bellek içi bir istemci** aracılığıyla çalıştırılır:
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

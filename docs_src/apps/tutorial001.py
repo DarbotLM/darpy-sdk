@@ -1,6 +1,6 @@
-from mcp.server.apps import Apps, client_supports_apps
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.context import Context
+from darpy_sdk.server.apps import Apps, client_supports_apps
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.context import Context
 
 CLOCK_HTML = """\
 <!doctype html>

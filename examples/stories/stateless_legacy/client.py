@@ -1,8 +1,8 @@
 """Connect at each era — two connections, so `main` takes `targets`; the same stateless app answers both."""
 
-from mcp.client import Client
-from mcp.types import TextContent
-from mcp.types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
+from darpy_sdk.types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION
 from stories._harness import TargetFactory, run_client
 
 

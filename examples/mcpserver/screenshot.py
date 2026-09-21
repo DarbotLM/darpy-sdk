@@ -5,8 +5,8 @@ Give Claude a tool to capture and view screenshots.
 
 import io
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.utilities.types import Image
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.utilities.types import Image
 
 # Create server
 mcp = MCPServer("Screenshot Demo")

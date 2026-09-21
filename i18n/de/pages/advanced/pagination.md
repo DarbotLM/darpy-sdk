@@ -31,7 +31,7 @@ Paginierung ist für den Server gedacht, dessen Ressourcenliste in Wahrheit eine
 
 ### Ausprobieren {#try-it}
 
-`mcp run` akzeptiert nur einen `MCPServer`, diesen hier stellst du also selbst bereit. Die letzte Zeile von `server.py` baut aus dem `Server` eine gewöhnliche ASGI-App, und uvicorn führt sie aus:
+`darpy-sdk run` akzeptiert nur einen `MCPServer`, diesen hier stellst du also selbst bereit. Die letzte Zeile von `server.py` baut aus dem `Server` eine gewöhnliche ASGI-App, und uvicorn führt sie aus:
 
 ```console
 uvicorn server:app --port 8000

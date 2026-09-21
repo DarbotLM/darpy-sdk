@@ -4,8 +4,8 @@ Sequential integer IDs so the wire is readable; a production server would back
 this interface with persistent storage so replay survives a process restart.
 """
 
-from mcp.server.streamable_http import EventCallback, EventId, EventMessage, EventStore, StreamId
-from mcp.types import JSONRPCMessage
+from darpy_sdk.server.streamable_http import EventCallback, EventId, EventMessage, EventStore, StreamId
+from darpy_sdk.types import JSONRPCMessage
 
 
 class InMemoryEventStore(EventStore):

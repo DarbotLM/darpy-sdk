@@ -14,10 +14,10 @@ Demonstrates the SSE polling pattern with server-initiated stream close for long
 
 ```bash
 # Start server on default port
-uv run mcp-sse-polling-demo --port 3000
+uv run darpy-sdk-sse-polling-demo --port 3000
 
 # Custom retry interval (milliseconds)
-uv run mcp-sse-polling-demo --port 3000 --retry-interval 100
+uv run darpy-sdk-sse-polling-demo --port 3000 --retry-interval 100
 ```
 
 ## Tool: process_batch
@@ -29,8 +29,8 @@ Processes items with periodic checkpoints that trigger SSE stream closes:
 
 ## Client
 
-Use the companion `mcp-sse-polling-client` to test:
+Use the companion `darpy-sdk-sse-polling-client` to test:
 
 ```bash
-uv run mcp-sse-polling-client --url http://localhost:3000/mcp
+uv run darpy-sdk-sse-polling-client --url http://localhost:3000/mcp
 ```

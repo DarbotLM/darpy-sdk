@@ -124,13 +124,13 @@ URL 必须是 HTTPS 且路径不能是根路径；否则在构造时就是 `Valu
     从环境变量或密钥管理器读取 `client_secret`，绝不要从源码版本控制里读。
 
 !!! info
-    `mcp.client.auth.extensions.client_credentials` 里还有一个提供者：**`PrivateKeyJWTOAuthProvider`**，用于以 JWT 而非共享密钥进行认证的客户端（`private_key_jwt`，即密钥对和工作负载身份那一类）。它遵循同样的模式：构造一个（它接受同样可选的 `issuer`），放到 `auth=` 上。同一个模块还附带 `SignedJWTParameters` 和 `static_assertion_provider`，两个用来构建其断言的辅助工具。
+    `darpy_sdk.client.auth.extensions.client_credentials` 里还有一个提供者：**`PrivateKeyJWTOAuthProvider`**，用于以 JWT 而非共享密钥进行认证的客户端（`private_key_jwt`，即密钥对和工作负载身份那一类）。它遵循同样的模式：构造一个（它接受同样可选的 `issuer`），放到 `auth=` 上。同一个模块还附带 `SignedJWTParameters` 和 `static_assertion_provider`，两个用来构建其断言的辅助工具。
 
 还有一种没有人参与的情形：客户端属于某个企业，由企业的身份提供者而不是用户来决定它可以访问哪些 MCP 服务器。那是另一种授权方式，有自己的信任模型和自己的页面，**[身份断言](identity-assertion.md)**。
 
 ## 出错时 {#when-it-fails}
 
-OAuth 流程出错时，提供者会抛出 `mcp.client.auth` 里的 `OAuthFlowError`。它有两个子类。`OAuthRegistrationError` 表示注册没有产生一个可用的客户端：授权服务器拒绝为你注册，或者它确实注册了，但给出的凭据这个流程用不了（比如它没有实现的认证方法）。`OAuthTokenError` 表示无法获取令牌：令牌端点拒绝了，或者已存的客户端记录带有这个客户端无法应用的认证方法，这种情况在构建令牌请求时就会报告，而不会发送出去。一个 `except OAuthFlowError:` 就覆盖了发现、注册、授权和交换。
+OAuth 流程出错时，提供者会抛出 `darpy_sdk.client.auth` 里的 `OAuthFlowError`。它有两个子类。`OAuthRegistrationError` 表示注册没有产生一个可用的客户端：授权服务器拒绝为你注册，或者它确实注册了，但给出的凭据这个流程用不了（比如它没有实现的认证方法）。`OAuthTokenError` 表示无法获取令牌：令牌端点拒绝了，或者已存的客户端记录带有这个客户端无法应用的认证方法，这种情况在构建令牌请求时就会报告，而不会发送出去。一个 `except OAuthFlowError:` 就覆盖了发现、注册、授权和交换。
 
 并非一切都是流程错误。网络仍然可能失败；那些是普通的 `httpx2` 异常，会原样透传。
 

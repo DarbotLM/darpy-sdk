@@ -63,7 +63,7 @@ Ne vous souciez pas encore de `structured_content`. Renvoyez de vrais objets Pyt
 Lancez le serveur avec le MCP Inspector :
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Ouvrez l’URL qu’il affiche, allez dans l’onglet **Tools** et appelez `search_books`.

@@ -1,5 +1,13 @@
 # Connect to a real host
 
+!!! note "Package availability and checkout development"
+    The fresh-environment `--with` and `darpy-sdk install` recipes below require
+    a published Darbot package pair or an explicitly configured local package
+    source. Before publication, configure a host to run the existing checkout:
+    `uv run --frozen --directory /absolute/path/to/darpy-sdk darpy-sdk run /absolute/path/to/server.py`.
+    Use that command and arguments in the host's normal `mcpServers` entry.
+    See [Installation](installation.md) for workspace setup.
+
 A **host** is the application your server ends up inside: Claude Desktop, Claude Code, an IDE. The host is what the user talks to. Inside it, an MCP **client** launches your server as a child process and speaks to it over that process's stdin and stdout.
 
 Which means connecting to a host is one act: you tell it **the command that starts your server**. Everything on this page (two CLI commands, three JSON files) is a different place to put that same command.
@@ -14,7 +22,7 @@ Two tools and a resource, one file. Three things about that file matter to every
 
 * `mcp.run()` with no arguments starts a **stdio** server: it blocks, reads protocol messages on stdin, and writes them on stdout. That is the transport every host on this page speaks. The host starts your file as a child process and owns those two pipes, which is why connecting is only ever "here is the command". You never pick a port, and nothing listens on one.
 * `run()` is under `if __name__ == "__main__":`. Everything below **imports** this file rather than executing it, so an unguarded `run()` would start a server the moment anything loaded the module.
-* The server object is a module-level global named `mcp`. That's the name `mcp run` looks for (`server` and `app` also work). Call it something else and you name it explicitly: `mcp run server.py:bookshop`.
+* The server object is a module-level global named `mcp`. That's the name `darpy-sdk run` looks for (`server` and `app` also work). Call it something else and you name it explicitly: `darpy-sdk run server.py:bookshop`.
 
 That is the last line of Python on this page. From here down it is all host configuration.
 
@@ -23,17 +31,17 @@ That is the last line of Python on this page. From here down it is all host conf
 Every host below gets the same command:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 One command for all of them because `uv run --with` resolves the SDK into a fresh environment on the spot: it works from any directory and needs no project and no virtual environment to activate. That matters here more than anywhere else, because a host launches your server from *its* working directory with a near-empty environment, not from your shell.
 
-It is also the command `mcp install` writes into Claude Desktop's config for you (below), so what you type by hand and what the tool generates agree, apart from the exact version pin the tool adds.
+It is also the command `darpy-sdk install` writes into Claude Desktop's config for you (below), so what you type by hand and what the tool generates agree, apart from the exact version pin the tool adds.
 
 !!! tip "If a host can't find `uv`"
     A host spawns your server with a minimal `PATH`, and `uv` may not be on it. Replace the bare
     `uv` with the absolute path from `which uv` (macOS/Linux) or `where uv` (Windows). That is
-    exactly what `mcp install` writes.
+    exactly what `darpy-sdk install` writes.
 
 !!! note "This page is the local story"
     Everything here runs your server on the machine the host is on: the host launches your
@@ -53,10 +61,10 @@ It is also the command `mcp install` writes into Claude Desktop's config for you
 The one host the SDK can configure for you:
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-That's it. `mcp install` imports the file to read the server's name, finds Claude Desktop's config file, and writes the launch command into it. Along the way it converts your path to an absolute one, so you don't have to.
+That's it. `darpy-sdk install` imports the file to read the server's name, finds Claude Desktop's config file, and writes the launch command into it. Along the way it converts your path to an absolute one, so you don't have to.
 
 There is nothing to be mystified by. This is the entry it writes:
 
@@ -69,8 +77,8 @@ There is nothing to be mystified by. This is the entry it writes:
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -79,22 +87,22 @@ There is nothing to be mystified by. This is the entry it writes:
 }
 ```
 
-That's the launch command from the section above with three additions: the absolute path to `uv`, `--frozen` so `uv` never rewrites a lockfile it happens to be near, and an exact pin to the `mcp` version you have installed. It lands in `claude_desktop_config.json`, which lives at:
+That's the launch command from the section above with three additions: the absolute path to `uv`, `--frozen` so `uv` never rewrites a lockfile it happens to be near, and an exact pin to the `darpy-sdk` version you have installed. It lands in `claude_desktop_config.json`, which lives at:
 
 * **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-You can write that file by hand. `mcp install` exists so you don't make the classic mistake (a relative path) while doing it.
+You can write that file by hand. `darpy-sdk install` exists so you don't make the classic mistake (a relative path) while doing it.
 
 Fully quit Claude Desktop (not just its window) and reopen it.
 
 !!! warning
-    `mcp install` fails with `Claude app not found` if Claude Desktop's config *directory* doesn't
+    `darpy-sdk install` fails with `Claude app not found` if Claude Desktop's config *directory* doesn't
     exist yet. Install Claude Desktop and run it once: that's what creates the directory.
 
 !!! tip
     Claude Desktop starts your server in its own process, so your shell's environment variables are
-    not there. `uv run mcp install server.py -v API_KEY=abc123` (or `-f .env`) records them in the
+    not there. `uv run darpy-sdk install server.py -v API_KEY=abc123` (or `-f .env`) records them in the
     entry's `env` field. `--name` overrides the entry name; it defaults to the server's `name`.
 
 ## Claude Code
@@ -102,7 +110,7 @@ Fully quit Claude Desktop (not just its window) and reopen it.
 There is no file to edit. Register the server with the `claude` CLI; everything after `--` is the launch command.
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Run `/mcp` inside a Claude Code session to confirm `bookshop` is connected and its tools are listed.
@@ -116,7 +124,7 @@ Create `.cursor/mcp.json` in your project root.
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -134,7 +142,7 @@ Create `.vscode/mcp.json` in your project root.
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -151,7 +159,7 @@ Two differences from Cursor's file, and they are the only two: the wrapper key i
 Before you touch any host config, run the launch command yourself:
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 Nothing prints, and it doesn't return. That silence is correct: a stdio server is waiting for a host to speak first on stdin (`Ctrl-C` to stop it). A traceback or an immediate exit is the real bug, and now you can read it instead of guessing at it through a host.
@@ -169,8 +177,8 @@ For anything past those three, **[Troubleshooting](../troubleshooting.md)** is t
 ## Recap
 
 * A **host** (Claude Desktop, an IDE) runs an MCP client that launches your server as a child process over stdio. Connecting means giving it one launch command.
-* That command is `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`: no venv to activate, works from any directory.
-* **Claude Desktop** is the one host `mcp install` configures for you. It writes that same command (plus the absolute path to `uv`, `--frozen`, and an exact pin to the version you have installed) into `claude_desktop_config.json`, so you never have to.
+* That command is `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`: no venv to activate, works from any directory.
+* **Claude Desktop** is the one host `darpy-sdk install` configures for you. It writes that same command (plus the absolute path to `uv`, `--frozen`, and an exact pin to the version you have installed) into `claude_desktop_config.json`, so you never have to.
 * **Claude Code** is `claude mcp add bookshop -- <launch command>`. **Cursor** is `.cursor/mcp.json` under `mcpServers`. **VS Code** is `.vscode/mcp.json` under `servers`, each entry with a `type`.
 * Absolute paths everywhere, restart the host after editing its config, and never let anything but the SDK write to stdout.
 

@@ -50,7 +50,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 用 MCP Inspector 執行伺服器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 打開它印出的 URL，切到 **Resources** 分頁。`config://app` 會連同描述一起出現在清單裡。點一下，Inspector 就會讀取它：那兩行設定就在眼前。
@@ -122,7 +122,7 @@ result.contents  # [TextResourceContents(uri="users://42/profile", text="User 42
 `mime_type` 由你宣告，預設為 `text/plain`。SDK 從不會檢查回傳的內容來猜測它，所以沒標示的 `dict` 資源仍然會以純文字對外宣告。
 
 !!! tip
-    不想從函式推導時，`@mcp.resource()` 也接受 `name=`、`title=` 和 `description=`。如果根本沒有函式要寫，`mcp.server.mcpserver.resources` 裡有現成的 `Resource` 類別（`TextResource`、`BinaryResource`、`FileResource`、`HttpResource`、`DirectoryResource`），用 `mcp.add_resource(...)` 註冊即可。
+    不想從函式推導時，`@mcp.resource()` 也接受 `name=`、`title=` 和 `description=`。如果根本沒有函式要寫，`darpy_sdk.server.mcpserver.resources` 裡有現成的 `Resource` 類別（`TextResource`、`BinaryResource`、`FileResource`、`HttpResource`、`DirectoryResource`），用 `mcp.add_resource(...)` 註冊即可。
 
 用戶端也可以**訂閱**資源，在它變更時收到通知；那是用戶端那一半的事，寫在 **[用戶端](../client/index.md)** 裡。
 

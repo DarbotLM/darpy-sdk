@@ -40,23 +40,23 @@ from collections.abc import Callable, Coroutine
 from typing import Any, cast
 from urllib.parse import parse_qs, urlparse
 
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
-from mcp_types.version import MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import MODERN_PROTOCOL_VERSIONS
 from pydantic import AnyUrl
 
-from mcp.client.auth import OAuthClientProvider, TokenStorage
-from mcp.client.auth.extensions.client_credentials import (
+from darpy_sdk.client.auth import OAuthClientProvider, TokenStorage
+from darpy_sdk.client.auth.extensions.client_credentials import (
     ClientCredentialsOAuthProvider,
     PrivateKeyJWTOAuthProvider,
     SignedJWTParameters,
 )
-from mcp.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
-from mcp.client.auth.utils import build_protected_resource_metadata_discovery_urls
-from mcp.client.client import Client
-from mcp.client.context import ClientRequestContext
-from mcp.client.streamable_http import streamable_http_client
-from mcp.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
+from darpy_sdk.client.auth.extensions.identity_assertion import IdentityAssertionOAuthProvider
+from darpy_sdk.client.auth.utils import build_protected_resource_metadata_discovery_urls
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.context import ClientRequestContext
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.shared.auth import AuthorizationCodeResult, OAuthClientInformationFull, OAuthClientMetadata, OAuthToken
 
 # Set up logging to stderr (stdout is for conformance test output)
 logging.basicConfig(

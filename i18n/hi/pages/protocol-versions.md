@@ -14,7 +14,7 @@ MCP की दो पीढ़ियाँ हैं।
 इस page का हर snippet एक `client.py` है जो **[Client](client/index.md)** वाले Bookshop `server.py` से बात करता है। उस server को एक terminal में शुरू करें:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 फिर हर snippet को दूसरे terminal में `python client.py` से चलाएँ।

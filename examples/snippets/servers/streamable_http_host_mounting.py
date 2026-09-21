@@ -9,7 +9,7 @@ import contextlib
 from starlette.applications import Starlette
 from starlette.routing import Host
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create MCP server
 mcp = MCPServer("MCP Host App")
@@ -18,7 +18,7 @@ mcp = MCPServer("MCP Host App")
 @mcp.tool()
 def domain_info() -> str:
     """Get domain-specific information"""
-    return "This is served from mcp.acme.corp"
+    return "This is served from darpy_sdk.acme.corp"
 
 
 # Create a lifespan context manager to run the session manager

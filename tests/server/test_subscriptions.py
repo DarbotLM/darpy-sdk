@@ -1,11 +1,11 @@
-"""Tests for `subscriptions/listen` serving (mcp.server.subscriptions)."""
+"""Tests for `subscriptions/listen` serving (darpy_sdk.server.subscriptions)."""
 
 from collections.abc import Callable
 from typing import Any, cast
 
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_REQUEST,
     PromptListChangedNotification,
     RequestId,
@@ -19,9 +19,9 @@ from mcp_types import (
     ToolListChangedNotification,
 )
 
-from mcp.server.context import ServerRequestContext
-from mcp.server.session import ServerSession
-from mcp.server.subscriptions import (
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.session import ServerSession
+from darpy_sdk.server.subscriptions import (
     SUBSCRIPTION_ID_META_KEY,
     InMemorySubscriptionBus,
     ListenHandler,
@@ -31,7 +31,7 @@ from mcp.server.subscriptions import (
     ServerEvent,
     ToolsListChanged,
 )
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.shared.exceptions import MCPError
 
 
 class _RecordingSession:

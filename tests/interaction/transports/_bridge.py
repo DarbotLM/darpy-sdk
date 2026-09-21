@@ -35,8 +35,6 @@ import httpx2
 from anyio.streams.memory import MemoryObjectReceiveStream
 from starlette.types import ASGIApp, Message, Scope
 
-from mcp.shared._compat import resync_tracer
-
 
 class _StreamingResponseBody(httpx2.AsyncByteStream):
     """A response body that yields chunks as the application produces them.
@@ -73,7 +71,7 @@ class StreamingASGITransport(httpx2.AsyncBaseTransport):
         self._app = app
         self._cancel_on_close = cancel_on_close
 
-    async def __aenter__(self) -> "StreamingASGITransport":
+    async def __aenter__(self) -> StreamingASGITransport:
         self._task_group = anyio.create_task_group()
         await self._task_group.__aenter__()
         return self
@@ -90,7 +88,6 @@ class StreamingASGITransport(httpx2.AsyncBaseTransport):
         if self._cancel_on_close:
             self._task_group.cancel_scope.cancel()
         await self._task_group.__aexit__(exc_type, exc_value, traceback)
-        await resync_tracer()
 
     async def handle_async_request(self, request: httpx2.Request) -> httpx2.Response:
         assert isinstance(request.stream, httpx2.AsyncByteStream)

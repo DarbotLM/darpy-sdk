@@ -19,7 +19,7 @@ translation:
 
 * `mcp.run()` 不帶引數時會啟動 **stdio** 伺服器：它會阻塞，從 stdin 讀取協定訊息，並把訊息寫到 stdout。這一頁上每個主機說的都是這種傳輸方式。主機把你的檔案當成子處理程序啟動，並掌管這兩條管道，所以連接永遠只是「指令在這裡」。不需要挑連接埠，也沒有任何東西在監聽連接埠。
 * `run()` 放在 `if __name__ == "__main__":` 底下。下面所有做法都是**匯入**這個檔案而不是執行它，所以沒有這層保護的 `run()` 會在任何東西載入模組的那一刻就啟動伺服器。
-* 伺服器物件是模組層級的全域變數，名稱是 `mcp`。`mcp run` 找的就是這個名稱（`server` 和 `app` 也可以）。如果取別的名字，就要明確指定：`mcp run server.py:bookshop`。
+* 伺服器物件是模組層級的全域變數，名稱是 `mcp`。`darpy-sdk run` 找的就是這個名稱（`server` 和 `app` 也可以）。如果取別的名字，就要明確指定：`darpy-sdk run server.py:bookshop`。
 
 這是這一頁最後一行 Python。從這裡往下全都是主機設定。
 
@@ -28,15 +28,15 @@ translation:
 下面每個主機拿到的都是同一道指令：
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 所有主機共用一道指令，是因為 `uv run --with` 會當場把 SDK 解析進一個全新的環境：從任何目錄都能執行，不需要專案，也不需要啟用虛擬環境。這一點在這裡比任何地方都重要，因為主機是從**它自己**的工作目錄、帶著幾乎空白的環境來啟動伺服器，而不是從你的 shell。
 
-這也是 `mcp install` 替你寫進 Claude Desktop 設定檔的指令（見下文），所以手動輸入的和工具產生的會一致，差別只在工具多加了精確的版本鎖定。
+這也是 `darpy-sdk install` 替你寫進 Claude Desktop 設定檔的指令（見下文），所以手動輸入的和工具產生的會一致，差別只在工具多加了精確的版本鎖定。
 
 !!! tip "如果主機找不到 `uv`"
-    主機用極簡的 `PATH` 產生你的伺服器處理程序，`uv` 可能不在裡面。把單獨的 `uv` 換成 `which uv`（macOS/Linux）或 `where uv`（Windows）給出的絕對路徑。`mcp install` 寫的正是這個。
+    主機用極簡的 `PATH` 產生你的伺服器處理程序，`uv` 可能不在裡面。把單獨的 `uv` 換成 `which uv`（macOS/Linux）或 `where uv`（Windows）給出的絕對路徑。`darpy-sdk install` 寫的正是這個。
 
 !!! note "這一頁講的是本機情境"
     這裡的一切都是在主機所在的那台機器上執行伺服器：主機透過 stdio 啟動你的檔案。對個人用或單機工具來說，這完全正確。要把伺服器交給**沒有**你這個檔案的人，給出去的是 **URL** 而不是指令：同一個 `mcp` 物件，改用 Streamable HTTP 提供服務。**[執行伺服器](../run/index.md)** 用一張表講清楚這個抉擇，**[部署與擴展](../run/deploy.md)** 則是從那裡走到真正主機名稱的路。
@@ -48,10 +48,10 @@ uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
 SDK 唯一能替你設定的主機：
 
 ```bash
-uv run mcp install server.py
+uv run darpy-sdk install server.py
 ```
 
-就這樣。`mcp install` 會匯入檔案來讀取伺服器名稱，找到 Claude Desktop 的設定檔，然後把啟動指令寫進去。過程中它會把你的路徑轉成絕對路徑，不用自己動手。
+就這樣。`darpy-sdk install` 會匯入檔案來讀取伺服器名稱，找到 Claude Desktop 的設定檔，然後把啟動指令寫進去。過程中它會把你的路徑轉成絕對路徑，不用自己動手。
 
 沒什麼神祕的。它寫進去的項目長這樣：
 
@@ -64,8 +64,8 @@ uv run mcp install server.py
         "run",
         "--frozen",
         "--with",
-        "mcp[cli]==2.0.0",
-        "mcp",
+        "darpy-sdk[cli]==0.1.0",
+        "darpy-sdk",
         "run",
         "/absolute/path/to/server.py"
       ]
@@ -79,22 +79,22 @@ uv run mcp install server.py
 * **macOS**：`~/Library/Application Support/Claude/claude_desktop_config.json`
 * **Windows**：`%APPDATA%\Claude\claude_desktop_config.json`
 
-這個檔案可以手寫。`mcp install` 存在的意義，是讓你手寫時不會犯那個經典錯誤（相對路徑）。
+這個檔案可以手寫。`darpy-sdk install` 存在的意義，是讓你手寫時不會犯那個經典錯誤（相對路徑）。
 
 完全結束 Claude Desktop（不只是關掉視窗），再重新開啟。
 
 !!! warning
-    如果 Claude Desktop 的設定**目錄**還不存在，`mcp install` 會以 `Claude app not found` 失敗。安裝 Claude Desktop 並執行一次：目錄就是這樣建立的。
+    如果 Claude Desktop 的設定**目錄**還不存在，`darpy-sdk install` 會以 `Claude app not found` 失敗。安裝 Claude Desktop 並執行一次：目錄就是這樣建立的。
 
 !!! tip
-    Claude Desktop 在它自己的處理程序裡啟動你的伺服器，所以 shell 的環境變數不會在那裡。`uv run mcp install server.py -v API_KEY=abc123`（或 `-f .env`）會把它們記錄在項目的 `env` 欄位裡。`--name` 可以覆寫項目名稱；預設為伺服器的 `name`。
+    Claude Desktop 在它自己的處理程序裡啟動你的伺服器，所以 shell 的環境變數不會在那裡。`uv run darpy-sdk install server.py -v API_KEY=abc123`（或 `-f .env`）會把它們記錄在項目的 `env` 欄位裡。`--name` 可以覆寫項目名稱；預設為伺服器的 `name`。
 
 ## Claude Code {#claude-code}
 
 沒有檔案要編輯。用 `claude` CLI 註冊伺服器；`--` 之後的全部都是啟動指令。
 
 ```bash
-claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+claude mcp add bookshop -- uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 在 Claude Code 工作階段裡執行 `/mcp`，確認 `bookshop` 已連線且列出了它的工具。
@@ -108,7 +108,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
   "mcpServers": {
     "bookshop": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -126,7 +126,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
     "bookshop": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "/absolute/path/to/server.py"]
+      "args": ["run", "--with", "darpy-sdk[cli]", "darpy-sdk", "run", "/absolute/path/to/server.py"]
     }
   }
 }
@@ -142,7 +142,7 @@ claude mcp add bookshop -- uv run --with "mcp[cli]" mcp run /absolute/path/to/se
 動任何主機設定之前，先自己執行一次啟動指令：
 
 ```bash
-uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py
+uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py
 ```
 
 什麼都不會印出，也不會結束返回。這種沉默是正確的：stdio 伺服器正在等主機先從 stdin 開口（按 `Ctrl-C` 停止）。出現 traceback 或立刻結束才是真正的 bug，而現在可以直接讀到它，不用隔著主機瞎猜。
@@ -160,8 +160,8 @@ Claude Desktop 會為每個伺服器各留一份記錄：`mcp-server-<NAME>.log`
 ## 重點回顧 {#recap}
 
 * **主機**（Claude Desktop、IDE）執行一個 MCP 用戶端，透過 stdio 把你的伺服器當成子處理程序啟動。連接就是給它一道啟動指令。
-* 這道指令是 `uv run --with "mcp[cli]" mcp run /absolute/path/to/server.py`：不用啟用 venv，從任何目錄都能執行。
-* **Claude Desktop** 是 `mcp install` 唯一能替你設定的主機。它把同一道指令（加上 `uv` 的絕對路徑、`--frozen`，以及精確鎖定你已安裝的版本）寫進 `claude_desktop_config.json`，你永遠不必自己動手。
+* 這道指令是 `uv run --with "darpy-sdk[cli]" darpy-sdk run /absolute/path/to/server.py`：不用啟用 venv，從任何目錄都能執行。
+* **Claude Desktop** 是 `darpy-sdk install` 唯一能替你設定的主機。它把同一道指令（加上 `uv` 的絕對路徑、`--frozen`，以及精確鎖定你已安裝的版本）寫進 `claude_desktop_config.json`，你永遠不必自己動手。
 * **Claude Code** 是 `claude mcp add bookshop -- <launch command>`。**Cursor** 是 `.cursor/mcp.json`，放在 `mcpServers` 底下。**VS Code** 是 `.vscode/mcp.json`，放在 `servers` 底下，每個項目都有 `type`。
 * 到處都用絕對路徑，改完設定後重新啟動主機，而且除了 SDK 之外，絕不讓任何東西寫到 stdout。
 

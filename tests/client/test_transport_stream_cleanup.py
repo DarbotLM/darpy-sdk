@@ -19,8 +19,8 @@ from contextlib import contextmanager
 import httpx2
 import pytest
 
-from mcp.client.sse import sse_client
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk.client.sse import sse_client
+from darpy_sdk.client.streamable_http import streamable_http_client
 
 
 @contextmanager
@@ -35,7 +35,7 @@ def _assert_no_memory_stream_leak() -> Iterator[None]:
     leaked: list[str] = []
     old_hook = sys.unraisablehook
 
-    def hook(args: "sys.UnraisableHookArgs") -> None:  # pragma: no cover
+    def hook(args: sys.UnraisableHookArgs) -> None:  # pragma: no cover
         # Only executes if a leak occurs (i.e. the bug is present).
         # args.object is the __del__ function (not the stream instance) when
         # unraisablehook fires from a finalizer, so check exc_value — the

@@ -30,7 +30,7 @@ Vermeniz gereken tek karar **aktarım**: sunucunuzla istemcisi arasındaki baytl
 
 * `run()` senkrondur. Sunucunun ömrü boyunca bloke kalır.
 * Argüman verilmezse aktarım `stdio` olur.
-* `if __name__ == "__main__":` altında durur, çünkü sunucunuzu yükleyen her şey (`mcp dev`, `mcp run`, `mcp install`, testleriniz) bu dosyayı **içe aktarır**. Bu koruma, bir içe aktarmanın çalışan bir sunucuya dönüşmesini engeller.
+* `if __name__ == "__main__":` altında durur, çünkü sunucunuzu yükleyen her şey (`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`, testleriniz) bu dosyayı **içe aktarır**. Bu koruma, bir içe aktarmanın çalışan bir sunucuya dönüşmesini engeller.
 
 ### stdio {#stdio}
 
@@ -49,7 +49,7 @@ Bu aynı zamanda stdout'un **iletişim hattının ta kendisi** olduğu anlamına
 ### Deneyin {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector, gerçek bir host'un yaptığının aynısını yapar: `server.py` dosyasını bir alt süreç olarak başlatır ve ona stdio üzerinden bağlanır.
@@ -110,42 +110,42 @@ Her ikisi de çalışma zamanında geri okuyabileceğiniz `mcp.settings` üzerin
 
 `[cli]` ekstrası tüm bunların etrafına küçük bir komut satırı aracı kurar.
 
-`mcp dev`, sunucunuzu **MCP Inspector** altında çalıştırır:
+`darpy-sdk dev`, sunucunuzu **MCP Inspector** altında çalıştırır:
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with`, kurduğu ortama paket ekler; `--with-editable` kendi paketinizi o ortama kurar. `PATH` değişkeninizde `npx` bulunmalıdır: Inspector bir Node.js uygulamasıdır.
 
-`mcp run` dosyayı içe aktarır, sunucu nesnesini (modül düzeyinde bir `mcp`, `server` veya `app`) bulur ve üzerinde `run()` çağırır:
+`darpy-sdk run` dosyayı içe aktarır, sunucu nesnesini (modül düzeyinde bir `mcp`, `server` veya `app`) bulur ve üzerinde `run()` çağırır:
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 `:` soneki, nesnenin adı `mcp`, `server` veya `app` olmadığında onu belirtir.
 
-`if __name__ == "__main__":` bloğunuz burada hiç çalışmaz: `mcp run`, `run()`'ı kendisi çağırır ve ilettiği tek seçenek `--transport` seçeneğidir.
+`if __name__ == "__main__":` bloğunuz burada hiç çalışmaz: `darpy-sdk run`, `run()`'ı kendisi çağırır ve ilettiği tek seçenek `--transport` seçeneğidir.
 
-`mcp install` sunucuyu **Claude Desktop**'a kaydeder; böylece uygulama onu sizin için başlatır:
+`darpy-sdk install` sunucuyu **Claude Desktop**'a kaydeder; böylece uygulama onu sizin için başlatır:
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE` ve `-f .env`, ortam değişkenlerini bu kayda işler. Claude Desktop sunucunuzu kendi sürecinde başlatır. Kabuğunuzun ortamı orada yoktur.
 
-Claude Desktop, `mcp install` komutunun bildiği tek host'tur. Diğer tüm host'lar (Claude Code, Cursor, VS Code) aynı başlatma komutunu kendi yapılandırma dosyalarında alır; her biri **[Gerçek bir host'a bağlanma](../get-started/real-host.md)** sayfasında var.
+Claude Desktop, `darpy-sdk install` komutunun bildiği tek host'tur. Diğer tüm host'lar (Claude Code, Cursor, VS Code) aynı başlatma komutunu kendi yapılandırma dosyalarında alır; her biri **[Gerçek bir host'a bağlanma](../get-started/real-host.md)** sayfasında var.
 
-`mcp version` kurulu SDK sürümünü yazdırır.
+`darpy-sdk version` kurulu SDK sürümünü yazdırır.
 
 !!! tip
-    `mcp dev` ve `mcp run` yalnızca `MCPServer`'ı anlar. Düşük seviyeli `Server` ile geliştiriyorsanız
+    `darpy-sdk dev` ve `darpy-sdk run` yalnızca `MCPServer`'ı anlar. Düşük seviyeli `Server` ile geliştiriyorsanız
     onu kendiniz çalıştırırsınız. Bkz. **[Düşük seviyeli Server](../advanced/low-level-server.md)**.
 
 ## Özet {#recap}
@@ -155,7 +155,7 @@ Claude Desktop, `mcp install` komutunun bildiği tek host'tur. Diğer tüm host'
 * Her aktarım seçeneği (`host`, `port`, `streamable_http_path`, ...) `run()`'a verilen bir argümandır, asla `MCPServer(...)`'a değil.
 * `run()`'ı `if __name__ == "__main__":` altında tutun. Sunucunuzu yükleyen her şey önce dosyayı içe aktarır.
 * `log_level=` ve `debug=` kurucu argümanlarıdır; `mcp.settings` üzerine yerleşirler.
-* Inspector için `mcp dev`, bir dosyayı çalıştırmak için `mcp run`, Claude Desktop için `mcp install`, sürüm için `mcp version`.
+* Inspector için `darpy-sdk dev`, bir dosyayı çalıştırmak için `darpy-sdk run`, Claude Desktop için `darpy-sdk install`, sürüm için `darpy-sdk version`.
 * Aktarım, sunucunuzun ne *olduğunu* asla değiştirmez: bu sayfadaki üç dosya da birebir aynı aracı sunar.
 
 Sınır `run()`'ın kendisi olduğunda (sunucunuz zaten var olan bir uygulamanın içindeyse) adres **[Mevcut bir uygulamaya ekleme](asgi.md)**. Gerçek bir ana bilgisayar adı ve birden fazla worker **[Dağıtım ve ölçekleme](deploy.md)** sayfasında. İstemcilerinizden bazıları hâlâ 2025-11-25 veya daha eski bir spesifikasyon sürümündeyse, iyi haber **[Eski nesil istemcilere hizmet verme](legacy-clients.md)** sayfasında.

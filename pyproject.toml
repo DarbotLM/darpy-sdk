@@ -1,35 +1,50 @@
 [project]
-name = "mcp"
-dynamic = ["version", "dependencies"]
-description = "Model Context Protocol SDK"
+name = "darpy-sdk"
+version = "0.1.0"
+description = "Darbot Python SDK for Model, Agent Client, and Activity protocols"
 readme = "README.md"
-requires-python = ">=3.10"
-authors = [{ name = "Model Context Protocol a Series of LF Projects, LLC." }]
-maintainers = [
-    { name = "David Soria Parra", email = "davidsp@anthropic.com" },
-    { name = "Marcelo Trylesinski", email = "marcelotryle@gmail.com" },
-    { name = "Max Isbey", email = "maxisbey@anthropic.com" },
-    { name = "Felix Weinberger", email = "fweinberger@anthropic.com" },
-]
-keywords = ["mcp", "llm", "automation"]
+requires-python = ">=3.14"
+authors = [{ name = "DarbotLabs" }]
+maintainers = [{ name = "DarbotLabs" }]
+keywords = ["darpy", "mcp", "acp", "agents", "automation"]
 license = { text = "MIT" }
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
+dependencies = [
+    # anyio < 4.10 triggers a compile-time SyntaxWarning on Python 3.14 (PEP 765,
+    # "'return' in a 'finally' block"); for stdio servers it lands on the child's
+    # stderr (agronholm/anyio#816, fixed in 4.10).
+    "anyio>=4.10",
+    "httpx2>=2.5.0",
+    "darpy-sdk-types==0.1.0",
+    "pydantic>=2.12.0",
+    "starlette>=0.48.0",
+    "python-multipart>=0.0.9",
+    "sse-starlette>=3.0.0",
+    "uvicorn>=0.31.1; sys_platform != 'emscripten'",
+    "jsonschema>=4.20.0",
+    "pywin32>=311; sys_platform == 'win32'",
+    "pyjwt[crypto]>=2.10.1",
+    "typing-extensions>=4.13.0",
+    "typing-inspection>=0.4.1",
+    "opentelemetry-api>=1.28.0",
+]
+
 [project.optional-dependencies]
 rich = ["rich>=13.9.4"]
 cli = ["typer>=0.16.0", "python-dotenv>=1.0.0"]
+acp = ["agent-client-protocol==0.12.1"]
+activity = ["microsoft-agents-activity==1.5.0"]
+hosting = ["microsoft-agents-activity==1.5.0", "microsoft-agents-hosting-core==1.5.0"]
+protocols = ["agent-client-protocol==0.12.1", "microsoft-agents-activity==1.5.0", "microsoft-agents-hosting-core==1.5.0"]
 
 [project.scripts]
-mcp = "mcp.cli:app [cli]"
+darpy-sdk = "darpy_sdk.cli:app [cli]"
 
 [tool.uv]
 default-groups = ["dev", "docs"]
@@ -37,34 +52,29 @@ required-version = ">=0.9.5"
 # PEP 517 build isolation fetches [build-system].requires (and transitives) at
 # floating-latest with no hash check on every fresh sync; uv does not lock them
 # (astral-sh/uv#5190). Pinning here narrows that to known-good versions. Covers
-# the workspace builds (hatchling + uv-dynamic-versioning) and the legacy
+# the workspace builds (hatchling) and the legacy
 # setuptools fallback used by the strict-no-cover git dep.
 build-constraint-dependencies = [
     "hatchling==1.29.0",
-    "uv-dynamic-versioning==0.14.0",
-    "dunamai==1.26.1",
-    "jinja2==3.1.6",
-    "markupsafe==3.0.3",
     "packaging==26.1",
     "pathspec==1.0.4",
     "pluggy==1.6.0",
-    "tomlkit==0.14.0",
     "trove-classifiers==2026.1.14.14",
     "setuptools==82.0.1",
 ]
 
 [dependency-groups]
 dev = [
-    # We add mcp[cli] so `uv sync` considers the extras.
-    "mcp[cli]",
-    "mcp-example-stories",
+    # Development verifies the CLI and all protocol extras.
+    "darpy-sdk[cli,protocols]",
+    "darpy-sdk-example-stories",
     # pydantic-settings is used only by examples (simple-auth, mcpserver/text_me);
     # keep it reachable for pyright, which covers examples/servers.
     "pydantic-settings>=2.5.2",
-    "tomli>=2.0; python_version < '3.11'",
     "pyright>=1.1.400",
     "pytest>=8.4.0",
-    "ruff>=0.8.5",
+    # Stable parsing and lint targets for the Python 3.14 baseline.
+    "ruff>=0.14.0",
     "trio>=0.26.2",
     "pytest-flakefinder>=1.1.0",
     "pytest-xdist>=3.6.1",
@@ -75,7 +85,9 @@ dev = [
     "coverage[toml]>=7.10.7,<=7.13",
     "pillow>=12.0",
     "strict-no-cover",
-    "logfire>=3.0.0",
+    # Logfire 4.16 first supports OTel 1.39; older proxy meters reject its
+    # histogram keywords and leave the shared tracing fixture unconfigured.
+    "logfire>=4.16.0",
     "opentelemetry-sdk>=1.39.1",
 ]
 docs = [
@@ -112,54 +124,39 @@ translate = ["anthropic>=0.121.0"]
 codegen = ["datamodel-code-generator==0.57.0"]
 
 [build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.version]
-source = "uv-dynamic-versioning"
-
-[tool.uv-dynamic-versioning]
-vcs = "git"
-style = "pep440"
-bump = true
-
-[tool.hatch.metadata.hooks.uv-dynamic-versioning]
-dependencies = [
-    # anyio < 4.10 triggers a compile-time SyntaxWarning on Python 3.14 (PEP 765,
-    # "'return' in a 'finally' block"); for stdio servers it lands on the child's
-    # stderr (agronholm/anyio#816, fixed in 4.10).
-    "anyio>=4.10; python_version >= '3.14'",
-    "anyio>=4.9; python_version < '3.14'",
-    "httpx2>=2.5.0",
-    "mcp-types=={{ version }}",
-    "pydantic>=2.12.0",
-    "starlette>=0.48.0; python_version >= '3.14'",
-    "starlette>=0.27; python_version < '3.14'",
-    "python-multipart>=0.0.9",
-    "sse-starlette>=3.0.0",
-    "uvicorn>=0.31.1; sys_platform != 'emscripten'",
-    "jsonschema>=4.20.0",
-    "pywin32>=311; sys_platform == 'win32'",
-    "pyjwt[crypto]>=2.10.1",
-    "typing-extensions>=4.13.0",
-    "typing-inspection>=0.4.1",
-    "opentelemetry-api>=1.28.0",
-]
-
 [project.urls]
-Homepage = "https://modelcontextprotocol.io"
-Documentation = "https://py.sdk.modelcontextprotocol.io/"
-Repository = "https://github.com/modelcontextprotocol/python-sdk"
-Issues = "https://github.com/modelcontextprotocol/python-sdk/issues"
+Homepage = "https://github.com/DarbotLM/darpy-sdk"
+Documentation = "https://github.com/DarbotLM/darpy-sdk/tree/main/docs"
+Repository = "https://github.com/DarbotLM/darpy-sdk"
+Issues = "https://github.com/DarbotLM/darpy-sdk/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mcp"]
+packages = ["src/darpy_sdk"]
+
+[tool.hatch.build.targets.sdist]
+# Keep local documentation builds, caches, and environments out of release sources.
+exclude = [
+    "/.cache",
+    "/site",
+    "/.build",
+    "/dist",
+    "/.venv",
+    "/.coverage*",
+    "/.pytest_cache",
+    "/.ruff_cache",
+    "/htmlcov",
+    "/mkdocs*.gen.yml",
+]
 
 [tool.pyright]
+pythonVersion = "3.14"
 typeCheckingMode = "strict"
 include = [
-    "src/mcp",
-    "src/mcp-types/mcp_types",
+    "src/darpy_sdk",
+    "src/darpy-sdk-types/darpy_sdk_types",
     "tests",
     "docs_src",
     "examples/stories",
@@ -188,7 +185,7 @@ executionEnvironments = [
     { root = "examples/stories", extraPaths = [
         "examples",
     ], reportUnusedFunction = false },
-    # The `mcp-example-stories` editable install puts `examples/` on sys.path,
+    # The `darpy-sdk-example-stories` editable install puts `examples/` on sys.path,
     # which defeats pyright's auto-detection of `simple-auth/` as a package
     # root (it's the one server example that imports itself by absolute name).
     { root = "examples/servers", extraPaths = [
@@ -201,7 +198,12 @@ executionEnvironments = [
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py314"
+
+[tool.ruff.format]
+# Zensical snippet directives are Markdown syntax, not Python comparisons.
+# Markdown style remains covered by the existing markdownlint hook.
+exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = [
@@ -221,16 +223,15 @@ ignore = ["PERF203"]
 "pydantic.RootModel".msg = "Use `pydantic.TypeAdapter` instead."
 "pydantic.root_model.RootModel".msg = "Use `pydantic.TypeAdapter` instead."
 
-
 [tool.ruff.lint.mccabe]
 max-complexity = 24 # Default is 10
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-# The mcp.types package is an alias that mirrors mcp_types namespaces by design.
-"src/mcp/types/*.py" = ["F403"]
+# The darpy_sdk.types package is an alias that mirrors darpy_sdk_types namespaces by design.
+"src/darpy_sdk/types/*.py" = ["F403"]
 # Generated by scripts/gen_surface_types.py.
-"src/mcp-types/mcp_types/_v*/__init__.py" = ["D212", "E501", "I001", "UP007", "UP037"]
+"src/darpy-sdk-types/darpy_sdk_types/_v*/__init__.py" = ["D212", "E501", "I001", "UP007", "UP037"]
 "tests/server/mcpserver/test_func_metadata.py" = ["E501"]
 # Inline snapshots of the translation tool's output carry long status/prompt lines verbatim.
 "tests/docs/test_translations.py" = ["E501"]
@@ -244,12 +245,12 @@ max-returns = 13                                           # Default is 6
 max-statements = 102                                       # Default is 50
 
 [tool.uv.workspace]
-members = ["src/mcp-types", "examples", "examples/clients/*", "examples/servers/*", "examples/snippets"]
+members = ["src/darpy-sdk-types", "examples", "examples/clients/*", "examples/servers/*", "examples/snippets"]
 
 [tool.uv.sources]
-mcp = { workspace = true }
-mcp-example-stories = { workspace = true }
-mcp-types = { workspace = true }
+darpy-sdk = { workspace = true }
+darpy-sdk-example-stories = { workspace = true }
+darpy-sdk-types = { workspace = true }
 strict-no-cover = { git = "https://github.com/pydantic/strict-no-cover" }
 
 [tool.pytest.ini_options]
@@ -273,13 +274,13 @@ filterwarnings = [
     # SEP-2577 deprecates the roots/sampling/logging methods; the SDK still calls
     # them internally (e.g. `ctx.debug` -> `log` -> `send_log_message`), so the
     # advisory warning is silenced. Tests asserting it opt back in with pytest.warns.
-    "ignore:.*is deprecated as of 2026-07-28 \\(SEP-2577\\).:mcp.MCPDeprecationWarning",
+    "ignore:.*is deprecated as of 2026-07-28 \\(SEP-2577\\).:darpy_sdk.MCPDeprecationWarning",
     # 2026-07-28 restricts progress to server->client; the client send path is
     # advisory-deprecated and a handful of tests still exercise it.
-    "ignore:Client-to-server progress is deprecated as of 2026-07-28.*:mcp.MCPDeprecationWarning",
+    "ignore:Client-to-server progress is deprecated as of 2026-07-28.*:darpy_sdk.MCPDeprecationWarning",
     # 2026-07-28 drops ping; Client.send_ping() is advisory-deprecated and the
     # legacy interaction/transport tests still drive it.
-    "ignore:ping is removed as of 2026-07-28.*:mcp.MCPDeprecationWarning",
+    "ignore:ping is removed as of 2026-07-28.*:darpy_sdk.MCPDeprecationWarning",
     # CI and scripts/test set PYTHONWARNDEFAULTENCODING=1, so "error" rejects any text I/O
     # of ours that omits encoding=; pytest-examples' own unguarded text I/O isn't ours.
     "ignore:'encoding' argument not specified:EncodingWarning:pytest_examples",
@@ -301,12 +302,13 @@ MD059 = false    # descriptive-link-text
 branch = true
 patch = ["subprocess"]
 concurrency = ["multiprocessing", "thread"]
-source = ["src", "src/mcp-types/mcp_types", "tests"]
+source = ["src", "src/darpy-sdk-types/darpy_sdk_types", "tests"]
+# Subprocesses may change cwd; preserve the same four inherited exclusions there.
 omit = [
-    "src/mcp/client/__main__.py",
-    "src/mcp/server/__main__.py",
-    "src/mcp/os/posix/utilities.py",
-    "src/mcp/os/win32/utilities.py",
+    "*/src/darpy_sdk/client/__main__.py",
+    "*/src/darpy_sdk/server/__main__.py",
+    "*/src/darpy_sdk/os/posix/utilities.py",
+    "*/src/darpy_sdk/os/win32/utilities.py",
 ]
 
 # https://coverage.readthedocs.io/en/latest/config.html#report
@@ -326,8 +328,8 @@ exclude_also = [
 [tool.coverage.paths]
 source = [
     "src/",
-    "/home/runner/work/python-sdk/python-sdk/src/",
-    'D:\a\python-sdk\python-sdk\src',
+    "/home/runner/work/darpy-sdk/darpy-sdk/src/",
+    'D:\a\darpy-sdk\darpy-sdk\src',
 ]
 
 [tool.inline-snapshot]

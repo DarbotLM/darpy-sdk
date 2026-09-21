@@ -1,10 +1,14 @@
 # Dependency Policy
 
-`mcp` is a library that lives inside other people's environments, so its requirements are chosen to constrain your resolver as little as possible while still describing what the SDK needs.
+`darpy-sdk` is a library that lives inside other people's environments, so its requirements in the static `pyproject.toml` are chosen to constrain your resolver as little as possible while still describing what the SDK needs.
+
+Python 3.14 is the shared baseline for runtime, optional integrations, development
+tools, and examples. Dependency changes must resolve and pass their relevant
+checks on that interpreter with both locked and lowest direct versions.
 
 ## How requirements are declared
 
-Every runtime dependency is a `>=` floor set to the oldest version that provides what the SDK uses, with no upper bound unless a dependency's next major is known to break the SDK. The one exception is `mcp-types`, the wire-types package released in lockstep with `mcp`: each `mcp` release requires exactly its own version of it, so it is the other half of the SDK rather than an independent constraint.
+Every runtime dependency is a `>=` floor set to the oldest version that provides what the SDK uses, with no upper bound unless a dependency's next major is known to break the SDK. The one exception is `darpy-sdk-types`, the wire-types package released in lockstep with `darpy-sdk`: each `darpy-sdk` release requires exactly its own version of it, so it is the other half of the SDK rather than an independent constraint.
 
 ## When a floor moves
 
@@ -12,4 +16,14 @@ A floor is raised only when the SDK starts relying on functionality or a fix tha
 
 ## Automated updates
 
-[Dependabot](https://github.com/modelcontextprotocol/python-sdk/blob/main/.github/dependabot.yml) opens monthly, grouped pull requests for the `uv` lockfile and for GitHub Actions. These refresh the versions the SDK is developed and tested against; the requirements published to PyPI move only under the rules above.
+[Dependabot](https://github.com/DarbotLM/darpy-sdk/blob/main/.github/dependabot.yml) is configured for monthly, grouped pull requests for the `uv` lockfile and for GitHub Actions. These refresh the versions the SDK is developed and tested against; the requirements published to PyPI move only under the rules above.
+
+## Optional protocol baselines
+
+The initial ACP integration is tested against `agent-client-protocol==0.12.1`.
+Activity integration is tested against `microsoft-agents-activity==1.5.0` and
+`microsoft-agents-hosting-core==1.5.0`. These are dated validation baselines,
+not assertions that an unconstrained newest release has passed our tests.
+Keep the integration boundaries optional, record resolved versions in the
+lockfile, and re-run their behavioral checks when upgrading. Refer to
+[protocol integrations](docs/protocols.md) for the supported surface.

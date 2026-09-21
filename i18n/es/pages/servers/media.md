@@ -34,7 +34,7 @@ Dos cosas que notar:
 * `structured_content` es `None`. Un `Image` es contenido para que lo mire el modelo, no datos para que los analice la aplicación: no hay esquema de salida. (Compara con **[Salida estructurada](structured-output.md)**, donde la anotación de retorno *es* el esquema.)
 
 !!! info
-    `ImageContent` y `AudioContent` viven en `mcp.types`, justo al lado del `TextContent`
+    `ImageContent` y `AudioContent` viven en `darpy_sdk.types`, justo al lado del `TextContent`
     en el que se convierte un resultado `str` simple (**[Herramientas](tools.md)**). El resultado de una herramienta es una lista de bloques de contenido; `Image` y `Audio` son
     la forma más corta de producir los dos tipos binarios.
 
@@ -43,7 +43,7 @@ Dos cosas que notar:
 Coloca cualquier PNG junto a `server.py`, llámalo `logo.png` y ejecuta:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Abre la pestaña **Tools** y llama a `logo`. El resultado no es una cadena: es un bloque de contenido `image`, y el Inspector muestra tu imagen. Todo lo que hay entre el archivo en disco y los píxeles en pantalla lo hizo el SDK.
@@ -95,7 +95,7 @@ Una herramienta también puede devolver un documento: un texto o unos bytes junt
 ```
 
 * `brand://guidelines` es un recurso normal y corriente (**[Recursos](resources.md)** los cubre). La herramienta le entrega el mismo documento al modelo cuando lo pide, y llamar a `guidelines()` directamente mantiene una única fuente de verdad.
-* `EmbeddedResource` y `TextResourceContents` vienen de `mcp.types`. No hay una utilidad como la de las imágenes: el bloque que construyes entra en el resultado sin cambios, y no hay `structured_content`.
+* `EmbeddedResource` y `TextResourceContents` vienen de `darpy_sdk.types`. No hay una utilidad como la de las imágenes: el bloque que construyes entra en el resultado sin cambios, y no hay `structured_content`.
 * Usa la URI con la que está registrado el recurso, para que un cliente pueda saber que el adjunto y `brand://guidelines` son el mismo documento. Cualquier URI es válida, registrada o no.
 
 ```python
@@ -123,7 +123,7 @@ El mismo argumento nombrado `icons=[...]` lo aceptan `MCPServer(...)`, `@mcp.too
 Los iconos viajan con lo que decoran. Los del servidor llegan cuando el cliente se conecta, en `client.server_info` (opcional en conexiones de la generación 2026, así que acota el tipo primero):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

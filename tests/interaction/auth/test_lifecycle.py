@@ -11,16 +11,19 @@ from collections import Counter
 from urllib.parse import parse_qsl, urlsplit
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import INTERNAL_ERROR, ListToolsResult, Tool
 from inline_snapshot import snapshot
-from mcp_types import INTERNAL_ERROR, ListToolsResult, Tool
 from pydantic import AnyHttpUrl, AnyUrl
 
-from mcp import MCPError
-from mcp.client.auth.extensions.client_credentials import ClientCredentialsOAuthProvider, PrivateKeyJWTOAuthProvider
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.auth import OAuthClientInformationFull, OAuthMetadata
+from darpy_sdk import MCPError
+from darpy_sdk.client.auth.extensions.client_credentials import (
+    ClientCredentialsOAuthProvider,
+    PrivateKeyJWTOAuthProvider,
+)
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthMetadata
 from tests.interaction._connect import BASE_URL
 from tests.interaction._requirements import requirement
 from tests.interaction.auth._harness import (

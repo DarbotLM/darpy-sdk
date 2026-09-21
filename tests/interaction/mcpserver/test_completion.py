@@ -1,7 +1,7 @@
 """Completion behaviour against MCPServer, driven through the public Client API."""
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     Completion,
     CompletionArgument,
     CompletionContext,
@@ -10,7 +10,7 @@ from mcp_types import (
     ResourceTemplateReference,
 )
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

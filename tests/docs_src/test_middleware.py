@@ -4,7 +4,7 @@ import logging
 import re
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_REQUEST,
     METHOD_NOT_FOUND,
     CallToolRequestParams,
@@ -13,13 +13,13 @@ from mcp_types import (
     TextContent,
 )
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.context import CallNext, HandlerResult
 from docs_src.middleware import tutorial001
-from mcp import Client, MCPError
-from mcp.server import Server, ServerRequestContext
-from mcp.server.context import CallNext, HandlerResult
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 def _is_timing_record(record: logging.LogRecord) -> bool:

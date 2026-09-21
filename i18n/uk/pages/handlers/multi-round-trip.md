@@ -99,7 +99,7 @@ translation:
 Ключ за замовчуванням живе й помирає разом із процесом — і це єдине, що треба знати перед розгортанням поза межами одного процесу:
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

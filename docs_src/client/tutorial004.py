@@ -1,7 +1,7 @@
 import anyio
 
-from mcp import Client
-from mcp.types import TextResourceContents
+from darpy_sdk import Client
+from darpy_sdk.types import TextResourceContents
 
 
 async def main() -> None:

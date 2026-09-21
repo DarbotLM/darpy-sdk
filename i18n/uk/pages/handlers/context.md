@@ -49,7 +49,7 @@ translation:
 Запустіть сервер у MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Форма для `search_books` має єдине поле `query`. Викличте інструмент зі значенням `dune`:

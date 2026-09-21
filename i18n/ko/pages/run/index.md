@@ -30,7 +30,7 @@ translation:
 
 * `run()`은 동기 함수입니다. 서버가 살아 있는 동안 블로킹합니다.
 * 인수가 없으면 트랜스포트는 `stdio`입니다.
-* `if __name__ == "__main__":` 아래에 두는 이유는 서버를 불러오는 모든 것(`mcp dev`, `mcp run`, `mcp install`, 테스트)이 이 파일을 **임포트**하기 때문입니다. 이 가드가 임포트가 실행 중인 서버로 바뀌는 것을 막아 줍니다.
+* `if __name__ == "__main__":` 아래에 두는 이유는 서버를 불러오는 모든 것(`darpy-sdk dev`, `darpy-sdk run`, `darpy-sdk install`, 테스트)이 이 파일을 **임포트**하기 때문입니다. 이 가드가 임포트가 실행 중인 서버로 바뀌는 것을 막아 줍니다.
 
 ### stdio {#stdio}
 
@@ -49,7 +49,7 @@ python server.py
 ### 직접 해 보기 {#try-it}
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Inspector는 실제 호스트가 하는 일을 그대로 합니다. `server.py`를 서브프로세스로 실행하고 stdio로 연결합니다.
@@ -110,42 +110,42 @@ Inspector는 실제 호스트가 하는 일을 그대로 합니다. `server.py`�
 
 `[cli]` 엑스트라는 이 모든 것을 감싸는 작은 명령줄 도구를 설치합니다.
 
-`mcp dev`는 **MCP Inspector** 아래에서 서버를 실행합니다.
+`darpy-sdk dev`는 **MCP Inspector** 아래에서 서버를 실행합니다.
 
 ```console
-uv run mcp dev server.py
-uv run mcp dev server.py --with pandas --with numpy
-uv run mcp dev server.py --with-editable .
+uv run darpy-sdk dev server.py
+uv run darpy-sdk dev server.py --with pandas --with numpy
+uv run darpy-sdk dev server.py --with-editable .
 ```
 
 `--with`는 빌드되는 환경에 패키지를 추가하고, `--with-editable`은 직접 만든 패키지를 그 환경에 설치합니다. `PATH`에 `npx`가 있어야 합니다. Inspector는 Node.js 앱이기 때문입니다.
 
-`mcp run`은 파일을 임포트하고, 서버 객체(모듈 수준의 `mcp`, `server`, `app`)를 찾아 `run()`을 호출합니다.
+`darpy-sdk run`은 파일을 임포트하고, 서버 객체(모듈 수준의 `mcp`, `server`, `app`)를 찾아 `run()`을 호출합니다.
 
 ```console
-uv run mcp run server.py
-uv run mcp run server.py:bookshop
+uv run darpy-sdk run server.py
+uv run darpy-sdk run server.py:bookshop
 ```
 
 `:` 접미사는 객체 이름이 `mcp`, `server`, `app`이 아닐 때 객체를 지정합니다.
 
-여기서는 `if __name__ == "__main__":` 블록이 전혀 실행되지 않습니다. `mcp run`이 직접 `run()`을 호출하며, 전달하는 옵션은 `--transport`뿐입니다.
+여기서는 `if __name__ == "__main__":` 블록이 전혀 실행되지 않습니다. `darpy-sdk run`이 직접 `run()`을 호출하며, 전달하는 옵션은 `--transport`뿐입니다.
 
-`mcp install`은 서버를 **Claude Desktop**에 등록해 앱이 대신 실행하도록 합니다.
+`darpy-sdk install`은 서버를 **Claude Desktop**에 등록해 앱이 대신 실행하도록 합니다.
 
 ```console
-uv run mcp install server.py --name "Bookshop"
-uv run mcp install server.py -v API_KEY=abc123 -f .env
+uv run darpy-sdk install server.py --name "Bookshop"
+uv run darpy-sdk install server.py -v API_KEY=abc123 -f .env
 ```
 
 `-v KEY=VALUE`와 `-f .env`는 환경 변수를 해당 항목에 기록합니다. Claude Desktop은 서버를 자체 프로세스에서 시작합니다. 셸의 환경은 거기에 없습니다.
 
-`mcp install`이 아는 호스트는 Claude Desktop뿐입니다. 다른 호스트(Claude Code, Cursor, VS Code)는 모두 같은 실행 명령을 각자의 설정 파일에 받으며, 호스트별 방법은 **[실제 호스트에 연결하기](../get-started/real-host.md)**에서 확인하세요.
+`darpy-sdk install`이 아는 호스트는 Claude Desktop뿐입니다. 다른 호스트(Claude Code, Cursor, VS Code)는 모두 같은 실행 명령을 각자의 설정 파일에 받으며, 호스트별 방법은 **[실제 호스트에 연결하기](../get-started/real-host.md)**에서 확인하세요.
 
-`mcp version`은 설치된 SDK 버전을 출력합니다.
+`darpy-sdk version`은 설치된 SDK 버전을 출력합니다.
 
 !!! tip
-    `mcp dev`와 `mcp run`은 `MCPServer`만 이해합니다. 저수준 `Server`로 만들었다면
+    `darpy-sdk dev`와 `darpy-sdk run`은 `MCPServer`만 이해합니다. 저수준 `Server`로 만들었다면
     직접 실행해야 합니다. **[저수준 Server](../advanced/low-level-server.md)**를 참고하세요.
 
 ## 요약 {#recap}
@@ -155,7 +155,7 @@ uv run mcp install server.py -v API_KEY=abc123 -f .env
 * 모든 트랜스포트 옵션(`host`, `port`, `streamable_http_path`, ...)은 `run()`의 인수이지, 결코 `MCPServer(...)`의 인수가 아닙니다.
 * `run()`은 `if __name__ == "__main__":` 아래에 두세요. 서버를 불러오는 모든 것이 먼저 파일을 임포트합니다.
 * `log_level=`과 `debug=`는 생성자 인수이며 `mcp.settings`에 저장됩니다.
-* Inspector에는 `mcp dev`, 파일 실행에는 `mcp run`, Claude Desktop에는 `mcp install`, 버전 확인에는 `mcp version`을 씁니다.
+* Inspector에는 `darpy-sdk dev`, 파일 실행에는 `darpy-sdk run`, Claude Desktop에는 `darpy-sdk install`, 버전 확인에는 `darpy-sdk version`을 씁니다.
 * 트랜스포트는 서버가 **무엇인지**를 결코 바꾸지 않습니다. 이 페이지의 세 파일은 모두 동일한 도구를 노출합니다.
 
 `run()` 자체가 한계인 경우(이미 존재하는 앱 안에 서버를 넣는 경우)는 **[기존 앱에 추가하기](asgi.md)**에서 다룹니다. 실제 호스트 이름과 둘 이상의 워커는 **[배포와 확장](deploy.md)**에서 다룹니다. 그리고 일부 클라이언트가 아직 사양 버전 2025-11-25 이하에 머물러 있다면, **[레거시 클라이언트 서비스하기](legacy-clients.md)**에서 반가운 소식을 확인하세요.

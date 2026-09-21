@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     AudioContent,
     ElicitRequest,
     ElicitRequestFormParams,
@@ -14,8 +14,8 @@ from mcp_types import (
     TextResourceContents,
 )
 
-from mcp.server.mcpserver import AssistantMessage, Audio, Context, Image, MCPServer, Message, UserMessage
-from mcp.server.mcpserver.prompts.base import Prompt
+from darpy_sdk.server.mcpserver import AssistantMessage, Audio, Context, Image, MCPServer, Message, UserMessage
+from darpy_sdk.server.mcpserver.prompts.base import Prompt
 
 
 class TestRenderPrompt:

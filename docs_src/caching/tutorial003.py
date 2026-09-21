@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 import anyio
 
-from mcp import Client
-from mcp.client import CacheConfig
-from mcp.types import ListToolsResult
+from darpy_sdk import Client
+from darpy_sdk.client import CacheConfig
+from darpy_sdk.types import ListToolsResult
 
 
 @dataclass

@@ -63,7 +63,7 @@ SDK が読み取るのは、ツールの場合と同じ 3 つです。
     `required` のチェックは関数が実行される前に行われます。`code` なしで `review_code` をレンダリングすると、リクエスト自体が JSON-RPC エラー（コード `-32603`）で失敗します。
 
     ```text
-    mcp.shared.exceptions.MCPError: Internal server error
+    darpy_sdk.shared.exceptions.MCPError: Internal server error
     ```
 
     モデルに返すためのツール形式のエラー結果はありません。そもそもモデルが関与していないからです。呼び出しは例外を送出します。理由（`Missing required arguments: {'code'}`）はサーバーのログに記録されます。
@@ -73,7 +73,7 @@ SDK が読み取るのは、ツールの場合と同じ 3 つです。
 MCP Inspector でサーバーを実行してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Prompts** タブを開いて `review_code` を選択してください。Inspector は、必須の `code` フィールドが 1 つあるフォームを表示します。入力してレンダリングすると、上のユーザーメッセージがそのまま返ってきます。
@@ -88,7 +88,7 @@ uv run mcp dev server.py
 --8<-- "docs_src/prompts/tutorial002.py"
 ```
 
-* `UserMessage` と `AssistantMessage` は `mcp.server.mcpserver.prompts.base` にあります。`str` を渡すと、`TextContent` にラップしてくれます。ロールはクラス名で決まります。
+* `UserMessage` と `AssistantMessage` は `darpy_sdk.server.mcpserver.prompts.base` にあります。`str` を渡すと、`TextContent` にラップしてくれます。ロールはクラス名で決まります。
 * `Message` は両者に共通の基底クラスです。戻り値のアノテーションにはこれを使ってください。
 
 `debug_error` をレンダリングすると、3 つのメッセージがこの順番で生成されるようになります。
@@ -150,7 +150,7 @@ uv run mcp dev server.py
 ```
 
 * スタイルガイドは `style://python` にあるリソースで（リソースについては **[リソース](resources.md)** で扱います）、`server.py` の隣にある `style-guide.md` から読み込まれます。そこに任意の Markdown ファイルを置いてください。
-* `EmbeddedResource(resource=TextResourceContents(...))`（どちらも `mcp.types` にあります）は、URI と MIME タイプ付きのファイルを最初のメッセージとして運びます。そのファイルに言及するリクエストは、プレーンテキストとして後に続きます。
+* `EmbeddedResource(resource=TextResourceContents(...))`（どちらも `darpy_sdk.types` にあります）は、URI と MIME タイプ付きのファイルを最初のメッセージとして運びます。そのファイルに言及するリクエストは、プレーンテキストとして後に続きます。
 * ガイドを f-string に貼り付けるのではなく埋め込むことで、クライアントはそれを添付ファイルとして表示でき、後から `style://python` を開き直せます。モデルはファイルをそのままの形で受け取ります。バイナリファイルの場合は、base64 の `blob` を持つ `BlobResourceContents` を使ってください。
 
 レンダリングすると、最初のメッセージの `content` は `resource` ブロックです。

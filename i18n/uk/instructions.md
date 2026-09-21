@@ -102,8 +102,8 @@ for it."
   onto a Latin word (see §5).
 - Dashes: the grammatical dash is an em dash with a space on each side (Хост —
   це застосунок, з яким говорить користувач); a hyphen only joins compounds
-  (MCP-сервер, HTTP-запит); numeric ranges use an en dash (3.10–3.14) or від
-  3.10 до 3.14. An English em-dash aside may also become a comma pair,
+  (MCP-сервер, HTTP-запит); numeric ranges use an en dash (1–4) or від
+  1 до 4. An English em-dash aside may also become a comma pair,
   parentheses or its own sentence.
 - Sentence case everywhere: headings, admonition titles, tab labels and table
   headers capitalise the first word and proper nouns only. No capital after a

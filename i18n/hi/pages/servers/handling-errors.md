@@ -19,7 +19,7 @@ tool तीन तरीकों से fail हो सकता है, और
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`mcp.server.mcpserver.exceptions` से आने वाला `ToolError` वह तरीका है जिससे tool model को बताता है कि कुछ गड़बड़ हुई।
+`darpy_sdk.server.mcpserver.exceptions` से आने वाला `ToolError` वह तरीका है जिससे tool model को बताता है कि कुछ गड़बड़ हुई।
 
 इसे ऐसे title से call करें जो catalog में नहीं है और result देखें:
 
@@ -63,13 +63,13 @@ server पर `ToolError` log में बस एक `INFO` line है, बि
 
 * कोई **result नहीं** है। न `content`, न `is_error`: model के पढ़ने के लिए कुछ भी नहीं।
 * इसके बजाय error **host** application को मिलता है, ठीक वैसे ही जैसे tool के बिल्कुल मौजूद न होने पर मिलता।
-* `code`, `message`, और `data` जस के तस पहुँचते हैं। `INVALID_PARAMS` `-32602` है; `mcp.types` इसे और बाकी JSON-RPC error codes (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) को constants के रूप में export करता है, ताकि आपको कभी magic number न लिखना पड़े।
+* `code`, `message`, और `data` जस के तस पहुँचते हैं। `INVALID_PARAMS` `-32602` है; `darpy_sdk.types` इसे और बाकी JSON-RPC error codes (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) को constants के रूप में export करता है, ताकि आपको कभी magic number न लिखना पड़े।
 
 !!! check
     वही lookup, वही चूक, लेकिन अब call client की तरफ़ लौटने के बजाय **raise** होता है:
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     पहले version ने model को एक वाक्य थमाया जिस पर वह कुछ कर सकता था। यह version उसे कुछ नहीं देता।
@@ -87,7 +87,7 @@ server पर `ToolError` log में बस एक `INFO` line है, बि
 इस कसौटी पर `get_author` के दूसरे version ने गलत चुनाव किया: बेहतर title से बात बन जाती है, इसलिए model message देखने का हक़दार था। वह version आपको mechanism दिखाने के लिए है, उसकी सिफ़ारिश करने के लिए नहीं।
 
 !!! info
-    `MCPError` `from mcp import MCPError` पर मिलता है और `code`, `message`, और एक optional
+    `MCPError` `from darpy_sdk import MCPError` पर मिलता है और `code`, `message`, और एक optional
     `data` payload लेता है। इनमें आप जो भी रखें, client को वही मिलता है: SDK raise किए गए
     `MCPError` को sanitise करने के बजाय जस का तस आगे भेज देता है।
 
@@ -155,7 +155,7 @@ resources भी यही रेखा खींचते हैं, और आ
 * कोई भी **और exception** crash है -> model के लिए `is_error=True` जिसमें सिर्फ़ `Error executing tool <name>`, और आपके लिए traceback वाला `ERROR` record।
 * resource handler से `ResourceNotFoundError` -> protocol का `-32602`, `data` में URI के साथ।
 * गलत arguments आपका function चलने से पहले ही schema के आधार पर ठुकरा दिए जाते हैं; उनके लिए आप `raise` नहीं करते।
-* Imports: `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, और error-code constants `mcp.types` से।
+* Imports: `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, और error-code constants `darpy_sdk.types` से।
 
 errors संभल गए। server जो कुछ **expose** करता है, वह सब यही है। हर handler क्या पढ़ सकता है, और चलते-चलते client के साथ वापस क्या कर सकता है, यह अगला section है: **[आपके handler के अंदर](../handlers/index.md)**।
 

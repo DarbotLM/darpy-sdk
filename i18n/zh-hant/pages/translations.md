@@ -27,4 +27,4 @@ API 參考文件沒有翻譯：翻譯版網站會連結到唯一的英文版。
 
 ## 回報翻譯問題 {#reporting-a-translation-problem}
 
-發現用錯的術語、彆扭的句子，或是翻譯說了英文沒說的東西？請[開一個 issue](https://github.com/modelcontextprotocol/python-sdk/issues)，附上語言、頁面和那段文字；母語人士的回報特別有價值。如果你知道怎麼修正，可以直接對 [`i18n/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/i18n) 底下該語言的風格指南（`instructions.md`）或詞彙表（`glossary.json`）發 pull request，這樣下次重新產生翻譯時，修正就會套用到所有受影響的頁面。英文內容本身的問題則和其他說明文件的變更一樣，在 `docs/` 底下的頁面修正。
+發現用錯的術語、彆扭的句子，或是翻譯說了英文沒說的東西？請[開一個 issue](https://github.com/DarbotLM/darpy-sdk/issues)，附上語言、頁面和那段文字；母語人士的回報特別有價值。如果你知道怎麼修正，可以直接對 [`i18n/`](https://github.com/DarbotLM/darpy-sdk/tree/main/i18n) 底下該語言的風格指南（`instructions.md`）或詞彙表（`glossary.json`）發 pull request，這樣下次重新產生翻譯時，修正就會套用到所有受影響的頁面。英文內容本身的問題則和其他說明文件的變更一樣，在 `docs/` 底下的頁面修正。

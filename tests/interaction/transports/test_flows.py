@@ -8,11 +8,11 @@ running over the matrix.
 import anyio
 import httpx2
 import pytest
+from darpy_sdk_types import CallToolResult, LoggingMessageNotificationParams, TextContent
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, LoggingMessageNotificationParams, TextContent
 
-from mcp.client.session import LoggingFnT
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.client.session import LoggingFnT
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from tests.interaction._connect import client_via_http, connect_over_sse, mounted_app
 from tests.interaction._requirements import requirement
 

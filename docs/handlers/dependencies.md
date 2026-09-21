@@ -44,7 +44,7 @@ That last part is the point. A parameter the model cannot supply is a parameter 
 Run the server with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 The form for `reserve_book` has a single `title` field. `stock` is nowhere on it. Call it with `Dune`:

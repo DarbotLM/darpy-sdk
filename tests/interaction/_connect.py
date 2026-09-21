@@ -13,8 +13,7 @@ from functools import partial
 from typing import Any, Protocol
 
 import httpx2
-from httpx2 import ServerSentEvent
-from mcp_types import (
+from darpy_sdk_types import (
     ClientCapabilities,
     Implementation,
     InitializeRequestParams,
@@ -24,25 +23,26 @@ from mcp_types import (
     LoggingLevel,
     jsonrpc_message_adapter,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, MODERN_PROTOCOL_VERSIONS
+from httpx2 import ServerSentEvent
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Mount, Route
 
-from mcp.client.client import Client
-from mcp.client.extension import ClientExtension
-from mcp.client.session import ElicitationFnT, ListRootsFnT, LoggingFnT, MessageHandlerFnT, SamplingFnT
-from mcp.client.sse import sse_client
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import Server
-from mcp.server.auth.provider import OAuthAuthorizationServerProvider, TokenVerifier
-from mcp.server.auth.settings import AuthSettings
-from mcp.server.mcpserver import MCPServer
-from mcp.server.sse import SseServerTransport
-from mcp.server.streamable_http import EventStore
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
-from mcp.server.transport_security import TransportSecuritySettings
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.extension import ClientExtension
+from darpy_sdk.client.session import ElicitationFnT, ListRootsFnT, LoggingFnT, MessageHandlerFnT, SamplingFnT
+from darpy_sdk.client.sse import sse_client
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import Server
+from darpy_sdk.server.auth.provider import OAuthAuthorizationServerProvider, TokenVerifier
+from darpy_sdk.server.auth.settings import AuthSettings
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.sse import SseServerTransport
+from darpy_sdk.server.streamable_http import EventStore
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.server.transport_security import TransportSecuritySettings
 from tests.interaction.transports._bridge import StreamingASGITransport
 
 # The in-process app is mounted at this origin purely so URLs are well-formed; nothing listens here.

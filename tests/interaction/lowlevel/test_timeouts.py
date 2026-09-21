@@ -9,18 +9,18 @@ cancellation reason these tests snapshot.)
 """
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import REQUEST_TIMEOUT, CallToolResult, ErrorData, JSONRPCNotification, TextContent
 from inline_snapshot import snapshot
-from mcp_types import REQUEST_TIMEOUT, CallToolResult, ErrorData, JSONRPCNotification, TextContent
 from trio.testing import MockClock
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext
-from mcp.client._memory import InMemoryTransport
-from mcp.client.client import Client
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.message import SessionMessage
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.client._memory import InMemoryTransport
+from darpy_sdk.client.client import Client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction._helpers import RecordingTransport
 from tests.interaction._requirements import requirement
 

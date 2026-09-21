@@ -99,7 +99,7 @@ Alles oben behandelt `request_state` als Echo, und auf der Leitung ist er auch n
 Der Standardschlüssel lebt und stirbt mit dem Prozess – das ist das Eine, was du wissen musst, bevor du über einen einzelnen Prozess hinaus bereitstellst:
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

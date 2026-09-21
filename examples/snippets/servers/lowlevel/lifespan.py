@@ -6,9 +6,9 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import TypedDict
 
-import mcp.server.stdio
-import mcp.types as types
-from mcp.server import Server, ServerRequestContext
+import darpy_sdk.server.stdio
+import darpy_sdk.types as types
+from darpy_sdk.server import Server, ServerRequestContext
 
 
 # Mock database class for example
@@ -16,7 +16,7 @@ class Database:
     """Mock database class for example."""
 
     @classmethod
-    async def connect(cls) -> "Database":
+    async def connect(cls) -> Database:
         """Connect to database."""
         print("Database connected")
         return cls()
@@ -87,7 +87,7 @@ server = Server(
 
 async def run():
     """Run the server with lifespan management."""
-    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+    async with darpy_sdk.server.stdio.stdio_server() as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,

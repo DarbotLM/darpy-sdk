@@ -18,7 +18,7 @@ translation:
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Теперь он доступен по адресу `http://localhost:8000/mcp`. Клиент — отдельная программа. Сохраните её как `client.py` и запустите `python client.py` во втором терминале:
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 Четыре свойства только для чтения, заполняемые в момент входа в блок:
 
-* `client.server_info`: сведения о сервере или `None` для сервера поколения 2026, который их не сообщает (серверы на python-sdk по умолчанию сообщают). Здесь `server_info.name` — `"Bookshop"`, а `server_info.version` — то, что сообщает сервер.
+* `client.server_info`: сведения о сервере или `None` для сервера поколения 2026, который их не сообщает (серверы на Darbot Python SDK по умолчанию сообщают). Здесь `server_info.name` — `"Bookshop"`, а `server_info.version` — то, что сообщает сервер.
 * `client.server_capabilities`: что умеет сервер (`tools`, `resources`, `prompts`, `completions`, ...). Возможность, которой у сервера нет, равна `None`.
 * `client.protocol_version`: версия протокола, о которой договорились стороны. Здесь это `"2026-07-28"`.
 * `client.instructions`: строка `instructions=` сервера или `None`, если сервер её не задал.
@@ -91,7 +91,7 @@ tool.description   # 'Search the catalog by title or author.'
 
 !!! tip
     `title` необязателен, поэтому интерфейсу, показывающему инструменты человеку, приходится выбирать: `title`, если он есть,
-    иначе `name`. `from mcp.shared.metadata_utils import get_display_name` делает именно это —
+    иначе `name`. `from darpy_sdk.shared.metadata_utils import get_display_name` делает именно это —
     для инструментов, ресурсов, шаблонов ресурсов и промптов.
 
 ## Вызов инструмента {#calling-a-tool}

@@ -56,7 +56,7 @@ MCP 有一個協定層級的 **logging 能力**：伺服器可以透過 `Context
 用 MCP Inspector 執行伺服器：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 從 **Tools** 分頁呼叫 `search_books`。Inspector 會顯示結果：只有回傳值。至於這一行

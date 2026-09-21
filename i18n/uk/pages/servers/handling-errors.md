@@ -19,7 +19,7 @@ translation:
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`ToolError` з `mcp.server.mcpserver.exceptions` — це спосіб, яким інструмент повідомляє моделі, що щось пішло не так.
+`ToolError` з `darpy_sdk.server.mcpserver.exceptions` — це спосіб, яким інструмент повідомляє моделі, що щось пішло не так.
 
 Викличте його з назвою, якої немає в каталозі, і подивіться на результат:
 
@@ -63,13 +63,13 @@ result.structured_content  # None
 
 * **Результату немає**. Ні `content`, ні `is_error` — моделі нема чого читати.
 * Натомість помилку отримує застосунок-**хост** — так само, як отримав би, якби інструмента взагалі не існувало.
-* `code`, `message` і `data` доходять без змін. `INVALID_PARAMS` — це `-32602`; `mcp.types` експортує його та інші коди помилок JSON-RPC (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) як константи, тож набирати магічні числа вручну не доведеться.
+* `code`, `message` і `data` доходять без змін. `INVALID_PARAMS` — це `-32602`; `darpy_sdk.types` експортує його та інші коди помилок JSON-RPC (`INVALID_REQUEST`, `INTERNAL_ERROR`, ...) як константи, тож набирати магічні числа вручну не доведеться.
 
 !!! check
     Той самий пошук, той самий промах, але тепер виклик на боці клієнта *викидає виняток* замість того, щоб повернути результат:
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     Перша версія давала моделі речення, на яке вона могла відреагувати. Ця не дає їй нічого.
@@ -87,7 +87,7 @@ result.structured_content  # None
 За цим критерієм друга версія `get_author` зробила хибний вибір: краща назва все виправляє, тож модель заслуговувала побачити повідомлення. Ця версія тут, щоб показати механізм, а не щоб його рекомендувати.
 
 !!! info
-    `MCPError` імпортується як `from mcp import MCPError` і приймає `code`, `message` та необов'язкове
+    `MCPError` імпортується як `from darpy_sdk import MCPError` і приймає `code`, `message` та необов'язкове
     корисне навантаження `data`. Усе, що ви в них покладете, клієнт і отримає: SDK пересилає викинутий
     `MCPError` дослівно, не очищуючи його.
 
@@ -155,7 +155,7 @@ result.content   # [TextContent(text="Error executing tool get_author")]
 * Будь-який **інший виняток** — це збій -> `is_error=True` лише з `Error executing tool <name>` для моделі та запис рівня `ERROR` із трасуванням для вас.
 * `ResourceNotFoundError` з обробника ресурсу -> протокольний `-32602` з URI в `data`.
 * Некоректні аргументи відхиляються за схемою ще до запуску вашої функції; для них `raise` не потрібен.
-* Імпорти: `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError` і константи кодів помилок з `mcp.types`.
+* Імпорти: `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError` і константи кодів помилок з `darpy_sdk.types`.
 
 З помилками розібралися. Це все, що сервер *надає назовні*. Про те, що кожен обробник може читати і що робити у відповідь клієнтові під час роботи, — наступний розділ: **[Усередині обробника](../handlers/index.md)**.
 

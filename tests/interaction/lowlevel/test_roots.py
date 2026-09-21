@@ -1,15 +1,15 @@
 """Roots interactions against the low-level Server, driven through the public Client API."""
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import INTERNAL_ERROR, CallToolResult, ErrorData, ListRootsResult, Root, TextContent
 from inline_snapshot import snapshot
-from mcp_types import INTERNAL_ERROR, CallToolResult, ErrorData, ListRootsResult, Root, TextContent
 from pydantic import FileUrl
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server import Server, ServerRequestContext
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement
 

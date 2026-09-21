@@ -1,4 +1,4 @@
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 mcp = MCPServer(name="Notifications Example")
 

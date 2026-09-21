@@ -1,7 +1,7 @@
 import trio
 
-from mcp import Client
-from mcp.client.subscriptions import Subscription
+from darpy_sdk import Client
+from darpy_sdk.client.subscriptions import Subscription
 
 from .tutorial003 import BOARD, read_board
 

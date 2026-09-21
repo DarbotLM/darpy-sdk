@@ -5,19 +5,18 @@
 # pyright: reportUnknownLambdaType=false
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Annotated, Any, Final, NamedTuple, TypedDict
+from typing import TYPE_CHECKING, Annotated, Any, Final, NamedTuple, NotRequired, ReadOnly, Required, TypedDict
 
 import annotated_types
 import pytest
+from darpy_sdk_types import CallToolResult, ContentBlock, EmbeddedResource, InputRequiredResult, TextContent
 from dirty_equals import IsPartialDict
-from mcp_types import CallToolResult, ContentBlock, EmbeddedResource, InputRequiredResult, TextContent
 from pydantic import BaseModel, Field, ValidationError
-from typing_extensions import NotRequired, ReadOnly, Required
 
-from mcp import MCPDeprecationWarning
-from mcp.server.mcpserver import Audio, Image
-from mcp.server.mcpserver.exceptions import InvalidSignature
-from mcp.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata, func_metadata
+from darpy_sdk import MCPDeprecationWarning
+from darpy_sdk.server.mcpserver import Audio, Image
+from darpy_sdk.server.mcpserver.exceptions import InvalidSignature
+from darpy_sdk.server.mcpserver.utilities.func_metadata import ArgModelBase, FuncMetadata, func_metadata
 
 if TYPE_CHECKING:
     from decimal import Decimal
@@ -59,7 +58,7 @@ def complex_arguments_fn(
     field_with_default_via_field_annotation_before_nondefault_arg: Annotated[int, Field(1)],
     unannotated,
     my_model_a: SomeInputModelA,
-    my_model_a_forward_ref: "SomeInputModelA",
+    my_model_a_forward_ref: SomeInputModelA,
     my_model_b: SomeInputModelB,
     an_int_annotated_with_field_default: Annotated[
         int,
@@ -809,7 +808,6 @@ def test_structured_output_dataclass():
 def test_structured_output_typeddict():
     """Test structured output with TypedDict return types"""
 
-    # stdlib TypedDict with a qualifier: exercises the typing_extensions rebuild below Python 3.12
     class PersonTypedDictOptional(TypedDict, total=False):
         name: Required[str]
         age: int
@@ -857,7 +855,7 @@ def test_structured_output_typeddict():
 def test_structured_output_typeddict_qualifiers_and_metadata():
     """PEP 655/705 qualifiers register on every supported Python and decide `required`; the docstring and
     `Annotated` field metadata reach the schema like they do for a BaseModel, and an alias names the wire key.
-    A stdlib TypedDict, so below 3.12 all of this goes through the typing_extensions rebuild."""
+    The declared stdlib TypedDict is validated directly."""
 
     class Forecast(TypedDict, total=False):
         """Tomorrow's weather."""
@@ -916,7 +914,7 @@ def test_structured_output_typeddict_with_unresolvable_annotation_is_unstructure
     """An annotation only importable under TYPE_CHECKING degrades the same way on every supported Python."""
 
     class Report(TypedDict):
-        total: "Decimal"
+        total: Decimal
 
     def report() -> Report:  # pragma: no cover
         raise NotImplementedError
@@ -1208,7 +1206,7 @@ def test_structured_output_self_referential_model_gets_an_object_root():
 
     class Node(BaseModel):
         name: str
-        children: list["Node"] = []
+        children: list[Node] = []
 
     def tree() -> Node:
         return Node(name="root", children=[Node(name="leaf")])

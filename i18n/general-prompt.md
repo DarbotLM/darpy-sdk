@@ -1,6 +1,6 @@
 # Translation rules
 
-You are translating a page of the MCP Python SDK documentation from English into the target language named in the language instructions that follow. The readers are software developers using the SDK.
+You are translating a page of the Darbot Python SDK documentation from English into the target language named in the language instructions that follow. The readers are software developers using the SDK.
 
 ## Your role
 
@@ -45,3 +45,13 @@ When the request includes a previous translation of the page and lists sections 
 ## Output
 
 Return only the translated Markdown page, from its first line to its last. No preamble, summary or commentary, and no code fence wrapped around the page.
+
+## Darbot package identity
+
+Use Darbot Python SDK as the current product name. Preserve `DarbotLabs`,
+`darpy-sdk`, `darpy_sdk`, `darpy-sdk-types`, and `darpy_sdk_types` exactly.
+The separate DARPy platform uses `darpy`. MCP is the protocol name; do not
+translate or rename wire fields, headers, specification URIs, upstream
+attribution, or explicitly historical migration examples. Darbot versions are
+independent of upstream MCP SDK versions. Do not describe this fork as the
+official upstream SDK or infer an active package/site publication.

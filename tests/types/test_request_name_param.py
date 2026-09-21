@@ -2,8 +2,8 @@
 
 from typing import Literal
 
-import mcp_types as types
-from mcp_types import CallToolRequest, PingRequest, Request
+import darpy_sdk_types as types
+from darpy_sdk_types import CallToolRequest, PingRequest, Request
 
 
 class _VendorParams(types.RequestParams):

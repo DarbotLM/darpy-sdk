@@ -99,7 +99,7 @@ Yukarıdaki her şey `request_state`'i bir yankı olarak ele alır; ağ üzerind
 Varsayılan anahtar süreçle birlikte doğar ve ölür; tek bir sürecin ötesine dağıtım yapmadan önce bilmeniz gereken tek şey budur:
 
 ```python
-from mcp.server.mcpserver import MCPServer, RequestStateSecurity
+from darpy_sdk.server.mcpserver import MCPServer, RequestStateSecurity
 
 # Multi-instance or restart-surviving: one or more shared secret keys (>= 32 bytes each).
 mcp = MCPServer("fleet", request_state_security=RequestStateSecurity(keys=[key]))

@@ -1,7 +1,7 @@
-"""Pure-function tests of :mod:`mcp.shared.inbound`.
+"""Pure-function tests of :mod:`darpy_sdk.shared.inbound`.
 
 Independent verifier of the classifier: every ladder rung is exercised
-pass+fail with no `mcp.server` / transport imports and no inlined error-code
+pass+fail with no `darpy_sdk.server` / transport imports and no inlined error-code
 or protocol-version literals — all facts are imported from their one source.
 """
 
@@ -10,12 +10,12 @@ from collections.abc import Iterator, Mapping
 from typing import Any
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     PROTOCOL_VERSION_META_KEY,
 )
-from mcp_types.jsonrpc import (
+from darpy_sdk_types.jsonrpc import (
     HEADER_MISMATCH,
     INVALID_PARAMS,
     INVALID_REQUEST,
@@ -24,9 +24,9 @@ from mcp_types.jsonrpc import (
     PARSE_ERROR,
     UNSUPPORTED_PROTOCOL_VERSION,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION, MODERN_PROTOCOL_VERSIONS
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION, LATEST_MODERN_VERSION, MODERN_PROTOCOL_VERSIONS
 
-from mcp.shared.inbound import (
+from darpy_sdk.shared.inbound import (
     _SUBSCHEMA_LIST,
     _SUBSCHEMA_MAP,
     _SUBSCHEMA_SINGLE,

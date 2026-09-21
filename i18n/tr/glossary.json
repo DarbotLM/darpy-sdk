@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "istemci",
-      "note": "An MCP client, and the client side of a connection: istemci. Standard rendering; müşteri is a customer and is only right where the English says customer. The `Client` class and the `mcp.client` module are code and stay Latin (`Client`'ı, `Client`'a)."
+      "note": "An MCP client, and the client side of a connection: istemci. Standard rendering; müşteri is a customer and is only right where the English says customer. The `Client` class and the `darpy_sdk.client` module are code and stay Latin (`Client`'ı, `Client`'a)."
     },
     {
       "source": "server",

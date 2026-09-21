@@ -4,9 +4,9 @@ uv run examples/snippets/servers/oauth_server.py
 
 from pydantic import AnyHttpUrl
 
-from mcp.server.auth.provider import AccessToken, TokenVerifier
-from mcp.server.auth.settings import AuthSettings
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.auth.provider import AccessToken, TokenVerifier
+from darpy_sdk.server.auth.settings import AuthSettings
+from darpy_sdk.server.mcpserver import MCPServer
 
 
 class SimpleTokenVerifier(TokenVerifier):

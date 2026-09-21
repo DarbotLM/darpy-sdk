@@ -86,8 +86,8 @@ from collections.abc import Callable
 
 from redis.asyncio import Redis
 
-from mcp.server.mcpserver import MCPServer
-from mcp.server.subscriptions import ServerEvent  # SubscriptionBus is a Protocol: no base class
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.subscriptions import ServerEvent  # SubscriptionBus is a Protocol: no base class
 
 
 class RedisSubscriptionBus:
@@ -118,7 +118,7 @@ bus typed `ServerEvent` values ले जाता है, चार छोट�
 request के बाहर से publish करने के लिए bus खुद बनाएँ ताकि reference आपके पास रहे। जब आप कुछ pass नहीं करते तो `MCPServer` अंदर ही अंदर एक बना लेता है, और उसे बाहर नहीं दिखाता।
 
 ```python
-from mcp.server.subscriptions import InMemorySubscriptionBus, ToolsListChanged
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus, ToolsListChanged
 
 bus = InMemorySubscriptionBus()
 mcp = MCPServer("Sprint Board", subscriptions=bus)

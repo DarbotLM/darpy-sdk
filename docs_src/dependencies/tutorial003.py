@@ -2,8 +2,8 @@ from typing import Annotated
 
 from pydantic import BaseModel, Field
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Elicit, Resolve
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Elicit, Resolve
 
 mcp = MCPServer("Bookshop")
 

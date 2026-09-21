@@ -7,13 +7,13 @@ exact same aggregation path through `connect_with_session` with in-memory sessio
 import traceback
 
 import pytest
-from mcp_types import INVALID_PARAMS, Implementation
+from darpy_sdk_types import INVALID_PARAMS, Implementation
 
+from darpy_sdk import Client, ClientSessionGroup, MCPError
 from docs_src.session_groups import tutorial001, tutorial002, tutorial004
-from mcp import Client, ClientSessionGroup, MCPError
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 def _server_info(client: Client) -> Implementation:
@@ -54,7 +54,7 @@ async def test_colliding_names_are_rejected() -> None:
         assert sorted(group.tools) == ["search"]
         # The page's `!!! check` fence is the last line of the traceback, verbatim.
         assert traceback.format_exception_only(exc_info.value) == [
-            "mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.\n"
+            "darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.\n"
         ]
 
 

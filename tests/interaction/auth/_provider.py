@@ -11,7 +11,7 @@ suite drives are implemented; methods the suite does not exercise raise `NotImpl
 import secrets
 import time
 
-from mcp.server.auth.provider import (
+from darpy_sdk.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
@@ -21,7 +21,7 @@ from mcp.server.auth.provider import (
     TokenError,
     construct_redirect_uri,
 )
-from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthToken
 from tests.interaction._connect import BASE_URL
 
 _TOKEN_LIFETIME_SECONDS = 3600

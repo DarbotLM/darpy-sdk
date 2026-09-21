@@ -1,6 +1,6 @@
-from mcp import Client
-from mcp.client import ClientRequestContext
-from mcp.types import ElicitRequestParams, ElicitRequestURLParams, ElicitResult
+from darpy_sdk import Client
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.types import ElicitRequestParams, ElicitRequestURLParams, ElicitResult
 
 
 async def handle_elicitation(context: ClientRequestContext, params: ElicitRequestParams) -> ElicitResult:

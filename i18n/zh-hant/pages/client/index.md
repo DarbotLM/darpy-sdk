@@ -18,7 +18,7 @@ Python 程式要和 MCP 伺服器對話，靠的就是 **`Client`**。
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 這樣伺服器就在 `http://localhost:8000/mcp` 提供服務。用戶端是另一個獨立的程式。把它存成 `client.py`，在第二個終端機執行 `python client.py`：
@@ -46,7 +46,7 @@ uv run mcp run server.py --transport streamable-http
 
 四個唯讀屬性，一進入區塊就填好了：
 
-* `client.server_info`：伺服器的身分；如果是不回報身分的 2026 世代伺服器，則為 `None`（python-sdk 伺服器預設會回報）。這裡的 `server_info.name` 是 `"Bookshop"`，`server_info.version` 則是伺服器回報的值。
+* `client.server_info`：伺服器的身分；如果是不回報身分的 2026 世代伺服器，則為 `None`（Darbot Python SDK 伺服器預設會回報）。這裡的 `server_info.name` 是 `"Bookshop"`，`server_info.version` 則是伺服器回報的值。
 * `client.server_capabilities`：伺服器能做什麼（`tools`、`resources`、`prompts`、`completions`……）。伺服器沒有的能力會是 `None`。
 * `client.protocol_version`：雙方談妥的協定版本。這裡是 `"2026-07-28"`。
 * `client.instructions`：伺服器的 `instructions=` 字串；如果沒有設定則為 `None`。
@@ -89,7 +89,7 @@ tool.description   # 'Search the catalog by title or author.'
 第二個工具 `lookup_book` 註冊時沒有給 `title=`，所以它的 `tool.title` 是 `None`。
 
 !!! tip
-    `title` 是選填的，所以把工具顯示給人看的 UI 得自己挑：有的話就用 `title`，沒有就用 `name`。`from mcp.shared.metadata_utils import get_display_name` 做的正是這件事，適用於工具、資源、資源範本和提示詞。
+    `title` 是選填的，所以把工具顯示給人看的 UI 得自己挑：有的話就用 `title`，沒有就用 `name`。`from darpy_sdk.shared.metadata_utils import get_display_name` 做的正是這件事，適用於工具、資源、資源範本和提示詞。
 
 ## 呼叫工具 {#calling-a-tool}
 

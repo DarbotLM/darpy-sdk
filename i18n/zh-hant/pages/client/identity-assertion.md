@@ -24,7 +24,7 @@ translation:
 
 ## 用戶端 {#the-client}
 
-**`IdentityAssertionOAuthProvider`** 位於 `mcp.client.auth.extensions.identity_assertion`。和 **[OAuth 用戶端](oauth-clients.md)** 裡的每個 provider 一樣，它是一個 `httpx2.Auth`：建立一個，放到 `auth=`，再把 `httpx2.AsyncClient` 交給傳輸。
+**`IdentityAssertionOAuthProvider`** 位於 `darpy_sdk.client.auth.extensions.identity_assertion`。和 **[OAuth 用戶端](oauth-clients.md)** 裡的每個 provider 一樣，它是一個 `httpx2.Auth`：建立一個，放到 `auth=`，再把 `httpx2.AsyncClient` 交給傳輸。
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

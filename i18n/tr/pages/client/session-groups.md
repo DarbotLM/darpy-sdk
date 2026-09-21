@@ -29,7 +29,7 @@ Bir `ClientSessionGroup` oluşturun ve her sunucu için bir kez **`connect_to_se
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server` bir sunucu nesnesi değil, aktarım parametreleri alır: bir alt süreç başlatmak için `StdioServerParameters` (`mcp`'den) ya da zaten bir URL'de dinleyen bir sunucu için `StreamableHttpParameters` / `SseServerParameters` (`mcp.client.session_group`'tan).
+* `connect_to_server` bir sunucu nesnesi değil, aktarım parametreleri alır: bir alt süreç başlatmak için `StdioServerParameters` (`mcp`'den) ya da zaten bir URL'de dinleyen bir sunucu için `StreamableHttpParameters` / `SseServerParameters` (`darpy_sdk.client.session_group`'tan).
 * `group.tools`, bağlı tüm sunucuların araçlarını içeren bir `dict[str, Tool]`'dur. `group.resources` ve `group.prompts` da aynı biçimdedir.
 * `group.call_tool(name, arguments)` adı arar, ona sahip olan oturumu bulur ve çağrıyı iletir. Hangi sunucu olduğunu hiçbir zaman söylemezsiniz.
 
@@ -37,7 +37,7 @@ Bir `ClientSessionGroup` oluşturun ve her sunucu için bir kez **`connect_to_se
     `client.py` dosyasını iki sunucunun yanına koyun ve çalıştırın. İkinci `connect_to_server` reddeder:
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     Bu, ikinci sunucudan herhangi bir şey kaydedilmeden önce fırlatılan bir `MCPError`'dır. Bir ad

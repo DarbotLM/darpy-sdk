@@ -165,7 +165,7 @@ list handler clients को बताता है कि क्या उपल
 
 ### Templates {#templates}
 
-`MCPServer` जो template engine इस्तेमाल करता है वह `mcp.shared.uri_template` में रहता है और अपने आप में काम करता है। आपको वही parsing और matching मिलती है; routing और security policy आप खुद जोड़ते हैं।
+`MCPServer` जो template engine इस्तेमाल करता है वह `darpy_sdk.shared.uri_template` में रहता है और अपने आप में काम करता है। आपको वही parsing और matching मिलती है; routing और security policy आप खुद जोड़ते हैं।
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
 --8<-- "docs_src/uri_templates/tutorial005.py"
@@ -174,7 +174,7 @@ list handler clients को बताता है कि क्या उपल
 highlighted lines में तीन चीज़ें हो रही हैं:
 
 * **एक बार parse करें, हर request पर match करें।** `UriTemplate.parse()` template बनाता है; `template.match(uri)` निकाले गए variables को `dict` के रूप में लौटाता है, या URI फ़िट न हो तो `None`। URL decoding `match()` के अंदर होती है; decoded values बिना path-safety validation के जस की तस लौटाई जाती हैं। values strings के रूप में निकलती हैं: उन्हें खुद convert करें (`int(matched["id"])`, `Path(matched["path"])`)।
-* **safety जाँचें खुद लागू करें।** `..` और absolute-path की जो जाँचें `MCPServer` default रूप से चलाता है वे `mcp.shared.path_security` में रहती हैं।
+* **safety जाँचें खुद लागू करें।** `..` और absolute-path की जो जाँचें `MCPServer` default रूप से चलाता है वे `darpy_sdk.shared.path_security` में रहती हैं।
   `read_manual_safely` `MANUALS` को छूने से पहले उन्हें call करता है। अगर कोई parameter filesystem path नहीं है (ISBN, search query), तो उस value के लिए जाँचें छोड़ दें: policy आप config object के ज़रिए नहीं बल्कि हर handler के स्तर पर नियंत्रित करते हैं।
 * **templates को उसी source से list करें।** clients
   `resources/templates/list` के ज़रिए templates खोजते हैं। `str(template)` मूल template string वापस देता है, इसलिए listing और matcher का source of truth एक ही रहता है।
@@ -187,4 +187,4 @@ highlighted lines में तीन चीज़ें हो रही है
 * parameter को annotate करें (`order_id: int`) और SDK convert कर देता है।
 * default security policy आपका handler चलने से पहले `..`, absolute paths, और null bytes reject करती है; हर resource के लिए `security=ResourceSecurity(...)` से या पूरे server के लिए `resource_security=` से override करें।
 * filesystem access के लिए, `safe_join` ही containment boundary है।
-* low-level `Server` पर, `UriTemplate.parse()` से parse करें, `.match()` से match करें, और `mcp.shared.path_security` खुद लागू करें।
+* low-level `Server` पर, `UriTemplate.parse()` से parse करें, `.match()` से match करें, और `darpy_sdk.shared.path_security` खुद लागू करें।

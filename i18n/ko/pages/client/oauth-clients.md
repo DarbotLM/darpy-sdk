@@ -129,7 +129,7 @@ URL은 루트가 아닌 경로를 가진 HTTPS여야 합니다. 그 외에는 �
     `client_secret`은 환경 변수나 시크릿 매니저에서 읽고, 소스 관리에서는 절대 읽지 마세요.
 
 !!! info
-    `mcp.client.auth.extensions.client_credentials`에는 프로바이더가 하나 더 있습니다.
+    `darpy_sdk.client.auth.extensions.client_credentials`에는 프로바이더가 하나 더 있습니다.
     공유 시크릿 대신 JWT로 인증하는 클라이언트를 위한 **`PrivateKeyJWTOAuthProvider`**입니다
     (`private_key_jwt`, 즉 키 쌍과 워크로드 아이덴티티 방식). 같은 패턴을 따릅니다.
     하나를 생성해(선택 인자 `issuer`를 똑같이 받습니다) `auth=`에 넣으면 됩니다. 같은 모듈에는
@@ -139,7 +139,7 @@ URL은 루트가 아닌 경로를 가진 HTTPS여야 합니다. 그 외에는 �
 
 ## 실패할 때 {#when-it-fails}
 
-OAuth 흐름이 잘못되면 프로바이더는 `mcp.client.auth`의 `OAuthFlowError`를 발생시킵니다. 하위 클래스가 둘 있습니다. `OAuthRegistrationError`는 등록 결과로 쓸 수 있는 클라이언트를 얻지 못했다는 뜻입니다. 인가 서버가 등록을 거부했거나, 등록은 했지만 이 흐름이 쓸 수 없는 자격 증명(예를 들어 구현하지 않은 인증 방식)을 준 경우입니다. `OAuthTokenError`는 토큰을 얻지 못했다는 뜻입니다. 토큰 엔드포인트가 거절했거나, 저장된 클라이언트 레코드에 이 클라이언트가 적용할 수 없는 인증 방식이 담겨 있는 경우로, 후자는 요청을 보내는 대신 토큰 요청을 조립하는 도중에 보고됩니다. `except OAuthFlowError:` 하나로 디스커버리, 등록, 인가, 교환을 모두 잡을 수 있습니다.
+OAuth 흐름이 잘못되면 프로바이더는 `darpy_sdk.client.auth`의 `OAuthFlowError`를 발생시킵니다. 하위 클래스가 둘 있습니다. `OAuthRegistrationError`는 등록 결과로 쓸 수 있는 클라이언트를 얻지 못했다는 뜻입니다. 인가 서버가 등록을 거부했거나, 등록은 했지만 이 흐름이 쓸 수 없는 자격 증명(예를 들어 구현하지 않은 인증 방식)을 준 경우입니다. `OAuthTokenError`는 토큰을 얻지 못했다는 뜻입니다. 토큰 엔드포인트가 거절했거나, 저장된 클라이언트 레코드에 이 클라이언트가 적용할 수 없는 인증 방식이 담겨 있는 경우로, 후자는 요청을 보내는 대신 토큰 요청을 조립하는 도중에 보고됩니다. `except OAuthFlowError:` 하나로 디스커버리, 등록, 인가, 교환을 모두 잡을 수 있습니다.
 
 모든 것이 흐름 오류인 것은 아닙니다. 네트워크는 여전히 실패할 수 있으며, 그런 경우는 평범한 `httpx2` 예외이고 그대로 통과합니다.
 

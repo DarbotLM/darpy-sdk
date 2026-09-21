@@ -1,16 +1,16 @@
 """`docs/handlers/lifespan.md`: every claim the page makes, proved against the real SDK."""
 
 import pytest
+from darpy_sdk_types import TextContent, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import TextContent, TextResourceContents
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Context
 from docs_src.lifespan import tutorial001, tutorial002
-from mcp import Client, MCPError
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Context
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_lifespan_object_reaches_the_tool() -> None:

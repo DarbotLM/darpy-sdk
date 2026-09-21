@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 用 HTTP 提供服务，一个客户端就是证明：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ uv run mcp run server.py --transport streamable-http
 要声明一个**没有**任何客户端行为的标识符（服务器按该能力设门槛，客户端什么都不做，就像上面的 search 客户端那样），用 `advertise()`：
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### 扩展动词 {#extension-verbs}
 
-扩展自己的请求方法不需要在客户端注册。厂商请求类型继承 `mcp.types.Request`，通过 `client.session.send_request` 发送，如[提供自己的方法](#serving-your-own-methods)所示。以这样一个服务器为例，它的扩展提供一个与某个具名作业相关的动词：
+扩展自己的请求方法不需要在客户端注册。厂商请求类型继承 `darpy_sdk.types.Request`，通过 `client.session.send_request` 发送，如[提供自己的方法](#serving-your-own-methods)所示。以这样一个服务器为例，它的扩展提供一个与某个具名作业相关的动词：
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

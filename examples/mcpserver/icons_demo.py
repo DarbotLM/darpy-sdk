@@ -6,7 +6,7 @@ Demonstrates using icons with tools, resources, prompts, and implementation.
 import base64
 from pathlib import Path
 
-from mcp.server.mcpserver import Icon, MCPServer
+from darpy_sdk.server.mcpserver import Icon, MCPServer
 
 # Load the icon file and convert to data URI
 icon_path = Path(__file__).parent / "mcp.png"
@@ -16,9 +16,7 @@ icon_data_uri = f"data:image/png;base64,{icon_data}"
 icon_data = Icon(src=icon_data_uri, mime_type="image/png", sizes=["64x64"])
 
 # Create server with icons in implementation
-mcp = MCPServer(
-    "Icons Demo Server", website_url="https://github.com/modelcontextprotocol/python-sdk", icons=[icon_data]
-)
+mcp = MCPServer("Icons Demo Server", website_url="https://github.com/DarbotLM/darpy-sdk", icons=[icon_data])
 
 
 @mcp.tool(icons=[icon_data])

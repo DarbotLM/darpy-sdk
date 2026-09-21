@@ -1,14 +1,14 @@
 from typing import Literal
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     LoggingMessageNotificationParams,
     TextContent,
 )
 
-from mcp import Client
-from mcp.client import IncomingMessage
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk import Client
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 
 class LoggingCollector:

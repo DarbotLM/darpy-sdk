@@ -1,6 +1,6 @@
 import base64
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 mcp = MCPServer("Bookshop")
 

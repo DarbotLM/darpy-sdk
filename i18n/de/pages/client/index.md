@@ -18,7 +18,7 @@ Ein Client braucht einen Server, mit dem er sprechen kann. Mit diesem Bookshop v
 ```
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Damit läuft er unter `http://localhost:8000/mcp`. Der Client ist ein eigenes Programm. Speichere ihn als `client.py` und führe in einem zweiten Terminal `python client.py` aus:
@@ -46,7 +46,7 @@ Alles Übrige auf dieser Seite ist in allen vier Fällen identisch. Header, Subp
 
 Vier schreibgeschützte Properties, die gefüllt sind, sobald du den Block betrittst:
 
-* `client.server_info`: die Identität des Servers oder `None` bei einem Server der 2026er-Generation, der keine meldet (python-sdk-Server tun das standardmäßig). `server_info.name` ist hier `"Bookshop"`, `server_info.version` ist das, was der Server meldet.
+* `client.server_info`: die Identität des Servers oder `None` bei einem Server der 2026er-Generation, der keine meldet (Darbot Python SDK-Server tun das standardmäßig). `server_info.name` ist hier `"Bookshop"`, `server_info.version` ist das, was der Server meldet.
 * `client.server_capabilities`: was der Server kann (`tools`, `resources`, `prompts`, `completions`, ...). Eine Capability, die der Server nicht hat, ist `None`.
 * `client.protocol_version`: die Protokollversion, auf die sich beide Seiten geeinigt haben. Hier ist sie `"2026-07-28"`.
 * `client.instructions`: der `instructions=`-String des Servers oder `None`, wenn er keinen gesetzt hat.
@@ -91,7 +91,7 @@ Das zweite Tool, `lookup_book`, wurde ohne `title=` registriert, sein `tool.titl
 
 !!! tip
     `title` ist optional, also muss sich eine UI, die einem Menschen Tools anzeigt, entscheiden: den `title`, wenn es einen gibt,
-    sonst den `name`. `from mcp.shared.metadata_utils import get_display_name` macht genau das –
+    sonst den `name`. `from darpy_sdk.shared.metadata_utils import get_display_name` macht genau das –
     für Tools, Ressourcen, Ressourcen-Templates und Prompts.
 
 ## Ein Tool aufrufen {#calling-a-tool}

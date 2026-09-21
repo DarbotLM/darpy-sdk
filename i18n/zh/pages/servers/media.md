@@ -34,14 +34,14 @@ result.structured_content  # None
 * `structured_content` 是 `None`。`Image` 是给模型看的内容，不是给应用解析的数据：没有输出模式。（对比 **[结构化输出](structured-output.md)**，那里的返回标注**就是**模式。）
 
 !!! info
-    `ImageContent` 和 `AudioContent` 位于 `mcp.types` 中，紧挨着普通 `str` 结果所变成的那个 `TextContent`（**[工具](tools.md)**）。工具结果是一个内容块列表；`Image` 和 `Audio` 是产出这两种二进制内容块的最简方式。
+    `ImageContent` 和 `AudioContent` 位于 `darpy_sdk.types` 中，紧挨着普通 `str` 结果所变成的那个 `TextContent`（**[工具](tools.md)**）。工具结果是一个内容块列表；`Image` 和 `Audio` 是产出这两种二进制内容块的最简方式。
 
 ### 试一试 {#try-it}
 
 把任意一张 PNG 放到 `server.py` 旁边，命名为 `logo.png`，然后运行：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 打开 **Tools** 标签页，调用 `logo`。结果不是字符串：它是一个 `image` 内容块，Inspector 会把图片渲染出来。从磁盘上的文件到屏幕上的像素，中间的一切都是 SDK 做的。
@@ -90,7 +90,7 @@ result.structured_content  # None
 ```
 
 * `brand://guidelines` 是一个普通的资源（**[资源](resources.md)** 讲的就是这些）。工具按请求把同一份文档交给模型，直接调用 `guidelines()` 能保持唯一的事实来源。
-* `EmbeddedResource` 和 `TextResourceContents` 来自 `mcp.types`。这里没有像图片那样的辅助类型：你构建的块原封不动地放进结果，也没有 `structured_content`。
+* `EmbeddedResource` 和 `TextResourceContents` 来自 `darpy_sdk.types`。这里没有像图片那样的辅助类型：你构建的块原封不动地放进结果，也没有 `structured_content`。
 * 使用资源注册时所用的 URI，这样客户端才能分辨出附件和 `brand://guidelines` 是同一份文档。任何 URI 都合法，不管注册过没有。
 
 ```python
@@ -118,7 +118,7 @@ result.content  # [EmbeddedResource(type="resource", resource=TextResourceConten
 图标跟着它们所装饰的对象一起传递。服务器的图标在客户端连接时送达，挂在 `client.server_info` 上（该字段在 2026 版连接上是可选的，所以先收窄类型）：
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

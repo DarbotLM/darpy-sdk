@@ -34,7 +34,7 @@ result.structured_content  # None
 * `structured_content` `None` है। `Image` model के देखने के लिए content है, application के parse करने के लिए data नहीं: कोई output schema नहीं है। (इसकी तुलना **[Structured output](structured-output.md)** से करें, जहाँ return annotation **ही** schema है।)
 
 !!! info
-    `ImageContent` और `AudioContent` `mcp.types` में रहते हैं, ठीक उस `TextContent` के बगल में
+    `ImageContent` और `AudioContent` `darpy_sdk.types` में रहते हैं, ठीक उस `TextContent` के बगल में
     जो एक सादा `str` result बन जाता है (**[Tools](tools.md)**)। tool result content blocks की list होता है; दो binary
     किस्मों को बनाने का सबसे छोटा रास्ता `Image` और `Audio` हैं।
 
@@ -43,7 +43,7 @@ result.structured_content  # None
 कोई भी PNG `server.py` के बगल में रखें, उसका नाम `logo.png` रखें, और चलाएँ:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** tab खोलें और `logo` को call करें। result कोई string नहीं है: यह `image` content block है, और Inspector आपकी तस्वीर render करता है। disk पर रखी file से लेकर screen पर दिखते pixels तक, बीच का सारा काम SDK ने किया।
@@ -95,7 +95,7 @@ tool एक document भी लौटा सकता है: कुछ text य
 ```
 
 * `brand://guidelines` एक साधारण resource है (इनके बारे में **[Resources](resources.md)** बताता है)। माँगे जाने पर tool वही document model को सौंपता है, और `guidelines()` को सीधे call करने से सच का एक ही स्रोत बना रहता है।
-* `EmbeddedResource` और `TextResourceContents` `mcp.types` से आते हैं। images जैसा कोई helper यहाँ नहीं है: जो block आप बनाते हैं वह बिना छुए result में जाता है, और कोई `structured_content` नहीं होता।
+* `EmbeddedResource` और `TextResourceContents` `darpy_sdk.types` से आते हैं। images जैसा कोई helper यहाँ नहीं है: जो block आप बनाते हैं वह बिना छुए result में जाता है, और कोई `structured_content` नहीं होता।
 * वही URI इस्तेमाल करें जिसके तहत resource register है, ताकि client बता सके कि attachment और `brand://guidelines` एक ही document हैं। कोई भी URI मान्य है, register हो या न हो।
 
 ```python
@@ -123,7 +123,7 @@ binary content के लिए `TextResourceContents` की जगह `BlobRes
 icons उसी चीज़ के साथ चलते हैं जिसे वे सजाते हैं। server के icons client के connect होने पर `client.server_info` पर आते हैं (2026 पीढ़ी के connections पर यह optional है, इसलिए पहले इसे narrow करें):
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

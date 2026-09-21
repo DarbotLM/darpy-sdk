@@ -65,10 +65,10 @@ trace 最有用的时候，是它能在一幅连贯的图景里跟随请求从�
 追踪是一个中间件，排在服务器中间件列表的第一个。如果确实想要一个不发出任何 span 的服务器，把它拿掉：
 
 ```python
-from mcp.server._otel import OpenTelemetryMiddleware
+from darpy_sdk.server._otel import OpenTelemetryMiddleware
 
-mcp._lowlevel_server.middleware[:] = [
-    m for m in mcp._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
+darpy_sdk._lowlevel_server.middleware[:] = [
+    m for m in darpy_sdk._lowlevel_server.middleware if not isinstance(m, OpenTelemetryMiddleware)
 ]
 ```
 

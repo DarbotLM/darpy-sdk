@@ -1,7 +1,7 @@
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.path_security import contains_path_traversal, is_absolute_path
-from mcp.shared.uri_template import UriTemplate
-from mcp.types import (
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.path_security import contains_path_traversal, is_absolute_path
+from darpy_sdk.shared.uri_template import UriTemplate
+from darpy_sdk.types import (
     ListResourceTemplatesResult,
     PaginatedRequestParams,
     ReadResourceRequestParams,

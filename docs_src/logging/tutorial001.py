@@ -1,6 +1,6 @@
 import logging
 
-from mcp.server import MCPServer
+from darpy_sdk.server import MCPServer
 
 logger = logging.getLogger(__name__)
 

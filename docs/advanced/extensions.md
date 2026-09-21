@@ -72,7 +72,7 @@ The smallest useful extension is one tool and a settings map:
 Serve it over HTTP, and a client is the proof:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -195,7 +195,7 @@ the capability, the client does nothing, as in the search client above), use
 `advertise()`:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -243,7 +243,7 @@ claimed shape reaching a session-tier caller raises `UnexpectedClaimedResult`.
 ### Extension verbs
 
 An extension's own request methods need no client-side registration. A vendor request
-type subclasses `mcp.types.Request` and goes through `client.session.send_request`,
+type subclasses `darpy_sdk.types.Request` and goes through `client.session.send_request`,
 as in [Serving your own methods](#serving-your-own-methods). Take a server whose
 extension serves one verb about a named job:
 

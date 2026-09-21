@@ -1,11 +1,11 @@
-name: 🚀 MCP Python SDK Feature Request
-description: "Suggest a new feature for the MCP Python SDK"
+name: 🚀 Darbot Python SDK Feature Request
+description: "Suggest a new feature for the Darbot Python SDK"
 labels: ["feature request"]
 
 body:
   - type: markdown
     attributes:
-      value: Thank you for contributing to the MCP Python SDK! ✊
+      value: Thank you for contributing to the Darbot Python SDK! ✊
 
   - type: textarea
     id: description

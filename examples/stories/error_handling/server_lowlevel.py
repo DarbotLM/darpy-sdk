@@ -2,10 +2,10 @@
 
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
-from mcp.shared.exceptions import MCPError
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.shared.exceptions import MCPError
 from stories._hosting import run_server_from_args
 
 _TOOLS = [

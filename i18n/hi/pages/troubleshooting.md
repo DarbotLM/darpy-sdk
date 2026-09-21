@@ -16,7 +16,7 @@ translation:
 वे entries इस तक `http://localhost:8000/mcp` पर पहुँचती हैं, इसलिए इसे HTTP पर चलता छोड़ दें:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 इस page पर quote किए गए errors असली हैं: SDK का अपना test suite इनमें से हर एक को reproduce करता है।
@@ -44,7 +44,7 @@ async def main() -> None:
     +-+---------------- 1 ----------------
       | Traceback (most recent call last):
       |   ...
-      | mcp.shared.exceptions.MCPError: No forecast for 'Atlantis'.
+      | darpy_sdk.shared.exceptions.MCPError: No forecast for 'Atlantis'.
       +------------------------------------
 ```
 
@@ -137,7 +137,7 @@ parentheses जोड़ें। यही चूक होने पर `@mcp.
 ```
 
 ```text
-WARNING mcp.server.mcpserver.tools.tool_manager: Tool already exists: forecast
+WARNING darpy_sdk.server.mcpserver.tools.tool_manager: Tool already exists: forecast
 ```
 
 `tools/list` एक ही `forecast` बताती है, और वह `forecast_today` है। इनमें से एक का नाम बदलें। `MCPServer(..., warn_on_duplicate_tools=False)` नतीजा बदले बिना सिर्फ़ warning चुप करा देता है, इसलिए इसे चालू ही रहने दें। resources और prompts पर भी यही नियम और यही log line लागू है (`Resource already exists:`, `Prompt already exists:`)।
@@ -172,13 +172,13 @@ async with Client("https://mcp.example.com/mcp") as client:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Server returned an error response
+darpy_sdk.shared.exceptions.MCPError: Server returned an error response
 ```
 
 server ने असल में जो शब्द भेजे, `421` और `Invalid Host header`, वे आप तक कभी नहीं पहुँचते: 421 body में `Content-Type: application/json` नहीं है, इसलिए client उसे parse नहीं कर सकता। वे **server के log** में हैं, और अगली नज़र वहीं डालनी है:
 
 ```text
-WARNING mcp.server.transport_security: Invalid Host header: mcp.example.com
+WARNING darpy_sdk.server.transport_security: Invalid Host header: mcp.example.com
 ```
 
 सुधार `transport_security=` है। जिस hostname पर आप सच में serve करते हैं, उसे allowlist करें:
@@ -310,7 +310,7 @@ async def main() -> None:
 !!! info
     `-32021` है `MISSING_REQUIRED_CLIENT_CAPABILITY`, उन तीन error codes में से एक जो 2026-07-28
     spec जोड़ता है। इनमें से कोई भी exception class नहीं है: ये सब `MCPError` बनकर आते हैं, और
-    देखने की जगह `e.error.code` है। `mcp.types` ये constants export करता है। बाकी दो हैं
+    देखने की जगह `e.error.code` है। `darpy_sdk.types` ये constants export करता है। बाकी दो हैं
     `-32020` `HEADER_MISMATCH` (कोई HTTP header अपने साथ वाली request body से मेल नहीं खाता)
     और `-32022` `UNSUPPORTED_PROTOCOL_VERSION` (request ने ऐसा version बताया जो यह server नहीं
     बोलता)। नियम मानने वाला SDK client इनमें से कोई भी पैदा नहीं कर सकता, इसलिए अगर कोई दिखे, तो उस
@@ -339,7 +339,7 @@ async def test_book_table() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
 ```
 
 **`stateless_http=True` server पर legacy connection।** statelessness का मतलब है हर request अपनी अलग दुनिया है: न session, न server-to-client stream, और इसलिए `elicitation/create` (या `sampling/createMessage`, या `roots/list`) भेजने की कोई जगह नहीं, उस पीढ़ी के लिए भी जिसमें ये मौजूद हैं:
@@ -380,13 +380,13 @@ async def main() -> None:
 ```
 
 ```text
-mcp.shared.exceptions.MCPError: Invalid or expired requestState
+darpy_sdk.shared.exceptions.MCPError: Invalid or expired requestState
 ```
 
 message जान-बूझकर जड़ रखा गया है: wire कभी नहीं बताता कि कौन-सा check fail हुआ। कारण **server log** में जाता है, और उसे पढ़ना ही पूरा diagnosis है:
 
 ```text
-WARNING mcp.server.request_state: requestState rejected on tools/call: malformed
+WARNING darpy_sdk.server.request_state: requestState rejected on tools/call: malformed
 ```
 
 जो कारण आपको असल में दिखेंगे:
@@ -417,8 +417,8 @@ mcp = MCPServer("Weather", request_state_security=RequestStateSecurity(keys=[key
 ## अब भी अटके हैं? {#still-stuck}
 
 * अगर SDK का कोई message इस page पर नहीं है, तो वह अपने आप में report करने लायक documentation bug है।
-* [issue tracker](https://github.com/modelcontextprotocol/python-sdk/issues) में खोजें; वहाँ दिखने वाली ज़्यादातर error strings पहले से किसी का write-up हैं।
-* कुछ नहीं मिला? पूरे traceback के साथ [issue खोलें](https://github.com/modelcontextprotocol/python-sdk/issues/new?template=v2-feedback.yaml), या [MCP Contributors Discord के #python-sdk-dev](https://discord.gg/6CSzBmMkjX) में पूछें।
+* [issue tracker](https://github.com/DarbotLM/darpy-sdk/issues) में खोजें; वहाँ दिखने वाली ज़्यादातर error strings पहले से किसी का write-up हैं।
+* कुछ नहीं मिला? पूरे traceback के साथ [issue खोलें](https://github.com/DarbotLM/darpy-sdk/issues/new?template=sdk-feedback.yaml), या [Darbot SDK issues](https://github.com/DarbotLM/darpy-sdk/issues) में पूछें।
 
 ## सारांश {#recap}
 

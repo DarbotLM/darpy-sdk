@@ -3,16 +3,16 @@
 import logging
 
 import pytest
+from darpy_sdk_types import CallToolResult, TextContent
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, TextContent
 
+from darpy_sdk import Client
+from darpy_sdk.server import MCPServer
 from docs_src.logging import tutorial001
-from mcp import Client
-from mcp.server import MCPServer
 from tests.docs_src._helpers import strip_server_info
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_the_tool_logs_through_the_standard_library(caplog: pytest.LogCaptureFixture) -> None:

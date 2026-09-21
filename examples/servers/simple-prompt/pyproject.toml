@@ -1,9 +1,9 @@
 [project]
-name = "mcp-simple-prompt"
+name = "darpy-sdk-simple-prompt"
 version = "0.1.0"
 description = "A simple MCP server exposing a customizable prompt"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 authors = [{ name = "Model Context Protocol a Series of LF Projects, LLC." }]
 keywords = ["mcp", "llm", "automation", "web", "fetch"]
 license = { text = "MIT" }
@@ -12,22 +12,23 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.14",
 ]
-dependencies = ["anyio>=4.5", "click>=8.2.0", "httpx2>=2.5.0", "mcp"]
+dependencies = ["anyio>=4.5", "click>=8.2.0", "httpx2>=2.5.0", "darpy-sdk"]
 
 [project.scripts]
-mcp-simple-prompt = "mcp_simple_prompt.server:main"
+darpy-sdk-simple-prompt = "darpy_sdk_simple_prompt.server:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["mcp_simple_prompt"]
+packages = ["darpy_sdk_simple_prompt"]
 
 [tool.pyright]
-include = ["mcp_simple_prompt"]
+pythonVersion = "3.14"
+include = ["darpy_sdk_simple_prompt"]
 venvPath = "."
 venv = ".venv"
 
@@ -37,7 +38,7 @@ ignore = []
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py314"
 
 [dependency-groups]
-dev = ["pyright>=1.1.378", "pytest>=8.3.3", "ruff>=0.6.9"]
+dev = ["pyright>=1.1.378", "pytest>=8.3.3", "ruff>=0.14.0"]

@@ -5,17 +5,17 @@ not know."""
 import logging
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
-from mcp_types import EmptyResult, ServerCapabilities
-from mcp_types.version import LATEST_MODERN_VERSION
+from darpy_sdk_types import EmptyResult, ServerCapabilities
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
 from pydantic import BaseModel
 
-from mcp.client.extension import NotificationBinding
-from mcp.client.session import _NOTIFICATION_QUEUE_SIZE, ClientSession
-from mcp.shared.direct_dispatcher import create_direct_dispatcher_pair
-from mcp.shared.dispatcher import DispatchContext
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.client.extension import NotificationBinding
+from darpy_sdk.client.session import _NOTIFICATION_QUEUE_SIZE, ClientSession
+from darpy_sdk.shared.direct_dispatcher import create_direct_dispatcher_pair
+from darpy_sdk.shared.dispatcher import DispatchContext
+from darpy_sdk.shared.transport_context import TransportContext
 
 _VENDOR_METHOD = "notifications/vendor/task_done"
 

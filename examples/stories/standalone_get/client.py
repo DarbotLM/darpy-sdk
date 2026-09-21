@@ -2,8 +2,8 @@
 
 import anyio
 
-import mcp.types as types
-from mcp.client import Client, IncomingMessage
+import darpy_sdk.types as types
+from darpy_sdk.client import Client, IncomingMessage
 from stories._harness import Target, run_client
 
 

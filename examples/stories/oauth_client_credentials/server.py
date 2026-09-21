@@ -8,10 +8,10 @@ from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from mcp.server.auth.middleware.auth_context import get_access_token
-from mcp.server.auth.provider import AccessToken
-from mcp.server.mcpserver import MCPServer
-from mcp.shared.auth import OAuthMetadata, OAuthToken
+from darpy_sdk.server.auth.middleware.auth_context import get_access_token
+from darpy_sdk.server.auth.provider import AccessToken
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.shared.auth import OAuthMetadata, OAuthToken
 from stories._hosting import NO_DNS_REBIND, run_app_from_args
 from stories._shared.auth import BASE_URL, auth_settings
 

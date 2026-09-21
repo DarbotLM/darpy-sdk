@@ -19,7 +19,7 @@ Prenez un outil qui effectue une recherche, et laissez cette recherche échouer 
 --8<-- "docs_src/handling_errors/tutorial001.py"
 ```
 
-`ToolError`, qui vient de `mcp.server.mcpserver.exceptions`, est le moyen pour un outil de dire au modèle que quelque chose s’est mal passé.
+`ToolError`, qui vient de `darpy_sdk.server.mcpserver.exceptions`, est le moyen pour un outil de dire au modèle que quelque chose s’est mal passé.
 
 Appelez-le avec un titre absent du catalogue et regardez le résultat :
 
@@ -63,13 +63,13 @@ Remplacez maintenant `ToolError` par `MCPError`.
 
 * Il n’y a **aucun résultat**. Pas de `content`, pas de `is_error` : rien à lire pour le modèle.
 * C’est l’application **hôte** qui reçoit l’erreur, exactement comme si l’outil n’existait pas du tout.
-* `code`, `message` et `data` arrivent intacts. `INVALID_PARAMS` vaut `-32602` ; `mcp.types` l’exporte, avec les autres codes d’erreur JSON-RPC (`INVALID_REQUEST`, `INTERNAL_ERROR`, …), sous forme de constantes pour que vous n’ayez jamais à saisir de nombre magique.
+* `code`, `message` et `data` arrivent intacts. `INVALID_PARAMS` vaut `-32602` ; `darpy_sdk.types` l’exporte, avec les autres codes d’erreur JSON-RPC (`INVALID_REQUEST`, `INTERNAL_ERROR`, …), sous forme de constantes pour que vous n’ayez jamais à saisir de nombre magique.
 
 !!! check
     Même recherche, même échec, mais cette fois l’appel *lève une exception* côté client au lieu de renvoyer un résultat :
 
     ```text
-    mcp.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
+    darpy_sdk.shared.exceptions.MCPError: No book titled 'Nothing' in the catalog.
     ```
 
     La première version donnait au modèle une phrase à laquelle réagir. Celle-ci ne lui donne rien.
@@ -87,7 +87,7 @@ Une seule question tranche : **un modèle plus malin aurait-il pu éviter cela ?
 Selon ce critère, la seconde version de `get_author` a fait le mauvais choix : un meilleur titre règle le problème, le modèle méritait donc de voir le message. Elle est là pour vous montrer le mécanisme, pas pour le recommander.
 
 !!! info
-    `MCPError` s’importe avec `from mcp import MCPError` et prend `code`, `message` et une charge
+    `MCPError` s’importe avec `from darpy_sdk import MCPError` et prend `code`, `message` et une charge
     utile `data` facultative. Ce que vous y mettez est ce que le client reçoit : le SDK transmet telle
     quelle une `MCPError` levée au lieu de l’assainir.
 
@@ -155,7 +155,7 @@ Cela représente toute une catégorie d’instructions `raise` que vous n’écr
 * Toute **autre exception** est un plantage -> `is_error=True` avec seulement `Error executing tool <name>` pour le modèle, et un enregistrement `ERROR` avec le traceback pour vous.
 * `ResourceNotFoundError` depuis un gestionnaire (handler) de ressource -> le `-32602` du protocole, avec l’URI dans `data`.
 * Les mauvais arguments sont rejetés d’après le schéma avant que votre fonction ne s’exécute ; vous n’avez pas de `raise` à écrire pour eux.
-* Imports : `from mcp import MCPError`, `from mcp.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, et les constantes de codes d’erreur depuis `mcp.types`.
+* Imports : `from darpy_sdk import MCPError`, `from darpy_sdk.server.mcpserver.exceptions import ToolError, ResourceError, ResourceNotFoundError`, et les constantes de codes d’erreur depuis `darpy_sdk.types`.
 
 Les erreurs sont gérées. C’est tout ce qu’un serveur *expose*. Ce que chaque gestionnaire peut lire, et faire en retour auprès du client pendant qu’il s’exécute, fait l’objet de la section suivante : **[Dans votre gestionnaire](../handlers/index.md)**.
 

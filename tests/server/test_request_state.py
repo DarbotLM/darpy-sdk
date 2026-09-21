@@ -1,4 +1,4 @@
-"""Unit tests for `mcp.server.request_state`: codec, security policy, and default principal binding."""
+"""Unit tests for `darpy_sdk.server.request_state`: codec, security policy, and default principal binding."""
 
 import base64
 import string
@@ -8,11 +8,11 @@ from typing import Any, cast
 import pytest
 from inline_snapshot import snapshot
 
-from mcp.server.auth.middleware.auth_context import auth_context_var
-from mcp.server.auth.middleware.bearer_auth import AuthenticatedUser, authorization_context
-from mcp.server.auth.provider import AccessToken, principal_components
-from mcp.server.context import ServerRequestContext
-from mcp.server.request_state import (
+from darpy_sdk.server.auth.middleware.auth_context import auth_context_var
+from darpy_sdk.server.auth.middleware.bearer_auth import AuthenticatedUser, authorization_context
+from darpy_sdk.server.auth.provider import AccessToken, principal_components
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.request_state import (
     AESGCMRequestStateCodec,
     InvalidRequestState,
     RequestStateSecurity,

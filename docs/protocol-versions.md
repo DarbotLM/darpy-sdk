@@ -9,7 +9,7 @@ You almost never have to care, because `Client` negotiates for you. This page is
 Every snippet on this page is a `client.py` that talks to the Bookshop `server.py` from **[The Client](client/index.md)**. Start that server in one terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Then run each snippet in a second terminal with `python client.py`.

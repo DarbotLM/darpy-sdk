@@ -4,7 +4,7 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 
 # Mock database class for example
@@ -12,7 +12,7 @@ class Database:
     """Mock database class for example."""
 
     @classmethod
-    async def connect(cls) -> "Database":
+    async def connect(cls) -> Database:
         """Connect to database."""
         return cls()
 

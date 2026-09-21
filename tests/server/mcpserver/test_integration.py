@@ -12,8 +12,7 @@ single-feature example servers over an in-memory transport.
 import json
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CreateMessageRequestParams,
     CreateMessageResult,
     ElicitRequestParams,
@@ -33,7 +32,9 @@ from mcp_types import (
     TextResourceContents,
     ToolListChangedNotification,
 )
+from inline_snapshot import snapshot
 
+from darpy_sdk.client import Client, ClientRequestContext, IncomingMessage
 from examples.snippets.servers import (
     basic_prompt,
     basic_resource,
@@ -46,7 +47,6 @@ from examples.snippets.servers import (
     structured_output,
     tool_progress,
 )
-from mcp.client import Client, ClientRequestContext, IncomingMessage
 
 pytestmark = pytest.mark.anyio
 

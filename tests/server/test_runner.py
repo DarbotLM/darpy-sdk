@@ -19,7 +19,7 @@ import anyio
 import anyio.abc
 import anyio.lowlevel
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     CLIENT_CAPABILITIES_META_KEY,
     CLIENT_INFO_META_KEY,
     INTERNAL_ERROR,
@@ -49,20 +49,20 @@ from mcp_types import (
     SetLevelRequestParams,
     Tool,
 )
-from mcp_types.version import (
+from darpy_sdk_types.version import (
     LATEST_HANDSHAKE_VERSION,
     LATEST_MODERN_VERSION,
     MODERN_PROTOCOL_VERSIONS,
     OLDEST_SUPPORTED_VERSION,
 )
 
-import mcp.server.runner
-from mcp.server.caching import CacheHint
-from mcp.server.connection import Connection, NotifyOnlyOutbound
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel.server import NotificationOptions, Server
-from mcp.server.models import InitializationOptions
-from mcp.server.runner import (
+import darpy_sdk.server.runner
+from darpy_sdk.server.caching import CacheHint
+from darpy_sdk.server.connection import Connection, NotifyOnlyOutbound
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel.server import NotificationOptions, Server
+from darpy_sdk.server.models import InitializationOptions
+from darpy_sdk.server.runner import (
     ServerRunner,
     _extract_meta,
     _has_modern_envelope,
@@ -73,15 +73,15 @@ from mcp.server.runner import (
     serve_dual_era_loop,
     serve_one,
 )
-from mcp.server.session import ServerSession
-from mcp.server.subscriptions import SUBSCRIPTION_ID_META_KEY, InMemorySubscriptionBus, ListenHandler
-from mcp.shared._context_streams import create_context_streams
-from mcp.shared.dispatcher import CallOptions
-from mcp.shared.exceptions import MCPError, NoBackChannelError
-from mcp.shared.jsonrpc_dispatcher import JSONRPCDispatcher
-from mcp.shared.message import MessageMetadata, SessionMessage
-from mcp.shared.peer import dump_params
-from mcp.shared.transport_context import TransportContext
+from darpy_sdk.server.session import ServerSession
+from darpy_sdk.server.subscriptions import SUBSCRIPTION_ID_META_KEY, InMemorySubscriptionBus, ListenHandler
+from darpy_sdk.shared._context_streams import create_context_streams
+from darpy_sdk.shared.dispatcher import CallOptions
+from darpy_sdk.shared.exceptions import MCPError, NoBackChannelError
+from darpy_sdk.shared.jsonrpc_dispatcher import JSONRPCDispatcher
+from darpy_sdk.shared.message import MessageMetadata, SessionMessage
+from darpy_sdk.shared.peer import dump_params
+from darpy_sdk.shared.transport_context import TransportContext
 
 from ..shared.conftest import jsonrpc_pair
 from ..shared.test_dispatcher import Recorder, echo_handlers
@@ -379,7 +379,7 @@ async def test_runner_on_notify_drops_a_spec_notification_absent_at_the_negotiat
     # A custom (non-spec) method bypasses the version gate, so it reaches its
     # handler regardless of which spec notifications exist at the pinned version.
     server.add_notification_handler("custom/barrier", NotificationParams, on_barrier)
-    with caplog.at_level("DEBUG", logger="mcp.server.runner"):
+    with caplog.at_level("DEBUG", logger="darpy_sdk.server.runner"):
         async with connected_runner(server) as (client, runner):
             runner.connection.protocol_version = "2026-07-28"
             await client.notify("notifications/roots/list_changed", None)
@@ -1261,7 +1261,7 @@ async def test_runner_exit_stack_blocking_cleanup_abandoned_after_grace(
     elapses: `run()` exits, later callbacks in the unwind are cancelled at
     their first checkpoint, and a warning is logged. Grace 0 means the deadline
     is already expired on entry, so the abandonment is immediate."""
-    monkeypatch.setattr(mcp.server.runner, "_EXIT_STACK_CLOSE_TIMEOUT", 0)
+    monkeypatch.setattr(darpy_sdk.server.runner, "_EXIT_STACK_CLOSE_TIMEOUT", 0)
     ran: list[str] = []
     release = anyio.Event()
 
@@ -2024,7 +2024,7 @@ async def test_notify_only_outbound_drops_change_notifications(method: str, capl
     be an unrequested notification - the standalone channel drops it."""
     inner = _RecordingInnerDctx()
     outbound = NotifyOnlyOutbound(inner)
-    with caplog.at_level(logging.DEBUG, logger="mcp.server.connection"):
+    with caplog.at_level(logging.DEBUG, logger="darpy_sdk.server.connection"):
         await outbound.notify(method, None)
     assert inner.notifies == []
     assert f"dropped {method}: delivered via subscriptions/listen at this era" in caplog.text

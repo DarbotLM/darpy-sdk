@@ -52,7 +52,7 @@ SDK постачає це як вбудоване розширення `Apps` (`
 Віддайте `server.py` через HTTP, а потім із другого термінала запустіть клієнт:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

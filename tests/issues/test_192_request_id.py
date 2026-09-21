@@ -1,6 +1,6 @@
 import anyio
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     ClientCapabilities,
     Implementation,
     InitializeRequestParams,
@@ -10,11 +10,11 @@ from mcp_types import (
     JSONRPCResponse,
     NotificationParams,
 )
-from mcp_types.version import LATEST_HANDSHAKE_VERSION
+from darpy_sdk_types.version import LATEST_HANDSHAKE_VERSION
 
-from mcp.server.lowlevel import NotificationOptions, Server
-from mcp.server.models import InitializationOptions
-from mcp.shared.message import SessionMessage
+from darpy_sdk.server.lowlevel import NotificationOptions, Server
+from darpy_sdk.server.models import InitializationOptions
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.mark.anyio

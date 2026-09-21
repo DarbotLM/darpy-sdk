@@ -52,7 +52,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 Sunucuyu MCP Inspector ile çalıştırın:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Yazdırdığı URL'yi açın ve **Resources** sekmesine gidin. `config://app`, açıklamasıyla birlikte listede. Tıklayın, Inspector onu okur: iki satırlık yapılandırmanız karşınızda.
@@ -128,7 +128,7 @@ Aynı kural JSON'a serileştirilebilen başka her şey için de geçerlidir: bir
 !!! tip
     Bunları fonksiyondan türetmek istemediğinizde `@mcp.resource()`, `name=`, `title=` ve
     `description=` parametrelerini de kabul eder. Yazacak bir fonksiyon hiç olmadığında ise
-    `mcp.server.mcpserver.resources` içinde, `mcp.add_resource(...)` ile kaydedeceğiniz hazır
+    `darpy_sdk.server.mcpserver.resources` içinde, `mcp.add_resource(...)` ile kaydedeceğiniz hazır
     `Resource` sınıfları var (`TextResource`, `BinaryResource`, `FileResource`, `HttpResource`,
     `DirectoryResource`).
 

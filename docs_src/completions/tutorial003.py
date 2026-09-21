@@ -1,5 +1,11 @@
-from mcp.server import MCPServer
-from mcp.types import Completion, CompletionArgument, CompletionContext, PromptReference, ResourceTemplateReference
+from darpy_sdk.server import MCPServer
+from darpy_sdk.types import (
+    Completion,
+    CompletionArgument,
+    CompletionContext,
+    PromptReference,
+    ResourceTemplateReference,
+)
 
 mcp = MCPServer("GitHub Explorer")
 

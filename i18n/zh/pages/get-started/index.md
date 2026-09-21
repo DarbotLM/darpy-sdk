@@ -14,18 +14,18 @@ translation:
 想跟着做，就把某个代码块粘贴到 `server.py` 里，再用 MCP Inspector 打开：
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **强烈建议**亲手写（或者复制）这些代码，改一改，然后在本地运行。只有在自己的编辑器里真正用上，才能体会到关键所在：要写的代码非常少，有自动补全，还没运行，类型检查就已经把错误找出来了。
 
 ## 不用靠猜 {#you-will-not-be-guessing}
 
-这些文档中的每个示例，都是 SDK 自身仓库 [`docs_src/`](https://github.com/modelcontextprotocol/python-sdk/tree/main/docs_src) 目录下的完整文件；SDK 的测试套件会通过**内存客户端**把它们逐一运行一遍：
+这些文档中的每个示例，都是 SDK 自身仓库 [`docs_src/`](https://github.com/DarbotLM/darpy-sdk/tree/main/docs_src) 目录下的完整文件；SDK 的测试套件会通过**内存客户端**把它们逐一运行一遍：
 
 ```python
 import pytest
-from mcp import Client
+from darpy_sdk import Client
 
 from server import mcp
 

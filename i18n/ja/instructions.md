@@ -120,7 +120,7 @@ ask for it."
   **しません**). Emphasis markers around text that stays in English are
   copied as-is.
 - Dashes and ranges: an English em-dash aside is recast with 、, （） or a
-  second sentence, not with a ――; ranges use から (3.10 から 3.14), not 〜
+  second sentence, not with a ――; ranges use から (1 から 4), not 〜
   or –.
 - Sentence length: one idea per sentence and at most three 「、」. In one
   bulleted list, items either all end in 「。」 (complete sentences) or none

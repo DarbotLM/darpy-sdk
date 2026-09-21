@@ -56,7 +56,13 @@
     "2026-07-28",
     "2025-11-25",
     "2025-06-18",
-    "2025-03-26"
+    "2025-03-26",
+    "Darbot Python SDK",
+    "DarbotLabs",
+    "darpy-sdk",
+    "darpy_sdk",
+    "darpy-sdk-types",
+    "darpy_sdk_types"
   ],
   "terms": [
     {
@@ -122,7 +128,7 @@
     {
       "source": "client",
       "target": "cliente",
-      "note": "Masculine: o cliente. The `Client` class and the `mcp.client` module are code and stay in English."
+      "note": "Masculine: o cliente. The `Client` class and the `darpy_sdk.client` module are code and stay in English."
     },
     {
       "source": "server",
@@ -133,7 +139,10 @@
       "source": "host",
       "target": "host",
       "note": "The MCP host — the application the user talks to (Claude Desktop, an IDE) — kept in English as Brazilian developers say it. Masculine: o host / os hosts.",
-      "avoid": ["anfitrião", "hospedeiro"]
+      "avoid": [
+        "anfitrião",
+        "hospedeiro"
+      ]
     },
     {
       "source": "request",
@@ -149,25 +158,34 @@
       "source": "lifespan",
       "target": "lifespan",
       "note": "The SDK feature and its `lifespan=` parameter; kept in English so the prose matches the parameter name, not vida útil. Masculine: o lifespan. May take the gloss \"lifespan (ciclo de vida do servidor)\" on first mention.",
-      "avoid": ["expectativa de vida"]
+      "avoid": [
+        "expectativa de vida"
+      ]
     },
     {
       "source": "callback",
       "target": "callback",
       "note": "Kept in English, covering both OAuth redirect callbacks and function callbacks. Masculine: o callback / os callbacks.",
-      "avoid": ["retorno de chamada"]
+      "avoid": [
+        "retorno de chamada"
+      ]
     },
     {
       "source": "deploy",
       "target": "deploy",
       "note": "Borrow the noun, not a verb: \"o deploy\", \"fazer o deploy\", \"depois do deploy\". Masculine. \"implantação\" is acceptable in formal contexts but pin \"deploy\" for consistency.",
-      "avoid": ["deployar", "deployado"]
+      "avoid": [
+        "deployar",
+        "deployado"
+      ]
     },
     {
       "source": "library",
       "target": "biblioteca",
       "note": "Feminine: a biblioteca. The false friend \"livraria\" means a bookshop and is never right here.",
-      "avoid": ["livraria"]
+      "avoid": [
+        "livraria"
+      ]
     },
     {
       "source": "back-channel",
@@ -178,13 +196,17 @@
       "source": "file",
       "target": "arquivo",
       "note": "Masculine: o arquivo. \"ficheiro\" is European Portuguese and is always an error in this Brazilian Portuguese target.",
-      "avoid": ["ficheiro"]
+      "avoid": [
+        "ficheiro"
+      ]
     },
     {
       "source": "user",
       "target": "usuário",
       "note": "Masculine as the generic form: o usuário / os usuários. \"utilizador\" is European Portuguese and is always an error in this Brazilian Portuguese target.",
-      "avoid": ["utilizador"]
+      "avoid": [
+        "utilizador"
+      ]
     },
     {
       "source": "escape hatch",

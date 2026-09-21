@@ -1,8 +1,7 @@
 """`docs/handlers/multi-round-trip.md`: every claim the page makes, proved against the real SDK."""
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INTERNAL_ERROR,
     INVALID_REQUEST,
     CallToolResult,
@@ -17,15 +16,16 @@ from mcp_types import (
     PromptMessage,
     TextContent,
 )
+from inline_snapshot import snapshot
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.server.mcpserver import InvalidRequestState
 from docs_src.mrtr import tutorial001, tutorial002, tutorial003, tutorial004, tutorial005
-from mcp import Client, MCPError
-from mcp.client import ClientRequestContext
-from mcp.server.mcpserver import InvalidRequestState
 from tests.docs_src._helpers import strip_server_info
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_first_call_returns_an_input_required_result() -> None:

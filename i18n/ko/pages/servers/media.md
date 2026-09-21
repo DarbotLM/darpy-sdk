@@ -34,7 +34,7 @@ result.structured_content  # None
 * `structured_content`는 `None`입니다. `Image`는 모델이 보기 위한 콘텐츠이지 애플리케이션이 파싱할 데이터가 아니므로 출력 스키마가 없습니다. (반환 타입 표기가 **곧** 스키마가 되는 **[구조화된 출력](structured-output.md)**과 대조해 보세요.)
 
 !!! info
-    `ImageContent`와 `AudioContent`는 `mcp.types`에 있으며, 평범한 `str` 결과가 변환되는 `TextContent`
+    `ImageContent`와 `AudioContent`는 `darpy_sdk.types`에 있으며, 평범한 `str` 결과가 변환되는 `TextContent`
     바로 옆에 있습니다(**[도구](tools.md)**). 도구 결과는 콘텐츠 블록의 리스트이고, `Image`와 `Audio`는
     두 가지 바이너리 종류를 만드는 가장 짧은 방법입니다.
 
@@ -43,7 +43,7 @@ result.structured_content  # None
 아무 PNG나 `server.py` 옆에 두고 이름을 `logo.png`로 바꾼 뒤 다음을 실행하세요.
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 **Tools** 탭을 열고 `logo`를 호출하세요. 결과는 문자열이 아니라 `image` 콘텐츠 블록이며, Inspector가 그림을 렌더링합니다. 디스크의 파일에서 화면의 픽셀까지, 그 사이의 모든 일은 SDK가 했습니다.
@@ -95,7 +95,7 @@ result.structured_content  # None
 ```
 
 * `brand://guidelines`는 평범한 리소스입니다(**[리소스](resources.md)**에서 다룹니다). 도구는 요청이 있을 때 같은 문서를 모델에게 건네며, `guidelines()`를 직접 호출하므로 단일 정보 출처가 유지됩니다.
-* `EmbeddedResource`와 `TextResourceContents`는 `mcp.types`에서 가져옵니다. 이미지처럼 헬퍼가 있는 것은 아닙니다. 만든 블록은 그대로 결과에 들어가고, `structured_content`는 없습니다.
+* `EmbeddedResource`와 `TextResourceContents`는 `darpy_sdk.types`에서 가져옵니다. 이미지처럼 헬퍼가 있는 것은 아닙니다. 만든 블록은 그대로 결과에 들어가고, `structured_content`는 없습니다.
 * 리소스가 등록된 URI를 쓰세요. 그래야 클라이언트가 첨부 파일과 `brand://guidelines`가 같은 문서임을 알 수 있습니다. 등록 여부와 상관없이 어떤 URI든 허용됩니다.
 
 ```python
@@ -123,7 +123,7 @@ result.content  # [EmbeddedResource(type="resource", resource=TextResourceConten
 아이콘은 자신이 꾸미는 대상과 함께 전달됩니다. 서버의 아이콘은 클라이언트가 연결할 때 `client.server_info`로 도착합니다(2026년대 연결에서는 선택 사항이므로 먼저 타입을 좁히세요).
 
 ```python
-assert client.server_info is not None  # python-sdk servers identify themselves by default
+assert client.server_info is not None  # Darbot Python SDK servers identify themselves by default
 client.server_info.icons  # [Icon(src="https://example.com/brand-kit.png", mime_type="image/png", sizes=["48x48"])]
 ```
 

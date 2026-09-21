@@ -4,15 +4,15 @@ import inspect
 
 import httpx2
 import pytest
-from mcp_types import INVALID_REQUEST, ResourceUpdatedNotification, TextContent
+from darpy_sdk_types import INVALID_REQUEST, ResourceUpdatedNotification, TextContent
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import MCPServer
 from docs_src.legacy_clients import tutorial001, tutorial001_client, tutorial002, tutorial003
-from mcp import Client, MCPError
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import MCPServer
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 INITIALIZE = {
     "jsonrpc": "2.0",

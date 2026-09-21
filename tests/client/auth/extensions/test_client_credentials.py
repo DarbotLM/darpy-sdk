@@ -7,15 +7,15 @@ import pytest
 from inline_snapshot import snapshot
 from pydantic import AnyHttpUrl
 
-from mcp import MCPDeprecationWarning
-from mcp.client.auth import OAuthClientProvider, OAuthFlowError
-from mcp.client.auth.extensions.client_credentials import (
+from darpy_sdk import MCPDeprecationWarning
+from darpy_sdk.client.auth import OAuthClientProvider, OAuthFlowError
+from darpy_sdk.client.auth.extensions.client_credentials import (
     ClientCredentialsOAuthProvider,
     PrivateKeyJWTOAuthProvider,
     SignedJWTParameters,
     static_assertion_provider,
 )
-from mcp.shared.auth import (
+from darpy_sdk.shared.auth import (
     OAuthClientInformationFull,
     OAuthMetadata,
     OAuthToken,

@@ -1,7 +1,7 @@
 """List tools, inspect schemas + annotations, call both tools, assert structured output."""
 
-from mcp.client import Client
-from mcp.types import TextContent
+from darpy_sdk.client import Client
+from darpy_sdk.types import TextContent
 from stories._harness import Target, run_client
 
 

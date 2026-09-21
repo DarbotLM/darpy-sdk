@@ -3,11 +3,11 @@ import threading
 import anyio
 import anyio.from_thread
 import pytest
+from darpy_sdk_types import InputRequiredResult
 from inline_snapshot import snapshot
-from mcp_types import InputRequiredResult
 from pydantic import BaseModel
 
-from mcp.server.mcpserver.resources import FunctionResource
+from darpy_sdk.server.mcpserver.resources import FunctionResource
 
 
 class TestFunctionResource:

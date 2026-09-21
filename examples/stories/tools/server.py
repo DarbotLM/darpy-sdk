@@ -4,8 +4,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from mcp.server.mcpserver import MCPServer
-from mcp.types import ToolAnnotations
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.types import ToolAnnotations
 from stories._hosting import run_server_from_args
 
 

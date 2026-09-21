@@ -49,7 +49,7 @@ Uma única propriedade. Assim como o `Context` em **[O Context](context.md)**, u
 Execute o servidor com o MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 O formulário de `reserve_book` tem um único campo `title`. Nem sinal de `stock` nele. Chame a ferramenta com `Dune`:

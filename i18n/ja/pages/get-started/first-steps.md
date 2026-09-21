@@ -49,14 +49,14 @@ translation:
 それ以外のもの（名前、説明、引数のスキーマ）は、SDK が関数そのものから読み取ります。関数名、docstring、型ヒントからです。どれも別途宣言してはいません。
 
 !!! tip
-    SDK の 2 つの半分には、インポートパスも 2 つあります。`from mcp import Client` と `from mcp.server import MCPServer` です。`from mcp import MCPServer` はありません。
+    SDK の 2 つの半分には、インポートパスも 2 つあります。`from darpy_sdk import Client` と `from darpy_sdk.server import MCPServer` です。`from darpy_sdk import MCPServer` はありません。
 
 ### 試してみる {#try-it}
 
 MCP Inspector で実行してください。
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 出力された URL を開いてください。Inspector にはプリミティブごとにタブが 1 つずつあります。順に見ていきましょう。
@@ -82,7 +82,7 @@ Inspector にはタブが 3 つありました。3 つあると、どうやっ�
 自分の目で確かめてみましょう。1 つのターミナルで `server.py` を HTTP で実行したままにしておきます。
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 そして別のターミナルから、クライアントをそこに向けます。
@@ -121,7 +121,7 @@ python client.py
 * JSON Schema。`a: int, b: int` がそのまま `add` のスキーマです。
 * リクエストハンドラー。`tools/list`、`resources/read`、`prompts/get` は、すべて代わりに処理されます。
 * ケイパビリティの宣言。`MCPServer` が代わりに作りました。
-* プロトコルのコードを 1 行も。バージョンのネゴシエーション、JSON-RPC のフレーミング、ケイパビリティの交換は、すべて `mcp dev` と `client.py` の内部で行われ、目にすることはありませんでした。
+* プロトコルのコードを 1 行も。バージョンのネゴシエーション、JSON-RPC のフレーミング、ケイパビリティの交換は、すべて `darpy-sdk dev` と `client.py` の内部で行われ、目にすることはありませんでした。
 
 この比率こそが、この SDK の存在意義です。
 

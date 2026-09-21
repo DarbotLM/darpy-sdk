@@ -5,7 +5,7 @@ from typing import Any
 
 import httpx2
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_PARAMS,
     INVALID_REQUEST,
     MISSING_REQUIRED_CLIENT_CAPABILITY,
@@ -15,6 +15,11 @@ from mcp_types import (
     TextContent,
 )
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import ClientRequestContext
+from darpy_sdk.client.streamable_http import streamable_http_client
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import RequestStateSecurity
 from docs_src.troubleshooting import (
     tutorial001,
     tutorial002,
@@ -25,14 +30,9 @@ from docs_src.troubleshooting import (
     tutorial007,
     tutorial008,
 )
-from mcp import Client, MCPError
-from mcp.client import ClientRequestContext
-from mcp.client.streamable_http import streamable_http_client
-from mcp.server import MCPServer
-from mcp.server.mcpserver import RequestStateSecurity
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 INITIALIZE = {
     "jsonrpc": "2.0",
@@ -96,11 +96,11 @@ async def test_a_crashing_tool_is_the_bare_form_with_its_traceback_in_the_server
         forecasts: dict[str, str] = {}
         return forecasts[city]
 
-    caplog.set_level(logging.ERROR, logger="mcp.server.mcpserver.server")
+    caplog.set_level(logging.ERROR, logger="darpy_sdk.server.mcpserver.server")
     async with Client(mcp) as client:
         result = await client.call_tool("forecast", {"city": "Atlantis"})
     assert result.content == [TextContent(type="text", text="Error executing tool forecast")]
-    (record,) = [r for r in caplog.records if r.name == "mcp.server.mcpserver.server"]
+    (record,) = [r for r in caplog.records if r.name == "darpy_sdk.server.mcpserver.server"]
     assert record.getMessage() == "Tool 'forecast' raised an unexpected exception"
     assert record.exc_info is not None
 
@@ -134,7 +134,7 @@ async def test_a_duplicate_tool_name_keeps_the_first_and_drops_the_second() -> N
 
 async def test_a_duplicate_registration_logs_tool_already_exists(caplog: pytest.LogCaptureFixture) -> None:
     """The only signal for a dropped duplicate is the `Tool already exists:` warning in the server log."""
-    with caplog.at_level(logging.WARNING, logger="mcp.server.mcpserver.tools.tool_manager"):
+    with caplog.at_level(logging.WARNING, logger="darpy_sdk.server.mcpserver.tools.tool_manager"):
 
         @tutorial002.mcp.tool(name="forecast")
         def forecast_weekly(city: str) -> None:
@@ -151,7 +151,7 @@ async def test_the_default_streamable_http_app_answers_a_real_hostname_with_421(
     async with tutorial003.mcp.session_manager.run():
         # What curl (or the reverse proxy's access log) shows: the status and the plain-text body.
         async with httpx2.AsyncClient(transport=transport, base_url="http://mcp.example.com") as raw:
-            with caplog.at_level(logging.WARNING, logger="mcp.server.transport_security"):
+            with caplog.at_level(logging.WARNING, logger="darpy_sdk.server.transport_security"):
                 response = await raw.post("/mcp", json=INITIALIZE, headers=MCP_HEADERS)
         assert (response.status_code, response.text) == (421, "Invalid Host header")
         # No `Content-Type: application/json`, which is exactly why the python client cannot show the body.
@@ -284,7 +284,7 @@ async def test_ctx_elicit_over_stateless_http_has_no_back_channel() -> None:
 async def test_a_request_state_the_server_did_not_mint_is_rejected(caplog: pytest.LogCaptureFixture) -> None:
     """The wire message is deliberately frozen; the real reason goes only to the server log."""
     async with Client(tutorial001.mcp) as client:
-        with caplog.at_level(logging.WARNING, logger="mcp.server.request_state"):
+        with caplog.at_level(logging.WARNING, logger="darpy_sdk.server.request_state"):
             with pytest.raises(MCPError) as exc_info:  # pragma: no branch
                 await client.call_tool("forecast", {"city": "London"}, request_state="round-1-from-worker-a")
     assert exc_info.value.error == ErrorData(

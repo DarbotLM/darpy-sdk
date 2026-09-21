@@ -1,16 +1,12 @@
 """Shared helpers for the docs_src tests."""
 
-from typing import TypeVar
+from darpy_sdk_types import SERVER_INFO_META_KEY, Result
 
-from mcp_types import SERVER_INFO_META_KEY, Result
-
-from mcp.server import Server
-from mcp.server.mcpserver import MCPServer
-
-R = TypeVar("R", bound=Result)
+from darpy_sdk.server import Server
+from darpy_sdk.server.mcpserver import MCPServer
 
 
-def strip_server_info(result: R, server: Server | MCPServer) -> R:
+def strip_server_info[R: Result](result: R, server: Server | MCPServer) -> R:
     """Assert the 2026-era serverInfo stamp, then drop it so snapshots stay focused.
 
     The doc snippets set no explicit version, so the stamp's version is empty;

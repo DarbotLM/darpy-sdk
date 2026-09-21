@@ -7,7 +7,7 @@ Run from the repository root:
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 # Create a simple MCPServer server
 mcp_at_root = MCPServer("My Server")

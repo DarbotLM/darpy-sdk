@@ -3,9 +3,9 @@ from typing import Any, Literal
 
 import anyio
 
-import mcp.types as types
-from mcp import Client
-from mcp.client import ClaimContext, ClientExtension, ResultClaim
+import darpy_sdk.types as types
+from darpy_sdk import Client
+from darpy_sdk.client import ClaimContext, ClientExtension, ResultClaim
 
 EXTENSION_ID = "com.example/receipts"
 

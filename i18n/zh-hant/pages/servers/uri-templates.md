@@ -145,7 +145,7 @@ list 處理函式告訴用戶端有哪些可用；read 處理函式提供內容�
 
 ### 範本 {#templates}
 
-`MCPServer` 用的範本引擎位於 `mcp.shared.uri_template`，可以獨立使用。剖析和比對完全一樣；路由和安全策略要自己接線。
+`MCPServer` 用的範本引擎位於 `darpy_sdk.shared.uri_template`，可以獨立使用。剖析和比對完全一樣；路由和安全策略要自己接線。
 
 ```python title="server.py" hl_lines="13-16 22-25 29 33 45"
 --8<-- "docs_src/uri_templates/tutorial005.py"
@@ -154,7 +154,7 @@ list 處理函式告訴用戶端有哪些可用；read 處理函式提供內容�
 標示出來的幾行做了三件事：
 
 * **剖析一次，每個請求比對一次。** `UriTemplate.parse()` 建立範本；`template.match(uri)` 以 `dict` 回傳擷取出的變數，URI 不符則回傳 `None`。URL 解碼在 `match()` 內部進行；解碼後的值原樣回傳，不做路徑安全驗證。出來的值都是字串：自己轉換（`int(matched["id"])`、`Path(matched["path"])`）。
-* **自己套用安全檢查。** `MCPServer` 預設執行的 `..` 和絕對路徑檢查位於 `mcp.shared.path_security`。`read_manual_safely` 在碰 `MANUALS` 之前會先呼叫它們。如果某個參數不是檔案系統路徑（ISBN、搜尋查詢），就跳過那個值的檢查：策略是逐個處理函式控制，而不是透過設定物件。
+* **自己套用安全檢查。** `MCPServer` 預設執行的 `..` 和絕對路徑檢查位於 `darpy_sdk.shared.path_security`。`read_manual_safely` 在碰 `MANUALS` 之前會先呼叫它們。如果某個參數不是檔案系統路徑（ISBN、搜尋查詢），就跳過那個值的檢查：策略是逐個處理函式控制，而不是透過設定物件。
 * **從同一個來源列出範本。** 用戶端透過 `resources/templates/list` 探索範本。`str(template)` 會還原出原本的範本字串，所以清單和比對器共用同一個事實來源。
 
 ## 重點回顧 {#recap}
@@ -164,4 +164,4 @@ list 處理函式告訴用戶端有哪些可用；read 處理函式提供內容�
 * 替參數加上註記（`order_id: int`），SDK 就會轉換。
 * 預設的安全策略會在處理函式執行前拒絕 `..`、絕對路徑和 null 位元組；用 `security=ResourceSecurity(...)` 針對個別資源覆寫，或用 `resource_security=` 套用到整個伺服器。
 * 存取檔案系統時，`safe_join` 是隔離邊界。
-* 在低階 `Server` 上，用 `UriTemplate.parse()` 剖析、用 `.match()` 比對，並自己套用 `mcp.shared.path_security`。
+* 在低階 `Server` 上，用 `UriTemplate.parse()` 剖析、用 `.match()` 比對，並自己套用 `darpy_sdk.shared.path_security`。

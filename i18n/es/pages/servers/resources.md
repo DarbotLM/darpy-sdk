@@ -52,7 +52,7 @@ result.contents  # [TextResourceContents(uri="config://app", mime_type="text/pla
 Ejecuta el servidor con el MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Abre la URL que imprime y ve a la pestaña **Resources**. `config://app` está en la lista con su descripción. Haz clic en él y el Inspector lo lee: ahí están tus dos líneas de configuración.
@@ -128,7 +128,7 @@ El `mime_type` lo declaras tú, y es `text/plain` por defecto. El SDK nunca insp
 !!! tip
     `@mcp.resource()` también acepta `name=`, `title=` y `description=` cuando no quieres
     derivarlos de la función. Y cuando no hay ninguna función que escribir,
-    `mcp.server.mcpserver.resources` tiene clases `Resource` listas para usar (`TextResource`,
+    `darpy_sdk.server.mcpserver.resources` tiene clases `Resource` listas para usar (`TextResource`,
     `BinaryResource`, `FileResource`, `HttpResource`, `DirectoryResource`) que registras
     con `mcp.add_resource(...)`.
 

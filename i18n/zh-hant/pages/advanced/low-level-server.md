@@ -36,7 +36,7 @@ translation:
 
 ### 試試看 {#try-it}
 
-`mcp dev` 和 `mcp run` 只接受 `MCPServer`，所以這個得自己提供服務。`server.py` 的最後一行用它建立一個普通的 ASGI 應用程式，再交給 uvicorn 執行：
+`darpy-sdk dev` 和 `darpy-sdk run` 只接受 `MCPServer`，所以這個得自己提供服務。`server.py` 的最後一行用它建立一個普通的 ASGI 應用程式，再交給 uvicorn 執行：
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ uvicorn server:app --port 8000
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -205,7 +205,7 @@ use Server.middleware to observe or wrap initialization
 
 下面每一項都是一個你現在已經有詞彙可以理解的概念；每一項都有自己的頁面。
 
-* `on_call_tool`、`on_get_prompt` 和 `on_read_resource` 可以回傳 `InputRequiredResult` 取代正常結果，暫停呼叫並向用戶端要求輸入；請見 **[多輪往返（multi-round-trip）請求](../handlers/multi-round-trip.md)**。忠於這一層的風格，沒有任何東西會替你裝好：`MCPServer` 預設會封裝 `requestState`，在這裡你設定的 `request_state` 會一字不差地跨過線路，直到你用 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` 選擇加入：一行（兩個名稱都從 `mcp.server.request_state` 匯入）就能得到和 `MCPServer` 完全相同的封裝與驗證（**[保護 `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**）。
+* `on_call_tool`、`on_get_prompt` 和 `on_read_resource` 可以回傳 `InputRequiredResult` 取代正常結果，暫停呼叫並向用戶端要求輸入；請見 **[多輪往返（multi-round-trip）請求](../handlers/multi-round-trip.md)**。忠於這一層的風格，沒有任何東西會替你裝好：`MCPServer` 預設會封裝 `requestState`，在這裡你設定的 `request_state` 會一字不差地跨過線路，直到你用 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` 選擇加入：一行（兩個名稱都從 `darpy_sdk.server.request_state` 匯入）就能得到和 `MCPServer` 完全相同的封裝與驗證（**[保護 `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**）。
 * `on_list_resources`、`on_read_resource`、`on_list_prompts`、`on_get_prompt`、`on_completion` 是其他基本元件的同一個 `(ctx, params) -> result` 形狀。
 * `on_subscriptions_listen` 負責 2026-07-28 的 `subscriptions/listen` 串流。傳入一個建構在 `SubscriptionBus` 之上的 `ListenHandler`，並從其他處理函式把事件發佈到 bus；完整的組合方式請見 **[訂閱](../handlers/subscriptions.md)**。
 * `server.streamable_http_app()` 回傳的 Starlette 應用程式和 `MCPServer` 的一樣；照 **[執行伺服器](../run/index.md)** 部署其他 ASGI 應用程式的方式部署它。這一層沒有 `server.run(transport=...)`：`server.run(read_stream, write_stream, server.create_initialization_options())` 透過一對串流驅動一條連線，而這一行就是全部。

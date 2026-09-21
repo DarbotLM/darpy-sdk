@@ -33,7 +33,7 @@ Hier ist ein Tool, das die Person am Host etwas fragen muss:
 Stelle es über HTTP bereit, und hier sind Clients beider Generationen, die es aufrufen:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="14-15"
@@ -146,7 +146,7 @@ Zwei Dinge daran sind wichtiger als das, was es tut.
     könnte. Der ganze Request schlägt fehl, als Protokollfehler auf oberster Ebene:
 
     ```text
-    mcp.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
+    darpy_sdk.shared.exceptions.MCPError: Cannot send 'elicitation/create': this transport context has no back-channel for server-initiated requests.
     ```
 
     `Resolve` hat dich nicht gerettet. Auf einer `2025-11-25`-Verbindung *muss* es

@@ -14,7 +14,7 @@ Vous n’avez presque jamais à vous en soucier, car `Client` négocie pour vous
 Chaque extrait de cette page est un `client.py` qui dialogue avec le `server.py` Bookshop de la page **[Le client](client/index.md)**. Lancez ce serveur dans un premier terminal :
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 Puis exécutez chaque extrait dans un second terminal avec `python client.py`.

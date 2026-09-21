@@ -1,6 +1,6 @@
 """A small modern server whose DiscoverResult a client persists for zero-RTT reconnect."""
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 from stories._hosting import run_server_from_args
 
 

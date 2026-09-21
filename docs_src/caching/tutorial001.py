@@ -1,4 +1,4 @@
-from mcp.server import CacheHint, MCPServer
+from darpy_sdk.server import CacheHint, MCPServer
 
 mcp = MCPServer(
     "Weather",

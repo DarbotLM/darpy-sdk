@@ -80,12 +80,12 @@ Una salvedad sobre `resources/updated`: el desalojo es solo por URI exacta. El c
 ### Configurarla: `CacheConfig` {#configuring-it-cacheconfig}
 
 ```python
-from mcp.client import CacheConfig
+from darpy_sdk.client import CacheConfig
 
 client = Client("https://api.example.com/mcp", cache=CacheConfig(default_ttl_ms=5_000))
 ```
 
-* `store`: dónde viven las entradas. Por defecto es un almacén en memoria nuevo por cliente; pasa tu propia implementación de `ResponseCacheStore` (respaldada por Redis, por ejemplo) para compartir una caché entre clientes o procesos. Los tipos del contrato (`ResponseCacheStore`, `CacheKey`, `CacheEntry` y el `InMemoryResponseCacheStore` por defecto) se pueden importar desde `mcp.client`. Una búsqueda puede emitir hasta dos `get` secuenciales al almacén (la rama privada, luego la pública), así que ajusta en consecuencia las expectativas de latencia de un almacén remoto. Un almacén personalizado **exige** una `partition` explícita.
+* `store`: dónde viven las entradas. Por defecto es un almacén en memoria nuevo por cliente; pasa tu propia implementación de `ResponseCacheStore` (respaldada por Redis, por ejemplo) para compartir una caché entre clientes o procesos. Los tipos del contrato (`ResponseCacheStore`, `CacheKey`, `CacheEntry` y el `InMemoryResponseCacheStore` por defecto) se pueden importar desde `darpy_sdk.client`. Una búsqueda puede emitir hasta dos `get` secuenciales al almacén (la rama privada, luego la pública), así que ajusta en consecuencia las expectativas de latencia de un almacén remoto. Un almacén personalizado **exige** una `partition` explícita.
 * `partition`: la etiqueta de contexto de autorización que evita que las entradas `"private"` de un principal se sirvan a otro dentro de un almacén compartido.
 * `target_id`: identidad explícita del servidor, para transportes personalizados y servidores en proceso (más abajo).
 * `default_ttl_ms`: TTL aplicado a los resultados que no llevan sugerencia `ttlMs`. El `0` por defecto deja sin caché los resultados sin sugerencia.
@@ -113,7 +113,7 @@ Las claves de caché también llevan la **identidad del servidor**: la cadena de
 * **Sin stale-if-error.** Una entrada caducada nunca se sirve porque la nueva consulta falló; el error se propaga.
 * **Sin reconsulta anticipada.** Una entrada almacenada se sirve hasta que caduca su TTL y la siguiente llamada después de eso paga la ida y vuelta; nada se refresca en segundo plano.
 * **Sin coalescencia.** Dos llamadas idénticas concurrentes son dos consultas.
-* **Ningún TTL de más de 24 horas.** Un `ttlMs` mayor, ya sea enviado por el servidor o configurado, se recorta al almacenar (`mcp.client.caching.MAX_TTL_MS`), lo que acota cuánto tiempo puede servirse cualquier entrada, por generosa que sea su sugerencia.
+* **Ningún TTL de más de 24 horas.** Un `ttlMs` mayor, ya sea enviado por el servidor o configurado, se recorta al almacenar (`darpy_sdk.client.caching.MAX_TTL_MS`), lo que acota cuánto tiempo puede servirse cualquier entrada, por generosa que sea su sugerencia.
 * En un **almacén compartido**, los clientes compiten entre sí. Cada cliente descarta su propia escritura cuando un desalojo adelantó a la consulta en curso, pero un cliente *coinquilino* aún puede volver a escribir una entrada que un desalojo que nunca vio había eliminado; y esa contabilidad de carreras está acotada a su vez: pasadas 4096 claves rastreadas, primero se descarta la guarda de la clave más antigua. Ambas ventanas se aceptan, y las cierra el límite de TTL de arriba.
 * **Nada se sirve entre generaciones del protocolo.** Las entradas están acotadas a la versión de protocolo negociada: en un almacén persistente compartido, una sesión nunca sirve una entrada escrita bajo otra versión negociada (el mismo listado difiere de verdad según la generación, ya que el SDK quita los campos 2026 para las sesiones más antiguas). El desalojo, igualmente, solo toca las entradas de la generación actual; las entradas de otra generación simplemente caducan por TTL.
 

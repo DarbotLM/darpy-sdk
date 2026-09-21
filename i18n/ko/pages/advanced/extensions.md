@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 HTTP로 서비스하면, 클라이언트가 곧 그 증거가 됩니다.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ uv run mcp run server.py --transport streamable-http
 클라이언트 측 동작이 **전혀 없는** 식별자를 광고하려면(위의 검색 클라이언트처럼 서버는 기능을 기준으로 관문을 두고 클라이언트는 아무것도 하지 않는 경우) `advertise()`를 사용하세요.
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### 확장 동사 {#extension-verbs}
 
-확장의 자체 요청 메서드에는 클라이언트 측 등록이 필요 없습니다. 벤더 요청 타입은 `mcp.types.Request`를 서브클래싱하고, [자체 메서드 제공하기](#serving-your-own-methods)에서처럼 `client.session.send_request`를 거칩니다. 확장이 이름 붙은 작업에 관한 동사 하나를 서비스하는 서버를 예로 들어 보겠습니다.
+확장의 자체 요청 메서드에는 클라이언트 측 등록이 필요 없습니다. 벤더 요청 타입은 `darpy_sdk.types.Request`를 서브클래싱하고, [자체 메서드 제공하기](#serving-your-own-methods)에서처럼 `client.session.send_request`를 거칩니다. 확장이 이름 붙은 작업에 관한 동사 하나를 서비스하는 서버를 예로 들어 보겠습니다.
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

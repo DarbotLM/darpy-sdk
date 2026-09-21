@@ -24,7 +24,7 @@ translation:
 
 ## Клиент {#the-client}
 
-**`IdentityAssertionOAuthProvider`** находится в модуле `mcp.client.auth.extensions.identity_assertion`. Как и все провайдеры на странице **[OAuth-клиенты](oauth-clients.md)**, это `httpx2.Auth`: создайте экземпляр, передайте его в `auth=`, отдайте `httpx2.AsyncClient` транспорту.
+**`IdentityAssertionOAuthProvider`** находится в модуле `darpy_sdk.client.auth.extensions.identity_assertion`. Как и все провайдеры на странице **[OAuth-клиенты](oauth-clients.md)**, это `httpx2.Auth`: создайте экземпляр, передайте его в `auth=`, отдайте `httpx2.AsyncClient` транспорту.
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

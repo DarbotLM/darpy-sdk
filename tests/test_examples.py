@@ -8,11 +8,12 @@
 from pathlib import Path
 
 import pytest
+from darpy_sdk_types import SERVER_INFO_META_KEY, CallToolResult, TextContent, TextResourceContents
 from inline_snapshot import snapshot
-from mcp_types import SERVER_INFO_META_KEY, CallToolResult, TextContent, TextResourceContents
 from pytest_examples import CodeExample, EvalExample, find_examples
+from pytest_examples.config import ExamplesConfig
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 def strip_server_info(result: CallToolResult, server_name: str) -> CallToolResult:
@@ -110,6 +111,14 @@ async def test_desktop(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 # `--8<--` include directives lint clean as Python, so pages built from
 # `docs_src/` includes cost nothing here; the real validation of those files is
 # pyright + ruff + tests/docs_src/.
+class _Python314ExamplesConfig(ExamplesConfig):
+    """Set Ruff's target beyond pytest-examples' stale Literal; Black is unused."""
+
+    def ruff_config(self) -> tuple[str, ...]:
+        args = super().ruff_config()
+        return tuple(arg for arg in args if not arg.startswith("--target-version=")) + ("--target-version=py314",)
+
+
 @pytest.mark.parametrize(
     "example",
     list(
@@ -134,7 +143,10 @@ def test_docs_examples(example: CodeExample, eval_example: EvalExample):
     ruff_ignore: list[str] = ["F841", "I001", "F821"]  # F821: undefined names (snippets lack imports)
 
     # Use project's actual line length of 120
-    eval_example.set_config(ruff_ignore=ruff_ignore, target_version="py310", line_length=120)
+    eval_example.config = _Python314ExamplesConfig(ruff_ignore=ruff_ignore, line_length=120)
+    assert tuple(arg for arg in eval_example.config.ruff_config() if arg.startswith("--target-version=")) == (
+        "--target-version=py314",
+    )
 
     # Use Ruff for both formatting and linting (skip Black)
     if eval_example.update_examples:  # pragma: no cover

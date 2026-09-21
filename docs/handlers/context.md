@@ -44,7 +44,7 @@ One property. `ctx` is not an argument: it never appears in the schema, the mode
 Run the server with the MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 The form for `search_books` has a single `query` field. Call it with `dune`:

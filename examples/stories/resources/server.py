@@ -1,6 +1,6 @@
 """Resources primitive: a static URI and an RFC-6570 template via @mcp.resource()."""
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 from stories._hosting import run_server_from_args
 
 

@@ -1,9 +1,9 @@
 from typing import Any
 
-import mcp.types as types
-from mcp.server.context import ServerRequestContext
-from mcp.server.lowlevel import Server
-from mcp.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ResourceUpdated
+import darpy_sdk.types as types
+from darpy_sdk.server.context import ServerRequestContext
+from darpy_sdk.server.lowlevel import Server
+from darpy_sdk.server.subscriptions import InMemorySubscriptionBus, ListenHandler, ResourceUpdated
 
 bus = InMemorySubscriptionBus()
 listen_handler = ListenHandler(bus)

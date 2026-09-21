@@ -34,8 +34,8 @@ uv run python -m stories.serve_one.client
 ## Caveats
 
 - **Deep imports** — `serve_one`, `serve_connection`, and `Connection` are only
-  reachable at `mcp.server.runner` / `mcp.server.connection`; there is no
-  shorter `mcp.server.*` re-export.
+  reachable at `darpy_sdk.server.runner` / `darpy_sdk.server.connection`; there is no
+  shorter `darpy_sdk.server.*` re-export.
 - **Lowlevel-only.** The drivers take a `lowlevel.Server` and `MCPServer` has
   no public accessor for its underlying one (`_lowlevel_server` is private), so
   there is no `MCPServer`-tier variant of this story. Build the lowlevel

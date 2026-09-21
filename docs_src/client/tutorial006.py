@@ -1,7 +1,7 @@
 import anyio
 
-from mcp import Client
-from mcp.types import PromptReference
+from darpy_sdk import Client
+from darpy_sdk.types import PromptReference
 
 
 async def main() -> None:

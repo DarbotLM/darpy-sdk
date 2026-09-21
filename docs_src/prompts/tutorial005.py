@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from mcp.server import MCPServer
-from mcp.server.mcpserver import Image, Message, UserMessage
+from darpy_sdk.server import MCPServer
+from darpy_sdk.server.mcpserver import Image, Message, UserMessage
 
 mcp = MCPServer("Code Helper")
 

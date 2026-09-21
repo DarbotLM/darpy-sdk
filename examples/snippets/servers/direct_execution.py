@@ -2,12 +2,12 @@
 
 This is the simplest way to run an MCP server directly.
 cd to the `examples/snippets` directory and run:
-    uv run direct-execution-server
+    uv run darpy-sdk-direct-execution-server
     or
     python servers/direct_execution.py
 """
 
-from mcp.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver import MCPServer
 
 mcp = MCPServer("My App")
 

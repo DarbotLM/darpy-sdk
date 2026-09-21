@@ -15,7 +15,7 @@ os.environ.setdefault("LOGFIRE_DISTRIBUTED_TRACING", "true")
 import opentelemetry.trace  # noqa: E402  (env var must be set before logfire import below)
 from logfire.testing import CaptureLogfire  # noqa: E402
 
-import mcp.shared._otel  # noqa: E402
+import darpy_sdk.shared._otel  # noqa: E402
 
 
 @pytest.fixture(scope="session")
@@ -52,7 +52,7 @@ def _capfire_isolated(capfire: CaptureLogfire) -> Iterator[CaptureLogfire]:
     """Override of logfire's `capfire` that scopes the MCP tracer to the test.
 
     `capfire` installs a real tracer provider, and logfire's proxy machinery
-    mutates the cached `mcp.shared._otel._tracer` to delegate to it for the
+    mutates the cached `darpy_sdk.shared._otel._tracer` to delegate to it for the
     rest of the process. Without isolation, every subsequent test in the same
     worker would emit real spans, and `send_raw_request` would inject a real
     `traceparent` into outbound `_meta`, breaking the interaction-suite
@@ -61,8 +61,8 @@ def _capfire_isolated(capfire: CaptureLogfire) -> Iterator[CaptureLogfire]:
     Setup points `_tracer` at the now-live provider so MCP spans record;
     teardown replaces it with a `NoOpTracer`.
     """
-    mcp.shared._otel._tracer = opentelemetry.trace.get_tracer_provider().get_tracer("mcp-python-sdk")
+    darpy_sdk.shared._otel._tracer = opentelemetry.trace.get_tracer_provider().get_tracer("darpy-sdk")
     try:
         yield capfire
     finally:
-        mcp.shared._otel._tracer = opentelemetry.trace.NoOpTracer()
+        darpy_sdk.shared._otel._tracer = opentelemetry.trace.NoOpTracer()

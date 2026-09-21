@@ -13,13 +13,13 @@ Demonstrates client-side auto-reconnect for the SSE polling pattern (SEP-1699).
 
 ```bash
 # First start the server:
-uv run mcp-sse-polling-demo --port 3000
+uv run darpy-sdk-sse-polling-demo --port 3000
 
 # Then run this client:
-uv run mcp-sse-polling-client --url http://localhost:3000/mcp
+uv run darpy-sdk-sse-polling-client --url http://localhost:3000/mcp
 
 # Custom options:
-uv run mcp-sse-polling-client --url http://localhost:3000/mcp --items 20 --checkpoint-every 5
+uv run darpy-sdk-sse-polling-client --url http://localhost:3000/mcp --items 20 --checkpoint-every 5
 ```
 
 ## Options

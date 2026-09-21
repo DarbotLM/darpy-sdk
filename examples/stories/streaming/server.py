@@ -2,8 +2,8 @@
 
 import anyio
 
-import mcp.types as types
-from mcp.server.mcpserver import Context, MCPServer
+import darpy_sdk.types as types
+from darpy_sdk.server.mcpserver import Context, MCPServer
 from stories._hosting import run_server_from_args
 
 

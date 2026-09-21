@@ -26,23 +26,22 @@ import pytest
 import trio
 import trio.testing
 from anyio.streams.memory import MemoryObjectReceiveStream
-from mcp_types import CONNECTION_CLOSED, JSONRPCMessage, JSONRPCRequest, JSONRPCResponse
+from darpy_sdk_types import CONNECTION_CLOSED, JSONRPCMessage, JSONRPCRequest, JSONRPCResponse
 
-from mcp.client import stdio
-from mcp.client._transport import ReadStream
-from mcp.client.session import ClientSession
-from mcp.client.stdio import (
+from darpy_sdk.client import stdio
+from darpy_sdk.client._transport import ReadStream
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.stdio import (
     _EXIT_POLL_INTERVAL,
     StdioServerParameters,
     _create_platform_compatible_process,
     _terminate_process_tree,
     stdio_client,
 )
-from mcp.os.posix import utilities as posix_utilities
-from mcp.os.posix.utilities import terminate_posix_process_tree
-from mcp.os.win32.utilities import FallbackProcess
-from mcp.shared.exceptions import MCPError
-from mcp.shared.message import SessionMessage
+from darpy_sdk.os.posix.utilities import terminate_posix_process_tree
+from darpy_sdk.os.win32.utilities import FallbackProcess
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.message import SessionMessage
 
 
 @pytest.fixture(autouse=True)
@@ -64,7 +63,7 @@ def _module_runner_lease() -> None:
 class _FakeStdin:
     """The fake process's stdin: records what the client writes, signals closure."""
 
-    def __init__(self, process: "FakeProcess") -> None:
+    def __init__(self, process: FakeProcess) -> None:
         self._process = process
 
     async def send(self, data: bytes) -> None:
@@ -458,10 +457,7 @@ async def test_cancelling_the_client_still_runs_the_full_shutdown(monkeypatch: p
     process = FakeProcess()
     terminated = install_fake_process(monkeypatch, process, grace_period=0.05)
     entered = anyio.Event()
-    # Cancel a scope owned by the client's task, not the test's task group: a host
-    # self-cancel is delivered by throwing through this test function's suspended
-    # frames, and Python 3.11's tracer loses coverage events after such a throw()
-    # traversal (python/cpython#106749).
+    # Keep cancellation scoped to the client task so the test can observe shutdown.
     cancel_scope = anyio.CancelScope()
 
     async def run_client_until_cancelled() -> None:
@@ -590,10 +586,7 @@ async def test_cancellation_during_spawn_leaks_no_streams(monkeypatch: pytest.Mo
 
     monkeypatch.setattr(stdio, "_create_platform_compatible_process", hanging_spawn)
 
-    # Cancel a scope owned by the client's task, not the test's task group: a host
-    # self-cancel is delivered by throwing through this test function's suspended
-    # frames, and Python 3.11's tracer loses coverage events after such a throw()
-    # traversal (python/cpython#106749).
+    # Keep cancellation scoped to the client task so the test can observe shutdown.
     cancel_scope = anyio.CancelScope()
 
     async def run_client() -> None:
@@ -981,7 +974,7 @@ async def test_a_process_surviving_the_kill_escalation_is_logged_and_abandoned(
 # POSIX tree-termination policy, tested through the sanctioned killpg seam
 # ---------------------------------------------------------------------------
 #
-# `mcp.os.posix.utilities` is coverage-omitted and the sanctioned place to monkeypatch
+# `darpy_sdk.os.posix.utilities` is coverage-omitted and the sanctioned place to monkeypatch
 # OS calls. These pin the EPERM policy without a foreign-euid process: macOS killpg
 # raises EPERM when *any* group member cannot be signalled, even if others were.
 
@@ -1022,7 +1015,7 @@ async def test_an_eperm_group_that_dies_during_the_grace_period_is_not_sigkilled
             raise ProcessLookupError("group is gone")
         raise NotImplementedError("no other signal should be sent")
 
-    monkeypatch.setattr(posix_utilities.os, "killpg", fake_killpg)
+    monkeypatch.setattr(os, "killpg", fake_killpg)
     stub = _StubPosixProcess()
 
     with anyio.fail_after(5):
@@ -1051,7 +1044,7 @@ async def test_an_eperm_group_that_outlives_the_grace_period_is_still_sigkilled(
             raise PermissionError("a foreign-euid member never goes away")
         raise NotImplementedError("no other signal should be sent")
 
-    monkeypatch.setattr(posix_utilities.os, "killpg", fake_killpg)
+    monkeypatch.setattr(os, "killpg", fake_killpg)
     stub = _StubPosixProcess()
 
     with anyio.fail_after(5):
@@ -1097,7 +1090,7 @@ async def test_the_grace_wait_reads_returncode_so_trio_can_reap_the_leaders_zomb
             self.returncode_reads += 1
             return None
 
-    monkeypatch.setattr(posix_utilities.os, "killpg", fake_killpg)
+    monkeypatch.setattr(os, "killpg", fake_killpg)
     stub = _ReadCountingProcess()
 
     with anyio.fail_after(5):

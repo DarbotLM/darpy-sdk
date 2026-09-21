@@ -12,12 +12,12 @@ from textwrap import dedent
 import anyio
 import anyio.abc
 import pytest
-from mcp_types import JSONRPCRequest, JSONRPCResponse, TextContent
+from darpy_sdk_types import JSONRPCRequest, JSONRPCResponse, TextContent
 
-from mcp.client.client import Client
-from mcp.client.stdio import StdioServerParameters, stdio_client
-from mcp.os.win32.utilities import FallbackProcess
-from mcp.shared.message import SessionMessage
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.stdio import StdioServerParameters, stdio_client
+from darpy_sdk.os.win32.utilities import FallbackProcess
+from darpy_sdk.shared.message import SessionMessage
 from tests.transports.stdio._liveness import (
     accept_alive,
     assert_stream_closed,
@@ -181,7 +181,7 @@ async def test_a_tool_spawned_python_child_with_default_stdin_completes_promptly
     server = dedent(
         """
         import subprocess, sys
-        from mcp.server import MCPServer
+        from darpy_sdk.server import MCPServer
 
         mcp = MCPServer("spawner")
 

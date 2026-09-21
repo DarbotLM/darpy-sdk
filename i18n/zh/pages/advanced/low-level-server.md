@@ -36,7 +36,7 @@ translation:
 
 ### 试一试 {#try-it}
 
-`mcp dev` 和 `mcp run` 只接受 `MCPServer`，所以这个服务器要自己来跑。`server.py` 的最后一行用它构建了一个普通的 ASGI 应用，交给 uvicorn 运行：
+`darpy-sdk dev` 和 `darpy-sdk run` 只接受 `MCPServer`，所以这个服务器要自己来跑。`server.py` 的最后一行用它构建了一个普通的 ASGI 应用，交给 uvicorn 运行：
 
 ```console
 uvicorn server:app --port 8000
@@ -47,7 +47,7 @@ uvicorn server:app --port 8000
 ```python title="client.py"
 import asyncio
 
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def main() -> None:
@@ -205,7 +205,7 @@ use Server.middleware to observe or wrap initialization
 
 下面每一项都是一个你现在已经有词汇去理解的概念；每一项都有自己的页面。
 
-* `on_call_tool`、`on_get_prompt` 和 `on_read_resource` 可以返回 `InputRequiredResult` 而不是正常结果，来暂停调用并向客户端索要输入；见 **[多轮往返（multi-round-trip）请求](../handlers/multi-round-trip.md)**。符合这一层的风格，没有任何东西替你装好：`MCPServer` 默认会密封 `requestState`，而在这里，你设置的 `request_state` 按原样穿过线路，直到你用 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` 主动启用：一行代码（两个名字都从 `mcp.server.request_state` 导入），得到和 `MCPServer` 完全相同的密封与验证（**[保护 `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**）。
+* `on_call_tool`、`on_get_prompt` 和 `on_read_resource` 可以返回 `InputRequiredResult` 而不是正常结果，来暂停调用并向客户端索要输入；见 **[多轮往返（multi-round-trip）请求](../handlers/multi-round-trip.md)**。符合这一层的风格，没有任何东西替你装好：`MCPServer` 默认会密封 `requestState`，而在这里，你设置的 `request_state` 按原样穿过线路，直到你用 `server.middleware.append(RequestStateBoundary(RequestStateSecurity(keys=[...]), default_audience=server.name))` 主动启用：一行代码（两个名字都从 `darpy_sdk.server.request_state` 导入），得到和 `MCPServer` 完全相同的密封与验证（**[保护 `requestState`](../handlers/multi-round-trip.md#protecting-requeststate)**）。
 * `on_list_resources`、`on_read_resource`、`on_list_prompts`、`on_get_prompt`、`on_completion` 是针对其他原语的同样 `(ctx, params) -> result` 形状。
 * `on_subscriptions_listen` 提供 2026-07-28 的 `subscriptions/listen` 流。传入一个构建在 `SubscriptionBus` 之上的 `ListenHandler`，并从其他处理函数向总线发布事件；完整的组合方式见 **[订阅](../handlers/subscriptions.md)**。
 * `server.streamable_http_app()` 返回的 Starlette 应用和 `MCPServer` 的一样；按 **[运行你的服务器](../run/index.md)** 部署任何其他 ASGI 应用的方式部署它。这一层没有 `server.run(transport=...)`：`server.run(read_stream, write_stream, server.create_initialization_options())` 在一对流上驱动一个连接，整件事就是这一行。

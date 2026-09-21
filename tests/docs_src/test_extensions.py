@@ -3,9 +3,12 @@
 import logging
 
 import pytest
+from darpy_sdk_types import METHOD_NOT_FOUND, MISSING_REQUIRED_CLIENT_CAPABILITY, TextContent
 from inline_snapshot import snapshot
-from mcp_types import METHOD_NOT_FOUND, MISSING_REQUIRED_CLIENT_CAPABILITY, TextContent
 
+from darpy_sdk import Client, MCPError
+from darpy_sdk.client import advertise
+from darpy_sdk.server.extension import Extension
 from docs_src.extensions import (
     tutorial001,
     tutorial002,
@@ -18,12 +21,9 @@ from docs_src.extensions import (
     tutorial007,
     tutorial007_client,
 )
-from mcp import Client, MCPError
-from mcp.client import advertise
-from mcp.server.extension import Extension
 
 # See test_index.py for why this is a per-module mark and not a conftest hook.
-pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::mcp.MCPDeprecationWarning")]
+pytestmark = [pytest.mark.anyio, pytest.mark.filterwarnings("error::darpy_sdk.MCPDeprecationWarning")]
 
 
 async def test_using_an_extension_advertises_its_capability() -> None:

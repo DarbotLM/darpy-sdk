@@ -7,11 +7,10 @@ from unittest.mock import Mock
 from urllib.parse import urlparse
 
 import anyio
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     CallToolRequestParams,
     CallToolResult,
     EmptyResult,
@@ -27,20 +26,21 @@ from mcp_types import (
     TextResourceContents,
     Tool,
 )
+from inline_snapshot import snapshot
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Mount, Route
 
-import mcp.client.sse
-from mcp.client.session import ClientSession
-from mcp.client.sse import _extract_session_id_from_endpoint, sse_client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.sse import SseServerTransport
-from mcp.server.transport_security import TransportSecuritySettings
-from mcp.shared._httpx_utils import McpHttpClientFactory
-from mcp.shared.exceptions import MCPError
-from mcp.shared.message import SessionMessage
+import darpy_sdk.client.sse
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.sse import _extract_session_id_from_endpoint, sse_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.sse import SseServerTransport
+from darpy_sdk.server.transport_security import TransportSecuritySettings
+from darpy_sdk.shared._httpx_utils import McpHttpClientFactory
+from darpy_sdk.shared.exceptions import MCPError
+from darpy_sdk.shared.message import SessionMessage
 from tests.interaction.transports import StreamingASGITransport
 
 SERVER_NAME = "test_server_for_SSE"
@@ -180,7 +180,7 @@ async def test_sse_client_on_session_created_not_called_when_no_session_id(monke
     def mock_extract(url: str) -> None:
         return None
 
-    monkeypatch.setattr(mcp.client.sse, "_extract_session_id_from_endpoint", mock_extract)
+    monkeypatch.setattr(darpy_sdk.client.sse, "_extract_session_id_from_endpoint", mock_extract)
 
     async with sse_client(f"{BASE_URL}/sse", httpx_client_factory=factory, on_session_created=callback_mock) as streams:
         async with ClientSession(*streams) as session:
@@ -192,7 +192,7 @@ async def test_sse_client_on_session_created_not_called_when_no_session_id(monke
 
 
 @pytest.fixture
-async def initialized_sse_client_session() -> AsyncGenerator[ClientSession, None]:
+async def initialized_sse_client_session() -> AsyncGenerator[ClientSession]:
     factory = in_process_client_factory(make_server_app())
     async with sse_client(f"{BASE_URL}/sse", httpx_client_factory=factory) as streams:
         async with ClientSession(*streams) as session:

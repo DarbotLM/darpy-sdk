@@ -31,7 +31,7 @@ translation:
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -65,7 +65,7 @@ anyio.run(main)
 `server.py`를 HTTP로 서비스한 다음, 두 번째 터미널에서 클라이언트를 실행하세요.
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

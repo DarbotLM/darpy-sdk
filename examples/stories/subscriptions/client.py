@@ -2,9 +2,9 @@
 
 import anyio
 
-import mcp.types as types
-from mcp.client import Client
-from mcp.client.subscriptions import ResourceUpdated, ToolsListChanged
+import darpy_sdk.types as types
+from darpy_sdk.client import Client
+from darpy_sdk.client.subscriptions import ResourceUpdated, ToolsListChanged
 from stories._harness import Target, run_client
 
 

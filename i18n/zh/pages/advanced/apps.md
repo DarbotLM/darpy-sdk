@@ -52,7 +52,7 @@ HTML 本身监听宿主的 `postMessage` 并显示结果。真正的应用请在
 通过 HTTP 提供 `server.py`，然后在另一个终端运行客户端：
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

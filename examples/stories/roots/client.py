@@ -2,8 +2,8 @@
 
 from pydantic import FileUrl
 
-from mcp.client import Client, ClientRequestContext
-from mcp.types import ListRootsResult, Root, TextContent
+from darpy_sdk.client import Client, ClientRequestContext
+from darpy_sdk.types import ListRootsResult, Root, TextContent
 from stories._harness import Target, run_client
 
 

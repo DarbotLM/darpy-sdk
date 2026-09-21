@@ -29,7 +29,7 @@ translation:
 --8<-- "docs_src/session_groups/tutorial003.py"
 ```
 
-* `connect_to_server`는 서버 객체가 아니라 트랜스포트 매개변수를 받습니다. 서브프로세스를 띄우려면 `StdioServerParameters`(`mcp`에서 가져옴), 이미 URL에서 수신 대기 중인 서버라면 `StreamableHttpParameters` / `SseServerParameters`(`mcp.client.session_group`에서 가져옴)를 사용합니다.
+* `connect_to_server`는 서버 객체가 아니라 트랜스포트 매개변수를 받습니다. 서브프로세스를 띄우려면 `StdioServerParameters`(`mcp`에서 가져옴), 이미 URL에서 수신 대기 중인 서버라면 `StreamableHttpParameters` / `SseServerParameters`(`darpy_sdk.client.session_group`에서 가져옴)를 사용합니다.
 * `group.tools`는 연결된 모든 서버의 도구를 담은 `dict[str, Tool]`입니다. `group.resources`와 `group.prompts`도 같은 형태입니다.
 * `group.call_tool(name, arguments)`는 이름을 조회해 그 이름을 소유한 세션을 찾고 호출을 전달합니다. 어느 서버인지 지정할 일이 없습니다.
 
@@ -37,7 +37,7 @@ translation:
     `client.py`를 두 서버와 같은 곳에 두고 실행하세요. 두 번째 `connect_to_server`가 거부합니다.
 
     ```text
-    mcp.shared.exceptions.MCPError: {'search'} already exist in group tools.
+    darpy_sdk.shared.exceptions.MCPError: {'search'} already exist in group tools.
     ```
 
     이것은 `MCPError`이며, 두 번째 서버의 어떤 것도 등록되기 전에 발생합니다. 이름은 그룹 **전체**에서

@@ -24,7 +24,7 @@ Client इनमें से हर एक को एक token request भे�
 
 ## Client {#the-client}
 
-**`IdentityAssertionOAuthProvider`** `mcp.client.auth.extensions.identity_assertion` में रहता है। **[OAuth clients](oauth-clients.md)** के हर provider की तरह यह भी `httpx2.Auth` है: एक बनाएँ, उसे `auth=` पर रखें, और `httpx2.AsyncClient` transport को सौंप दें।
+**`IdentityAssertionOAuthProvider`** `darpy_sdk.client.auth.extensions.identity_assertion` में रहता है। **[OAuth clients](oauth-clients.md)** के हर provider की तरह यह भी `httpx2.Auth` है: एक बनाएँ, उसे `auth=` पर रखें, और `httpx2.AsyncClient` transport को सौंप दें।
 
 ```python title="client.py" hl_lines="49-50 53-61"
 --8<-- "docs_src/identity_assertion/tutorial001.py"

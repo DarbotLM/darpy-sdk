@@ -1,8 +1,7 @@
 """Resource interactions against MCPServer, driven through the public Client API."""
 
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     ErrorData,
     ListResourcesResult,
     ListResourceTemplatesResult,
@@ -11,10 +10,11 @@ from mcp_types import (
     ResourceTemplate,
     TextResourceContents,
 )
+from inline_snapshot import snapshot
 
-from mcp import MCPError
-from mcp.server.mcpserver import MCPServer
-from mcp.server.mcpserver.exceptions import ResourceNotFoundError
+from darpy_sdk import MCPError
+from darpy_sdk.server.mcpserver import MCPServer
+from darpy_sdk.server.mcpserver.exceptions import ResourceNotFoundError
 from tests._stamp import Unstamp
 from tests.interaction._connect import Connect
 from tests.interaction._requirements import requirement

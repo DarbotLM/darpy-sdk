@@ -67,7 +67,7 @@ does not count. Here is the client half of the negotiation:
 Serve `server.py` over HTTP, then run the client from a second terminal:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

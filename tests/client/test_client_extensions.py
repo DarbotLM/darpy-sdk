@@ -4,24 +4,23 @@ construction, and `call_tool` drives claim resolvers transparently against real 
 
 import logging
 from collections.abc import Awaitable, Callable, Sequence
-from typing import Any, Literal, cast
+from typing import Any, Literal, assert_type, cast
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import CallToolResult, Result, TextContent
+from darpy_sdk_types.version import LATEST_MODERN_VERSION
 from inline_snapshot import snapshot
-from mcp_types import CallToolResult, Result, TextContent
-from mcp_types.version import LATEST_MODERN_VERSION
 from pydantic import BaseModel
-from typing_extensions import assert_type
 
-from mcp.client import ClaimContext, ClientExtension, NotificationBinding, ResultClaim, advertise
-from mcp.client.client import Client
-from mcp.client.session import ClientRequestContext, _CallToolResultAdapter
-from mcp.server import Server, ServerRequestContext
-from mcp.server.context import CallNext, HandlerResult
-from mcp.server.extension import Extension
-from mcp.server.mcpserver import Context, MCPServer
+from darpy_sdk.client import ClaimContext, ClientExtension, NotificationBinding, ResultClaim, advertise
+from darpy_sdk.client.client import Client
+from darpy_sdk.client.session import ClientRequestContext, _CallToolResultAdapter
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.context import CallNext, HandlerResult
+from darpy_sdk.server.extension import Extension
+from darpy_sdk.server.mcpserver import Context, MCPServer
 
 pytestmark = pytest.mark.anyio
 

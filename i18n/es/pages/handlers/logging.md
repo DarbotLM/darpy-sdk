@@ -62,7 +62,7 @@ Tampoco necesitas un `try`/`except` en cada handler solo para registrar los fall
 Ejecuta el servidor con el MCP Inspector:
 
 ```console
-uv run mcp dev server.py
+uv run darpy-sdk dev server.py
 ```
 
 Llama a `search_books` desde la pestaña **Tools**. El Inspector te muestra el resultado: solo el valor devuelto. La línea

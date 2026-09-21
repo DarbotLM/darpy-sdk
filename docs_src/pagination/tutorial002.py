@@ -1,7 +1,7 @@
 import anyio
 
-from mcp import Client
-from mcp.types import Resource
+from darpy_sdk import Client
+from darpy_sdk.types import Resource
 
 
 async def list_all_resources(client: Client) -> list[Resource]:

@@ -31,7 +31,7 @@ client **हर call पर** अलग से opt in करता है, `call
 
 ```python title="client.py" hl_lines="5 14"
 import anyio
-from mcp import Client
+from darpy_sdk import Client
 
 
 async def show(progress: float, total: float | None, message: str | None) -> None:
@@ -65,7 +65,7 @@ callback एक `async` function है जो ठीक वही लेता 
 `server.py` को HTTP पर serve करें, फिर दूसरे terminal से client चलाएँ:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```console

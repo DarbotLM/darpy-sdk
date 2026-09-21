@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 Запустите его по HTTP — и доказательством послужит клиент:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ uv run mcp run server.py --transport streamable-http
 Чтобы объявить идентификатор **без** какого-либо клиентского поведения (сервер проверяет наличие возможности, клиент ничего не делает — как в клиенте поиска выше), используйте `advertise()`:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### Глаголы расширения {#extension-verbs}
 
-Собственные методы запросов расширения не требуют регистрации на стороне клиента. Тип вендорного запроса наследуется от `mcp.types.Request` и отправляется через `client.session.send_request`, как в разделе [Обслуживание собственных методов](#serving-your-own-methods). Возьмём сервер, расширение которого обслуживает один глагол, относящийся к именованному заданию:
+Собственные методы запросов расширения не требуют регистрации на стороне клиента. Тип вендорного запроса наследуется от `darpy_sdk.types.Request` и отправляется через `client.session.send_request`, как в разделе [Обслуживание собственных методов](#serving-your-own-methods). Возьмём сервер, расширение которого обслуживает один глагол, относящийся к именованному заданию:
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

@@ -6,18 +6,18 @@ that don't follow SDK conventions.
 
 import json
 
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
-from mcp_types import RootsListChangedNotification
+from darpy_sdk_types import RootsListChangedNotification
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from mcp import ClientSession, MCPError
-from mcp.client import IncomingMessage
-from mcp.client.streamable_http import streamable_http_client
+from darpy_sdk import ClientSession, MCPError
+from darpy_sdk.client import IncomingMessage
+from darpy_sdk.client.streamable_http import streamable_http_client
 
 pytestmark = pytest.mark.anyio
 

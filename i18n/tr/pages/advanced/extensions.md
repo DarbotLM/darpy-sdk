@@ -60,7 +60,7 @@ TypeError: Stamps.identifier must be a `vendor-prefix/name` string
 HTTP üzerinden sunun; kanıt da bir istemcidir:
 
 ```console
-uv run mcp run server.py --transport streamable-http
+uv run darpy-sdk run server.py --transport streamable-http
 ```
 
 ```python title="client.py" hl_lines="7-11"
@@ -135,7 +135,7 @@ Uzantıyı çıkarırsanız bunların hiçbiri olmaz: sunucunun kontrol noktası
 İstemci tarafında **hiçbir** davranışı olmayan bir tanımlayıcıyı duyurmak için (sunucu yeteneği kontrol eder, istemci hiçbir şey yapmaz; yukarıdaki arama istemcisinde olduğu gibi) `advertise()` kullanın:
 
 ```python
-from mcp.client import advertise
+from darpy_sdk.client import advertise
 
 client = Client("http://localhost:8000/mcp", extensions=[advertise("com.example/search")])
 ```
@@ -166,7 +166,7 @@ def notifications(self) -> Sequence[NotificationBinding[Any]]:
 
 ### Uzantı fiilleri {#extension-verbs}
 
-Bir uzantının kendi istek metotları istemci tarafında kayıt gerektirmez. Satıcıya özgü bir istek türü `mcp.types.Request`'ten türer ve [Kendi metotlarınızı sunma](#serving-your-own-methods) bölümündeki gibi `client.session.send_request` üzerinden gider. Uzantısı, adlandırılmış bir iş hakkında tek bir fiil sunan bir sunucu düşünün:
+Bir uzantının kendi istek metotları istemci tarafında kayıt gerektirmez. Satıcıya özgü bir istek türü `darpy_sdk.types.Request`'ten türer ve [Kendi metotlarınızı sunma](#serving-your-own-methods) bölümündeki gibi `client.session.send_request` üzerinden gider. Uzantısı, adlandırılmış bir iş hakkında tek bir fiil sunan bir sunucu düşünün:
 
 ```python title="server.py" hl_lines="12-13 30"
 --8<-- "docs_src/extensions/tutorial007.py"

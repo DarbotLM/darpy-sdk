@@ -8,8 +8,8 @@ story READMEs print: stdio (``run_client`` spawns the server over stdio) and bar
 ``--http`` (``run_client`` self-hosts the server on a real uvicorn socket on a
 port it owns, then terminates it).
 
-lax no cover: gated on ``MCP_EXAMPLES_SMOKE=1``, which CI sets on exactly one
-matrix cell (ubuntu / 3.12 / locked — see ``shared.yml``). Every other cell
+lax no cover: gated on ``DARPY_SDK_EXAMPLES_SMOKE=1``, which CI sets on exactly one
+matrix cell (ubuntu / 3.14 / locked — see ``shared.yml``). Every other cell
 skips at collection, so the test body is uncovered there and the per-job 100%
 gate would otherwise fail.
 """
@@ -26,8 +26,8 @@ import pytest
 pytestmark = [
     pytest.mark.anyio,
     pytest.mark.skipif(
-        os.environ.get("MCP_EXAMPLES_SMOKE") != "1",
-        reason="subprocess smoke runs on one CI cell only; set MCP_EXAMPLES_SMOKE=1",
+        os.environ.get("DARPY_SDK_EXAMPLES_SMOKE") != "1",
+        reason="subprocess smoke runs on one CI cell only; set DARPY_SDK_EXAMPLES_SMOKE=1",
     ),
 ]
 

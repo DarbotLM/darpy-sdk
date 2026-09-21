@@ -18,12 +18,11 @@ from unittest.mock import MagicMock
 from urllib.parse import urlparse
 
 import anyio
+import darpy_sdk_types as types
 import httpx2
-import mcp_types as types
 import pytest
 from anyio.streams.memory import MemoryObjectReceiveStream, MemoryObjectSendStream
-from httpx2 import ServerSentEvent
-from mcp_types import (
+from darpy_sdk_types import (
     DEFAULT_NEGOTIATED_VERSION,
     INVALID_PARAMS,
     INVALID_REQUEST,
@@ -39,19 +38,19 @@ from mcp_types import (
     TextResourceContents,
     Tool,
 )
+from httpx2 import ServerSentEvent
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.routing import Mount
 from starlette.types import Message, Scope
 
-from mcp import MCPError
-from mcp.client import ClientRequestContext, IncomingMessage
-from mcp.client.session import ClientSession
-from mcp.client.streamable_http import StreamableHTTPTransport, streamable_http_client
-from mcp.server import Server, ServerRequestContext
-from mcp.server.streamable_http import (
+from darpy_sdk import MCPError
+from darpy_sdk.client import ClientRequestContext, IncomingMessage
+from darpy_sdk.client.session import ClientSession
+from darpy_sdk.client.streamable_http import StreamableHTTPTransport, streamable_http_client
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.streamable_http import (
     GET_STREAM_KEY,
-    MCP_PROTOCOL_VERSION_HEADER,
     MCP_SESSION_ID_HEADER,
     SESSION_ID_PATTERN,
     EventCallback,
@@ -61,11 +60,11 @@ from mcp.server.streamable_http import (
     StreamableHTTPServerTransport,
     StreamId,
 )
-from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
-from mcp.server.transport_security import TransportSecuritySettings
-from mcp.shared._compat import resync_tracer
-from mcp.shared._context_streams import create_context_streams
-from mcp.shared.message import ClientMessageMetadata, ServerMessageMetadata, SessionMessage
+from darpy_sdk.server.streamable_http_manager import StreamableHTTPSessionManager
+from darpy_sdk.server.transport_security import TransportSecuritySettings
+from darpy_sdk.shared._context_streams import create_context_streams
+from darpy_sdk.shared.inbound import MCP_PROTOCOL_VERSION_HEADER
+from darpy_sdk.shared.message import ClientMessageMetadata, ServerMessageMetadata, SessionMessage
 from tests.interaction.transports import StreamingASGITransport
 
 # Test constants
@@ -679,7 +678,7 @@ async def test_transport_reports_stream_closure_when_host_exits_without_terminat
 ) -> None:
     """A host that leaves connect() without terminating the transport closes the streams under the
     message router, which reports it rather than passing it off as a client disconnect."""
-    caplog.set_level(logging.ERROR, logger="mcp.server.streamable_http")
+    caplog.set_level(logging.ERROR, logger="darpy_sdk.server.streamable_http")
     transport = StreamableHTTPServerTransport(mcp_session_id="valid-id")
 
     async with transport.connect():
@@ -689,7 +688,7 @@ async def test_transport_reports_stream_closure_when_host_exits_without_terminat
     assert [
         record.getMessage()
         for record in caplog.records
-        if record.name == "mcp.server.streamable_http" and record.levelno == logging.ERROR
+        if record.name == "darpy_sdk.server.streamable_http" and record.levelno == logging.ERROR
     ] == ["Unexpected closure of read stream in message router"]
 
 
@@ -1290,8 +1289,6 @@ async def test_streamable_http_client_resumption(event_app: tuple[SimpleEventSto
 
                     # Kill the client session while tool is waiting on lock
                     tg.cancel_scope.cancel()
-
-    await resync_tracer()
 
     async with make_client(app, headers=headers) as httpx_client2:
         async with streamable_http_client(f"{BASE_URL}/mcp", http_client=httpx_client2) as (

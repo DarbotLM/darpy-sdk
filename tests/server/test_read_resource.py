@@ -1,15 +1,15 @@
 import base64
 
 import pytest
-from mcp_types import (
+from darpy_sdk_types import (
     BlobResourceContents,
     ReadResourceRequestParams,
     ReadResourceResult,
     TextResourceContents,
 )
 
-from mcp import Client
-from mcp.server import Server, ServerRequestContext
+from darpy_sdk import Client
+from darpy_sdk.server import Server, ServerRequestContext
 
 pytestmark = pytest.mark.anyio
 

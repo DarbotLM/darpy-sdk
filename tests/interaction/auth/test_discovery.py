@@ -13,15 +13,15 @@ assertions are the metadata response bodies and headers, which `Client` does not
 import json
 
 import anyio
-import mcp_types as types
+import darpy_sdk_types as types
 import pytest
+from darpy_sdk_types import ListToolsResult, Tool
 from inline_snapshot import snapshot
-from mcp_types import ListToolsResult, Tool
 from pydantic import AnyHttpUrl, AnyUrl
 
-from mcp.client.auth import OAuthFlowError, OAuthRegistrationError
-from mcp.server import Server, ServerRequestContext
-from mcp.shared.auth import OAuthClientInformationFull, OAuthMetadata, ProtectedResourceMetadata
+from darpy_sdk.client.auth import OAuthFlowError, OAuthRegistrationError
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.shared.auth import OAuthClientInformationFull, OAuthMetadata, ProtectedResourceMetadata
 from tests.interaction._connect import BASE_URL, mounted_app
 from tests.interaction._requirements import requirement
 from tests.interaction.auth._harness import (

@@ -9,8 +9,7 @@ through the suite's streaming ASGI bridge — no sockets, threads, or subprocess
 
 import anyio
 import pytest
-from inline_snapshot import snapshot
-from mcp_types import (
+from darpy_sdk_types import (
     INVALID_REQUEST,
     CallToolRequestParams,
     CallToolResult,
@@ -27,14 +26,15 @@ from mcp_types import (
     TextContent,
     jsonrpc_message_adapter,
 )
+from inline_snapshot import snapshot
 from pydantic import BaseModel
 
-from mcp.client import ClientRequestContext, IncomingMessage
-from mcp.server import Server, ServerRequestContext
-from mcp.server.elicitation import AcceptedElicitation
-from mcp.server.mcpserver import Context, MCPServer
-from mcp.server.streamable_http import REQUEST_CANCELLED
-from mcp.shared.exceptions import MCPError
+from darpy_sdk.client import ClientRequestContext, IncomingMessage
+from darpy_sdk.server import Server, ServerRequestContext
+from darpy_sdk.server.elicitation import AcceptedElicitation
+from darpy_sdk.server.mcpserver import Context, MCPServer
+from darpy_sdk.server.streamable_http import REQUEST_CANCELLED
+from darpy_sdk.shared.exceptions import MCPError
 from tests.interaction._connect import (
     base_headers,
     connect_over_streamable_http,
